@@ -1,0 +1,54 @@
+# 跟踪标的列表 — 一行一个 ticker，#开头为注释
+# 来源：notes/2026-05-ai-robotics-quantum-supply-chain-v1.md 附录 A.3
+
+# === 大盘核心仓 ($10B – $200B) ===
+VRT     # Vertiv — DC 电力冷却
+GLW     # Corning — 光纤+玻璃
+MRVL    # Marvell — DSP+定制 ASIC
+COHR    # Coherent — 光通信+激光
+SNDK    # SanDisk — NAND 纯玩家
+ALAB    # Astera Labs — PCIe Gen6
+CRDO    # Credo — AEC
+ENTG    # Entegris — 半导体材料
+MP      # MP Materials — 美国稀土
+ONTO    # Onto Innovation — 半导体量测
+NET     # Cloudflare — PQC 受益
+IBM     # IBM — AI+量子双引擎
+
+# === 小盘赔率仓 (< $10B) ===
+CAMT    # Camtek — HBM 量测
+PLAB    # Photronics — 光罩
+ACLS    # Axcelis — 离子注入（与 VECO 合并）
+KLIC    # Kulicke & Soffa — TCB 转型
+FORM    # FormFactor — 探针卡
+VECO    # Veeco — MOCVD
+ACMR    # ACM Research — 中国湿法清洗
+LITE    # Lumentum — 光通信二线
+MKSI    # MKS Instruments — 半导体子系统
+AEHR    # Aehr Test — SiC 测试
+
+# === 纯量子（赔率仓 1–3%）===
+IONQ    # IonQ — 离子阱
+RGTI    # Rigetti — 超导
+QBTS    # D-Wave — 量子退火
+
+# === 已超出 $200B 但同主题 ===
+MU      # Micron — 唯一美国 HBM
+KLAC    # KLA — 半导体量测
+LRCX    # Lam Research — 蚀刻
+AMAT    # Applied Materials — 半导体设备
+AVGO    # Broadcom — AI ASIC
+ETN     # Eaton — 电力管理
+GEV     # GE Vernova — 发电
+CEG     # Constellation Energy — 核电
+
+# === 海外（日股 / 韩股，yfinance 后缀）===
+285A.T      # Kioxia — NAND（东京证券交易所）
+000660.KS   # SK Hynix — HBM 全球老大
+005930.KS   # Samsung Electronics — HBM 三寡头
+
+# === 相关 ETF ===
+SMH     # VanEck Semiconductor ETF
+SOXX    # iShares Semiconductor ETF
+DRAM    # Roundhill Memory ETF
+EWY     # iShares MSCI Korea ETF
