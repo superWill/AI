@@ -7,20 +7,48 @@
   <link rel="stylesheet" href="_assets/style.css" />
 </head>
 <body>
+  <div class="site-shell">
   <div class="page">
     <div class="topbar">
-      <a class="back" href="index.html">← 返回投研首页</a>
-      <a class="home-link" href="all-docs.html">全部文档</a>
+      <div class="nav-cluster">
+        <a class="back" href="index.html">← 返回投研首页</a>
+        <a class="nav-link secondary" href="all-docs.html">全部文档</a>
+      </div>
+      <div class="nav-cluster">
+        <a class="home-link" href="notes.html">Notes</a>
+        <a class="home-link" href="candidates.html">Candidates</a>
+        <a class="home-link" href="tickers.html">Tickers</a>
+      </div>
     </div>
     <section class="hero">
-      <div class="eyebrow">root</div>
-      <h1>README</h1>
-      <p>README.md</p>
+      <div class="doc-header-grid">
+        <div>
+          <div class="eyebrow">root</div>
+          <h1>README</h1>
+          <p>仓库入口与使用说明。</p>
+          <div class="meta-row">
+            <span class="pill">README.md</span>
+            <span class="pill">87 words</span>
+            <span class="pill">8 sections</span>
+          </div>
+        </div>
+        <div class="doc-stat-stack">
+          <div class="doc-stat">
+            <div class="doc-stat-label">Document Type</div>
+            <div class="doc-stat-value">Root</div>
+          </div>
+          <div class="doc-stat">
+            <div class="doc-stat-label">Reading Mode</div>
+            <div class="doc-stat-value">Research Memo</div>
+          </div>
+        </div>
+      </div>
     </section>
-    <article class="doc">
-<h1>investment-research</h1>
+    <div class="doc-layout">
+      <article class="doc doc-main">
+<h1 id="investment-research">investment-research</h1>
 <p>个人美股投研工作区。聚焦 AI / 机器人 / HBM / 量子 / PQC 产业链。</p>
-<h2>目录结构</h2>
+<h2 id="目录结构">目录结构</h2>
 <pre><code>investment-research/
 ├── notes/         主题/产业链研究笔记（按 YYYY-MM-&lt;topic&gt;.md 命名）
 ├── tickers/       单只股票深度研究（文件名 = 大写 ticker）
@@ -30,14 +58,14 @@
 │   ├── snapshots/ scripts/fetch_quotes.py 输出的每日行情快照
 │   └── prices/    历史日线（按需）
 └── scripts/       数据抓取与分析脚本</code></pre>
-<h2>工作流</h2>
+<h2 id="工作流">工作流</h2>
 <ol>
 <li><strong>主题驱动</strong> — <code>notes/</code> 写产业链/主题级笔记，识别瓶颈节点和受益层</li>
 <li><strong>标的拆解</strong> — 从主题笔记提取候选 ticker，在 <code>tickers/&lt;TICKER&gt;.md</code> 单独深挖</li>
 <li><strong>组合落地</strong> — <code>portfolios/</code> 写当前持仓 + 仓位逻辑 + 调仓记录</li>
 <li><strong>持续跟踪</strong> — <code>dashboards/watchlist.md</code> 列关注信号；定期跑脚本刷新行情</li>
 </ol>
-<h3>寻找“下一只 2007 苹果”的日更流程</h3>
+<h3 id="寻找下一只-2007-苹果的日更流程">寻找“下一只 2007 苹果”的日更流程</h3>
 <p>适合做<code>未来平台型大牛股</code>跟踪，不是一次性报告，而是持续更新进度。</p>
 <ol>
 <li><strong>候选池</strong> — <a href="dashboards/next-apple-candidates.html"><code>dashboards/next-apple-candidates.md</code></a></li>
@@ -51,7 +79,7 @@
 <li>对 thesis 是利多还是利空</li>
 <li>候选排序是否变化</li>
 </ul>
-<h2>数据脚本</h2>
+<h2 id="数据脚本">数据脚本</h2>
 <p>首次环境准备（创建项目内 venv，避开 PEP 668）：</p>
 <pre><code>python3 -m venv .venv
 .venv/bin/pip install -r scripts/requirements.txt</code></pre>
@@ -68,7 +96,17 @@
 .venv/bin/python scripts/audit_notes.py
 # 阈值默认 ±20%，可加 --threshold 30 调整</code></pre>
 <p><code>audit_notes.py</code> 是写新 ticker 文档时的对账工具——任何手写市值与最新快照偏差超过阈值会被列出，便于发现&quot;copy 自老笔记&quot;的过期数据。</p>
-<h2>约定</h2>
+<h2 id="html-阅读层">HTML 阅读层</h2>
+<p>推荐日常阅读直接看 HTML：</p>
+<ul>
+<li>原型首页：<a href="index.html"><code>index.html</code></a></li>
+<li>完整站点首页：<a href="site/index.html"><code>site/index.html</code></a></li>
+<li>全部文档索引：<a href="site/all-docs.html"><code>site/all-docs.html</code></a></li>
+</ul>
+<p>重新生成整站 HTML：</p>
+<pre><code>python3 scripts/build_html_site.py</code></pre>
+<p>脚本会把 <code>README / notes / dashboards / agents / portfolios / tickers</code> 下的 Markdown 自动生成到 <code>site/</code> 目录。</p>
+<h2 id="约定">约定</h2>
 <ul>
 <li>主题笔记文件名：<code>notes/YYYY-MM-&lt;topic&gt;.md</code></li>
 <li>单股研究文件名：<code>tickers/&lt;TICKER&gt;.md</code>（大写，不带前缀）</li>
@@ -76,18 +114,35 @@
 <li>所有日期用 ISO（YYYY-MM-DD），不用相对时间</li>
 <li>每个 ticker 文档顶部带 frontmatter，便于后续脚本聚合</li>
 </ul>
-<h2>起点文档</h2>
+<h2 id="起点文档">起点文档</h2>
 <ul>
 <li>HTML 首页：<a href="index.html"><code>index.html</code></a> —— 推荐日常阅读入口</li>
+<li>完整 HTML 站点：<a href="site/index.html"><code>site/index.html</code></a></li>
 <li>主题笔记：<a href="notes/2026-05-ai-robotics-quantum-supply-chain-v1.html"><code>notes/2026-05-ai-robotics-quantum-supply-chain-v1.md</code></a> —— AI/机器人/HBM/量子产业链全景</li>
 <li>日度市场热点：<a href="notes/2026-05-08-us-market-hotspots.html"><code>notes/2026-05-08-us-market-hotspots.md</code></a></li>
 <li>当前组合：<a href="portfolios/2026-05-core-thematic-payoff.html"><code>portfolios/2026-05-core-thematic-payoff.md</code></a></li>
 <li>关注列表：<a href="dashboards/watchlist.html"><code>dashboards/watchlist.md</code></a></li>
 </ul>
-<h2>免责</h2>
+<h2 id="免责">免责</h2>
 <p>本目录所有内容仅为个人研究与决策参考，<strong>不构成投资建议</strong>。半导体、量子板块波动剧烈，仓位与风险自负。</p>
-    </article>
+      </article>
+      <aside class="doc-sidebar">
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">文档导航</h3>
+          <ul class="toc-list"><li><a href="#目录结构">目录结构</a></li><li><a href="#工作流">工作流</a></li><li style="padding-left:14px"><a href="#寻找下一只-2007-苹果的日更流程">寻找“下一只 2007 苹果”的日更流程</a></li><li><a href="#数据脚本">数据脚本</a></li><li><a href="#html-阅读层">HTML 阅读层</a></li><li><a href="#约定">约定</a></li><li><a href="#起点文档">起点文档</a></li><li><a href="#免责">免责</a></li></ul>
+        </section>
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">阅读提示</h3>
+          <ul class="summary-list">
+            <li><span class="summary-label">先看什么</span><span class="summary-value">先读一段话结论，再看表格和风险点。</span></li>
+            <li><span class="summary-label">适合用途</span><span class="summary-value">复盘、比较、回查研究底稿。</span></li>
+            <li><span class="summary-label">建议动作</span><span class="summary-value">如果文档内容改变了 thesis，再回到候选池或组合页更新判断。</span></li>
+          </ul>
+        </section>
+      </aside>
+    </div>
     <div class="footer">该页面由 Markdown 自动生成。原始文件：README.md</div>
+  </div>
   </div>
 </body>
 </html>

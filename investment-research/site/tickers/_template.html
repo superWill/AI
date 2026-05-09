@@ -7,59 +7,103 @@
   <link rel="stylesheet" href="../_assets/style.css" />
 </head>
 <body>
+  <div class="site-shell">
   <div class="page">
     <div class="topbar">
-      <a class="back" href="../index.html">← 返回投研首页</a>
-      <a class="home-link" href="../all-docs.html">全部文档</a>
+      <div class="nav-cluster">
+        <a class="back" href="../index.html">← 返回投研首页</a>
+        <a class="nav-link secondary" href="../all-docs.html">全部文档</a>
+      </div>
+      <div class="nav-cluster">
+        <a class="home-link" href="../notes.html">Notes</a>
+        <a class="home-link" href="../candidates.html">Candidates</a>
+        <a class="home-link" href="../tickers.html">Tickers</a>
+      </div>
     </div>
     <section class="hero">
-      <div class="eyebrow">tickers</div>
-      <h1>_template</h1>
-      <p>tickers/_template.md</p>
+      <div class="doc-header-grid">
+        <div>
+          <div class="eyebrow">tickers</div>
+          <h1>_template</h1>
+          <p>单只股票的研究卡、跟踪信号和估值框架。</p>
+          <div class="meta-row">
+            <span class="pill">tickers/_template.md</span>
+            <span class="pill">100 words</span>
+            <span class="pill">11 sections</span>
+          </div>
+        </div>
+        <div class="doc-stat-stack">
+          <div class="doc-stat">
+            <div class="doc-stat-label">Document Type</div>
+            <div class="doc-stat-value">Tickers</div>
+          </div>
+          <div class="doc-stat">
+            <div class="doc-stat-label">Reading Mode</div>
+            <div class="doc-stat-value">Research Memo</div>
+          </div>
+        </div>
+      </div>
     </section>
-    <article class="doc">
+    <div class="doc-layout">
+      <article class="doc doc-main">
 <hr />
 <p>ticker: name: sector:                  # e.g. Semiconductors / Networking / Materials layer:                   # 9 层产业链中的位置：Layer 0–8 position_type:           # core / thematic / payoff / hedge status:                  # watching / holding / exited last_updated:            # YYYY-MM-DD</p>
 <hr />
-<h1>{NAME} ({TICKER})</h1>
-<h2>一句话定位</h2>
-<h2>关键数据</h2>
+<h1 id="name-ticker">{NAME} ({TICKER})</h1>
+<h2 id="一句话定位">一句话定位</h2>
+<h2 id="关键数据">关键数据</h2>
 <table><thead><tr><th>指标</th><th>数据</th><th>备注</th></tr></thead><tbody><tr><td>股价</td><td></td><td></td></tr><tr><td>市值</td><td></td><td></td></tr><tr><td>TTM PE</td><td></td><td></td></tr><tr><td>Forward PE</td><td></td><td></td></tr><tr><td>Forward P/S</td><td></td><td></td></tr><tr><td>52 周区间</td><td></td><td></td></tr><tr><td>一年涨幅</td><td></td><td></td></tr><tr><td>Beta</td><td></td><td></td></tr></tbody></table>
-<h2>护城河类型</h2>
+<h2 id="护城河类型">护城河类型</h2>
 <blockquote>工艺 / 网络 / 政策 / 规模 / 多层叠加？为什么对手 3 年内追不上？</blockquote>
-<h2>短期增量（3–5 年）</h2>
-<h2>长期增量（10–20 年）</h2>
-<h2>风险</h2>
+<h2 id="短期增量35-年">短期增量（3–5 年）</h2>
+<h2 id="长期增量1020-年">长期增量（10–20 年）</h2>
+<h2 id="风险">风险</h2>
 <ul>
 <li><strong>基本面风险</strong>：</li>
 <li><strong>估值风险</strong>：</li>
 <li><strong>政策/地缘风险</strong>：</li>
 <li><strong>技术替代风险</strong>：</li>
 </ul>
-<h2>估值锚</h2>
+<h2 id="估值锚">估值锚</h2>
 <ul>
 <li>类比公司：</li>
 <li>历史 PE 区间：</li>
 <li>当前 forward PE / 同业中位数：</li>
 </ul>
-<h2>退出条件</h2>
+<h2 id="退出条件">退出条件</h2>
 <ul>
 <li>触发卖出：</li>
 <li>触发减仓：</li>
 <li>持有阈值：</li>
 </ul>
-<h2>跟踪信号</h2>
+<h2 id="跟踪信号">跟踪信号</h2>
 <ul>
 <li>财报关注项：</li>
 <li>行业领先指标：</li>
 <li>重大事件日历：</li>
 </ul>
-<h2>仓位与历史</h2>
+<h2 id="仓位与历史">仓位与历史</h2>
 <table><thead><tr><th>日期</th><th>操作</th><th>价格</th><th>仓位</th><th>备注</th></tr></thead><tbody></tbody></table>
-<h2>参考</h2>
+<h2 id="参考">参考</h2>
 <p>-</p>
-    </article>
+      </article>
+      <aside class="doc-sidebar">
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">文档导航</h3>
+          <ul class="toc-list"><li><a href="#一句话定位">一句话定位</a></li><li><a href="#关键数据">关键数据</a></li><li><a href="#护城河类型">护城河类型</a></li><li><a href="#短期增量35-年">短期增量（3–5 年）</a></li><li><a href="#长期增量1020-年">长期增量（10–20 年）</a></li><li><a href="#风险">风险</a></li><li><a href="#估值锚">估值锚</a></li><li><a href="#退出条件">退出条件</a></li><li><a href="#跟踪信号">跟踪信号</a></li><li><a href="#仓位与历史">仓位与历史</a></li><li><a href="#参考">参考</a></li></ul>
+        </section>
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">阅读提示</h3>
+          <ul class="summary-list">
+            <li><span class="summary-label">先看什么</span><span class="summary-value">先读一段话结论，再看表格和风险点。</span></li>
+            <li><span class="summary-label">适合用途</span><span class="summary-value">复盘、比较、回查研究底稿。</span></li>
+            <li><span class="summary-label">建议动作</span><span class="summary-value">如果文档内容改变了 thesis，再回到候选池或组合页更新判断。</span></li>
+          </ul>
+        </section>
+      </aside>
+    </div>
     <div class="footer">该页面由 Markdown 自动生成。原始文件：tickers/_template.md</div>
+  </div>
   </div>
 </body>
 </html>

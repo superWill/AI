@@ -7,34 +7,62 @@
   <link rel="stylesheet" href="../_assets/style.css" />
 </head>
 <body>
+  <div class="site-shell">
   <div class="page">
     <div class="topbar">
-      <a class="back" href="../index.html">← 返回投研首页</a>
-      <a class="home-link" href="../all-docs.html">全部文档</a>
+      <div class="nav-cluster">
+        <a class="back" href="../index.html">← 返回投研首页</a>
+        <a class="nav-link secondary" href="../all-docs.html">全部文档</a>
+      </div>
+      <div class="nav-cluster">
+        <a class="home-link" href="../notes.html">Notes</a>
+        <a class="home-link" href="../candidates.html">Candidates</a>
+        <a class="home-link" href="../tickers.html">Tickers</a>
+      </div>
     </div>
     <section class="hero">
-      <div class="eyebrow">tickers</div>
-      <h1>GLW</h1>
-      <p>tickers/GLW.md</p>
+      <div class="doc-header-grid">
+        <div>
+          <div class="eyebrow">tickers</div>
+          <h1>GLW</h1>
+          <p>单只股票的研究卡、跟踪信号和估值框架。</p>
+          <div class="meta-row">
+            <span class="pill">tickers/GLW.md</span>
+            <span class="pill">240 words</span>
+            <span class="pill">10 sections</span>
+          </div>
+        </div>
+        <div class="doc-stat-stack">
+          <div class="doc-stat">
+            <div class="doc-stat-label">Document Type</div>
+            <div class="doc-stat-value">Tickers</div>
+          </div>
+          <div class="doc-stat">
+            <div class="doc-stat-label">Reading Mode</div>
+            <div class="doc-stat-value">Research Memo</div>
+          </div>
+        </div>
+      </div>
     </section>
-    <article class="doc">
+    <div class="doc-layout">
+      <article class="doc doc-main">
 <hr />
 <p>ticker: GLW name: Corning Inc. sector: Specialty Materials layer: Layer 1 — 光纤预制棒 / 玻璃 position_type: core status: watching last_updated: 2026-05-07 data_source: scripts/fetch_quotes.py snapshot 2026-05-07</p>
 <hr />
-<h1>Corning (GLW)</h1>
-<h2>一句话定位</h2>
+<h1 id="corning-glw">Corning (GLW)</h1>
+<h2 id="一句话定位">一句话定位</h2>
 <p>光纤预制棒 + Gorilla Glass 双护城河，AI 数据中心光纤需求 16–36× 拉动的最直接受益者。</p>
-<h2>关键数据（基准日 2026-05-07，yfinance 实时）</h2>
+<h2 id="关键数据基准日-2026-05-07yfinance-实时">关键数据（基准日 2026-05-07，yfinance 实时）</h2>
 <table><thead><tr><th>指标</th><th>数据</th></tr></thead><tbody><tr><td>股价</td><td><strong>$181.57</strong></td></tr><tr><td>市值</td><td>$156.3B</td></tr><tr><td>TTM PE</td><td>86.88</td></tr><tr><td>Forward PE</td><td>44.92</td></tr><tr><td>Forward P/S</td><td>9.57</td></tr><tr><td>52 周区间</td><td>$44.83 → $195.81</td></tr><tr><td>50 日均线</td><td>$150.26</td></tr><tr><td>200 日均线</td><td>$101.96</td></tr><tr><td>股息率</td><td>0.62%</td></tr><tr><td>Beta</td><td>1.14</td></tr></tbody></table>
 <blockquote><strong>⚠️ 笔记勘误</strong>：原 v1 笔记 §5.1 写的&quot;股价 ~$45–50&quot;接近今日 52 周<strong>低点 $44.83</strong>——很可能是把一年前低点错标为当前价。市值 $147.1B 数字本身近似当前实际，但与 $45-50 价位无法自洽（$50 × ~860M 流通股 ≠ $147B）。今日实际市值已升至 $156.3B。  一年区间从 $44.83 涨到 $195.81 = <strong>+335%</strong>，远超笔记里的 &quot;+85.49%&quot;——意味着笔记里的涨幅口径也是过期的。</blockquote>
-<h2>护城河类型</h2>
+<h2 id="护城河类型">护城河类型</h2>
 <p><strong>60 年工艺壁垒</strong>：</p>
 <ul>
 <li>气相沉积超纯石英玻璃，全球只有 6 家能做到 &gt;0.17 dB/km 损耗等级</li>
 <li>预制棒扩产周期 18–24 个月，是光纤产业链最紧的瓶颈</li>
 <li>+ Gorilla Glass 在消费电子盖板玻璃近垄断</li>
 </ul>
-<h2>短期增量（3–5 年）</h2>
+<h2 id="短期增量35-年">短期增量（3–5 年）</h2>
 <ul>
 <li>美国到 2029 年需新增 213.3M 光纤英里（<strong>&gt;翻倍</strong>）</li>
 <li>AI 数据中心光纤量是传统的 16–36×（Corning 自家口径）</li>
@@ -42,42 +70,58 @@
 <li>Corning 企业销售季度同比 +58%（GenAI 驱动）</li>
 </ul>
 <p><strong>催化剂</strong>：2026 年与 NVIDIA 合作扩大美国光学制造，单日股价 +13.21%。</p>
-<h2>长期增量（10–20 年）</h2>
+<h2 id="长期增量1020-年">长期增量（10–20 年）</h2>
 <ul>
 <li>全球光纤需求 10–15× 扩张，预制棒产能领先是结构性的</li>
 <li>10B 机器人时代累计光纤需求 50–100B 公里 = 100× 当前年产</li>
 </ul>
-<h2>风险</h2>
+<h2 id="风险">风险</h2>
 <ul>
 <li><strong>CPO（共封装光学）普及</strong>可能减少传统光收发器需求 → 但光纤本体仍需要</li>
 <li><strong>中国国产追赶</strong>：长飞、亨通在中低端追赶</li>
 <li><strong>消费电子板块拖累</strong>：Display Tech 业务对手机/电视周期敏感</li>
 </ul>
-<h2>估值锚</h2>
+<h2 id="估值锚">估值锚</h2>
 <ul>
 <li>历史 PE 区间 15–25x；<strong>当前 TTM PE 86.88、Forward PE 44.92——已远超历史区间</strong></li>
 <li>当前估值已 price in 一次显著的 multiple expansion（&quot;AI 光纤本土化&quot;主题重估）</li>
 <li>Forward PE / 历史中位数 ≈ 2.5×，意味着任何执行不及预期都会被剧烈惩罚</li>
 <li>与 Furukawa (5801.T)、Prysmian 类比</li>
 </ul>
-<h2>退出条件</h2>
+<h2 id="退出条件">退出条件</h2>
 <ul>
 <li><strong>触发减仓</strong>：CPO 大规模商用 + 光纤价格滞涨同时发生</li>
 <li><strong>触发卖出</strong>：NVIDIA 合作终止 / 转向其他供应商</li>
 <li><strong>再加码</strong>：回调到 5 年 CAGR 趋势线下方 10%+</li>
 </ul>
-<h2>跟踪信号</h2>
+<h2 id="跟踪信号">跟踪信号</h2>
 <ul>
 <li>Optical Communications 业务季度 YoY</li>
 <li>美国光纤产能扩建进度（NC、NY 工厂）</li>
 <li>与 NVIDIA / 超大规模厂的合作公告</li>
 </ul>
-<h2>参考</h2>
+<h2 id="参考">参考</h2>
 <ul>
 <li>主题笔记：<a href="../notes/2026-05-ai-robotics-quantum-supply-chain-v1.html#5.1">2026-05 AI/机器人/量子产业链</a> §3.5、§5.1</li>
 </ul>
-    </article>
+      </article>
+      <aside class="doc-sidebar">
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">文档导航</h3>
+          <ul class="toc-list"><li><a href="#一句话定位">一句话定位</a></li><li><a href="#关键数据基准日-2026-05-07yfinance-实时">关键数据（基准日 2026-05-07，yfinance 实时）</a></li><li><a href="#护城河类型">护城河类型</a></li><li><a href="#短期增量35-年">短期增量（3–5 年）</a></li><li><a href="#长期增量1020-年">长期增量（10–20 年）</a></li><li><a href="#风险">风险</a></li><li><a href="#估值锚">估值锚</a></li><li><a href="#退出条件">退出条件</a></li><li><a href="#跟踪信号">跟踪信号</a></li><li><a href="#参考">参考</a></li></ul>
+        </section>
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">阅读提示</h3>
+          <ul class="summary-list">
+            <li><span class="summary-label">先看什么</span><span class="summary-value">先读一段话结论，再看表格和风险点。</span></li>
+            <li><span class="summary-label">适合用途</span><span class="summary-value">复盘、比较、回查研究底稿。</span></li>
+            <li><span class="summary-label">建议动作</span><span class="summary-value">如果文档内容改变了 thesis，再回到候选池或组合页更新判断。</span></li>
+          </ul>
+        </section>
+      </aside>
+    </div>
     <div class="footer">该页面由 Markdown 自动生成。原始文件：tickers/GLW.md</div>
+  </div>
   </div>
 </body>
 </html>

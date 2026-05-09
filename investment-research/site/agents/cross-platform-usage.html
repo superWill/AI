@@ -7,19 +7,47 @@
   <link rel="stylesheet" href="../_assets/style.css" />
 </head>
 <body>
+  <div class="site-shell">
   <div class="page">
     <div class="topbar">
-      <a class="back" href="../index.html">← 返回投研首页</a>
-      <a class="home-link" href="../all-docs.html">全部文档</a>
+      <div class="nav-cluster">
+        <a class="back" href="../index.html">← 返回投研首页</a>
+        <a class="nav-link secondary" href="../all-docs.html">全部文档</a>
+      </div>
+      <div class="nav-cluster">
+        <a class="home-link" href="../notes.html">Notes</a>
+        <a class="home-link" href="../candidates.html">Candidates</a>
+        <a class="home-link" href="../tickers.html">Tickers</a>
+      </div>
     </div>
     <section class="hero">
-      <div class="eyebrow">agents</div>
-      <h1>cross-platform-usage</h1>
-      <p>agents/cross-platform-usage.md</p>
+      <div class="doc-header-grid">
+        <div>
+          <div class="eyebrow">agents</div>
+          <h1>cross-platform-usage</h1>
+          <p>Agent 提示词、跨平台使用方法和自动化模板。</p>
+          <div class="meta-row">
+            <span class="pill">agents/cross-platform-usage.md</span>
+            <span class="pill">63 words</span>
+            <span class="pill">5 sections</span>
+          </div>
+        </div>
+        <div class="doc-stat-stack">
+          <div class="doc-stat">
+            <div class="doc-stat-label">Document Type</div>
+            <div class="doc-stat-value">Agents</div>
+          </div>
+          <div class="doc-stat">
+            <div class="doc-stat-label">Reading Mode</div>
+            <div class="doc-stat-value">Research Memo</div>
+          </div>
+        </div>
+      </div>
     </section>
-    <article class="doc">
-<h1>投资 Agent 的跨平台使用说明</h1>
-<h2>哪些可以通用</h2>
+    <div class="doc-layout">
+      <article class="doc doc-main">
+<h1 id="投资-agent-的跨平台使用说明">投资 Agent 的跨平台使用说明</h1>
+<h2 id="哪些可以通用">哪些可以通用</h2>
 <p>以下内容在 <code>Hermes</code>、<code>Claude</code>、<code>ChatGPT</code>、其他 Agent 里都可以直接复用：</p>
 <ul>
 <li>研究框架</li>
@@ -30,7 +58,7 @@
 <li>Prompt 文本</li>
 </ul>
 <p>也就是说，<code>investment-research/</code> 这个仓库里的研究方法本身是通用的。</p>
-<h2>哪些不能直接通用</h2>
+<h2 id="哪些不能直接通用">哪些不能直接通用</h2>
 <p>以下内容是 <code>Hermes</code> 专用的，不能原样拿给 Claude 直接识别：</p>
 <ul>
 <li><code>~/.hermes/profiles/investor/config.yaml</code></li>
@@ -39,29 +67,45 @@
 <li>Hermes 的 profile / skill / cron 目录结构</li>
 </ul>
 <p>这些文件是 Hermes 的运行时配置，不是通用标准。</p>
-<h2>如何给 Claude 用</h2>
+<h2 id="如何给-claude-用">如何给 Claude 用</h2>
 <p>最简单的方法：</p>
 <ol>
 <li>把 <a href="investor-agent-prompt.html"><code>investor-agent-prompt.md</code></a> 作为系统提示词或项目提示词</li>
 <li>把 <a href="daily-market-recap-prompt.html"><code>daily-market-recap-prompt.md</code></a> 作为固定任务模板</li>
 <li>继续共用 <code>investment-research/</code> 仓库里的笔记、候选池、进度卡</li>
 </ol>
-<h2>最实用的理解</h2>
+<h2 id="最实用的理解">最实用的理解</h2>
 <ul>
 <li><code>方法论</code>：通用</li>
 <li><code>研究仓库</code>：通用</li>
 <li><code>提示词</code>：基本通用</li>
 <li><code>Hermes profile 配置</code>：不通用</li>
 </ul>
-<h2>建议</h2>
+<h2 id="建议">建议</h2>
 <p>如果你会同时用 <code>Hermes</code> 和 <code>Claude</code>：</p>
 <ul>
 <li>用同一个 <code>investment-research/</code> 仓库承接研究结果</li>
 <li>用同一套候选池和评分标准</li>
 <li>不同 Agent 只负责“执行入口”，不要让方法论分裂</li>
 </ul>
-    </article>
+      </article>
+      <aside class="doc-sidebar">
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">文档导航</h3>
+          <ul class="toc-list"><li><a href="#哪些可以通用">哪些可以通用</a></li><li><a href="#哪些不能直接通用">哪些不能直接通用</a></li><li><a href="#如何给-claude-用">如何给 Claude 用</a></li><li><a href="#最实用的理解">最实用的理解</a></li><li><a href="#建议">建议</a></li></ul>
+        </section>
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">阅读提示</h3>
+          <ul class="summary-list">
+            <li><span class="summary-label">先看什么</span><span class="summary-value">先读一段话结论，再看表格和风险点。</span></li>
+            <li><span class="summary-label">适合用途</span><span class="summary-value">复盘、比较、回查研究底稿。</span></li>
+            <li><span class="summary-label">建议动作</span><span class="summary-value">如果文档内容改变了 thesis，再回到候选池或组合页更新判断。</span></li>
+          </ul>
+        </section>
+      </aside>
+    </div>
     <div class="footer">该页面由 Markdown 自动生成。原始文件：agents/cross-platform-usage.md</div>
+  </div>
   </div>
 </body>
 </html>

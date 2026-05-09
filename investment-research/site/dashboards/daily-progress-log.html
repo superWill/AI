@@ -7,52 +7,80 @@
   <link rel="stylesheet" href="../_assets/style.css" />
 </head>
 <body>
+  <div class="site-shell">
   <div class="page">
     <div class="topbar">
-      <a class="back" href="../index.html">← 返回投研首页</a>
-      <a class="home-link" href="../all-docs.html">全部文档</a>
+      <div class="nav-cluster">
+        <a class="back" href="../index.html">← 返回投研首页</a>
+        <a class="nav-link secondary" href="../all-docs.html">全部文档</a>
+      </div>
+      <div class="nav-cluster">
+        <a class="home-link" href="../notes.html">Notes</a>
+        <a class="home-link" href="../candidates.html">Candidates</a>
+        <a class="home-link" href="../tickers.html">Tickers</a>
+      </div>
     </div>
     <section class="hero">
-      <div class="eyebrow">dashboards</div>
-      <h1>daily-progress-log</h1>
-      <p>dashboards/daily-progress-log.md</p>
+      <div class="doc-header-grid">
+        <div>
+          <div class="eyebrow">dashboards</div>
+          <h1>daily-progress-log</h1>
+          <p>持续跟踪的候选池、评分规则和日更日志。</p>
+          <div class="meta-row">
+            <span class="pill">dashboards/daily-progress-log.md</span>
+            <span class="pill">86 words</span>
+            <span class="pill">10 sections</span>
+          </div>
+        </div>
+        <div class="doc-stat-stack">
+          <div class="doc-stat">
+            <div class="doc-stat-label">Document Type</div>
+            <div class="doc-stat-value">Dashboards</div>
+          </div>
+          <div class="doc-stat">
+            <div class="doc-stat-label">Reading Mode</div>
+            <div class="doc-stat-value">Research Memo</div>
+          </div>
+        </div>
+      </div>
     </section>
-    <article class="doc">
-<h1>每日进度跟踪日志</h1>
+    <div class="doc-layout">
+      <article class="doc doc-main">
+<h1 id="每日进度跟踪日志">每日进度跟踪日志</h1>
 <blockquote>用于每天更新“谁正在变成下一只 2007 苹果”。 原则：先记录进度，再判断股价。</blockquote>
-<h2>每日流程</h2>
+<h2 id="每日流程">每日流程</h2>
 <ol>
 <li>看财报、公告、产品更新、产业链新闻</li>
 <li>更新候选池里受影响的公司</li>
 <li>判断是<code>利多 / 利空 / 中性</code></li>
 <li>更新排序与级别</li>
 </ol>
-<h2>日更模板</h2>
-<h3>YYYY-MM-DD</h3>
-<h4>今日新增进展</h4>
+<h2 id="日更模板">日更模板</h2>
+<h3 id="yyyy-mm-dd">YYYY-MM-DD</h3>
+<h4 id="今日新增进展">今日新增进展</h4>
 <table><thead><tr><th>Ticker</th><th>事件</th><th>类型</th><th>判断</th><th>对 thesis 的影响</th></tr></thead><tbody><tr><td></td><td></td><td>财报 / 产品 / 客户 / 供应链 / 政策</td><td>利多 / 利空 / 中性</td><td>强化 / 弱化 / 无变化</td></tr></tbody></table>
-<h4>今日排序变化</h4>
+<h4 id="今日排序变化">今日排序变化</h4>
 <table><thead><tr><th>排名</th><th>Ticker</th><th>变化</th><th>原因</th></tr></thead><tbody><tr><td>1</td><td></td><td>↑ / ↓ / →</td><td></td></tr></tbody></table>
-<h4>今日结论</h4>
+<h4 id="今日结论">今日结论</h4>
 <ul>
 <li>最强进展：</li>
 <li>最弱进展：</li>
 <li>需要继续跟踪的变量：</li>
 </ul>
-<h2>快速判定标准</h2>
+<h2 id="快速判定标准">快速判定标准</h2>
 <ul>
 <li><code>利多</code>：产品、商业化、生态、财务至少一个维度明显强化</li>
 <li><code>利空</code>：关键里程碑推迟、指引下修、竞争力弱化</li>
 <li><code>中性</code>：有新闻，但不改变 thesis</li>
 </ul>
-<h2>当前 A 池</h2>
+<h2 id="当前-a-池">当前 A 池</h2>
 <ul>
 <li>ALAB</li>
 <li>MRVL</li>
 <li>VRT</li>
 <li>NET</li>
 </ul>
-<h2>当前 B 池</h2>
+<h2 id="当前-b-池">当前 B 池</h2>
 <ul>
 <li>GLW</li>
 <li>CRDO</li>
@@ -61,13 +89,29 @@
 <li>IBM</li>
 <li>IONQ</li>
 </ul>
-<h2>当前 C 池</h2>
+<h2 id="当前-c-池">当前 C 池</h2>
 <ul>
 <li>QBTS</li>
 <li>RGTI</li>
 </ul>
-    </article>
+      </article>
+      <aside class="doc-sidebar">
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">文档导航</h3>
+          <ul class="toc-list"><li><a href="#每日流程">每日流程</a></li><li><a href="#日更模板">日更模板</a></li><li style="padding-left:14px"><a href="#yyyy-mm-dd">YYYY-MM-DD</a></li><li style="padding-left:28px"><a href="#今日新增进展">今日新增进展</a></li><li style="padding-left:28px"><a href="#今日排序变化">今日排序变化</a></li><li style="padding-left:28px"><a href="#今日结论">今日结论</a></li><li><a href="#快速判定标准">快速判定标准</a></li><li><a href="#当前-a-池">当前 A 池</a></li><li><a href="#当前-b-池">当前 B 池</a></li><li><a href="#当前-c-池">当前 C 池</a></li></ul>
+        </section>
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">阅读提示</h3>
+          <ul class="summary-list">
+            <li><span class="summary-label">先看什么</span><span class="summary-value">先读一段话结论，再看表格和风险点。</span></li>
+            <li><span class="summary-label">适合用途</span><span class="summary-value">复盘、比较、回查研究底稿。</span></li>
+            <li><span class="summary-label">建议动作</span><span class="summary-value">如果文档内容改变了 thesis，再回到候选池或组合页更新判断。</span></li>
+          </ul>
+        </section>
+      </aside>
+    </div>
     <div class="footer">该页面由 Markdown 自动生成。原始文件：dashboards/daily-progress-log.md</div>
+  </div>
   </div>
 </body>
 </html>

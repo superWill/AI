@@ -7,77 +7,121 @@
   <link rel="stylesheet" href="../_assets/style.css" />
 </head>
 <body>
+  <div class="site-shell">
   <div class="page">
     <div class="topbar">
-      <a class="back" href="../index.html">← 返回投研首页</a>
-      <a class="home-link" href="../all-docs.html">全部文档</a>
+      <div class="nav-cluster">
+        <a class="back" href="../index.html">← 返回投研首页</a>
+        <a class="nav-link secondary" href="../all-docs.html">全部文档</a>
+      </div>
+      <div class="nav-cluster">
+        <a class="home-link" href="../notes.html">Notes</a>
+        <a class="home-link" href="../candidates.html">Candidates</a>
+        <a class="home-link" href="../tickers.html">Tickers</a>
+      </div>
     </div>
     <section class="hero">
-      <div class="eyebrow">tickers</div>
-      <h1>AEHR</h1>
-      <p>tickers/AEHR.md</p>
+      <div class="doc-header-grid">
+        <div>
+          <div class="eyebrow">tickers</div>
+          <h1>AEHR</h1>
+          <p>单只股票的研究卡、跟踪信号和估值框架。</p>
+          <div class="meta-row">
+            <span class="pill">tickers/AEHR.md</span>
+            <span class="pill">201 words</span>
+            <span class="pill">10 sections</span>
+          </div>
+        </div>
+        <div class="doc-stat-stack">
+          <div class="doc-stat">
+            <div class="doc-stat-label">Document Type</div>
+            <div class="doc-stat-value">Tickers</div>
+          </div>
+          <div class="doc-stat">
+            <div class="doc-stat-label">Reading Mode</div>
+            <div class="doc-stat-value">Research Memo</div>
+          </div>
+        </div>
+      </div>
     </section>
-    <article class="doc">
+    <div class="doc-layout">
+      <article class="doc doc-main">
 <hr />
 <p>ticker: AEHR name: Aehr Test Systems sector: Semiconductor Test layer: Layer 4 — 设备（晶圆级老化测试） position_type: payoff status: watching last_updated: 2026-05-07 data_source: scripts/fetch_quotes.py snapshot 2026-05-07</p>
 <hr />
-<h1>Aehr Test Systems (AEHR)</h1>
-<h2>一句话定位</h2>
+<h1 id="aehr-test-systems-aehr">Aehr Test Systems (AEHR)</h1>
+<h2 id="一句话定位">一句话定位</h2>
 <p>SiC 晶圆级测试小巨人。但<strong>一家车规客户占 80%</strong>，掉单即腰斩。</p>
-<h2>关键数据（基准日 2026-05-07，yfinance 实时）</h2>
+<h2 id="关键数据基准日-2026-05-07yfinance-实时">关键数据（基准日 2026-05-07，yfinance 实时）</h2>
 <table><thead><tr><th>指标</th><th>数据</th></tr></thead><tbody><tr><td>股价</td><td><strong>$96.73</strong></td></tr><tr><td>市值</td><td><strong>$3.0B</strong></td></tr><tr><td>TTM PE</td><td>— (亏损或近亏损)</td></tr><tr><td>Forward PE</td><td>644.87</td></tr><tr><td>Forward P/S</td><td>67.23</td></tr><tr><td>52 周区间</td><td>$8.17 → $102.48</td></tr><tr><td>50 日均线</td><td>$58.20</td></tr><tr><td>200 日均线</td><td>$33.17</td></tr><tr><td>Beta</td><td><strong>3.27</strong>（极高）</td></tr></tbody></table>
 <blockquote><strong>⚠️ 笔记勘误</strong>：v1 笔记写&quot;市值 &lt;$1B&quot;已过期——今日 <strong>$3.0B</strong>，约 3×。一年区间 $8.17 → $102.48 = <strong>+1085%</strong>，是这次抓取里第二惊人的一只（仅次于 LITE）。  高 beta 3.27 验证了笔记里&quot;波动率极高&quot;的判断——比 SiC 周期波动还要烈一档。Forward PE 644x 暗示市场已 price in 极强的&quot;客户多元化 + SiC 起飞&quot;双重叙事。</blockquote>
-<h2>护城河类型</h2>
+<h2 id="护城河类型">护城河类型</h2>
 <p><strong>SiC 晶圆级老化测试细分龙头</strong>：</p>
 <ul>
 <li>WaferPak / DiePak 工艺在 SiC 老化测试有先发优势</li>
 <li>与车规 SiC 厂商深度合作</li>
 <li>测试是出货前必经环节，工艺验证锁定</li>
 </ul>
-<h2>短期增量（3–5 年）</h2>
+<h2 id="短期增量35-年">短期增量（3–5 年）</h2>
 <ul>
 <li>EV 渗透率 + SiC 在电驱中的渗透率双向提升</li>
 <li>数据中心 PSU、光伏逆变器拉动 SiC 需求</li>
 <li>AI / HPC 用功率器件老化测试需求</li>
 </ul>
-<h2>长期增量（10–20 年）</h2>
+<h2 id="长期增量1020-年">长期增量（10–20 年）</h2>
 <ul>
 <li>第三代半导体规模化量产 → 测试需求结构性增长</li>
 <li>但赛道太窄，体量天花板低</li>
 </ul>
-<h2>风险（核心）</h2>
+<h2 id="风险核心">风险（核心）</h2>
 <ul>
 <li><strong>🔴 单一客户依赖</strong>：一家车规客户占 80%，<strong>掉单 = 腰斩</strong></li>
 <li><strong>小盘流动性</strong>：日均成交不足，剧烈回调时滑点大</li>
 <li><strong>波动率极高</strong>：实测 beta <strong>3.27</strong>（远超笔记估算的 1.5–2.0+），与 SiC 周期同涨同跌</li>
 <li><strong>Wolfspeed 类问题传导</strong>：SiC 客户财务问题会直接拉低 AEHR</li>
 </ul>
-<h2>估值锚</h2>
+<h2 id="估值锚">估值锚</h2>
 <ul>
 <li>不能用传统设备股 PE 锚（业务集中度太高）</li>
 <li>真实估值取决于&quot;客户多元化进度&quot;</li>
 <li>当前估值反映完美定价</li>
 </ul>
-<h2>退出条件</h2>
+<h2 id="退出条件">退出条件</h2>
 <ul>
 <li><strong>触发减仓</strong>：第二大客户始终没起来 / 第一大客户砍单信号</li>
 <li><strong>触发卖出</strong>：第一大客户业绩恶化（如 Wolfspeed 重组类似事件）</li>
 <li><strong>再加码</strong>：客户数破 5 + 单客户占比降至 50% 以下</li>
 </ul>
-<h2>跟踪信号</h2>
+<h2 id="跟踪信号">跟踪信号</h2>
 <ul>
 <li>季度客户集中度披露</li>
 <li>主要 SiC 厂商财务健康度</li>
 <li>新客户验证 / 订单公告</li>
 <li>EV 行业 SiC 渗透率</li>
 </ul>
-<h2>参考</h2>
+<h2 id="参考">参考</h2>
 <ul>
 <li>主题笔记：<a href="../notes/2026-05-ai-robotics-quantum-supply-chain-v1.html#5.2">2026-05 AI/机器人/量子产业链</a></li>
 <li>仓位提示：建议 ≤ 总组合 1–2%</li>
 </ul>
-    </article>
+      </article>
+      <aside class="doc-sidebar">
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">文档导航</h3>
+          <ul class="toc-list"><li><a href="#一句话定位">一句话定位</a></li><li><a href="#关键数据基准日-2026-05-07yfinance-实时">关键数据（基准日 2026-05-07，yfinance 实时）</a></li><li><a href="#护城河类型">护城河类型</a></li><li><a href="#短期增量35-年">短期增量（3–5 年）</a></li><li><a href="#长期增量1020-年">长期增量（10–20 年）</a></li><li><a href="#风险核心">风险（核心）</a></li><li><a href="#估值锚">估值锚</a></li><li><a href="#退出条件">退出条件</a></li><li><a href="#跟踪信号">跟踪信号</a></li><li><a href="#参考">参考</a></li></ul>
+        </section>
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">阅读提示</h3>
+          <ul class="summary-list">
+            <li><span class="summary-label">先看什么</span><span class="summary-value">先读一段话结论，再看表格和风险点。</span></li>
+            <li><span class="summary-label">适合用途</span><span class="summary-value">复盘、比较、回查研究底稿。</span></li>
+            <li><span class="summary-label">建议动作</span><span class="summary-value">如果文档内容改变了 thesis，再回到候选池或组合页更新判断。</span></li>
+          </ul>
+        </section>
+      </aside>
+    </div>
     <div class="footer">该页面由 Markdown 自动生成。原始文件：tickers/AEHR.md</div>
+  </div>
   </div>
 </body>
 </html>

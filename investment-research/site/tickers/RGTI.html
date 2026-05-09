@@ -7,74 +7,118 @@
   <link rel="stylesheet" href="../_assets/style.css" />
 </head>
 <body>
+  <div class="site-shell">
   <div class="page">
     <div class="topbar">
-      <a class="back" href="../index.html">← 返回投研首页</a>
-      <a class="home-link" href="../all-docs.html">全部文档</a>
+      <div class="nav-cluster">
+        <a class="back" href="../index.html">← 返回投研首页</a>
+        <a class="nav-link secondary" href="../all-docs.html">全部文档</a>
+      </div>
+      <div class="nav-cluster">
+        <a class="home-link" href="../notes.html">Notes</a>
+        <a class="home-link" href="../candidates.html">Candidates</a>
+        <a class="home-link" href="../tickers.html">Tickers</a>
+      </div>
     </div>
     <section class="hero">
-      <div class="eyebrow">tickers</div>
-      <h1>RGTI</h1>
-      <p>tickers/RGTI.md</p>
+      <div class="doc-header-grid">
+        <div>
+          <div class="eyebrow">tickers</div>
+          <h1>RGTI</h1>
+          <p>单只股票的研究卡、跟踪信号和估值框架。</p>
+          <div class="meta-row">
+            <span class="pill">tickers/RGTI.md</span>
+            <span class="pill">161 words</span>
+            <span class="pill">10 sections</span>
+          </div>
+        </div>
+        <div class="doc-stat-stack">
+          <div class="doc-stat">
+            <div class="doc-stat-label">Document Type</div>
+            <div class="doc-stat-value">Tickers</div>
+          </div>
+          <div class="doc-stat">
+            <div class="doc-stat-label">Reading Mode</div>
+            <div class="doc-stat-value">Research Memo</div>
+          </div>
+        </div>
+      </div>
     </section>
-    <article class="doc">
+    <div class="doc-layout">
+      <article class="doc doc-main">
 <hr />
 <p>ticker: RGTI name: Rigetti Computing sector: Quantum Computing layer: Layer 7 — 量子硬件 position_type: payoff status: watching last_updated: 2026-05-07 data_source: scripts/fetch_quotes.py snapshot 2026-05-07</p>
 <hr />
-<h1>Rigetti (RGTI)</h1>
-<h2>一句话定位</h2>
+<h1 id="rigetti-rgti">Rigetti (RGTI)</h1>
+<h2 id="一句话定位">一句话定位</h2>
 <p>超导量子&quot;小弟&quot;——超导路线的纯玩家，但远小于 IBM、Google。<strong>赔率仓极小配置（≤ 1%）</strong>。</p>
-<h2>关键数据（基准日 2026-05-07，yfinance 实时）</h2>
+<h2 id="关键数据基准日-2026-05-07yfinance-实时">关键数据（基准日 2026-05-07，yfinance 实时）</h2>
 <table><thead><tr><th>指标</th><th>数据</th></tr></thead><tbody><tr><td>股价</td><td><strong>$20.09</strong></td></tr><tr><td>市值</td><td><strong>$6.7B</strong></td></tr><tr><td>Forward PE</td><td><strong>−110.93</strong>（亏损）</td></tr><tr><td>Forward P/S</td><td><strong>942</strong> ⚠️ 极端</td></tr><tr><td>52 周区间</td><td>$9.30 → $58.15</td></tr><tr><td>50 日均线</td><td>$16.46</td></tr><tr><td>200 日均线</td><td>$22.88</td></tr><tr><td>Beta</td><td>1.80</td></tr></tbody></table>
 <blockquote><strong>⚠️ 笔记勘误</strong>：v1 写&quot;$1–3B&quot;已过期——今日 <strong>$6.7B</strong>，<strong>2–7×</strong>。但 Forward P/S <strong>942</strong> 暗示收入几乎为零（与笔记里&quot;现金流持续负&quot;相符）。意味着市场在为&quot;路线押注&quot;付了 940 倍的&quot;故事溢价&quot;——这才是真正的&quot;赔率仓极小配置&quot;逻辑。技术上 50 日均线 ($16.46) 远低于 200 日均线 ($22.88)，技术面已转弱。</blockquote>
-<h2>护城河类型</h2>
+<h2 id="护城河类型">护城河类型</h2>
 <p><strong>超导量子技术路线 + 多芯片模块化</strong>：</p>
 <ul>
 <li>Ankaa-2 / Ankaa-3 是公司当前主打芯片</li>
 <li>模块化多芯片架构是未来扩展的方向</li>
 <li>与美国国防部、政府机构有合作</li>
 </ul>
-<h2>短期增量（3–5 年）</h2>
+<h2 id="短期增量35-年">短期增量（3–5 年）</h2>
 <ul>
 <li>政府研究合同</li>
 <li>与超大规模厂集成</li>
 <li>量子比特数量提升路线</li>
 </ul>
-<h2>长期增量（10–20 年）</h2>
+<h2 id="长期增量1020-年">长期增量（10–20 年）</h2>
 <ul>
 <li>取决于超导路线胜出 + Rigetti 在该路线中的位置</li>
 <li>大概率被 IBM / Google 等更强超导玩家挤出</li>
 </ul>
-<h2>风险（核心）</h2>
+<h2 id="风险核心">风险（核心）</h2>
 <ul>
 <li><strong>🔴 IBM 直接竞争</strong>：同样是超导路线，但 IBM 资源远大</li>
 <li><strong>现金流持续负</strong>：依赖融资</li>
 <li><strong>极高波动率</strong>：与 IONQ 类似但更小盘</li>
 <li><strong>被并购整合</strong>：可能被大厂以&quot;残值&quot;收购</li>
 </ul>
-<h2>估值锚</h2>
+<h2 id="估值锚">估值锚</h2>
 <ul>
 <li>与 IONQ 同维度，但折价（小一档 + 路线对手更强）</li>
 <li>无传统锚</li>
 </ul>
-<h2>退出条件</h2>
+<h2 id="退出条件">退出条件</h2>
 <ul>
 <li><strong>触发减仓</strong>：IBM / Google 重大量子进展挤压份额</li>
 <li><strong>触发卖出</strong>：技术路线被证明落后 / 重大融资困难</li>
 <li><strong>持有</strong>：纯赔率，止损 -50%</li>
 </ul>
-<h2>跟踪信号</h2>
+<h2 id="跟踪信号">跟踪信号</h2>
 <ul>
 <li>季度量子比特数与保真度</li>
 <li>与 IBM 路线的对比</li>
 <li>现金流与融资能力</li>
 </ul>
-<h2>参考</h2>
+<h2 id="参考">参考</h2>
 <ul>
 <li>主题笔记：<a href="../notes/2026-05-ai-robotics-quantum-supply-chain-v1.html#6.7">2026-05 AI/机器人/量子产业链</a></li>
 </ul>
-    </article>
+      </article>
+      <aside class="doc-sidebar">
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">文档导航</h3>
+          <ul class="toc-list"><li><a href="#一句话定位">一句话定位</a></li><li><a href="#关键数据基准日-2026-05-07yfinance-实时">关键数据（基准日 2026-05-07，yfinance 实时）</a></li><li><a href="#护城河类型">护城河类型</a></li><li><a href="#短期增量35-年">短期增量（3–5 年）</a></li><li><a href="#长期增量1020-年">长期增量（10–20 年）</a></li><li><a href="#风险核心">风险（核心）</a></li><li><a href="#估值锚">估值锚</a></li><li><a href="#退出条件">退出条件</a></li><li><a href="#跟踪信号">跟踪信号</a></li><li><a href="#参考">参考</a></li></ul>
+        </section>
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">阅读提示</h3>
+          <ul class="summary-list">
+            <li><span class="summary-label">先看什么</span><span class="summary-value">先读一段话结论，再看表格和风险点。</span></li>
+            <li><span class="summary-label">适合用途</span><span class="summary-value">复盘、比较、回查研究底稿。</span></li>
+            <li><span class="summary-label">建议动作</span><span class="summary-value">如果文档内容改变了 thesis，再回到候选池或组合页更新判断。</span></li>
+          </ul>
+        </section>
+      </aside>
+    </div>
     <div class="footer">该页面由 Markdown 自动生成。原始文件：tickers/RGTI.md</div>
+  </div>
   </div>
 </body>
 </html>

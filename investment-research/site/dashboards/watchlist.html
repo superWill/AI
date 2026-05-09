@@ -7,41 +7,69 @@
   <link rel="stylesheet" href="../_assets/style.css" />
 </head>
 <body>
+  <div class="site-shell">
   <div class="page">
     <div class="topbar">
-      <a class="back" href="../index.html">← 返回投研首页</a>
-      <a class="home-link" href="../all-docs.html">全部文档</a>
+      <div class="nav-cluster">
+        <a class="back" href="../index.html">← 返回投研首页</a>
+        <a class="nav-link secondary" href="../all-docs.html">全部文档</a>
+      </div>
+      <div class="nav-cluster">
+        <a class="home-link" href="../notes.html">Notes</a>
+        <a class="home-link" href="../candidates.html">Candidates</a>
+        <a class="home-link" href="../tickers.html">Tickers</a>
+      </div>
     </div>
     <section class="hero">
-      <div class="eyebrow">dashboards</div>
-      <h1>watchlist</h1>
-      <p>dashboards/watchlist.md</p>
+      <div class="doc-header-grid">
+        <div>
+          <div class="eyebrow">dashboards</div>
+          <h1>watchlist</h1>
+          <p>持续跟踪的候选池、评分规则和日更日志。</p>
+          <div class="meta-row">
+            <span class="pill">dashboards/watchlist.md</span>
+            <span class="pill">235 words</span>
+            <span class="pill">11 sections</span>
+          </div>
+        </div>
+        <div class="doc-stat-stack">
+          <div class="doc-stat">
+            <div class="doc-stat-label">Document Type</div>
+            <div class="doc-stat-value">Dashboards</div>
+          </div>
+          <div class="doc-stat">
+            <div class="doc-stat-label">Reading Mode</div>
+            <div class="doc-stat-value">Research Memo</div>
+          </div>
+        </div>
+      </div>
     </section>
-    <article class="doc">
-<h1>Watchlist &amp; 跟踪信号</h1>
+    <div class="doc-layout">
+      <article class="doc doc-main">
+<h1 id="watchlist-跟踪信号">Watchlist &amp; 跟踪信号</h1>
 <blockquote>配合 <code>scripts/fetch_quotes.py</code> 每日/每周快照使用</blockquote>
-<h2>周度跟踪</h2>
+<h2 id="周度跟踪">周度跟踪</h2>
 <ul>
 <li>HBM3E / HBM4 现货价格走势（DRAMeXchange、TrendForce）</li>
 <li>主要标的 forward PE 变化</li>
 <li>MU / SK Hynix / VRT / GLW 重大新闻</li>
 <li>VIX / SOXX 相对表现（板块 beta 信号）</li>
 </ul>
-<h2>月度跟踪</h2>
+<h2 id="月度跟踪">月度跟踪</h2>
 <ul>
 <li>WSTS / SIA 半导体行业月度数据</li>
 <li>AI 数据中心订单（VRT、SU.PA、ETN 财报评论）</li>
 <li>机器人厂商出货数据（Tesla Optimus、Figure、Unitree）</li>
 <li>主要标的的相对强弱（SMH 为基准）</li>
 </ul>
-<h2>季度跟踪（财报季）</h2>
+<h2 id="季度跟踪财报季">季度跟踪（财报季）</h2>
 <ul>
 <li>全部持仓公司财报：营收、毛利、指引、FCF</li>
 <li>backlog / book-to-bill（设备股）</li>
 <li>NRR（Cloudflare / 软件股）</li>
 <li>McKinsey、Gartner、IDC 行业报告</li>
 </ul>
-<h2>重大事件监控</h2>
+<h2 id="重大事件监控">重大事件监控</h2>
 <ul>
 <li>[ ] 任何 PQC 算法被破解</li>
 <li>[ ] 中国稀土出口管制变化</li>
@@ -49,33 +77,49 @@
 <li>[ ] 量子优势演示成功/失败</li>
 <li>[ ] HBM 长协价格更新</li>
 </ul>
-<h2>2026 H2 关键时间点</h2>
+<h2 id="2026-h2-关键时间点">2026 H2 关键时间点</h2>
 <ul>
 <li>HBM4E 三星样品交付（Q2）</li>
 <li>IBM 演示首次&quot;量子优势&quot;（Q4）</li>
 <li>加拿大 PQC 迁移计划（4 月）</li>
 <li>Tesla Optimus 50,000 台目标</li>
 </ul>
-<h2>2027–2028 关键拐点</h2>
+<h2 id="20272028-关键拐点">2027–2028 关键拐点</h2>
 <ul>
 <li>HBM5 量产</li>
 <li>1.6T 光模块成主流</li>
 <li>Quantinuum IPO 可能性</li>
 <li>第一波 PQC 强制合规截止</li>
 </ul>
-<h2>关键阈值（触发提示）</h2>
+<h2 id="关键阈值触发提示">关键阈值（触发提示）</h2>
 <blockquote>数据基准 2026-05-07 yfinance 快照；与 <a href="../portfolios/2026-05-core-thematic-payoff.html">portfolios/2026-05-core-thematic-payoff.md</a> v2 联动。</blockquote>
-<h3>持仓阈值</h3>
+<h3 id="持仓阈值">持仓阈值</h3>
 <table><thead><tr><th>标的</th><th>当前</th><th>减仓阈值</th><th>加仓阈值</th></tr></thead><tbody><tr><td>MU Forward PE</td><td>7.13</td><td>&gt;12（&quot;科技股化&quot;信号 → 估值已透支）</td><td>&lt;6（极度便宜）</td></tr><tr><td>GLW TTM PE</td><td>86.88</td><td>维持 → 暂不加仓</td><td>回调到 50 日均线 $150</td></tr><tr><td>GLW Forward PE</td><td>44.92</td><td>&gt;55（泡沫区）</td><td>&lt;30</td></tr><tr><td>IBM Forward PE</td><td>16.78</td><td>—</td><td>维持现状即继续分批加</td></tr><tr><td>IBM 价格</td><td>$225.74</td><td>$300+（接近 v1 看涨情境上沿）</td><td>&lt;$220（贴 52w 低，加倍）</td></tr><tr><td>GEV 价格</td><td>$1,118.96</td><td>$1,200+（贴 52w 高，估值透支）</td><td>&lt;$900（回到 50 日均线下）</td></tr><tr><td>VRT YoY 增速</td><td>~30%+</td><td>&lt;15%</td><td>—</td></tr><tr><td>Cloudflare NRR</td><td>—</td><td>&lt;115%</td><td>&gt;125%</td></tr><tr><td>单台 IBM/MU/GEV 已涨 50%+</td><td>—</td><td>部分止盈 30%</td><td>—</td></tr></tbody></table>
-<h3>跟踪但暂不持有（demoted）</h3>
+<h3 id="跟踪但暂不持有demoted">跟踪但暂不持有（demoted）</h3>
 <table><thead><tr><th>标的</th><th>触发&quot;重新加入推荐&quot;的条件</th></tr></thead><tbody><tr><td>ACLS</td><td>Veeco 合并整合落地 + PE 回到 25x 以下</td></tr><tr><td>AEHR</td><td>客户数破 5 + 单客户占比 &lt; 50% + beta 回落到 &lt; 2.5</td></tr><tr><td>SNDK</td><td>Forward PE 反超 MU 30%+（NAND 与 HBM 重新分化）</td></tr><tr><td>LITE</td><td>回调 30%+ 且 Forward PE &lt; 25x</td></tr></tbody></table>
-<h3>板块触发卖出</h3>
+<h3 id="板块触发卖出">板块触发卖出</h3>
 <p>详见 portfolio v2 的&quot;系统性风险触发卖出&quot;表。</p>
-<h2>数据快照</h2>
+<h2 id="数据快照">数据快照</h2>
 <p>每次跑 <code>scripts/fetch_quotes.py</code> 后，可在 <code>data/snapshots/YYYY-MM-DD.csv</code> 查最新行情。</p>
 <pre><code>ls -lt ../data/snapshots | head -5    # 最近 5 个快照</code></pre>
-    </article>
+      </article>
+      <aside class="doc-sidebar">
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">文档导航</h3>
+          <ul class="toc-list"><li><a href="#周度跟踪">周度跟踪</a></li><li><a href="#月度跟踪">月度跟踪</a></li><li><a href="#季度跟踪财报季">季度跟踪（财报季）</a></li><li><a href="#重大事件监控">重大事件监控</a></li><li><a href="#2026-h2-关键时间点">2026 H2 关键时间点</a></li><li><a href="#20272028-关键拐点">2027–2028 关键拐点</a></li><li><a href="#关键阈值触发提示">关键阈值（触发提示）</a></li><li style="padding-left:14px"><a href="#持仓阈值">持仓阈值</a></li><li style="padding-left:14px"><a href="#跟踪但暂不持有demoted">跟踪但暂不持有（demoted）</a></li><li style="padding-left:14px"><a href="#板块触发卖出">板块触发卖出</a></li><li><a href="#数据快照">数据快照</a></li></ul>
+        </section>
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">阅读提示</h3>
+          <ul class="summary-list">
+            <li><span class="summary-label">先看什么</span><span class="summary-value">先读一段话结论，再看表格和风险点。</span></li>
+            <li><span class="summary-label">适合用途</span><span class="summary-value">复盘、比较、回查研究底稿。</span></li>
+            <li><span class="summary-label">建议动作</span><span class="summary-value">如果文档内容改变了 thesis，再回到候选池或组合页更新判断。</span></li>
+          </ul>
+        </section>
+      </aside>
+    </div>
     <div class="footer">该页面由 Markdown 自动生成。原始文件：dashboards/watchlist.md</div>
+  </div>
   </div>
 </body>
 </html>

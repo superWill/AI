@@ -6,7 +6,8 @@
 
 | 目录 | 主题 | 状态 |
 |---|---|---|
-| [`investment-research/`](investment-research/) | 美股 AI / 机器人 / HBM / 量子 / PQC 产业链投研 | 活跃，含 36 只 ticker 档、组合 v2、数据抓取脚本 |
+| [`investment-research/`](investment-research/) | 美股 AI / 机器人 / HBM / 量子 / PQC 产业链投研（CodeX 版，卖铲子角度） | 活跃，含 36 只 ticker 档、组合 v2、数据抓取脚本 |
+| [`investment-research-2007-apple/`](investment-research-2007-apple/) | "2007 苹果型"平台机会投研（Claude 版，卖整机角度） | 活跃，7 只 core + 10 只 watch、内置投研 Agent |
 | [`product-research-business-scenarios/`](product-research-business-scenarios/) | 业务场景驱动的产品调研框架 | 活跃，含场景库、用户分群、竞品矩阵、机会图 |
 
 每个子目录有自己的 README、目录约定和工作流，独立运转。

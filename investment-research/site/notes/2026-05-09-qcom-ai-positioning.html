@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2026 05 09 qcom ai positioning</title>
+  <link rel="stylesheet" href="../_assets/style.css" />
+</head>
+<body>
+  <div class="site-shell">
+  <div class="page">
+    <div class="topbar">
+      <div class="nav-cluster">
+        <a class="back" href="../index.html">← 返回投研首页</a>
+        <a class="nav-link secondary" href="../all-docs.html">全部文档</a>
+      </div>
+      <div class="nav-cluster">
+        <a class="home-link" href="../notes.html">Notes</a>
+        <a class="home-link" href="../candidates.html">Candidates</a>
+        <a class="home-link" href="../tickers.html">Tickers</a>
+      </div>
+    </div>
+    <section class="hero">
+      <div class="doc-header-grid">
+        <div>
+          <div class="eyebrow">notes</div>
+          <h1>2026-05-09-qcom-ai-positioning</h1>
+          <p>市场、公司或主题研究的阶段性结论。</p>
+          <div class="meta-row">
+            <span class="pill">notes/2026-05-09-qcom-ai-positioning.md</span>
+            <span class="pill">378 words</span>
+            <span class="pill">18 sections</span>
+          </div>
+        </div>
+        <div class="doc-stat-stack">
+          <div class="doc-stat">
+            <div class="doc-stat-label">Document Type</div>
+            <div class="doc-stat-value">Notes</div>
+          </div>
+          <div class="doc-stat">
+            <div class="doc-stat-label">Reading Mode</div>
+            <div class="doc-stat-value">Research Memo</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="doc-layout">
+      <article class="doc doc-main">
+<h1 id="qcom-在-ai-产业链里的位置">QCOM 在 AI 产业链里的位置</h1>
+<h2 id="核心结论">核心结论</h2>
+<p><code>QCOM</code> 在 AI 里最强的角色，不是训练大模型，而是：</p>
+<p><code>把 AI 装进设备里，让 AI 在手机、PC、汽车、工业终端和边缘设备上真正跑起来。</code></p>
+<p>所以如果用最简单的话说：</p>
+<ul>
+<li><code>NVDA</code>：云端训练和大规模 AI 集群</li>
+<li><code>AMD</code>：云端训练 / 推理 + 数据中心 CPU/GPU</li>
+<li><code>QCOM</code>：端侧推理 + 边缘 AI + 车载 AI + 低功耗智能终端</li>
+</ul>
+<h2 id="一张图先看懂">一张图先看懂</h2>
+<h3 id="ai-产业链按位置拆">AI 产业链按位置拆</h3>
+<ol>
+<li><code>云端训练</code></li>
+</ol>
+<ul>
+<li>超大模型训练</li>
+<li>超大规模 GPU 集群</li>
+<li>高速网络 / 交换 / HBM / 机柜电力</li>
+</ul>
+<ol>
+<li><code>云端推理</code></li>
+</ol>
+<ul>
+<li>数据中心推理</li>
+<li>企业私有部署</li>
+<li>定制 ASIC / inference card</li>
+</ul>
+<ol>
+<li><code>边缘推理</code></li>
+</ol>
+<ul>
+<li>工厂</li>
+<li>门店</li>
+<li>摄像头</li>
+<li>工业网关</li>
+<li>机器人</li>
+</ul>
+<ol>
+<li><code>端侧 AI</code></li>
+</ol>
+<ul>
+<li>手机</li>
+<li>PC</li>
+<li>手表</li>
+<li>耳机</li>
+<li>眼镜</li>
+<li>车内座舱</li>
+</ul>
+<p>QCOM 主要吃的是：</p>
+<ul>
+<li><code>边缘推理</code></li>
+<li><code>端侧 AI</code></li>
+<li><code>车载 AI</code></li>
+</ul>
+<p>而不是第一段的<code>云端训练</code></p>
+<h2 id="qcom-在-ai-里到底卖什么">QCOM 在 AI 里到底卖什么</h2>
+<h3 id="1-手机和个人终端上的本地-ai">1. 手机和个人终端上的本地 AI</h3>
+<p>这是 QCOM 当前最成熟的 AI 位置。</p>
+<p>它卖的不是单独一个“AI 芯片”，而是整个平台：</p>
+<ul>
+<li><code>CPU</code></li>
+<li><code>GPU</code></li>
+<li><code>NPU</code></li>
+<li><code>基带</code></li>
+<li><code>Wi‑Fi / Bluetooth</code></li>
+<li>电源管理和低功耗能力</li>
+</ul>
+<p>实际场景包括：</p>
+<ul>
+<li>本地语音助手</li>
+<li>本地图像生成/编辑</li>
+<li>相机理解</li>
+<li>本地翻译</li>
+<li>个人 agent</li>
+<li>多设备协同</li>
+</ul>
+<p>这条线的价值不在“参数最大”，而在：</p>
+<ul>
+<li><code>低功耗</code></li>
+<li><code>低延迟</code></li>
+<li><code>隐私</code></li>
+<li><code>持续在线</code></li>
+</ul>
+<h3 id="2-ai-pc">2. AI PC</h3>
+<p>QCOM 在 PC 上想复制它在手机上的方法：</p>
+<ul>
+<li>用 <code>Snapdragon X</code> 平台做本地 AI 计算</li>
+<li>把 AI PC 做成“高能效 + 长续航 + 本地模型运行”的组合</li>
+</ul>
+<p>如果 AI PC 最终成立，QCOM 的优势不是纯 CPU 跑分，而是：</p>
+<ul>
+<li>本地 NPU</li>
+<li>电池效率</li>
+<li>连接能力</li>
+<li>always-on personal AI</li>
+</ul>
+<h3 id="3-汽车-ai">3. 汽车 AI</h3>
+<p>这是 QCOM 现在最重要的新增量之一。</p>
+<p>它做的不是单一车机芯片，而是整套 <code>Digital Chassis</code>：</p>
+<ul>
+<li>数字座舱</li>
+<li>车内视觉</li>
+<li>驾驶辅助计算</li>
+<li>车内 agent</li>
+<li>车联网连接</li>
+</ul>
+<p>也就是说，QCOM 在汽车里吃到的是：</p>
+<ul>
+<li><code>AI 座舱</code></li>
+<li><code>车载边缘推理</code></li>
+<li><code>连接</code></li>
+<li><code>软件定义汽车</code></li>
+</ul>
+<p>这也是为什么它的汽车业务越来越值得看，不只是因为营收增长，而是因为<code>AI 正在提高车载计算价值量</code></p>
+<h3 id="4-工业和企业边缘-ai">4. 工业和企业边缘 AI</h3>
+<p>通过 <code>Dragonwing</code>，QCOM 在做：</p>
+<ul>
+<li>工业网关</li>
+<li>智能视频分析</li>
+<li>零售终端</li>
+<li>机器人边缘控制</li>
+<li>企业本地 AI appliance</li>
+</ul>
+<p>这部分逻辑和手机不一样，重点是：</p>
+<ul>
+<li>现场部署</li>
+<li>数据不出本地</li>
+<li>低时延</li>
+<li>多连接协议</li>
+<li>长生命周期支持</li>
+</ul>
+<p>这一段市场没有云训练那么耀眼，但更接近“AI 真正进入实体世界”。</p>
+<h3 id="5-数据中心定制硅">5. 数据中心定制硅</h3>
+<p>这是 QCOM 最新开始切入的 AI 位置，但还在早期。</p>
+<p>根据 <code>2026-04-29</code> 官方财报口径：</p>
+<ul>
+<li>和一家领先 hyperscaler 的定制硅项目</li>
+<li>预计在本日历年晚些时候开始初始出货</li>
+</ul>
+<p>这说明：</p>
+<ul>
+<li>QCOM 已经不满足于只做端侧和边缘</li>
+<li>它正在尝试进入<code>数据中心定制 AI / compute silicon</code></li>
+</ul>
+<p>但要明确：</p>
+<ul>
+<li>这还不是它今天的核心收入来源</li>
+<li>也还不能把它直接看成 <code>NVDA / AMD</code> 的正面对手</li>
+<li>现阶段更像一个<code>可选上行期权</code></li>
+</ul>
+<h2 id="qcom-为什么适合-ai-端侧">QCOM 为什么适合 AI 端侧</h2>
+<p>QCOM 天生适合端侧 AI，不是偶然。</p>
+<p>因为它长期积累的能力，本来就和端侧需求匹配：</p>
+<ol>
+<li><code>低功耗计算</code></li>
+</ol>
+<ul>
+<li>手机时代练出来的基本功</li>
+</ul>
+<ol>
+<li><code>连接能力</code></li>
+</ol>
+<ul>
+<li>5G、Wi‑Fi、蓝牙、UWB 等</li>
+</ul>
+<ol>
+<li><code>高集成 SoC</code></li>
+</ol>
+<ul>
+<li>不是单芯片，而是一整套系统级集成</li>
+</ul>
+<ol>
+<li><code>终端生态</code></li>
+</ol>
+<ul>
+<li>手机、PC、汽车、工业终端 OEM 关系深</li>
+</ul>
+<ol>
+<li><code>边缘设备思维</code></li>
+</ol>
+<ul>
+<li>和云端芯片公司不同，它更懂设备端约束</li>
+</ul>
+<p>所以如果 AI 真的从“云端模型”走向“人人随身 / 到处可用”，QCOM 是天然受益者。</p>
+<h2 id="qcom-在-ai-上的弱点">QCOM 在 AI 上的弱点</h2>
+<p>也要看清楚它不擅长什么。</p>
+<h3 id="1-不在训练主战场">1. 不在训练主战场</h3>
+<p>QCOM 不是靠超大规模训练卡吃 AI 主升浪的。</p>
+<p>这意味着：</p>
+<ul>
+<li>它没有 NVDA 那种训练侧统治力</li>
+<li>也没有 AMD 那么直接的 AI 基建 beta</li>
+</ul>
+<h3 id="2-市场对端侧-ai-兑现速度还有疑问">2. 市场对端侧 AI 兑现速度还有疑问</h3>
+<p>问题不是“方向对不对”，而是：</p>
+<ul>
+<li>端侧 AI 何时大规模变成真收入</li>
+<li>用户愿不愿意为此换机、换 PC、换设备</li>
+</ul>
+<h3 id="3-手机基盘仍然太大">3. 手机基盘仍然太大</h3>
+<p>即使 AI 方向成立，QCOM 当下最大的收入仍然是手机相关。</p>
+<p>所以它的估值还会被一部分市场当成：</p>
+<ul>
+<li>手机周期股</li>
+<li>安卓链公司</li>
+</ul>
+<p>这会压制它像纯 AI 股那样快速拔估值。</p>
+<h2 id="和-nvda-amd-的直观对比">和 NVDA / AMD 的直观对比</h2>
+<table><thead><tr><th>维度</th><th>NVDA</th><th>AMD</th><th>QCOM</th></tr></thead><tbody><tr><td>AI 主战场</td><td>云端训练</td><td>云端训练/推理</td><td>端侧/边缘/车载</td></tr><tr><td>核心卖点</td><td>GPU + CUDA 生态</td><td>CPU + GPU + AI infra</td><td>低功耗 AI SoC + 连接</td></tr><tr><td>主要客户</td><td>云厂商、模型公司</td><td>云厂商、企业、服务器 OEM</td><td>手机厂商、PC OEM、车厂、工业客户</td></tr><tr><td>价值实现方式</td><td>训练和高端推理集群</td><td>数据中心扩张</td><td>AI 进入终端和实体场景</td></tr><tr><td>当前市场认知</td><td>最强 AI 龙头</td><td>强二号位/平台成长</td><td>更像“潜在重估票”</td></tr></tbody></table>
+<h2 id="投资上该怎么理解">投资上该怎么理解</h2>
+<p>如果你买 <code>QCOM</code> 的 AI 逻辑，买的不是：</p>
+<ul>
+<li>明天它去抢 NVDA 的训练市场</li>
+</ul>
+<p>而是：</p>
+<ul>
+<li>AI 从云走向端</li>
+<li>AI 从模型走向设备</li>
+<li>AI 从聊天走向真实世界场景</li>
+</ul>
+<p>你押注的是：</p>
+<p><code>端侧 AI / 边缘 AI / 车载 AI 的价值量提升</code></p>
+<p>这也是 QCOM 最值得研究的地方。</p>
+<h2 id="一句话结论">一句话结论</h2>
+<p><code>QCOM 在 AI 里的位置，是“让 AI 进入设备和现实世界”的平台公司，而不是“负责训练世界最大模型”的算力龙头。</code></p>
+<h2 id="参考">参考</h2>
+<ul>
+<li>Qualcomm FY26 Q2：<a href="https://www.qualcomm.com/news/releases/2026/04/qualcomm-announces-second-quarter-fiscal-2026-results">https://www.qualcomm.com/news/releases/2026/04/qualcomm-announces-second-quarter-fiscal-2026-results</a></li>
+<li>Dragonwing 总览：<a href="https://www.qualcomm.com/dragonwing">https://www.qualcomm.com/dragonwing</a></li>
+<li>工业边缘 AI：<a href="https://www.qualcomm.com/news/onq/2026/03/how-qualcomm-dragonwing-powers-industrial-edge-ai">https://www.qualcomm.com/news/onq/2026/03/how-qualcomm-dragonwing-powers-industrial-edge-ai</a></li>
+<li>汽车 AI：<a href="https://www.qualcomm.com/news/releases/2026/01/qualcomm-drives-the-future-of-mobility-with-strong-snapdragon-di">https://www.qualcomm.com/news/releases/2026/01/qualcomm-drives-the-future-of-mobility-with-strong-snapdragon-di</a></li>
+<li>Wear / Personal AI：<a href="https://www.qualcomm.com/news/releases/2026/03/qualcomm-powers-the-rise-of-personal-ai-with-new-snapdragon-wear">https://www.qualcomm.com/news/releases/2026/03/qualcomm-powers-the-rise-of-personal-ai-with-new-snapdragon-wear</a></li>
+<li>Snapdragon X Elite：<a href="https://www.qualcomm.com/news/releases/2023/10/qualcomm-unleashes-snapdragon-x-elite--the-ai-super-charged-plat">https://www.qualcomm.com/news/releases/2023/10/qualcomm-unleashes-snapdragon-x-elite--the-ai-super-charged-plat</a></li>
+</ul>
+      </article>
+      <aside class="doc-sidebar">
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">文档导航</h3>
+          <ul class="toc-list"><li><a href="#核心结论">核心结论</a></li><li><a href="#一张图先看懂">一张图先看懂</a></li><li style="padding-left:14px"><a href="#ai-产业链按位置拆">AI 产业链按位置拆</a></li><li><a href="#qcom-在-ai-里到底卖什么">QCOM 在 AI 里到底卖什么</a></li><li style="padding-left:14px"><a href="#1-手机和个人终端上的本地-ai">1. 手机和个人终端上的本地 AI</a></li><li style="padding-left:14px"><a href="#2-ai-pc">2. AI PC</a></li><li style="padding-left:14px"><a href="#3-汽车-ai">3. 汽车 AI</a></li><li style="padding-left:14px"><a href="#4-工业和企业边缘-ai">4. 工业和企业边缘 AI</a></li><li style="padding-left:14px"><a href="#5-数据中心定制硅">5. 数据中心定制硅</a></li><li><a href="#qcom-为什么适合-ai-端侧">QCOM 为什么适合 AI 端侧</a></li><li><a href="#qcom-在-ai-上的弱点">QCOM 在 AI 上的弱点</a></li><li style="padding-left:14px"><a href="#1-不在训练主战场">1. 不在训练主战场</a></li><li style="padding-left:14px"><a href="#2-市场对端侧-ai-兑现速度还有疑问">2. 市场对端侧 AI 兑现速度还有疑问</a></li><li style="padding-left:14px"><a href="#3-手机基盘仍然太大">3. 手机基盘仍然太大</a></li></ul>
+        </section>
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">阅读提示</h3>
+          <ul class="summary-list">
+            <li><span class="summary-label">先看什么</span><span class="summary-value">先读一段话结论，再看表格和风险点。</span></li>
+            <li><span class="summary-label">适合用途</span><span class="summary-value">复盘、比较、回查研究底稿。</span></li>
+            <li><span class="summary-label">建议动作</span><span class="summary-value">如果文档内容改变了 thesis，再回到候选池或组合页更新判断。</span></li>
+          </ul>
+        </section>
+      </aside>
+    </div>
+    <div class="footer">该页面由 Markdown 自动生成。原始文件：notes/2026-05-09-qcom-ai-positioning.md</div>
+  </div>
+  </div>
+</body>
+</html>

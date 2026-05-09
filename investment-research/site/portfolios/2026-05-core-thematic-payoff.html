@@ -7,27 +7,55 @@
   <link rel="stylesheet" href="../_assets/style.css" />
 </head>
 <body>
+  <div class="site-shell">
   <div class="page">
     <div class="topbar">
-      <a class="back" href="../index.html">← 返回投研首页</a>
-      <a class="home-link" href="../all-docs.html">全部文档</a>
+      <div class="nav-cluster">
+        <a class="back" href="../index.html">← 返回投研首页</a>
+        <a class="nav-link secondary" href="../all-docs.html">全部文档</a>
+      </div>
+      <div class="nav-cluster">
+        <a class="home-link" href="../notes.html">Notes</a>
+        <a class="home-link" href="../candidates.html">Candidates</a>
+        <a class="home-link" href="../tickers.html">Tickers</a>
+      </div>
     </div>
     <section class="hero">
-      <div class="eyebrow">portfolios</div>
-      <h1>2026-05-core-thematic-payoff</h1>
-      <p>portfolios/2026-05-core-thematic-payoff.md</p>
+      <div class="doc-header-grid">
+        <div>
+          <div class="eyebrow">portfolios</div>
+          <h1>2026-05-core-thematic-payoff</h1>
+          <p>组合、仓位和执行层面的判断。</p>
+          <div class="meta-row">
+            <span class="pill">portfolios/2026-05-core-thematic-payoff.md</span>
+            <span class="pill">684 words</span>
+            <span class="pill">20 sections</span>
+          </div>
+        </div>
+        <div class="doc-stat-stack">
+          <div class="doc-stat">
+            <div class="doc-stat-label">Document Type</div>
+            <div class="doc-stat-value">Portfolios</div>
+          </div>
+          <div class="doc-stat">
+            <div class="doc-stat-label">Reading Mode</div>
+            <div class="doc-stat-value">Research Memo</div>
+          </div>
+        </div>
+      </div>
     </section>
-    <article class="doc">
+    <div class="doc-layout">
+      <article class="doc doc-main">
 <hr />
 <p>date: 2026-05-07 status: proposal     # proposal / active / archived base_currency: USD total_target: TBD revision: v2</p>
 <hr />
-<h1>2026-05 投资组合配置（核心 / 主题 / 赔率 / 对冲）</h1>
+<h1 id="2026-05-投资组合配置核心-主题-赔率-对冲">2026-05 投资组合配置（核心 / 主题 / 赔率 / 对冲）</h1>
 <blockquote>来源框架：<a href="../notes/2026-05-ai-robotics-quantum-supply-chain-v1.html">notes/2026-05-ai-robotics-quantum-supply-chain-v1.md</a> §8（<strong>已加 v1 勘误章节</strong>） 数据基准：<a href="../data/snapshots/2026-05-07.csv">data/snapshots/2026-05-07.csv</a>（yfinance 实时）</blockquote>
-<h2>📝 v2 修订记录（2026-05-07）</h2>
+<h2 id="v2-修订记录2026-05-07">📝 v2 修订记录（2026-05-07）</h2>
 <p>基于今日 yfinance 快照与 v1 笔记勘误，对 v1 仓位做以下调整：</p>
-<h3>仓位变更明细</h3>
+<h3 id="仓位变更明细">仓位变更明细</h3>
 <table><thead><tr><th>Ticker</th><th>v1 权重</th><th>v2 权重</th><th>Δ</th><th>触发因素</th></tr></thead><tbody><tr><td><strong>VRT</strong></td><td>20%</td><td>18%</td><td>−2pp</td><td>估值已重估，但 thesis 最干净，保持核心</td></tr><tr><td><strong>GLW</strong></td><td>18%</td><td><strong>12%</strong></td><td><strong>−6pp</strong></td><td>TTM PE 86.88 / Fwd PE 44.92 远超历史 15–25x，安全边际明显压缩</td></tr><tr><td><strong>MRVL</strong></td><td>15%</td><td>12%</td><td>−3pp</td><td>自笔记后 +120%，让位给新发现的入场窗口</td></tr><tr><td><strong>MP</strong></td><td>8%</td><td>5%</td><td>−3pp</td><td>地缘溢价已部分释放，DoD 价格保底已 price in</td></tr><tr><td><strong>IBM</strong></td><td>8%</td><td><strong>10%</strong></td><td><strong>+2pp</strong></td><td>Forward PE 16.78 &lt;&lt; v1 看跌情境的 25x 锚——已进入加仓窗口</td></tr><tr><td><strong>NET</strong></td><td>7%</td><td>7%</td><td>—</td><td>合规驱动 thesis 不变</td></tr><tr><td><strong>CAMT</strong></td><td>4%</td><td>3%</td><td>−1pp</td><td>PE 50+ 高位</td></tr><tr><td><strong>PLAB</strong></td><td>2%</td><td>2%</td><td>—</td><td>估值锚最稳的赔率股</td></tr><tr><td><strong>ACLS</strong></td><td>2%</td><td><strong>0%</strong></td><td><strong>−2pp</strong></td><td>移出：PE 45x + Veeco 合并整合不确定性，下移到 <code>status: watching</code></td></tr><tr><td><strong>IONQ</strong></td><td>1–2%</td><td>2%</td><td>—</td><td>量子赔率，配置上限</td></tr><tr><td><strong>GEV</strong></td><td>—</td><td><strong>8%</strong></td><td><strong>+8pp 新增</strong></td><td>市值已从 $150B 翻倍到 $300.7B，backlog 排到 2030+，应入核心仓</td></tr><tr><td><strong>COHR</strong></td><td>可选</td><td><strong>8%</strong></td><td><strong>+8pp 新增</strong></td><td>LITE 已超 COHR ($73B vs $64B)，反而 COHR 成为同赛道相对低估的入场口</td></tr><tr><td><strong>MU</strong></td><td>—</td><td><strong>7%</strong></td><td><strong>+7pp 新增</strong></td><td>Forward PE 7.13 / SNDK 8.39 验证&quot;NAND-HBM 平价重估&quot;在发生，HBM 一线持有</td></tr><tr><td><strong>现金</strong></td><td>13–16%</td><td>6%</td><td>−7~10pp</td><td>IBM/GEV/COHR/MU 三个新入场窗口吸收了一半现金缓冲</td></tr></tbody></table>
-<h3>关键判断</h3>
+<h3 id="关键判断">关键判断</h3>
 <ol>
 <li><strong>GLW 大幅减仓不是看空 thesis，是看空安全边际</strong>——主题（光纤本土化、AI DC 拉动）仍成立，但估值已 price in 一次完整 multiple expansion。回调到 50 日均线 ($150) 附近会重新加回。</li>
 <li><strong>IBM 加仓是&quot;看跌情境内的安全边际买入&quot;</strong>——Forward PE 16.78 几乎贴 52 周低点 $220.72。但 50/200 日均线已死叉，不抢&quot;刀尖&quot;，分批 build position。</li>
@@ -35,7 +63,7 @@
 <li><strong>GEV 跨档</strong>——$300B 已不是&quot;context&quot;，是 AI 电力卖铲子的另一头（VRT 在 DC 内，GEV 在发电端）。配置 GEV 8% 等于把 VRT 暴露分散一部分到上游。</li>
 <li><strong>AEHR 移出推荐</strong>：实测 beta 3.27 远超笔记假设的 1.5–2.0+，单一客户依赖 + 极端波动率使得即使看对了 SiC 也很容易在路上被洗出去。</li>
 </ol>
-<h3>与 v1 的相对暴露变化</h3>
+<h3 id="与-v1-的相对暴露变化">与 v1 的相对暴露变化</h3>
 <ul>
 <li><strong>AI 电力</strong>（VRT + GEV）：20% → <strong>26%</strong>（卖铲子主题加码）</li>
 <li><strong>HBM/Memory</strong>（MU 新增）：0% → <strong>7%</strong></li>
@@ -45,24 +73,24 @@
 <li><strong>小盘赔率</strong>（CAMT + PLAB）：6% → 5%</li>
 </ul>
 <hr />
-<h2>框架</h2>
+<h2 id="框架">框架</h2>
 <table><thead><tr><th>仓位类型</th><th>占比</th><th>标的逻辑</th></tr></thead><tbody><tr><td>核心仓</td><td>60–70%</td><td>已有现金流的基础设施龙头（FCF 正、毛利 50%+）</td></tr><tr><td>主题仓</td><td>20–25%</td><td>地缘 + 工艺壁垒纯玩家（政策驱动 + 结构性短缺）</td></tr><tr><td>赔率仓</td><td>5–10%</td><td>高赔率细分（含小盘）—— 接受 50%+ 回撤</td></tr><tr><td>对冲</td><td>必备</td><td>量子相关 PQC 守卫</td></tr></tbody></table>
-<h2>推荐配置（v2，合计 94% + 现金 6%）</h2>
-<h3>A. 核心仓（65%）</h3>
+<h2 id="推荐配置v2合计-94-现金-6">推荐配置（v2，合计 94% + 现金 6%）</h2>
+<h3 id="a-核心仓65">A. 核心仓（65%）</h3>
 <table><thead><tr><th>Ticker</th><th>主题</th><th>权重</th><th>当前价</th><th>Forward PE</th><th>详见</th></tr></thead><tbody><tr><td>VRT</td><td>DC 电力冷却</td><td>18%</td><td>$358.92</td><td>41.67</td><td><a href="../tickers/VRT.html">tickers/VRT.md</a></td></tr><tr><td>GLW</td><td>光纤+玻璃</td><td>12%</td><td>$181.57</td><td>44.92</td><td><a href="../tickers/GLW.html">tickers/GLW.md</a></td></tr><tr><td>MRVL</td><td>DSP+定制 ASIC</td><td>12%</td><td>$172.15</td><td>—</td><td><a href="../tickers/MRVL.html">tickers/MRVL.md</a></td></tr><tr><td><strong>GEV</strong></td><td>燃气轮机+电网</td><td><strong>8%</strong></td><td>$1,118.96</td><td>45.70</td><td><a href="../tickers/GEV.html">tickers/GEV.md</a></td></tr><tr><td><strong>COHR</strong></td><td>光通信+激光</td><td><strong>8%</strong></td><td>$344.67</td><td>—</td><td><a href="../tickers/COHR.html">tickers/COHR.md</a></td></tr><tr><td><strong>MU</strong></td><td>HBM 三寡头美国总部</td><td><strong>7%</strong></td><td>$666.59</td><td><strong>7.13</strong></td><td><a href="../tickers/MU.html">tickers/MU.md</a></td></tr></tbody></table>
-<h3>B. 主题仓（22%）</h3>
+<h3 id="b-主题仓22">B. 主题仓（22%）</h3>
 <table><thead><tr><th>Ticker</th><th>主题</th><th>权重</th><th>当前价</th><th>Forward PE</th><th>详见</th></tr></thead><tbody><tr><td><strong>IBM</strong></td><td>AI+量子双引擎</td><td><strong>10%</strong></td><td>$225.74</td><td><strong>16.78</strong></td><td><a href="../tickers/IBM.html">tickers/IBM.md</a></td></tr><tr><td>NET</td><td>PQC 受益核心</td><td>7%</td><td>$248.59</td><td>—</td><td><a href="../tickers/NET.html">tickers/NET.md</a></td></tr><tr><td>MP</td><td>美国稀土国家队</td><td>5%</td><td>$72.65</td><td>—</td><td><a href="../tickers/MP.html">tickers/MP.md</a></td></tr></tbody></table>
-<h3>C. 赔率仓（7%）</h3>
+<h3 id="c-赔率仓7">C. 赔率仓（7%）</h3>
 <table><thead><tr><th>Ticker</th><th>主题</th><th>权重</th><th>当前价</th><th>详见</th></tr></thead><tbody><tr><td>CAMT</td><td>HBM 量测</td><td>3%</td><td>$202.54</td><td><a href="../tickers/CAMT.html">tickers/CAMT.md</a></td></tr><tr><td>PLAB</td><td>光罩三巨头</td><td>2%</td><td>$52.09</td><td><a href="../tickers/PLAB.html">tickers/PLAB.md</a></td></tr><tr><td>IONQ</td><td>离子阱量子</td><td>2%</td><td>$52.57</td><td><a href="../tickers/IONQ.html">tickers/IONQ.md</a></td></tr></tbody></table>
 <p>⚠️ 单只赔率股不超过总仓 3%，纯量子全部加起来 ≤3%。</p>
-<h3>D. 现金 / 短债（6%）</h3>
+<h3 id="d-现金-短债6">D. 现金 / 短债（6%）</h3>
 <p>留作回调时加仓 IBM（贴 52 周低点）、GLW（回调到 50 日均线 ~$150）的弹药。</p>
-<h3>已从推荐中移出（仍跟踪）</h3>
+<h3 id="已从推荐中移出仍跟踪">已从推荐中移出（仍跟踪）</h3>
 <table><thead><tr><th>Ticker</th><th>移出原因</th><th>状态</th></tr></thead><tbody><tr><td>ACLS</td><td>PE 45x + Veeco 合并整合不确定性</td><td>watching</td></tr><tr><td>AEHR</td><td>实测 beta 3.27（远超假设），单客户 80% 集中度</td><td>watching</td></tr><tr><td>SNDK</td><td>Forward PE 与 MU 平价（无折扣），选 MU 替代</td><td>watching</td></tr><tr><td>LITE</td><td>一年 +1500% 已脱离合理建仓位置</td><td>watching</td></tr></tbody></table>
-<h2>替代方案</h2>
-<h3>保守组合（3 家等权）</h3>
+<h2 id="替代方案">替代方案</h2>
+<h3 id="保守组合3-家等权">保守组合（3 家等权）</h3>
 <p>PLAB + FORM + CAMT —— 工艺壁垒最深、跨周期能力强。</p>
-<h3>进取组合（5 家不等权小盘）—— 已按 v2 数据更新</h3>
+<h3 id="进取组合5-家不等权小盘-已按-v2-数据更新">进取组合（5 家不等权小盘）—— 已按 v2 数据更新</h3>
 <ul>
 <li>30% CAMT</li>
 <li>20% PLAB（升档：估值锚最稳）</li>
@@ -71,16 +99,16 @@
 <li>15% ONTO（替代 AEHR：CAMT 双子星，beta 较低）</li>
 </ul>
 <blockquote>原 v1 含 ACLS 25% / AEHR 10% 已删除：见上方&quot;已从推荐中移出&quot;。</blockquote>
-<h3>地缘对冲组合</h3>
+<h3 id="地缘对冲组合">地缘对冲组合</h3>
 <p>70% 美国本土小盘 + 30% ACMR（中国敞口）—— 脱钩进一步加剧时反向 alpha。</p>
-<h3>东京便利组合</h3>
+<h3 id="东京便利组合">东京便利组合</h3>
 <p>通过日本券商（SBI、楽天、マネックス）：</p>
 <ul>
 <li>50% DRAM ETF（一键三家 HBM 寡头）</li>
 <li>25% MU</li>
 <li>25% Kioxia (TSE: 285A)</li>
 </ul>
-<h2>仓位规则</h2>
+<h2 id="仓位规则">仓位规则</h2>
 <ol>
 <li><strong>单只 ≤ 20%</strong>：防止单点风险</li>
 <li><strong>小盘股合计 ≤ 15%</strong>：流动性 + beta 控制</li>
@@ -88,17 +116,33 @@
 <li><strong>现金/短债 5–15%</strong>：v2 由于 IBM/GEV/COHR/MU 三个新入场窗口，本期降至 6%</li>
 <li><strong>AI 电力链合计 ≤ 30%</strong>：VRT + GEV 同主题不同位（DC 内 vs 发电端），但若 hyperscaler capex 见顶两者同跌，需要硬封顶</li>
 </ol>
-<h2>系统性风险触发卖出</h2>
+<h2 id="系统性风险触发卖出">系统性风险触发卖出</h2>
 <table><thead><tr><th>风险</th><th>触发条件</th><th>处置</th></tr></thead><tbody><tr><td>AI capex 见顶</td><td>hyperscaler 资本开支 YoY 转负</td><td>核心仓减仓 30%</td></tr><tr><td>利率上行</td><td>美联储重启加息</td><td>小盘+量子先减仓</td></tr><tr><td>中美脱钩升级</td><td>全面禁运/反制</td><td>ACMR 等中国敞口归零</td></tr><tr><td>AI 范式转移</td><td>MoE/Mamba 商用替代 Transformer</td><td>HBM 主题减仓</td></tr></tbody></table>
-<h2>建仓节奏建议</h2>
+<h2 id="建仓节奏建议">建仓节奏建议</h2>
 <p><strong>不要一次性 build full position</strong>——AI 板块 beta 1.5–2.0+，分批降低择时风险。</p>
 <table><thead><tr><th>阶段</th><th>时机</th><th>行动</th></tr></thead><tbody><tr><td>阶段 1（即刻）</td><td>今日</td><td>IBM 4%（贴 52w 低）+ MU 4% + GEV 4% + COHR 4% + NET 3% + MP 3% + IONQ 1% = <strong>23% 启动仓</strong></td></tr><tr><td>阶段 2（−5%）</td><td>标普回调 5% / 个股触发买点</td><td>VRT 6% + GLW 4%（等回到 $160 附近）+ MRVL 4% + CAMT 1% = +15%</td></tr><tr><td>阶段 3（−10%）</td><td>整体板块大幅回调</td><td>剩余 56% 平均铺开</td></tr></tbody></table>
 <blockquote>现金 6% 不动用于阶段 3，留给&quot;非系统性回调机会&quot;（如 IBM 因量子 Q4 演示推迟而再跌 15%）。</blockquote>
-<h2>调仓记录</h2>
+<h2 id="调仓记录">调仓记录</h2>
 <table><thead><tr><th>日期</th><th>标的</th><th>操作</th><th>价格</th><th>仓位变化</th><th>理由</th></tr></thead><tbody></tbody></table>
 <p>（建仓后逐次记录）</p>
-    </article>
+      </article>
+      <aside class="doc-sidebar">
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">文档导航</h3>
+          <ul class="toc-list"><li><a href="#v2-修订记录2026-05-07">📝 v2 修订记录（2026-05-07）</a></li><li style="padding-left:14px"><a href="#仓位变更明细">仓位变更明细</a></li><li style="padding-left:14px"><a href="#关键判断">关键判断</a></li><li style="padding-left:14px"><a href="#与-v1-的相对暴露变化">与 v1 的相对暴露变化</a></li><li><a href="#框架">框架</a></li><li><a href="#推荐配置v2合计-94-现金-6">推荐配置（v2，合计 94% + 现金 6%）</a></li><li style="padding-left:14px"><a href="#a-核心仓65">A. 核心仓（65%）</a></li><li style="padding-left:14px"><a href="#b-主题仓22">B. 主题仓（22%）</a></li><li style="padding-left:14px"><a href="#c-赔率仓7">C. 赔率仓（7%）</a></li><li style="padding-left:14px"><a href="#d-现金-短债6">D. 现金 / 短债（6%）</a></li><li style="padding-left:14px"><a href="#已从推荐中移出仍跟踪">已从推荐中移出（仍跟踪）</a></li><li><a href="#替代方案">替代方案</a></li><li style="padding-left:14px"><a href="#保守组合3-家等权">保守组合（3 家等权）</a></li><li style="padding-left:14px"><a href="#进取组合5-家不等权小盘-已按-v2-数据更新">进取组合（5 家不等权小盘）—— 已按 v2 数据更新</a></li></ul>
+        </section>
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">阅读提示</h3>
+          <ul class="summary-list">
+            <li><span class="summary-label">先看什么</span><span class="summary-value">先读一段话结论，再看表格和风险点。</span></li>
+            <li><span class="summary-label">适合用途</span><span class="summary-value">复盘、比较、回查研究底稿。</span></li>
+            <li><span class="summary-label">建议动作</span><span class="summary-value">如果文档内容改变了 thesis，再回到候选池或组合页更新判断。</span></li>
+          </ul>
+        </section>
+      </aside>
+    </div>
     <div class="footer">该页面由 Markdown 自动生成。原始文件：portfolios/2026-05-core-thematic-payoff.md</div>
+  </div>
   </div>
 </body>
 </html>

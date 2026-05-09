@@ -7,20 +7,48 @@
   <link rel="stylesheet" href="../_assets/style.css" />
 </head>
 <body>
+  <div class="site-shell">
   <div class="page">
     <div class="topbar">
-      <a class="back" href="../index.html">← 返回投研首页</a>
-      <a class="home-link" href="../all-docs.html">全部文档</a>
+      <div class="nav-cluster">
+        <a class="back" href="../index.html">← 返回投研首页</a>
+        <a class="nav-link secondary" href="../all-docs.html">全部文档</a>
+      </div>
+      <div class="nav-cluster">
+        <a class="home-link" href="../notes.html">Notes</a>
+        <a class="home-link" href="../candidates.html">Candidates</a>
+        <a class="home-link" href="../tickers.html">Tickers</a>
+      </div>
     </div>
     <section class="hero">
-      <div class="eyebrow">agents</div>
-      <h1>daily-market-recap-prompt</h1>
-      <p>agents/daily-market-recap-prompt.md</p>
+      <div class="doc-header-grid">
+        <div>
+          <div class="eyebrow">agents</div>
+          <h1>daily-market-recap-prompt</h1>
+          <p>Agent 提示词、跨平台使用方法和自动化模板。</p>
+          <div class="meta-row">
+            <span class="pill">agents/daily-market-recap-prompt.md</span>
+            <span class="pill">37 words</span>
+            <span class="pill">10 sections</span>
+          </div>
+        </div>
+        <div class="doc-stat-stack">
+          <div class="doc-stat">
+            <div class="doc-stat-label">Document Type</div>
+            <div class="doc-stat-value">Agents</div>
+          </div>
+          <div class="doc-stat">
+            <div class="doc-stat-label">Reading Mode</div>
+            <div class="doc-stat-value">Research Memo</div>
+          </div>
+        </div>
+      </div>
     </section>
-    <article class="doc">
-<h1>Daily Market Recap Prompt</h1>
+    <div class="doc-layout">
+      <article class="doc doc-main">
+<h1 id="daily-market-recap-prompt">Daily Market Recap Prompt</h1>
 <p>请作为专业投资研究员，完成一份日度市场复盘。</p>
-<h2>任务</h2>
+<h2 id="任务">任务</h2>
 <ol>
 <li>总结昨晚美股最重要的 3 条主线</li>
 <li>按板块拆分热点</li>
@@ -28,23 +56,39 @@
 <li>判断这些变化对现有 thesis 的影响</li>
 <li>给出今天最值得继续跟踪的 3 个变量</li>
 </ol>
-<h2>输出格式</h2>
-<h3>一句话结论</h3>
-<h3>指数结果</h3>
-<h3>三条主线</h3>
-<h3>板块拆分</h3>
-<h3>热门股异动</h3>
-<h3>对后续交易的意义</h3>
-<h3>今天继续跟踪什么</h3>
-<h2>规则</h2>
+<h2 id="输出格式">输出格式</h2>
+<h3 id="一句话结论">一句话结论</h3>
+<h3 id="指数结果">指数结果</h3>
+<h3 id="三条主线">三条主线</h3>
+<h3 id="板块拆分">板块拆分</h3>
+<h3 id="热门股异动">热门股异动</h3>
+<h3 id="对后续交易的意义">对后续交易的意义</h3>
+<h3 id="今天继续跟踪什么">今天继续跟踪什么</h3>
+<h2 id="规则">规则</h2>
 <ul>
 <li>先事实，后分析</li>
 <li>不要只写股价，要写催化</li>
 <li>如果是财报驱动，要说明是 beat、miss 还是指引变化</li>
 <li>如果是宏观驱动，要说明对风险偏好、利率预期、估值的影响</li>
 </ul>
-    </article>
+      </article>
+      <aside class="doc-sidebar">
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">文档导航</h3>
+          <ul class="toc-list"><li><a href="#任务">任务</a></li><li><a href="#输出格式">输出格式</a></li><li style="padding-left:14px"><a href="#一句话结论">一句话结论</a></li><li style="padding-left:14px"><a href="#指数结果">指数结果</a></li><li style="padding-left:14px"><a href="#三条主线">三条主线</a></li><li style="padding-left:14px"><a href="#板块拆分">板块拆分</a></li><li style="padding-left:14px"><a href="#热门股异动">热门股异动</a></li><li style="padding-left:14px"><a href="#对后续交易的意义">对后续交易的意义</a></li><li style="padding-left:14px"><a href="#今天继续跟踪什么">今天继续跟踪什么</a></li><li><a href="#规则">规则</a></li></ul>
+        </section>
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">阅读提示</h3>
+          <ul class="summary-list">
+            <li><span class="summary-label">先看什么</span><span class="summary-value">先读一段话结论，再看表格和风险点。</span></li>
+            <li><span class="summary-label">适合用途</span><span class="summary-value">复盘、比较、回查研究底稿。</span></li>
+            <li><span class="summary-label">建议动作</span><span class="summary-value">如果文档内容改变了 thesis，再回到候选池或组合页更新判断。</span></li>
+          </ul>
+        </section>
+      </aside>
+    </div>
     <div class="footer">该页面由 Markdown 自动生成。原始文件：agents/daily-market-recap-prompt.md</div>
+  </div>
   </div>
 </body>
 </html>
