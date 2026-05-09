@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>README</title>
+  <link rel="stylesheet" href="_assets/style.css" />
+</head>
+<body>
+  <div class="page">
+    <div class="topbar">
+      <a class="back" href="index.html">← 返回投研首页</a>
+      <a class="home-link" href="all-docs.html">全部文档</a>
+    </div>
+    <section class="hero">
+      <div class="eyebrow">root</div>
+      <h1>README</h1>
+      <p>README.md</p>
+    </section>
+    <article class="doc">
+<h1>investment-research</h1>
+<p>个人美股投研工作区。聚焦 AI / 机器人 / HBM / 量子 / PQC 产业链。</p>
+<h2>目录结构</h2>
+<pre><code>investment-research/
+├── notes/         主题/产业链研究笔记（按 YYYY-MM-&lt;topic&gt;.md 命名）
+├── tickers/       单只股票深度研究（文件名 = 大写 ticker）
+├── portfolios/    组合配置与调仓记录
+├── dashboards/    关注列表与跟踪信号
+├── data/
+│   ├── snapshots/ scripts/fetch_quotes.py 输出的每日行情快照
+│   └── prices/    历史日线（按需）
+└── scripts/       数据抓取与分析脚本</code></pre>
+<h2>工作流</h2>
+<ol>
+<li><strong>主题驱动</strong> — <code>notes/</code> 写产业链/主题级笔记，识别瓶颈节点和受益层</li>
+<li><strong>标的拆解</strong> — 从主题笔记提取候选 ticker，在 <code>tickers/&lt;TICKER&gt;.md</code> 单独深挖</li>
+<li><strong>组合落地</strong> — <code>portfolios/</code> 写当前持仓 + 仓位逻辑 + 调仓记录</li>
+<li><strong>持续跟踪</strong> — <code>dashboards/watchlist.md</code> 列关注信号；定期跑脚本刷新行情</li>
+</ol>
+<h3>寻找“下一只 2007 苹果”的日更流程</h3>
+<p>适合做<code>未来平台型大牛股</code>跟踪，不是一次性报告，而是持续更新进度。</p>
+<ol>
+<li><strong>候选池</strong> — <a href="dashboards/next-apple-candidates.html"><code>dashboards/next-apple-candidates.md</code></a></li>
+<li><strong>评分规则</strong> — <a href="dashboards/next-apple-scoring.html"><code>dashboards/next-apple-scoring.md</code></a></li>
+<li><strong>单公司进度卡</strong> — <a href="tickers/_next-apple-progress-template.html"><code>tickers/_next-apple-progress-template.md</code></a></li>
+<li><strong>每日更新日志</strong> — <a href="dashboards/daily-progress-log.html"><code>dashboards/daily-progress-log.md</code></a></li>
+</ol>
+<p>日更时只回答三件事：</p>
+<ul>
+<li>昨天发生了什么</li>
+<li>对 thesis 是利多还是利空</li>
+<li>候选排序是否变化</li>
+</ul>
+<h2>数据脚本</h2>
+<p>首次环境准备（创建项目内 venv，避开 PEP 668）：</p>
+<pre><code>python3 -m venv .venv
+.venv/bin/pip install -r scripts/requirements.txt</code></pre>
+<p>之后每次运行：</p>
+<pre><code># 1. 行情快照（每日跑一次）
+.venv/bin/python scripts/fetch_quotes.py
+# → data/snapshots/YYYY-MM-DD.csv（40 行：当日价格/市值/PE/52周区间/beta 等）
+
+# 2. 历史日线（按需跑，回看走势/验证涨跌幅）
+.venv/bin/python scripts/fetch_history.py --tickers LITE AEHR --period 1y
+# → data/prices/&lt;TICKER&gt;.csv（每只一份 OHLCV）
+
+# 3. 审计：对比 ticker 文档里的市值数据 vs 最新快照，标记偏差
+.venv/bin/python scripts/audit_notes.py
+# 阈值默认 ±20%，可加 --threshold 30 调整</code></pre>
+<p><code>audit_notes.py</code> 是写新 ticker 文档时的对账工具——任何手写市值与最新快照偏差超过阈值会被列出，便于发现&quot;copy 自老笔记&quot;的过期数据。</p>
+<h2>约定</h2>
+<ul>
+<li>主题笔记文件名：<code>notes/YYYY-MM-&lt;topic&gt;.md</code></li>
+<li>单股研究文件名：<code>tickers/&lt;TICKER&gt;.md</code>（大写，不带前缀）</li>
+<li>组合文件名：<code>portfolios/YYYY-MM-&lt;name&gt;.md</code></li>
+<li>所有日期用 ISO（YYYY-MM-DD），不用相对时间</li>
+<li>每个 ticker 文档顶部带 frontmatter，便于后续脚本聚合</li>
+</ul>
+<h2>起点文档</h2>
+<ul>
+<li>HTML 首页：<a href="index.html"><code>index.html</code></a> —— 推荐日常阅读入口</li>
+<li>主题笔记：<a href="notes/2026-05-ai-robotics-quantum-supply-chain-v1.html"><code>notes/2026-05-ai-robotics-quantum-supply-chain-v1.md</code></a> —— AI/机器人/HBM/量子产业链全景</li>
+<li>日度市场热点：<a href="notes/2026-05-08-us-market-hotspots.html"><code>notes/2026-05-08-us-market-hotspots.md</code></a></li>
+<li>当前组合：<a href="portfolios/2026-05-core-thematic-payoff.html"><code>portfolios/2026-05-core-thematic-payoff.md</code></a></li>
+<li>关注列表：<a href="dashboards/watchlist.html"><code>dashboards/watchlist.md</code></a></li>
+</ul>
+<h2>免责</h2>
+<p>本目录所有内容仅为个人研究与决策参考，<strong>不构成投资建议</strong>。半导体、量子板块波动剧烈，仓位与风险自负。</p>
+    </article>
+    <div class="footer">该页面由 Markdown 自动生成。原始文件：README.md</div>
+  </div>
+</body>
+</html>

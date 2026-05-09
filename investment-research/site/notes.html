@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Research Notes</title>
+  <style>
+    :root {
+      --bg: #f5f1e8;
+      --paper: #fffdf8;
+      --ink: #1f1e1a;
+      --muted: #6d685d;
+      --line: #ddd3c2;
+      --accent: #8f2d14;
+      --shadow: 0 18px 50px rgba(54, 40, 19, 0.08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Iowan Old Style", "Palatino Linotype", "Times New Roman", serif;
+      color: var(--ink);
+      background: linear-gradient(180deg, #f7f3ea 0%, #f2ece0 100%);
+    }
+    a { color: inherit; text-decoration: none; }
+    .page { max-width: 1180px; margin: 0 auto; padding: 28px 18px 56px; }
+    .topbar {
+      display: flex; justify-content: space-between; align-items: center; gap: 12px;
+      margin-bottom: 20px;
+    }
+    .back {
+      color: var(--accent); font-weight: 700; font-size: 14px;
+    }
+    .hero {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 22px;
+    }
+    .eyebrow { font-size: 12px; text-transform: uppercase; letter-spacing: .16em; color: var(--muted); }
+    h1 { margin: 10px 0 8px; font-size: clamp(30px, 5vw, 54px); line-height: .98; }
+    .hero p { margin: 0; color: var(--muted); line-height: 1.65; max-width: 760px; }
+    .section-title { font-size: 24px; margin: 0 0 12px; }
+    .grid { display: grid; grid-template-columns: repeat(12, minmax(0,1fr)); gap: 14px; }
+    .card {
+      grid-column: span 4;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+    .card.wide { grid-column: span 6; }
+    .meta { display:flex; gap:8px; flex-wrap:wrap; margin-bottom: 10px; }
+    .pill { font-size: 12px; color: var(--muted); border:1px solid var(--line); border-radius:999px; padding:4px 10px; background:#f3eee5; }
+    .card h3 { margin: 0 0 10px; line-height: 1.15; }
+    .card p { margin: 0; color: var(--muted); line-height: 1.6; }
+    .cta { display:inline-flex; margin-top: 14px; color: var(--accent); font-weight:700; font-size:14px; }
+    .footer { margin-top: 22px; color: var(--muted); font-size: 13px; text-align: center; }
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: 1fr 1fr; }
+      .card, .card.wide { grid-column: span 1; }
+    }
+    @media (max-width: 640px) {
+      .grid { grid-template-columns: 1fr; }
+      .page { padding: 18px 14px 40px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="topbar">
+      <a class="back" href="index.html">← 返回投研首页</a>
+    </div>
+    <section class="hero">
+      <div class="eyebrow">Notes</div>
+      <h1>研究笔记</h1>
+      <p>把市场复盘、公司比较和长期主题研究分开放，先看最近更新，再回到底稿里深挖数据和逻辑。</p>
+    </section>
+
+    <h2 class="section-title">最新更新</h2>
+    <div class="grid">
+      <article class="card">
+        <div class="meta">
+          <span class="pill">2026-05-09</span>
+          <span class="pill">Market History</span>
+        </div>
+        <h3>标普 500 快速上涨后的历史回撤观察</h3>
+        <p>回答这轮从 4 月开始的大涨历史上有多稀有、6 月前后是否常见回踩、什么幅度才算危险。</p>
+        <a class="cta" href="notes/2026-05-09-sp500-fast-rally-historical-drawdown.html">打开文档 →</a>
+      </article>
+
+      <article class="card">
+        <div class="meta">
+          <span class="pill">2026-05-09</span>
+          <span class="pill">AI Companies</span>
+        </div>
+        <h3>OpenAI vs Anthropic 对比备忘</h3>
+        <p>围绕估值、收入、run-rate、资本开支和商业模式差异，判断未来谁更值得投。</p>
+        <a class="cta" href="notes/2026-05-09-openai-vs-anthropic-comparison.html">打开文档 →</a>
+      </article>
+
+      <article class="card">
+        <div class="meta">
+          <span class="pill">2026-05-08</span>
+          <span class="pill">Daily Recap</span>
+        </div>
+        <h3>美股热点复盘</h3>
+        <p>聚焦非农、AI 基建扩散和财报分化，对昨晚市场进行日度拆解。</p>
+        <a class="cta" href="notes/2026-05-08-us-market-hotspots.html">打开文档 →</a>
+      </article>
+    </div>
+
+    <h2 class="section-title" style="margin-top:22px;">长期主题</h2>
+    <div class="grid">
+      <article class="card wide">
+        <div class="meta">
+          <span class="pill">Core Theme</span>
+          <span class="pill">Long Horizon</span>
+        </div>
+        <h3>AI、机器人与量子产业链投研笔记</h3>
+        <p>这是仓库的长期主文档，覆盖 AI、机器人、HBM、量子、PQC 的产业链结构、关键节点和投资框架。</p>
+        <a class="cta" href="notes/2026-05-ai-robotics-quantum-supply-chain-v1.html">打开主题全景 →</a>
+      </article>
+    </div>
+
+    <div class="footer">建议用法：每天先看最新 2–3 篇短 memo，再回到长期主题文档校准主线。</div>
+  </div>
+</body>
+</html>

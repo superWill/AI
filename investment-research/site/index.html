@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Investment Research Dashboard</title>
+  <style>
+    :root {
+      --bg: #f5f1e8;
+      --paper: #fffdf8;
+      --ink: #1f1e1a;
+      --muted: #6d685d;
+      --line: #ddd3c2;
+      --accent: #8f2d14;
+      --accent-soft: #f2dfd7;
+      --good: #1f6a4a;
+      --warn: #8a5a12;
+      --shadow: 0 18px 50px rgba(54, 40, 19, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Iowan Old Style", "Palatino Linotype", "Times New Roman", serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(143, 45, 20, 0.08), transparent 28%),
+        linear-gradient(180deg, #f7f3ea 0%, #f2ece0 100%);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 20px 64px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, rgba(143, 45, 20, 0.96), rgba(67, 28, 18, 0.96));
+      color: #fff7ef;
+      border-radius: 24px;
+      padding: 28px 28px 24px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -60px -80px auto;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.07);
+    }
+
+    .eyebrow {
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      opacity: 0.78;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(34px, 5vw, 56px);
+      line-height: 0.98;
+      font-weight: 700;
+    }
+
+    .hero p {
+      max-width: 760px;
+      margin: 0;
+      line-height: 1.65;
+      color: rgba(255, 247, 239, 0.88);
+      font-size: 17px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .hero-stat {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 18px;
+      padding: 14px 16px;
+      backdrop-filter: blur(12px);
+    }
+
+    .hero-stat .label {
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0.72;
+      margin-bottom: 8px;
+    }
+
+    .hero-stat .value {
+      font-size: 26px;
+      font-weight: 700;
+    }
+
+    .section {
+      margin-top: 26px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: 26px;
+      line-height: 1.1;
+    }
+
+    .section-subtitle {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .card h3,
+    .card h4 {
+      margin: 0 0 10px;
+      line-height: 1.2;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    .card .meta {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #f3eee5;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .pill.good {
+      background: #e9f4ee;
+      color: var(--good);
+      border-color: rgba(31, 106, 74, 0.2);
+    }
+
+    .pill.warn {
+      background: #f8f0df;
+      color: var(--warn);
+      border-color: rgba(138, 90, 18, 0.18);
+    }
+
+    .cta {
+      display: inline-flex;
+      margin-top: 14px;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .span-12 { grid-column: span 12; }
+    .span-8 { grid-column: span 8; }
+    .span-7 { grid-column: span 7; }
+    .span-6 { grid-column: span 6; }
+    .span-5 { grid-column: span 5; }
+    .span-4 { grid-column: span 4; }
+    .span-3 { grid-column: span 3; }
+
+    .list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .list li {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: baseline;
+      padding-bottom: 10px;
+      border-bottom: 1px dashed var(--line);
+    }
+
+    .list li:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .list .name {
+      font-weight: 700;
+    }
+
+    .list .note {
+      color: var(--muted);
+      font-size: 13px;
+      text-align: right;
+    }
+
+    .note-box {
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: var(--accent-soft);
+      color: #5a2615;
+      border: 1px solid rgba(143, 45, 20, 0.12);
+      line-height: 1.6;
+    }
+
+    .footer {
+      margin-top: 24px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .span-12,
+      .span-8,
+      .span-7,
+      .span-6,
+      .span-5,
+      .span-4,
+      .span-3 {
+        grid-column: span 2;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        padding: 18px 14px 40px;
+      }
+
+      .hero {
+        padding: 22px 18px;
+        border-radius: 20px;
+      }
+
+      .hero-grid,
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .span-12,
+      .span-8,
+      .span-7,
+      .span-6,
+      .span-5,
+      .span-4,
+      .span-3 {
+        grid-column: span 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <section class="hero">
+      <div class="eyebrow">Investment Research Workspace</div>
+      <h1>投研仪表盘</h1>
+      <p>
+        用 Markdown 沉淀研究底稿，用 HTML 统一阅读入口。这个页面聚合了你的市场复盘、主题研究、
+        “下一只 2007 苹果”候选池、单股进度卡模板和组合文档，方便你每天先看结论，再钻到原始研究。
+      </p>
+      <div class="hero-grid">
+        <div class="hero-stat">
+          <div class="label">Notes</div>
+          <div class="value">4</div>
+        </div>
+        <div class="hero-stat">
+          <div class="label">Dashboards</div>
+          <div class="value">4</div>
+        </div>
+        <div class="hero-stat">
+          <div class="label">Tracked Tickers</div>
+          <div class="value">33</div>
+        </div>
+        <div class="hero-stat">
+          <div class="label">Current Focus</div>
+          <div class="value">AI Infra</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">今日入口</h2>
+          <p class="section-subtitle">从日更和候选池开始，再进入主题和单股。</p>
+        </div>
+      </div>
+      <div class="grid">
+        <article class="card span-4">
+          <div class="meta">
+            <span class="pill good">Daily</span>
+            <span class="pill">Workflow</span>
+          </div>
+          <h3>每日进度日志</h3>
+          <p>每天只记录三件事：发生了什么、对 thesis 的影响、候选排序有没有变化。</p>
+          <a class="cta" href="dashboards/daily-progress-log.html">打开日志模板 →</a>
+        </article>
+        <article class="card span-4">
+          <div class="meta">
+            <span class="pill good">Priority</span>
+            <span class="pill">Ranking</span>
+          </div>
+          <h3>下一只苹果候选池</h3>
+          <p>用 A / B / C 池维持候选公司列表，避免研究目标每天飘来飘去。</p>
+          <a class="cta" href="candidates.html">查看候选池 →</a>
+        </article>
+        <article class="card span-4">
+          <div class="meta">
+            <span class="pill warn">Scoring</span>
+            <span class="pill">Framework</span>
+          </div>
+          <h3>五维评分规则</h3>
+          <p>产品定义权、商业化、生态、财务兑现、市场认知差，用统一标准比较公司。</p>
+          <a class="cta" href="dashboards/next-apple-scoring.html">查看评分规则 →</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">最新研究</h2>
+          <p class="section-subtitle">先看最新结论，再回到底稿细读。</p>
+        </div>
+      </div>
+      <div class="grid">
+        <article class="card span-4">
+          <div class="meta">
+            <span class="pill good">2026-05-09</span>
+            <span class="pill">Market History</span>
+          </div>
+          <h3>标普快速上涨后的历史回撤观察</h3>
+          <p>核心问题是：这轮从 4 月开始的 10%+ 急涨，历史上常不常见，6 月是否容易出现大回调。</p>
+          <a class="cta" href="notes/2026-05-09-sp500-fast-rally-historical-drawdown.html">打开文档 →</a>
+        </article>
+        <article class="card span-4">
+          <div class="meta">
+            <span class="pill good">2026-05-09</span>
+            <span class="pill">AI Companies</span>
+          </div>
+          <h3>OpenAI vs Anthropic 对比备忘</h3>
+          <p>从估值、营收、run-rate、投入强度和路线差异判断未来如果上市该怎么选。</p>
+          <a class="cta" href="notes/2026-05-09-openai-vs-anthropic-comparison.html">打开文档 →</a>
+        </article>
+        <article class="card span-4">
+          <div class="meta">
+            <span class="pill good">2026-05-08</span>
+            <span class="pill">Daily Recap</span>
+          </div>
+          <h3>美股热点复盘</h3>
+          <p>围绕强就业、AI 基建扩散和财报分化，梳理昨晚美股最重要的市场线索。</p>
+          <a class="cta" href="notes/2026-05-08-us-market-hotspots.html">打开文档 →</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="grid">
+        <article class="card span-7">
+          <div class="section-header" style="margin-bottom: 12px;">
+            <div>
+              <h2 class="section-title" style="font-size: 22px;">研究骨架</h2>
+              <p class="section-subtitle">你现在的投研系统已经分成四层。</p>
+            </div>
+          </div>
+          <ul class="list">
+            <li>
+              <div>
+                <div class="name">1. 主题研究</div>
+                <div class="note" style="text-align:left;">长期产业链判断和核心 thesis。</div>
+              </div>
+              <a class="cta" href="notes/2026-05-ai-robotics-quantum-supply-chain-v1.html">主题全景 →</a>
+            </li>
+            <li>
+              <div>
+                <div class="name">2. 候选池与评分</div>
+                <div class="note" style="text-align:left;">找出可能成为平台型大牛股的公司。</div>
+              </div>
+              <a class="cta" href="dashboards/next-apple-candidates.html">候选池 →</a>
+            </li>
+            <li>
+              <div>
+                <div class="name">3. 单股进度卡</div>
+                <div class="note" style="text-align:left;">按产品、商业化、生态、财务持续跟踪。</div>
+              </div>
+              <a class="cta" href="tickers/_next-apple-progress-template.html">模板 →</a>
+            </li>
+            <li>
+              <div>
+                <div class="name">4. 组合与执行</div>
+                <div class="note" style="text-align:left;">把研究变成仓位和调仓逻辑。</div>
+              </div>
+              <a class="cta" href="portfolios/2026-05-core-thematic-payoff.html">当前组合 →</a>
+            </li>
+          </ul>
+        </article>
+
+        <article class="card span-5">
+          <div class="section-header" style="margin-bottom: 12px;">
+            <div>
+              <h2 class="section-title" style="font-size: 22px;">当前焦点</h2>
+              <p class="section-subtitle">你当前最适合高频跟踪的方向。</p>
+            </div>
+          </div>
+          <div class="note-box">
+            AI 基建仍是仓库的绝对主线。短周期看科技权重、AI 网络、数据中心电力和冷却；
+            中周期继续跟踪“下一只 2007 苹果”候选池；日常则用市场复盘去校准风险偏好、广度和估值位置。
+          </div>
+          <ul class="list" style="margin-top: 14px;">
+            <li><span class="name">ALAB / MRVL / VRT / NET</span><span class="note">A 池</span></li>
+            <li><span class="name">GLW / CRDO / COHR / RKLB</span><span class="note">B 池</span></li>
+            <li><span class="name">IONQ / QBTS / RGTI</span><span class="note">高赔率观察</span></li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Agent 与自动化</h2>
+          <p class="section-subtitle">研究方法和提示词统一，执行入口可以是 Hermes 或 Claude。</p>
+        </div>
+      </div>
+      <div class="grid">
+        <article class="card span-4">
+          <div class="meta">
+            <span class="pill">Prompt</span>
+            <span class="pill">Cross Platform</span>
+          </div>
+          <h3>投资 Agent Prompt</h3>
+          <p>适合直接作为 Claude / ChatGPT / Hermes 的研究系统提示词。</p>
+          <a class="cta" href="agents/investor-agent-prompt.html">打开 Prompt →</a>
+        </article>
+        <article class="card span-4">
+          <div class="meta">
+            <span class="pill">Template</span>
+            <span class="pill">Daily</span>
+          </div>
+          <h3>日度市场复盘 Prompt</h3>
+          <p>固定格式产出指数结果、三条主线、板块热点和后续观察点。</p>
+          <a class="cta" href="agents/daily-market-recap-prompt.html">打开模板 →</a>
+        </article>
+        <article class="card span-4">
+          <div class="meta">
+            <span class="pill warn">Usage</span>
+            <span class="pill">Guide</span>
+          </div>
+          <h3>跨平台使用说明</h3>
+          <p>说明哪些东西能在 Hermes 和 Claude 之间共用，哪些只是运行配置。</p>
+          <a class="cta" href="agents/cross-platform-usage.html">查看说明 →</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">常用入口</h2>
+          <p class="section-subtitle">保留原始资料入口，方便你继续维护底稿。</p>
+        </div>
+      </div>
+      <div class="grid">
+        <article class="card span-3">
+          <h4>README</h4>
+          <p>仓库结构、工作流、脚本和起点文档。</p>
+          <a class="cta" href="README.html">打开 README →</a>
+        </article>
+        <article class="card span-3">
+          <h4>Notes</h4>
+          <p>统一浏览市场复盘、公司比较和长期主题研究。</p>
+          <a class="cta" href="notes.html">进入 Notes →</a>
+        </article>
+        <article class="card span-3">
+          <h4>Candidates</h4>
+          <p>按 A / B / C 池浏览“下一只苹果”候选公司。</p>
+          <a class="cta" href="candidates.html">进入 Candidates →</a>
+        </article>
+        <article class="card span-3">
+          <h4>Watchlist</h4>
+          <p>关注阈值、事件监控和季度跟踪项。</p>
+          <a class="cta" href="dashboards/watchlist.html">打开 Watchlist →</a>
+        </article>
+        <article class="card span-3">
+          <h4>Tickers</h4>
+          <p>单只股票深度研究文件夹。</p>
+          <a class="cta" href="tickers.html">进入 Tickers →</a>
+        </article>
+      </div>
+    </section>
+
+    <div class="footer">
+      建议工作方式：研究继续写 Markdown，平时阅读优先打开这个 HTML 首页。
+    </div>
+  </div>
+</body>
+</html>

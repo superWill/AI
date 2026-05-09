@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Next Apple Candidates</title>
+  <style>
+    :root {
+      --bg: #f5f1e8; --paper:#fffdf8; --ink:#1f1e1a; --muted:#6d685d; --line:#ddd3c2;
+      --accent:#8f2d14; --good:#1f6a4a; --warn:#8a5a12; --shadow:0 18px 50px rgba(54,40,19,.08);
+    }
+    * { box-sizing: border-box; } body { margin:0; font-family:"Iowan Old Style","Palatino Linotype","Times New Roman",serif; color:var(--ink); background:linear-gradient(180deg,#f7f3ea 0%,#f2ece0 100%);}
+    a { color:inherit; text-decoration:none; } .page { max-width:1200px; margin:0 auto; padding:28px 18px 56px; }
+    .back { color:var(--accent); font-weight:700; font-size:14px; } .hero,.card{background:var(--paper); border:1px solid var(--line); border-radius:22px; box-shadow:var(--shadow);}
+    .hero{padding:24px; margin:20px 0;} .eyebrow{font-size:12px; text-transform:uppercase; letter-spacing:.16em; color:var(--muted);}
+    h1{margin:10px 0 8px; font-size:clamp(30px,5vw,54px); line-height:.98;} .hero p{margin:0; color:var(--muted); line-height:1.65; max-width:780px;}
+    .grid{display:grid; grid-template-columns:repeat(12,minmax(0,1fr)); gap:14px;} .card{padding:18px;} .col{grid-column:span 4;}
+    .pill{display:inline-flex; padding:4px 10px; border-radius:999px; font-size:12px; border:1px solid var(--line); background:#f3eee5; color:var(--muted);}
+    .pill.a{background:#e9f4ee; color:var(--good); border-color:rgba(31,106,74,.2);} .pill.b{background:#f8f1e4; color:var(--warn); border-color:rgba(138,90,18,.18);}
+    .meta{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px;} .card h3{margin:0 0 12px;} .card p{margin:0; color:var(--muted); line-height:1.6;}
+    .list{list-style:none; padding:0; margin:0; display:grid; gap:10px;} .item{padding:12px 0; border-bottom:1px dashed var(--line);} .item:last-child{border-bottom:0; padding-bottom:0;}
+    .ticker{font-weight:700; font-size:18px;} .company{font-size:14px; color:var(--muted);} .thesis{margin-top:6px; color:var(--ink); line-height:1.55; font-size:15px;}
+    .milestone{margin-top:6px; font-size:13px; color:var(--muted);} .section-title{font-size:24px; margin:0 0 12px;} .note{margin-top:18px; padding:16px 18px; border-radius:18px; background:#f3eee5; color:#5d584e; line-height:1.6;}
+    .cta{display:inline-flex; margin-top:14px; color:var(--accent); font-weight:700; font-size:14px;}
+    @media (max-width: 980px){ .grid{grid-template-columns:1fr;} .col{grid-column:span 1;} }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <a class="back" href="index.html">← 返回投研首页</a>
+    <section class="hero">
+      <div class="eyebrow">Candidate Pool</div>
+      <h1>“下一只 2007 苹果”候选池</h1>
+      <p>这里不是单纯找涨得快的股票，而是找正在形成产品定义权、平台扩张能力和产业链重构能力的公司。排序优先看进度，不优先看涨跌。</p>
+      <a class="cta" href="dashboards/next-apple-candidates.html">打开原始 Markdown →</a>
+    </section>
+
+    <div class="grid">
+      <article class="card col">
+        <div class="meta"><span class="pill a">A 池</span><span class="pill">高频跟踪</span></div>
+        <h3>已进入同步验证阶段</h3>
+        <ul class="list">
+          <li class="item">
+            <div class="ticker">ALAB</div>
+            <div class="company">Astera Labs · AI 互连 / 平台芯片</div>
+            <div class="thesis">站在 AI 服务器互连核心位置，观察点是大客户渗透能否继续抬升。</div>
+          </li>
+          <li class="item">
+            <div class="ticker">MRVL</div>
+            <div class="company">Marvell · AI 网络 / 定制芯片</div>
+            <div class="thesis">AI 网络和定制 ASIC 双重受益，关键在数据中心收入是否持续上台阶。</div>
+          </li>
+          <li class="item">
+            <div class="ticker">VRT</div>
+            <div class="company">Vertiv · AI 数据中心基础设施</div>
+            <div class="thesis">电力和冷却是 AI 扩张硬约束，关注 backlog 与毛利率抬升。</div>
+          </li>
+          <li class="item">
+            <div class="ticker">NET</div>
+            <div class="company">Cloudflare · 边缘云 / 网络平台</div>
+            <div class="thesis">关键问题是边缘网络能否变成 AI 推理平台，而不只是 CDN 和安全叙事。</div>
+          </li>
+        </ul>
+      </article>
+
+      <article class="card col">
+        <div class="meta"><span class="pill b">B 池</span><span class="pill">待里程碑验证</span></div>
+        <h3>逻辑成立，但还缺关键证明</h3>
+        <ul class="list">
+          <li class="item"><div class="ticker">GLW</div><div class="company">Corning</div><div class="milestone">AI 光连接需求是否继续超预期。</div></li>
+          <li class="item"><div class="ticker">CRDO</div><div class="company">Credo</div><div class="milestone">新客户和订单验证能否持续。</div></li>
+          <li class="item"><div class="ticker">COHR</div><div class="company">Coherent</div><div class="milestone">1.6T / 高端光器件放量。</div></li>
+          <li class="item"><div class="ticker">IONQ</div><div class="company">IonQ</div><div class="milestone">商业订单与纠错进展。</div></li>
+          <li class="item"><div class="ticker">RKLB</div><div class="company">Rocket Lab</div><div class="milestone">从单一发射走向综合航天平台。</div></li>
+          <li class="item"><div class="ticker">IBM</div><div class="company">IBM</div><div class="milestone">量子优势演示和 AI 商用化兑现。</div></li>
+        </ul>
+      </article>
+
+      <article class="card col">
+        <div class="meta"><span class="pill">C 池</span><span class="pill">高赔率观察</span></div>
+        <h3>赔率高，但当前验证不足</h3>
+        <ul class="list">
+          <li class="item">
+            <div class="ticker">QBTS</div>
+            <div class="company">D-Wave · 量子应用</div>
+            <div class="milestone">是否形成真实行业落地和可重复收入。</div>
+          </li>
+          <li class="item">
+            <div class="ticker">RGTI</div>
+            <div class="company">Rigetti · 量子硬件</div>
+            <div class="milestone">技术指标、融资能力和路线延续性。</div>
+          </li>
+        </ul>
+        <div class="note">
+          C 池的意义不是重仓，而是保留“高赔率但尚未验证”的观察窗口。只有在里程碑兑现后，才允许升级。
+        </div>
+      </article>
+    </div>
+
+    <section style="margin-top:22px;">
+      <h2 class="section-title">怎么用这个页面</h2>
+      <div class="note">
+        每天更新时，只回答四个问题：<br />
+        1. 昨天发生了什么<br />
+        2. 属于产品、商业化、生态还是财务进度<br />
+        3. 是利多、利空还是中性<br />
+        4. 候选排序要不要调整
+      </div>
+    </section>
+  </div>
+</body>
+</html>

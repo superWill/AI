@@ -65,6 +65,22 @@ python3 -m venv .venv
 
 `audit_notes.py` 是写新 ticker 文档时的对账工具——任何手写市值与最新快照偏差超过阈值会被列出，便于发现"copy 自老笔记"的过期数据。
 
+## HTML 阅读层
+
+推荐日常阅读直接看 HTML：
+
+- 原型首页：[`index.html`](index.html)
+- 完整站点首页：[`site/index.html`](site/index.html)
+- 全部文档索引：[`site/all-docs.html`](site/all-docs.html)
+
+重新生成整站 HTML：
+
+```bash
+python3 scripts/build_html_site.py
+```
+
+脚本会把 `README / notes / dashboards / agents / portfolios / tickers` 下的 Markdown 自动生成到 `site/` 目录。
+
 ## 约定
 
 - 主题笔记文件名：`notes/YYYY-MM-<topic>.md`
@@ -75,6 +91,8 @@ python3 -m venv .venv
 
 ## 起点文档
 
+- HTML 首页：[`index.html`](index.html) —— 推荐日常阅读入口
+- 完整 HTML 站点：[`site/index.html`](site/index.html)
 - 主题笔记：[`notes/2026-05-ai-robotics-quantum-supply-chain-v1.md`](notes/2026-05-ai-robotics-quantum-supply-chain-v1.md) —— AI/机器人/HBM/量子产业链全景
 - 日度市场热点：[`notes/2026-05-08-us-market-hotspots.md`](notes/2026-05-08-us-market-hotspots.md)
 - 当前组合：[`portfolios/2026-05-core-thematic-payoff.md`](portfolios/2026-05-core-thematic-payoff.md)
