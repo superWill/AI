@@ -23,6 +23,21 @@ investment-research/
 3. **组合落地** — `portfolios/` 写当前持仓 + 仓位逻辑 + 调仓记录
 4. **持续跟踪** — `dashboards/watchlist.md` 列关注信号；定期跑脚本刷新行情
 
+### 寻找“下一只 2007 苹果”的日更流程
+
+适合做`未来平台型大牛股`跟踪，不是一次性报告，而是持续更新进度。
+
+1. **候选池** — [`dashboards/next-apple-candidates.md`](dashboards/next-apple-candidates.md)
+2. **评分规则** — [`dashboards/next-apple-scoring.md`](dashboards/next-apple-scoring.md)
+3. **单公司进度卡** — [`tickers/_next-apple-progress-template.md`](tickers/_next-apple-progress-template.md)
+4. **每日更新日志** — [`dashboards/daily-progress-log.md`](dashboards/daily-progress-log.md)
+
+日更时只回答三件事：
+
+- 昨天发生了什么
+- 对 thesis 是利多还是利空
+- 候选排序是否变化
+
 ## 数据脚本
 
 首次环境准备（创建项目内 venv，避开 PEP 668）：
@@ -61,6 +76,7 @@ python3 -m venv .venv
 ## 起点文档
 
 - 主题笔记：[`notes/2026-05-ai-robotics-quantum-supply-chain-v1.md`](notes/2026-05-ai-robotics-quantum-supply-chain-v1.md) —— AI/机器人/HBM/量子产业链全景
+- 日度市场热点：[`notes/2026-05-08-us-market-hotspots.md`](notes/2026-05-08-us-market-hotspots.md)
 - 当前组合：[`portfolios/2026-05-core-thematic-payoff.md`](portfolios/2026-05-core-thematic-payoff.md)
 - 关注列表：[`dashboards/watchlist.md`](dashboards/watchlist.md)
 
