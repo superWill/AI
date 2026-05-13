@@ -1,0 +1,1062 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>热能共控机逻辑说明</title>
+  <style>
+    :root {
+      --bg: #f6f7f4;
+      --panel: #ffffff;
+      --ink: #1e2422;
+      --muted: #66706b;
+      --line: #d9ded8;
+      --primary: #0f766e;
+      --primary-soft: #d7f0ed;
+      --heat: #b45309;
+      --heat-soft: #f8e7cf;
+      --cool: #2563eb;
+      --cool-soft: #dbeafe;
+      --danger: #b91c1c;
+      --danger-soft: #fee2e2;
+      --ok: #15803d;
+      --ok-soft: #dcfce7;
+      --shadow: 0 18px 50px rgba(30, 36, 34, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: var(--bg);
+      line-height: 1.65;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    aside {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 28px 22px;
+      background: #18221f;
+      color: #edf5f2;
+      overflow: auto;
+    }
+
+    .brand {
+      margin-bottom: 30px;
+    }
+
+    .brand small {
+      display: block;
+      color: #aebbb6;
+      font-size: 13px;
+      letter-spacing: 0;
+    }
+
+    .brand strong {
+      display: block;
+      margin-top: 6px;
+      font-size: 24px;
+      line-height: 1.2;
+    }
+
+    nav {
+      display: grid;
+      gap: 6px;
+    }
+
+    nav a {
+      display: block;
+      padding: 9px 10px;
+      border-radius: 6px;
+      color: #c9d6d1;
+      font-size: 14px;
+    }
+
+    nav a:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+    }
+
+    main {
+      padding: 38px min(5vw, 72px) 72px;
+    }
+
+    .hero {
+      display: grid;
+      gap: 22px;
+      margin-bottom: 34px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .eyebrow {
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(34px, 5vw, 58px);
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      max-width: 920px;
+      margin: 0;
+      color: #45504b;
+      font-size: 19px;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .metric {
+      min-height: 112px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    .metric b {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 17px;
+    }
+
+    .metric span {
+      display: block;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    section {
+      margin-top: 42px;
+      scroll-margin-top: 20px;
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: 30px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin: 26px 0 10px;
+      font-size: 20px;
+      letter-spacing: 0;
+    }
+
+    p {
+      margin: 0 0 12px;
+    }
+
+    ul,
+    ol {
+      margin: 10px 0 0;
+      padding-left: 22px;
+    }
+
+    li {
+      margin: 5px 0;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .three-col {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    .card h3 {
+      margin-top: 0;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 2px 10px;
+      border-radius: 999px;
+      color: #0f3f3a;
+      background: var(--primary-soft);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .diagram {
+      margin: 18px 0 24px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      overflow-x: auto;
+    }
+
+    .diagram-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .diagram-title h3 {
+      margin: 0;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: minmax(150px, 1fr) 44px minmax(190px, 1.2fr) 44px minmax(190px, 1.2fr) 44px minmax(150px, 1fr);
+      align-items: center;
+      min-width: 840px;
+      gap: 8px;
+    }
+
+    .node {
+      min-height: 92px;
+      padding: 16px;
+      border: 2px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+    }
+
+    .node strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 17px;
+    }
+
+    .node span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .node.heat {
+      border-color: #e4b06a;
+      background: var(--heat-soft);
+    }
+
+    .node.controller {
+      border-color: #70c5bd;
+      background: var(--primary-soft);
+    }
+
+    .node.user {
+      border-color: #93c5fd;
+      background: var(--cool-soft);
+    }
+
+    .arrow {
+      position: relative;
+      height: 3px;
+      background: #7a8580;
+    }
+
+    .arrow::after {
+      content: "";
+      position: absolute;
+      right: -2px;
+      top: 50%;
+      width: 0;
+      height: 0;
+      border-top: 7px solid transparent;
+      border-bottom: 7px solid transparent;
+      border-left: 11px solid #7a8580;
+      transform: translateY(-50%);
+    }
+
+    .signal-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(180px, 1fr));
+      gap: 12px;
+      min-width: 800px;
+    }
+
+    .signal-box {
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: #fbfcfa;
+    }
+
+    .signal-box h4 {
+      margin: 0 0 8px;
+      font-size: 16px;
+    }
+
+    .signal-box ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .loop {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(145px, 1fr));
+      align-items: stretch;
+      min-width: 820px;
+      gap: 10px;
+    }
+
+    .loop-step {
+      position: relative;
+      min-height: 114px;
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: #ffffff;
+    }
+
+    .loop-step:not(:last-child)::after {
+      content: ">";
+      position: absolute;
+      right: -16px;
+      top: 50%;
+      width: 20px;
+      height: 20px;
+      color: var(--primary);
+      font-weight: 800;
+      transform: translateY(-50%);
+      z-index: 2;
+    }
+
+    .loop-step b {
+      display: block;
+      margin-bottom: 7px;
+    }
+
+    .loop-step span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .state-line {
+      display: grid;
+      grid-template-columns: repeat(8, minmax(118px, 1fr));
+      gap: 10px;
+      min-width: 980px;
+    }
+
+    .state {
+      position: relative;
+      min-height: 88px;
+      padding: 14px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: #ffffff;
+      text-align: center;
+    }
+
+    .state:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      right: -10px;
+      top: 50%;
+      width: 10px;
+      height: 2px;
+      background: #9aa49f;
+    }
+
+    .state b {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 15px;
+    }
+
+    .state span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .alarm-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(150px, 1fr));
+      gap: 12px;
+      min-width: 860px;
+    }
+
+    .alarm {
+      padding: 15px;
+      border: 1px solid #f0b7b7;
+      border-radius: 8px;
+      background: var(--danger-soft);
+    }
+
+    .alarm b {
+      display: block;
+      color: var(--danger);
+      margin-bottom: 6px;
+    }
+
+    .alarm span {
+      color: #6f3737;
+      font-size: 14px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 740px;
+    }
+
+    th,
+    td {
+      padding: 13px 15px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #eef3f0;
+      font-size: 14px;
+    }
+
+    td {
+      color: #3c4642;
+      font-size: 14px;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    code,
+    pre {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    }
+
+    pre {
+      margin: 0;
+      padding: 18px;
+      border-radius: 8px;
+      background: #111827;
+      color: #edf5f2;
+      overflow-x: auto;
+      line-height: 1.5;
+    }
+
+    .note {
+      padding: 18px;
+      border-left: 4px solid var(--primary);
+      background: #edf8f5;
+      color: #29423d;
+    }
+
+    footer {
+      margin-top: 54px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 980px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      aside {
+        position: static;
+        height: auto;
+      }
+
+      nav {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      main {
+        padding: 28px 18px 52px;
+      }
+
+      .summary-grid,
+      .two-col,
+      .three-col {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside>
+      <div class="brand">
+        <small>Embedded Project / Business Analysis</small>
+        <strong>热能共控机逻辑说明</strong>
+      </div>
+      <nav aria-label="页面目录">
+        <a href="#overview">1. 总览</a>
+        <a href="#architecture">2. 系统结构</a>
+        <a href="#signals">3. 输入输出</a>
+        <a href="#loops">4. 控制闭环</a>
+        <a href="#modes">5. 运行模式</a>
+        <a href="#state-machine">6. 状态机</a>
+        <a href="#protection">7. 异常保护</a>
+        <a href="#software">8. 软件模块</a>
+        <a href="#parameters">9. 参数配置</a>
+        <a href="#confirmed">10. 已确认边界</a>
+        <a href="#questions">11. 待确认问题</a>
+      </nav>
+    </aside>
+
+    <main>
+      <header class="hero" id="overview">
+        <div class="eyebrow">供热换热站 / 楼宇热力系统 / 本地控制核心</div>
+        <h1>热能共控机逻辑说明</h1>
+        <p class="lead">
+          热能共控机连接传感器、执行器、现场设备和上位平台，负责采集数据、判断工况、执行供热调节策略，并在异常时进入告警或保护状态。它不直接产生热量，而是控制热量如何被换热、输送、分配和稳定运行。
+        </p>
+        <div class="summary-grid">
+          <div class="metric">
+            <b>稳定</b>
+            <span>维持二次侧供回水温度、压力和流量在目标区间。</span>
+          </div>
+          <div class="metric">
+            <b>节能</b>
+            <span>根据室外温度、时间段和负荷变化动态调节阀门与水泵。</span>
+          </div>
+          <div class="metric">
+            <b>安全</b>
+            <span>处理超温、超压、缺水、泵故障和传感器异常。</span>
+          </div>
+          <div class="metric">
+            <b>可运维</b>
+            <span>上传实时数据、事件、告警，并支持远程参数配置。</span>
+          </div>
+        </div>
+      </header>
+
+      <section id="architecture">
+        <h2>系统结构</h2>
+        <p>从业务边界看，共控机位于热源侧、换热设备、用户侧和运维平台之间，是现场自治运行与远程管理之间的控制节点。</p>
+
+        <div class="diagram">
+          <div class="diagram-title">
+            <h3>图 1：热量与控制关系</h3>
+            <span class="tag">热源 -> 换热 -> 用户</span>
+          </div>
+          <div class="flow" aria-label="系统结构图">
+            <div class="node heat">
+              <strong>一次侧热源</strong>
+              <span>热电厂、锅炉房或区域能源站，高温高压热水或蒸汽。</span>
+            </div>
+            <div class="arrow"></div>
+            <div class="node">
+              <strong>换热站设备</strong>
+              <span>板式换热器、电动调节阀、循环泵、补水泵、管路阀组。</span>
+            </div>
+            <div class="arrow"></div>
+            <div class="node controller">
+              <strong>热能共控机</strong>
+              <span>采集、计算、控制、保护、通信和数据上报。</span>
+            </div>
+            <div class="arrow"></div>
+            <div class="node user">
+              <strong>二次侧用户</strong>
+              <span>小区、楼栋、地暖、暖气片或空调末端系统。</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="card">
+            <h3>主要受控对象</h3>
+            <ul>
+              <li>换热器：监测换热效果。</li>
+              <li>一次侧电动调节阀：控制进入换热器的热量。</li>
+              <li>循环泵：维持用户侧循环和压差。</li>
+              <li>补水泵/补水阀：维持系统压力。</li>
+              <li>泄压阀/旁通阀：处理压力异常和特殊工况。</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>核心业务判断</h3>
+            <ul>
+              <li>热量是否足够：看供温、回温、阀位和一次侧能力。</li>
+              <li>循环是否正常：看供回水压差、流量和泵反馈。</li>
+              <li>系统是否安全：看温度、压力、液位、电流和通信状态。</li>
+              <li>是否需要人工介入：看告警等级和保护动作结果。</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="signals">
+        <h2>输入输出</h2>
+        <p>共控机的控制质量取决于采集点是否完整、数据是否可信，以及输出动作是否能被设备准确执行。</p>
+
+        <div class="diagram">
+          <div class="diagram-title">
+            <h3>图 2：信号流</h3>
+            <span class="tag">采集 -> 决策 -> 执行 -> 上报</span>
+          </div>
+          <div class="signal-grid">
+            <div class="signal-box">
+              <h4>环境与需求</h4>
+              <ul>
+                <li>室外温度</li>
+                <li>供热日历</li>
+                <li>目标温度曲线</li>
+                <li>用户负荷变化</li>
+              </ul>
+            </div>
+            <div class="signal-box">
+              <h4>一次侧</h4>
+              <ul>
+                <li>供回水温度</li>
+                <li>压力、流量</li>
+                <li>热表数据</li>
+                <li>阀门开度反馈</li>
+              </ul>
+            </div>
+            <div class="signal-box">
+              <h4>二次侧</h4>
+              <ul>
+                <li>供回水温度</li>
+                <li>供回水压力</li>
+                <li>流量、补水压力</li>
+                <li>水箱液位</li>
+              </ul>
+            </div>
+            <div class="signal-box">
+              <h4>设备与输出</h4>
+              <ul>
+                <li>阀门开度控制</li>
+                <li>水泵启停/频率</li>
+                <li>补水与泄压</li>
+                <li>告警和数据上报</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>类别</th>
+                <th>典型点位</th>
+                <th>用途</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>温度</td>
+                <td>一次侧供回水、二次侧供回水、室外温度</td>
+                <td>计算目标供温、调节阀门、判断换热效果和超温风险。</td>
+              </tr>
+              <tr>
+                <td>压力</td>
+                <td>二次侧供水压力、回水压力、补水压力</td>
+                <td>控制循环泵频率、补水启停、泄压保护。</td>
+              </tr>
+              <tr>
+                <td>设备状态</td>
+                <td>泵运行反馈、故障反馈、变频器频率、电流、电压</td>
+                <td>判断设备是否按指令运行，支持备用泵切换。</td>
+              </tr>
+              <tr>
+                <td>通信</td>
+                <td>平台、触摸屏、热表、PLC、Modbus 仪表</td>
+                <td>上传数据，接收参数、模式和远程控制指令。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="loops">
+        <h2>控制闭环</h2>
+        <p>共控机的核心不是单个开关动作，而是多组闭环协同。温度闭环管热量，压差闭环管循环，补水闭环管安全压力。</p>
+
+        <div class="diagram">
+          <div class="diagram-title">
+            <h3>图 3：供水温度控制闭环</h3>
+            <span class="tag">目标温度控制</span>
+          </div>
+          <div class="loop">
+            <div class="loop-step">
+              <b>计算目标</b>
+              <span>根据室外温度、时间段、运行模式得到目标供水温度。</span>
+            </div>
+            <div class="loop-step">
+              <b>读取实际</b>
+              <span>采集二次侧实际供水温度，并校验数据可信度。</span>
+            </div>
+            <div class="loop-step">
+              <b>计算偏差</b>
+              <span>目标供水温度减去实际供水温度，得到控制偏差。</span>
+            </div>
+            <div class="loop-step">
+              <b>调节阀门</b>
+              <span>偏低开大一次侧阀门，偏高关小阀门，并做限幅。</span>
+            </div>
+            <div class="loop-step">
+              <b>观察结果</b>
+              <span>温度进入死区后保持或小幅修正，避免频繁振荡。</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="three-col">
+          <div class="card">
+            <h3>压差控制</h3>
+            <p>读取二次侧供水压力和回水压力，计算供回水压差。压差低则提高循环泵频率或启动备用泵，压差高则降低泵频率。</p>
+          </div>
+          <div class="card">
+            <h3>回温优化</h3>
+            <p>监测供回水温差。温差过小说明可能存在大流量小温差，可在满足供温前提下降低循环泵频率。</p>
+          </div>
+          <div class="card">
+            <h3>补水控制</h3>
+            <p>压力低于启动阈值时启动补水，到达停止阈值后停止。长时间无法升压时，判断泄漏或补水故障。</p>
+          </div>
+        </div>
+
+        <h3>主控制周期</h3>
+        <pre><code>while system_is_on:
+    read_sensors()
+    validate_sensor_values()
+    update_device_status()
+    evaluate_alarm_rules()
+
+    if emergency_condition:
+        execute_emergency_protection()
+        upload_status()
+        continue
+
+    if mode == AUTO:
+        calculate_target_temperature()
+        control_primary_valve()
+        control_circulation_pump()
+        control_refill()
+
+    if mode == MANUAL:
+        execute_manual_commands_with_safety_limit()
+
+    upload_realtime_data()
+    store_operation_log()</code></pre>
+      </section>
+
+      <section id="modes">
+        <h2>运行模式</h2>
+        <div class="three-col">
+          <div class="card">
+            <h3>自动模式</h3>
+            <p>按目标曲线、传感器数据和控制算法自动运行，适合正常供热期。</p>
+          </div>
+          <div class="card">
+            <h3>手动模式</h3>
+            <p>运维人员直接设置阀位、泵启停和泵频率，但仍保留超压、缺水、泵故障等硬保护。</p>
+          </div>
+          <div class="card">
+            <h3>远程模式</h3>
+            <p>平台下发目标温度、运行模式、参数和启停指令。远程指令需要做权限和安全校验。</p>
+          </div>
+          <div class="card">
+            <h3>本地模式</h3>
+            <p>现场触摸屏或按钮优先控制，平台通常只监控或下发非关键参数。</p>
+          </div>
+          <div class="card">
+            <h3>应急模式</h3>
+            <p>出现严重异常后执行保护动作，如关闭调节阀、停泵、启动备用泵或打开泄压设备。</p>
+          </div>
+          <div class="card">
+            <h3>降级运行</h3>
+            <p>非关键传感器或通信异常时，系统可保持上一安全输出，等待数据恢复或人工确认。</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="state-machine">
+        <h2>状态机</h2>
+        <p>状态机用于约束设备启动、运行、调节、告警和停机流程，避免控制逻辑散落在各个判断分支中。</p>
+
+        <div class="diagram">
+          <div class="diagram-title">
+            <h3>图 4：建议状态流转</h3>
+            <span class="tag">上电到保护</span>
+          </div>
+          <div class="state-line">
+            <div class="state">
+              <b>Power On</b>
+              <span>初始化 IO、通信、参数和时钟</span>
+            </div>
+            <div class="state">
+              <b>Self Check</b>
+              <span>检查传感器、泵、阀和通信</span>
+            </div>
+            <div class="state">
+              <b>Standby</b>
+              <span>待命监测，不主动供热</span>
+            </div>
+            <div class="state">
+              <b>Starting</b>
+              <span>建立压力和流量，缓开阀门</span>
+            </div>
+            <div class="state">
+              <b>Running</b>
+              <span>周期采集、计算、控制、上报</span>
+            </div>
+            <div class="state">
+              <b>Adjusting</b>
+              <span>温度、压差、补水动态修正</span>
+            </div>
+            <div class="state">
+              <b>Alarm</b>
+              <span>非致命异常，继续或降级运行</span>
+            </div>
+            <div class="state">
+              <b>Emergency Stop</b>
+              <span>严重异常，执行保护并等待复位</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="note">
+          启动建议顺序：确认水压正常，确认阀门处于安全初始开度，启动循环泵，等待流量或压差建立，缓慢打开一次侧调节阀，再进入运行状态。
+        </div>
+      </section>
+
+      <section id="protection">
+        <h2>异常保护</h2>
+        <p>保护逻辑的优先级应高于普通自动控制和远程指令。即使处于手动模式，也不应绕过关键安全联锁。</p>
+
+        <div class="diagram">
+          <div class="diagram-title">
+            <h3>图 5：关键保护规则</h3>
+            <span class="tag">安全优先</span>
+          </div>
+          <div class="alarm-grid">
+            <div class="alarm">
+              <b>超温</b>
+              <span>减小或关闭一次侧阀门，循环泵延时散热，上报告警。</span>
+            </div>
+            <div class="alarm">
+              <b>低压/缺水</b>
+              <span>启动补水，补水失败时停泵，避免空转。</span>
+            </div>
+            <div class="alarm">
+              <b>高压</b>
+              <span>降低泵频率，停止补水，必要时泄压或停机。</span>
+            </div>
+            <div class="alarm">
+              <b>泵故障</b>
+              <span>停止故障泵，启动备用泵，上报告警。</span>
+            </div>
+            <div class="alarm">
+              <b>传感器故障</b>
+              <span>使用备用测点或降级运行，关键测点故障时禁止自动调节。</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="software">
+        <h2>嵌入式软件模块</h2>
+        <p>当前项目已明确面向换热站和小区侧系统，通信主链路使用 MQTT，同时需要本地屏、远程升级和断网自治运行。因此嵌入式软件需要把安全保护、状态机、控制算法、通信、本地 HMI 和 OTA 作为一套完整系统来设计。</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>模块</th>
+                <th>职责</th>
+                <th>输出结果</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>IO 采集模块</td>
+                <td>读取传感器、DI、AI 和通信仪表。</td>
+                <td>原始采样值与设备反馈。</td>
+              </tr>
+              <tr>
+                <td>数据校验模块</td>
+                <td>滤波、限幅、断线判断、异常跳变判断。</td>
+                <td>可信数据和测点质量标记。</td>
+              </tr>
+              <tr>
+                <td>状态机模块</td>
+                <td>管理启动、运行、调节、告警和急停。</td>
+                <td>当前系统状态和允许动作。</td>
+              </tr>
+              <tr>
+                <td>控制算法模块</td>
+                <td>执行温度控制、压差控制、补水控制。</td>
+                <td>阀位、泵频率、补水动作。</td>
+              </tr>
+              <tr>
+                <td>设备驱动模块</td>
+                <td>驱动阀门、水泵、变频器和继电器输出。</td>
+                <td>可执行的现场控制命令。</td>
+              </tr>
+              <tr>
+                <td>通信模块</td>
+                <td>对接平台、触摸屏、Modbus、CAN、以太网等。</td>
+                <td>远程参数、上报数据和事件消息。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="note" style="margin-top: 18px;">
+          已新增嵌入式开发梳理文档：embedded-development-plan.md。后续建议继续拆出点表、MQTT 协议、状态机、安全规则和测试计划。
+        </div>
+      </section>
+
+      <section id="parameters">
+        <h2>参数配置</h2>
+        <div class="two-col">
+          <div class="card">
+            <h3>控制参数</h3>
+            <ul>
+              <li>目标供水温度曲线</li>
+              <li>室外温度补偿曲线</li>
+              <li>温度控制死区</li>
+              <li>阀门最小/最大开度</li>
+              <li>阀门调节步长或 PID 参数</li>
+              <li>压差目标值</li>
+              <li>循环泵最小/最大频率</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>保护与运维参数</h3>
+            <ul>
+              <li>补水启动压力和停止压力</li>
+              <li>高低温、高低压告警阈值</li>
+              <li>通信上报周期</li>
+              <li>设备启停延时</li>
+              <li>告警确认与恢复规则</li>
+              <li>本地/远程权限策略</li>
+              <li>断网自治运行策略</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="confirmed">
+        <h2>已确认边界</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>项目</th>
+                <th>结论</th>
+                <th>对嵌入式开发的影响</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>控制对象</td>
+                <td>换热站 + 小区侧系统</td>
+                <td>需要同时考虑站内换热设备、二次侧循环、补水、用户侧负荷变化。</td>
+              </tr>
+              <tr>
+                <td>一次侧热媒</td>
+                <td>热水</td>
+                <td>重点控制一次侧调节阀、一次侧供回水温度和板换换热能力。</td>
+              </tr>
+              <tr>
+                <td>换热设备</td>
+                <td>有板式换热器</td>
+                <td>需要围绕板换建立一次侧和二次侧温度、压力、流量监测。</td>
+              </tr>
+              <tr>
+                <td>通信协议</td>
+                <td>MQTT</td>
+                <td>需要设计主题、报文、心跳、远程参数、远程指令、告警上报和断网缓存。</td>
+              </tr>
+              <tr>
+                <td>本地交互</td>
+                <td>需要本地屏幕</td>
+                <td>需要 HMI 数据模型、权限、参数页面、手动控制和告警确认流程。</td>
+              </tr>
+              <tr>
+                <td>远程升级</td>
+                <td>需要</td>
+                <td>建议设计 OTA 下载、校验、回滚和升级窗口保护。</td>
+              </tr>
+              <tr>
+                <td>断网自治</td>
+                <td>需要</td>
+                <td>通信中断时设备必须继续本地自动控制，并缓存关键事件和告警。</td>
+              </tr>
+              <tr>
+                <td>控制优先级</td>
+                <td>安全优先</td>
+                <td>安全保护层必须高于自动控制、远程指令和本地手动操作。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="questions">
+        <h2>仍需确认问题</h2>
+        <div class="card">
+          <ul>
+            <li>循环泵是定频还是变频？是否有一用一备或多泵轮换？</li>
+            <li>现场传感器类型和数量如何配置？温度、压力、流量、热表是否都具备？</li>
+            <li>执行器类型是什么？继电器、模拟量、485 变频器，还是以太网设备？</li>
+            <li>本地屏幕形态是什么？串口屏、Linux HMI、MCU 直连屏，还是 Web HMI？</li>
+            <li>MQTT 平台是否已有固定主题、报文格式、QoS、鉴权和离线缓存要求？</li>
+            <li>安全阈值是否由现场工艺给定，还是需要先建立默认参数？</li>
+          </ul>
+        </div>
+      </section>
+
+      <footer>
+        文件用途：业务分析与嵌入式软件设计前置说明。后续可继续扩展为需求规格、点表、状态机设计和控制算法设计文档。
+      </footer>
+    </main>
+  </div>
+</body>
+</html>

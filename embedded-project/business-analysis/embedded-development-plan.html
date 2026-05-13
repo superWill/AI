@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>热能共控机嵌入式开发梳理</title>
+  <style>
+    :root {
+      --bg: #f7f8f5;
+      --panel: #ffffff;
+      --ink: #1f2723;
+      --muted: #66716c;
+      --line: #dce2db;
+      --green: #0f766e;
+      --green-soft: #dff4f1;
+      --blue: #2563eb;
+      --blue-soft: #dbeafe;
+      --red: #b91c1c;
+      --red-soft: #fee2e2;
+      --amber: #b45309;
+      --amber-soft: #fef3c7;
+      --shadow: 0 16px 46px rgba(31, 39, 35, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--bg);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      line-height: 1.65;
+    }
+
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 42px 22px 70px;
+    }
+
+    header {
+      padding-bottom: 28px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .eyebrow {
+      color: var(--green);
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    h1 {
+      margin: 8px 0 12px;
+      font-size: clamp(32px, 5vw, 54px);
+      line-height: 1.1;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      max-width: 920px;
+      margin: 0;
+      color: #48534e;
+      font-size: 19px;
+    }
+
+    section {
+      margin-top: 42px;
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: 30px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin: 0 0 8px;
+      font-size: 19px;
+      letter-spacing: 0;
+    }
+
+    p { margin: 0 0 12px; }
+
+    ul, ol {
+      margin: 10px 0 0;
+      padding-left: 22px;
+    }
+
+    li { margin: 5px 0; }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    .card.safe {
+      border-color: #f2b9b9;
+      background: var(--red-soft);
+    }
+
+    .card.control {
+      border-color: #9edbd4;
+      background: var(--green-soft);
+    }
+
+    .card.comm {
+      border-color: #a9c7ff;
+      background: var(--blue-soft);
+    }
+
+    .diagram {
+      margin: 18px 0 24px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      overflow-x: auto;
+    }
+
+    .layers {
+      display: grid;
+      gap: 10px;
+      min-width: 760px;
+    }
+
+    .layer {
+      display: grid;
+      grid-template-columns: 210px 1fr;
+      align-items: stretch;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .layer b {
+      display: flex;
+      align-items: center;
+      padding: 14px 16px;
+      background: #eef3f0;
+    }
+
+    .layer span {
+      display: block;
+      padding: 14px 16px;
+      color: var(--muted);
+    }
+
+    .layer.safety b { background: var(--red-soft); color: var(--red); }
+    .layer.control b { background: var(--green-soft); color: var(--green); }
+    .layer.comm b { background: var(--blue-soft); color: var(--blue); }
+
+    .phase-line {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(180px, 1fr));
+      gap: 12px;
+      min-width: 980px;
+    }
+
+    .phase {
+      position: relative;
+      min-height: 190px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .phase:not(:last-child)::after {
+      content: ">";
+      position: absolute;
+      right: -18px;
+      top: 50%;
+      color: var(--green);
+      font-weight: 900;
+      transform: translateY(-50%);
+      z-index: 2;
+    }
+
+    .phase strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 17px;
+    }
+
+    .tag {
+      display: inline-flex;
+      padding: 2px 10px;
+      border-radius: 999px;
+      background: var(--amber-soft);
+      color: var(--amber);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    table {
+      width: 100%;
+      min-width: 780px;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 13px 15px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+      font-size: 14px;
+    }
+
+    th { background: #eef3f0; }
+    tr:last-child td { border-bottom: 0; }
+
+    pre {
+      margin: 0;
+      padding: 18px;
+      border-radius: 8px;
+      background: #111827;
+      color: #eef7f4;
+      overflow-x: auto;
+      line-height: 1.55;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    }
+
+    @media (max-width: 900px) {
+      .grid-2, .grid-3 {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div class="eyebrow">Embedded Development Plan</div>
+      <h1>热能共控机嵌入式开发梳理</h1>
+      <p class="lead">
+        当前共控机面向换热站和小区侧系统，一次侧热媒为热水，配置板式换热器，主通信协议为 MQTT，并需要本地屏、远程升级和断网自治。开发策略应以安全保护为最高优先级，再实现稳定控制、远程运维和节能优化。
+      </p>
+    </header>
+
+    <section>
+      <h2>产品边界</h2>
+      <div class="grid-3">
+        <div class="card safe">
+          <h3>安全优先</h3>
+          <p>任何自动控制、远程指令、本地手动操作，都必须先经过安全保护层判断。</p>
+        </div>
+        <div class="card control">
+          <h3>本地自治</h3>
+          <p>MQTT 断线后设备继续按本地参数运行，不能因为平台不可达而停止供热或丢失参数。</p>
+        </div>
+        <div class="card comm">
+          <h3>远程运维</h3>
+          <p>支持数据上报、告警上报、参数下发、远程指令、OTA 升级和执行回执。</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>软件架构</h2>
+      <p>建议采用分层架构。底层负责点位和驱动，中间层做校验、安全和状态机，上层处理控制策略、HMI、MQTT 和 OTA。</p>
+      <div class="diagram">
+        <div class="layers">
+          <div class="layer comm"><b>MQTT / HMI / OTA</b><span>平台通信、本地屏交互、远程升级、参数同步、告警和事件上报。</span></div>
+          <div class="layer control"><b>控制算法</b><span>供水温度控制一次侧调节阀，压差控制循环泵，低压控制补水。</span></div>
+          <div class="layer"><b>状态机</b><span>上电、自检、待机、启动、运行、调节、告警、急停、维护、升级。</span></div>
+          <div class="layer safety"><b>安全保护层</b><span>超温、超压、低压、缺水、泵故障、关键传感器故障，优先级最高。</span></div>
+          <div class="layer"><b>数据校验</b><span>滤波、量程判断、断线判断、跳变判断、数据质量标记。</span></div>
+          <div class="layer"><b>点表与驱动</b><span>AI、DI、AO、DO、温度、压力、流量、热表、阀门、泵、变频器。</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>核心模块</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>模块</th>
+              <th>开发重点</th>
+              <th>优先级</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>点表模块</td>
+              <td>统一定义测点、单位、量程、数据类型、阈值、采样周期和 MQTT 映射。</td>
+              <td>最高</td>
+            </tr>
+            <tr>
+              <td>安全保护模块</td>
+              <td>超温、超压、低压、缺水、泵故障和关键传感器故障处理。</td>
+              <td>最高</td>
+            </tr>
+            <tr>
+              <td>状态机模块</td>
+              <td>约束启动、运行、告警、急停、维护和升级流程，避免动作混乱。</td>
+              <td>最高</td>
+            </tr>
+            <tr>
+              <td>控制算法模块</td>
+              <td>供温闭环、压差闭环、补水闭环，先简单可靠，再逐步优化。</td>
+              <td>高</td>
+            </tr>
+            <tr>
+              <td>MQTT 模块</td>
+              <td>鉴权、心跳、遥测、告警、参数、命令、回执、断网缓存。</td>
+              <td>高</td>
+            </tr>
+            <tr>
+              <td>本地屏模块</td>
+              <td>总览、参数、告警、手动控制、权限、通信状态和升级状态。</td>
+              <td>高</td>
+            </tr>
+            <tr>
+              <td>OTA 模块</td>
+              <td>下载、签名校验、双分区/回滚、升级窗口、安全状态拦截。</td>
+              <td>中高</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>开发阶段</h2>
+      <div class="diagram">
+        <div class="phase-line">
+          <div class="phase">
+            <span class="tag">Phase 1</span>
+            <strong>最小安全控制器</strong>
+            <ul>
+              <li>点表</li>
+              <li>IO 驱动</li>
+              <li>数据校验</li>
+              <li>安全保护</li>
+              <li>基础状态机</li>
+            </ul>
+          </div>
+          <div class="phase">
+            <span class="tag">Phase 2</span>
+            <strong>换热站控制</strong>
+            <ul>
+              <li>板换点位</li>
+              <li>一次侧阀门</li>
+              <li>二次侧循环</li>
+              <li>补水联锁</li>
+              <li>启停顺序</li>
+            </ul>
+          </div>
+          <div class="phase">
+            <span class="tag">Phase 3</span>
+            <strong>MQTT 接入</strong>
+            <ul>
+              <li>心跳</li>
+              <li>遥测</li>
+              <li>告警</li>
+              <li>参数下发</li>
+              <li>指令回执</li>
+            </ul>
+          </div>
+          <div class="phase">
+            <span class="tag">Phase 4</span>
+            <strong>可靠性与升级</strong>
+            <ul>
+              <li>OTA</li>
+              <li>看门狗</li>
+              <li>日志</li>
+              <li>掉电保存</li>
+              <li>断网补传</li>
+            </ul>
+          </div>
+          <div class="phase">
+            <span class="tag">Phase 5</span>
+            <strong>节能优化</strong>
+            <ul>
+              <li>温度补偿</li>
+              <li>分时段策略</li>
+              <li>回温优化</li>
+              <li>多泵轮换</li>
+              <li>远程诊断</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>运行循环</h2>
+      <pre><code>fast_loop_100ms:
+    feed_watchdog()
+    scan_emergency_inputs()
+    update_critical_io()
+    run_hard_protection()
+
+main_loop_1s:
+    read_all_points()
+    validate_points()
+    update_state_machine()
+    run_safety_protection()
+    run_control_algorithms()
+    dispatch_device_commands()
+    update_hmi_snapshot()
+
+communication_loop_5s:
+    mqtt_heartbeat()
+    upload_telemetry()
+    upload_alarms()
+    process_remote_commands()
+
+maintenance_loop_60s:
+    persist_runtime_data()
+    rotate_logs()
+    check_ota_task()
+    check_device_health()</code></pre>
+    </section>
+
+    <section>
+      <h2>下一步产物</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h3>优先产物</h3>
+          <ul>
+            <li>点表：`point-table.xlsx`</li>
+            <li>状态机：`state-machine.md`</li>
+            <li>安全规则：`safety-rules.md`</li>
+            <li>MQTT 协议：`mqtt-protocol.md`</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>随后产物</h3>
+          <ul>
+            <li>控制算法：`control-algorithm.md`</li>
+            <li>本地屏页面：`hmi-pages.md`</li>
+            <li>OTA 设计：`ota-design.md`</li>
+            <li>测试计划：`test-plan.md`</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
