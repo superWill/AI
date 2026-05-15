@@ -1,0 +1,51 @@
+{
+  "device": {
+    "model": "FAC-2W-200",
+    "vendor": "Ambit",
+    "firmware_min_version": "0.1.0",
+    "hardware_revision": "A0"
+  },
+  "loop": {
+    "count": 1,
+    "max_devices_per_loop": 200,
+    "polling_interval_ms": 1000,
+    "bus_voltage_v": 24,
+    "short_circuit_threshold_ohm": 2,
+    "open_circuit_threshold_kohm": 50
+  },
+  "alarm": {
+    "single_point_delay_ms": 0,
+    "cross_zone_confirm_count": 2,
+    "cross_zone_window_ms": 30000,
+    "manual_call_point_delay_ms": 0
+  },
+  "interlock": {
+    "delay_audible_visual_ms": 0,
+    "delay_door_release_ms": 0,
+    "delay_elevator_recall_ms": 3000,
+    "delay_smoke_damper_ms": 5000,
+    "delay_fan_start_ms": 5000
+  },
+  "communication": {
+    "crt_link": {
+      "transport": "rs485",
+      "baud_rate": 9600,
+      "parity": "none",
+      "stop_bits": 1,
+      "heartbeat_interval_ms": 5000
+    }
+  },
+  "power": {
+    "main_voltage_v": 220,
+    "battery_voltage_v": 24,
+    "battery_capacity_ah": 38,
+    "battery_low_threshold_v": 21.0,
+    "battery_disconnect_threshold_v": 19.5
+  },
+  "logging": {
+    "history_capacity": 10000,
+    "printer_enabled": true,
+    "auto_print_alarm": true,
+    "auto_print_action": true
+  }
+}
