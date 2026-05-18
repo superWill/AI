@@ -9,7 +9,9 @@ HMI 用的 device_event JSON，通过 Server-Sent Events 推给浏览器。
 """
 from __future__ import annotations
 
+import glob
 import json
+import os
 import queue
 import subprocess
 import threading
@@ -104,6 +106,66 @@ def _normalize(props: dict) -> dict | None:
     return None
 
 
+def _udevadm_properties(sysfs_path: str) -> dict:
+    """跑 udevadm info -q property 拿一条设备的全部 udev 属性。"""
+    try:
+        res = subprocess.run(
+            ["udevadm", "info", "--query=property", sysfs_path],
+            capture_output=True,
+            text=True,
+            timeout=2,
+        )
+    except (subprocess.SubprocessError, FileNotFoundError):
+        return {}
+    props: dict[str, str] = {}
+    for line in res.stdout.splitlines():
+        if "=" in line:
+            k, _, v = line.partition("=")
+            props[k.strip()] = v.strip()
+    return props
+
+
+def _snapshot_paths() -> list[str]:
+    """枚举当前感兴趣的设备 /sys 路径。"""
+    paths: list[str] = []
+    # USB 串口
+    paths += glob.glob("/sys/class/tty/ttyUSB*")
+    paths += glob.glob("/sys/class/tty/ttyACM*")
+    # 以太网卡（含 USB 网卡）
+    for p in glob.glob("/sys/class/net/*"):
+        name = os.path.basename(p)
+        if name in ("lo",):
+            continue
+        if name.startswith(("docker", "br-", "veth", "virbr")):
+            continue
+        paths.append(p)
+    # USB 设备（usb_device 级别，跳过 root hub 由 _normalize 处理）
+    for p in glob.glob("/sys/bus/usb/devices/*"):
+        if os.path.exists(os.path.join(p, "idVendor")):
+            paths.append(p)
+    return paths
+
+
+def _send_snapshot(q: queue.Queue) -> None:
+    """SSE 客户端刚连进来时，把当前所有连着的设备以 add 事件回放一次。"""
+    for path in _snapshot_paths():
+        props = _udevadm_properties(path)
+        if not props:
+            continue
+        # 强制当作 add 事件（已经连着的设备视为刚接入）
+        props["ACTION"] = "add"
+        ev = _normalize(props)
+        if not ev:
+            continue
+        ev["timestamp"] = time.time()
+        ev["snapshot"] = True
+        line = f"data: {json.dumps(ev, ensure_ascii=False)}\n\n".encode("utf-8")
+        try:
+            q.put_nowait(line)
+        except queue.Full:
+            break
+
+
 def _udev_reader() -> None:
     """子进程跑 udevadm monitor，逐块解析属性。"""
     proc = subprocess.Popen(
@@ -160,6 +222,9 @@ class Handler(BaseHTTPRequestHandler):
         q: queue.Queue = queue.Queue(maxsize=200)
         with _clients_lock:
             _clients.append(q)
+        # 客户端刚连上：回放当前所有连着的设备一次（标记 snapshot=true），
+        # 让 HMI 即便在 bridge 启动后才连进来也能看到完整设备列表。
+        _send_snapshot(q)
         try:
             self.wfile.write(b": connected\n\n")
             self.wfile.flush()
