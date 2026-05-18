@@ -1,0 +1,16 @@
+[Unit]
+Description=udev to SSE event bridge for HMI
+Documentation=https://github.com/superWill/AI/tree/main/embedded-heating/release/udev-bridge-bl410
+After=network-online.target systemd-udevd.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /opt/udev-bridge/udev_bridge.py
+Restart=always
+RestartSec=3
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

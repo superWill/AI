@@ -1452,6 +1452,32 @@
     window.tecPushInterfaceEvent = pushInterfaceEvent;
     window.tecPushDeviceEvent = pushInterfaceEvent;
 
+    // 订阅 BL410 上 udev-bridge 推送的真插拔事件（SSE）。
+    // 本地预览（127.0.0.1）会用 localhost；部署到 BL410 时
+    // 走当前 window.location.hostname，端口固定 8765。
+    (function connectUdevBridge() {
+      try {
+        const host = window.location.hostname || "127.0.0.1";
+        const url = "http://" + host + ":8765/events";
+        const es = new EventSource(url);
+        es.addEventListener("open", () => console.log("[udev-bridge] connected", url));
+        es.addEventListener("error", () => console.warn("[udev-bridge] error, EventSource 会自动重连"));
+        es.addEventListener("message", ev => {
+          let payload;
+          try {
+            payload = JSON.parse(ev.data);
+          } catch (err) {
+            console.warn("[udev-bridge] 解析失败", err, ev.data);
+            return;
+          }
+          console.log("[udev-bridge] event", payload);
+          pushInterfaceEvent(payload);
+        });
+      } catch (err) {
+        console.warn("[udev-bridge] EventSource 初始化失败", err);
+      }
+    })();
+
     renderDeviceList();
     renderInterfaceEvents();
     render(buildLiveData(getSelectedDevice()));
