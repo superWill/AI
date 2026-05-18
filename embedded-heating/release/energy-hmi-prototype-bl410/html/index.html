@@ -1,0 +1,1466 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>设备采集监控 MVP</title>
+  <style>
+    :root {
+      --bg: #f3f6f8;
+      --surface: #ffffff;
+      --surface-soft: #f8fafc;
+      --ink: #17202a;
+      --muted: #6b7785;
+      --line: #d9e1e8;
+      --line-strong: #c7d1dc;
+      --primary: #0f766e;
+      --primary-soft: #e0f2f1;
+      --blue: #2563eb;
+      --blue-soft: #e8f0ff;
+      --green: #15803d;
+      --green-soft: #dcfce7;
+      --amber: #b45309;
+      --amber-soft: #fff7e6;
+      --red: #b91c1c;
+      --red-soft: #fee2e2;
+      --shadow: 0 12px 30px rgba(31, 45, 61, 0.07);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--bg);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      line-height: 1.45;
+    }
+
+    button, input, select { font: inherit; }
+    button { cursor: pointer; }
+
+    .app {
+      display: grid;
+      grid-template-columns: 300px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    aside {
+      padding: 18px;
+      border-right: 1px solid var(--line);
+      background: #fbfdff;
+      overflow: auto;
+    }
+
+    .brand {
+      margin-bottom: 18px;
+    }
+
+    .brand span {
+      display: block;
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 850;
+      text-transform: uppercase;
+    }
+
+    .brand strong {
+      display: block;
+      margin-top: 5px;
+      font-size: 23px;
+      line-height: 1.18;
+      letter-spacing: 0;
+    }
+
+    .side-section-title {
+      margin: 18px 0 8px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 850;
+    }
+
+    .add-form,
+    .panel,
+    .topbar,
+    .kpi,
+    .device-card,
+    .flow-node {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .add-form {
+      display: grid;
+      gap: 10px;
+      padding: 14px;
+    }
+
+    .field { display: grid; gap: 5px; }
+
+    .field label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .field input,
+    .field select {
+      width: 100%;
+      min-height: 38px;
+      padding: 7px 10px;
+      border: 1px solid var(--line-strong);
+      border-radius: 6px;
+      color: var(--ink);
+      background: #ffffff;
+      outline: none;
+    }
+
+    .field input:focus,
+    .field select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.12);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .primary-btn,
+    .danger-btn {
+      min-height: 38px;
+      border: 0;
+      border-radius: 6px;
+      color: #ffffff;
+      font-weight: 850;
+    }
+
+    .primary-btn { background: var(--primary); }
+    .danger-btn { background: #991b1b; }
+
+    .device-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .event-feed {
+      display: grid;
+      gap: 8px;
+    }
+
+    .event-card {
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+    }
+
+    .event-card b {
+      display: block;
+      font-size: 13px;
+      line-height: 1.25;
+    }
+
+    .event-card span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .event-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .ghost-btn {
+      min-height: 34px;
+      border: 1px solid var(--line-strong);
+      border-radius: 6px;
+      color: var(--ink);
+      background: var(--surface);
+      font-size: 12px;
+      font-weight: 850;
+    }
+
+    .device-card {
+      position: relative;
+      width: 100%;
+      padding: 12px 12px 12px 15px;
+      color: var(--ink);
+      text-align: left;
+    }
+
+    .device-card::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 10px;
+      bottom: 10px;
+      width: 3px;
+      border-radius: 999px;
+      background: transparent;
+    }
+
+    .device-card.active {
+      border-color: rgba(15, 118, 110, 0.55);
+      background: var(--primary-soft);
+    }
+
+    .device-card.active::before { background: var(--primary); }
+
+    .device-card.offline {
+      color: #7a8592;
+      background: #eef2f6;
+      box-shadow: none;
+      opacity: 0.72;
+    }
+
+    .device-card.offline::before { background: #94a3b8; }
+
+    .device-card b {
+      display: block;
+      font-size: 14px;
+      line-height: 1.25;
+    }
+
+    .device-card span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .device-card .device-state {
+      display: inline-flex;
+      min-height: 22px;
+      align-items: center;
+      margin-top: 8px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: var(--green-soft);
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 850;
+    }
+
+    .device-card.offline .device-state {
+      background: #e2e8f0;
+      color: #64748b;
+    }
+
+    .main {
+      min-width: 0;
+      padding: 18px 22px 22px;
+      display: grid;
+      gap: 16px;
+      align-content: start;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 16px 18px;
+    }
+
+    .title-block h1 {
+      margin: 0;
+      font-size: 27px;
+      line-height: 1.18;
+      letter-spacing: 0;
+    }
+
+    .meta-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .status-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    .pill,
+    .status {
+      display: inline-flex;
+      min-height: 28px;
+      align-items: center;
+      justify-content: center;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 850;
+    }
+
+    .pill { background: var(--blue-soft); color: var(--blue); }
+    .pill.online { background: var(--green-soft); color: var(--green); }
+    .pill.offline { background: #e5e7eb; color: #4b5563; }
+
+    .status.ok { background: var(--green-soft); color: var(--green); }
+    .status.off { background: #eef2f6; color: #64748b; }
+    .status.warn { background: var(--amber-soft); color: var(--amber); }
+    .status.danger { background: var(--red-soft); color: var(--red); }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .kpi {
+      min-height: 94px;
+      padding: 14px 15px;
+      display: grid;
+      align-content: space-between;
+    }
+
+    .kpi span {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .kpi b {
+      margin-top: 7px;
+      font-size: 28px;
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    .unit {
+      color: var(--muted);
+      font-size: 12px;
+      margin-left: 4px;
+      font-weight: 750;
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.85fr);
+      gap: 16px;
+      align-items: start;
+    }
+
+    .panel { overflow: hidden; }
+
+    .panel h2 {
+      margin: 0;
+      padding: 13px 15px;
+      border-bottom: 1px solid var(--line);
+      background: var(--surface-soft);
+      font-size: 16px;
+      letter-spacing: 0;
+    }
+
+    .flow-panel { padding-bottom: 4px; }
+
+    .flow-diagram {
+      padding: 16px;
+      display: grid;
+      grid-template-columns: 1fr 34px 1fr 34px 1fr;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .flow-node {
+      min-height: 118px;
+      padding: 14px;
+      box-shadow: none;
+    }
+
+    .flow-node span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .flow-node strong {
+      display: block;
+      margin: 7px 0 5px;
+      font-size: 24px;
+      line-height: 1.1;
+    }
+
+    .flow-node small {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .arrow {
+      height: 2px;
+      background: var(--line-strong);
+      position: relative;
+    }
+
+    .arrow::after {
+      content: "";
+      position: absolute;
+      right: -1px;
+      top: 50%;
+      width: 0;
+      height: 0;
+      border-top: 6px solid transparent;
+      border-bottom: 6px solid transparent;
+      border-left: 9px solid var(--line-strong);
+      transform: translateY(-50%);
+    }
+
+    .split-panels {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .metric-list { display: grid; }
+
+    .metric,
+    .status-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      padding: 12px 15px;
+      border-bottom: 1px solid var(--line);
+      background: var(--surface);
+    }
+
+    .metric:last-child,
+    .status-row:last-child { border-bottom: 0; }
+
+    .metric label,
+    .status-row span:first-child {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 720;
+    }
+
+    .metric strong,
+    .status-row strong {
+      font-size: 18px;
+      font-weight: 850;
+      white-space: nowrap;
+    }
+
+    .alarm {
+      margin: 14px;
+      padding: 12px 13px;
+      border-radius: 8px;
+      color: var(--green);
+      background: var(--green-soft);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .alarm.warn { color: var(--amber); background: var(--amber-soft); }
+
+    .point-table-wrap { overflow-x: auto; }
+
+    .point-table {
+      width: 100%;
+      min-width: 760px;
+      border-collapse: collapse;
+    }
+
+    .point-table th,
+    .point-table td {
+      padding: 11px 14px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      font-size: 13px;
+    }
+
+    .point-table th {
+      color: var(--muted);
+      background: var(--surface-soft);
+      font-weight: 850;
+    }
+
+    .point-table tr:last-child td { border-bottom: 0; }
+    .point-table td:nth-child(3) {
+      color: var(--ink);
+      font-size: 15px;
+      font-weight: 850;
+    }
+
+    footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .toast-stack {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 20;
+      display: grid;
+      gap: 10px;
+      width: min(340px, calc(100vw - 36px));
+    }
+
+    .toast {
+      padding: 13px 14px;
+      border: 1px solid rgba(15, 118, 110, 0.35);
+      border-radius: 8px;
+      background: #ffffff;
+      box-shadow: 0 16px 38px rgba(31, 45, 61, 0.18);
+      animation: toastIn 160ms ease-out;
+    }
+
+    .toast b {
+      display: block;
+      font-size: 14px;
+    }
+
+    .toast span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @keyframes toastIn {
+      from { transform: translateY(8px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @media (max-width: 1180px) {
+      .app { grid-template-columns: 1fr; }
+      aside { border-right: 0; border-bottom: 1px solid var(--line); }
+      .device-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 940px) {
+      .main { padding: 14px; }
+      .topbar { align-items: flex-start; flex-direction: column; }
+      .status-strip { justify-content: flex-start; }
+      .kpi-grid,
+      .workspace,
+      .split-panels { grid-template-columns: 1fr; }
+      .flow-diagram { grid-template-columns: 1fr; }
+      .arrow { height: 22px; width: 2px; margin: 0 auto; }
+      .arrow::after {
+        right: auto;
+        left: 50%;
+        top: auto;
+        bottom: -1px;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-top: 9px solid var(--line-strong);
+        border-bottom: 0;
+        transform: translateX(-50%);
+      }
+    }
+
+    @media (max-width: 680px) {
+      .device-list,
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside>
+      <div class="brand">
+        <span>Device Acquisition MVP</span>
+        <strong>设备接入与监控</strong>
+      </div>
+
+      <form id="deviceForm" class="add-form">
+        <div class="field">
+          <label for="deviceName">设备名称</label>
+          <input id="deviceName" name="deviceName" placeholder="例如：1 号换热机" required>
+        </div>
+        <div class="field">
+          <label for="deviceCode">设备编号</label>
+          <input id="deviceCode" name="deviceCode" placeholder="例如：TEC-001" required>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="deviceType">设备类型</label>
+            <select id="deviceType" name="deviceType">
+              <option value="换热机组">换热机组</option>
+              <option value="板式换热器">板式换热器</option>
+              <option value="循环泵">循环泵</option>
+              <option value="补水泵">补水泵</option>
+              <option value="电动调节阀">电动调节阀</option>
+              <option value="温度传感器">温度传感器</option>
+              <option value="压力传感器">压力传感器</option>
+              <option value="流量计">流量计</option>
+              <option value="热表">热表</option>
+              <option value="电表">电表</option>
+              <option value="变频器">变频器</option>
+              <option value="通信网关">通信网关</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="deviceAddress">采集地址</label>
+            <input id="deviceAddress" name="deviceAddress" placeholder="1" inputmode="numeric">
+          </div>
+        </div>
+        <button class="primary-btn" type="submit">添加设备</button>
+        <button class="danger-btn" id="deleteDeviceBtn" type="button">删除当前设备</button>
+      </form>
+
+      <div class="side-section-title">接入设备</div>
+      <div id="deviceList" class="device-list" aria-label="设备列表"></div>
+
+      <div class="side-section-title">接口事件</div>
+      <div id="interfaceEventFeed" class="event-feed" aria-label="接口事件"></div>
+      <div class="event-actions">
+        <button id="simulateEthBtn" class="ghost-btn" type="button">模拟网线</button>
+        <button id="simulateUsbBtn" class="ghost-btn" type="button">模拟 USB</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <section class="topbar">
+        <div class="title-block">
+          <h1 id="stationName">--</h1>
+          <div class="meta-line">
+            <span id="deviceId">--</span>
+            <span id="deviceTypeText">--</span>
+            <span>地址 <span id="currentAddress">--</span></span>
+            <span id="timestamp">--</span>
+          </div>
+        </div>
+        <div class="status-strip">
+          <span id="mode" class="pill">监控模式</span>
+          <span id="mqtt" class="pill online">MQTT 在线</span>
+          <span id="signal">信号 --%</span>
+        </div>
+      </section>
+
+      <section class="kpi-grid">
+        <div class="kpi"><span>接入设备</span><b><span id="totalDevices">--</span><span class="unit">台</span></b></div>
+        <div class="kpi"><span>二次侧供水温度</span><b><span id="secSupplyTemp">--</span><span class="unit">degC</span></b></div>
+        <div class="kpi"><span>供回水压差</span><b><span id="diffPressure">--</span><span class="unit">MPa</span></b></div>
+        <div class="kpi"><span>采集点位</span><b><span id="pointCount">--</span><span class="unit">点</span></b></div>
+      </section>
+
+      <section class="workspace">
+        <div>
+          <section class="panel flow-panel">
+            <h2>系统采集链路</h2>
+            <div class="flow-diagram">
+              <div class="flow-node">
+                <span>一次侧</span>
+                <strong><span id="priSupplyTemp">--</span><span class="unit">degC</span></strong>
+                <small>供水温度 / <span id="priPressure">--</span> MPa</small>
+              </div>
+              <div class="arrow"></div>
+              <div class="flow-node">
+                <span>当前设备</span>
+                <strong><span id="valveOpen">--</span><span class="unit">%</span></strong>
+                <small>阀位或设备主状态 / <span id="pumpFreq">--</span> Hz</small>
+              </div>
+              <div class="arrow"></div>
+              <div class="flow-node">
+                <span>二次侧</span>
+                <strong><span id="secSupplyTemp2">--</span><span class="unit">degC</span></strong>
+                <small>回水 <span id="secReturnTemp">--</span> degC / 流量 <span id="secFlow">--</span> m3/h</small>
+              </div>
+            </div>
+          </section>
+
+          <div class="split-panels">
+            <section class="panel">
+              <h2>一次侧数据</h2>
+              <div class="metric-list">
+                <div class="metric"><label>供水温度</label><strong><span id="priSupplyTempDetail">--</span><span class="unit">degC</span></strong></div>
+                <div class="metric"><label>回水温度</label><strong><span id="priReturnTemp">--</span><span class="unit">degC</span></strong></div>
+                <div class="metric"><label>供水压力</label><strong><span id="priPressureDetail">--</span><span class="unit">MPa</span></strong></div>
+                <div class="metric"><label>流量</label><strong><span id="priFlow">--</span><span class="unit">m3/h</span></strong></div>
+              </div>
+            </section>
+
+            <section class="panel">
+              <h2>二次侧数据</h2>
+              <div class="metric-list">
+                <div class="metric"><label>供水压力</label><strong><span id="secSupplyPressure">--</span><span class="unit">MPa</span></strong></div>
+                <div class="metric"><label>回水压力</label><strong><span id="secReturnPressure">--</span><span class="unit">MPa</span></strong></div>
+                <div class="metric"><label>供回水压差</label><strong><span id="diffPressureDetail">--</span><span class="unit">MPa</span></strong></div>
+                <div class="metric"><label>循环流量</label><strong><span id="secFlowDetail">--</span><span class="unit">m3/h</span></strong></div>
+              </div>
+            </section>
+          </div>
+        </div>
+
+        <section class="panel">
+          <h2>当前设备状态</h2>
+          <div class="status-row"><span>采集状态</span><span id="acqStatus" class="status ok">--</span></div>
+          <div class="status-row"><span>循环泵运行</span><span id="circPumpRun" class="status ok">--</span></div>
+          <div class="status-row"><span>循环泵故障</span><span id="circPumpFault" class="status ok">--</span></div>
+          <div class="status-row"><span>循环泵电流</span><strong><span id="circPumpCurrent">--</span><span class="unit">A</span></strong></div>
+          <div class="status-row"><span>补水泵运行</span><span id="refillPumpRun" class="status off">--</span></div>
+          <div class="status-row"><span>板式换热器</span><span id="plateStatus" class="status ok">--</span></div>
+          <div id="alarmList" class="alarm">--</div>
+        </section>
+      </section>
+
+      <section class="panel">
+        <h2>当前设备采集点表</h2>
+        <div class="point-table-wrap">
+          <table class="point-table">
+            <thead>
+              <tr>
+                <th>点位</th>
+                <th>点位 ID</th>
+                <th>当前值</th>
+                <th>单位</th>
+                <th>质量</th>
+                <th>更新时间</th>
+              </tr>
+            </thead>
+            <tbody id="pointTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <footer>
+        <span>最小版本：添加设备、按模板生成点表、实时监控显示</span>
+        <span>刷新周期：1s | 数据保存在浏览器本地</span>
+      </footer>
+    </main>
+  </div>
+
+  <div id="toastStack" class="toast-stack" aria-live="polite"></div>
+
+  <script>
+    const STORAGE_KEY = "tec_display_mvp_devices_v2";
+    const INTERFACE_EVENT_KEY = "tec_display_mvp_interface_events_v1";
+    const MAX_INTERFACE_EVENTS = 5;
+    const DEVICE_TEMPLATES = {
+      "换热机组": [
+        ["pri_supply_temp", "一次侧供水温度", "degC", "primary.supplyTemp"],
+        ["pri_return_temp", "一次侧回水温度", "degC", "primary.returnTemp"],
+        ["pri_supply_pressure", "一次侧供水压力", "MPa", "primary.pressure"],
+        ["pri_flow", "一次侧流量", "m3/h", "primary.flow"],
+        ["pri_valve_open", "一次侧阀门开度", "%", "primary.valveOpen"],
+        ["sec_supply_temp", "二次侧供水温度", "degC", "secondary.supplyTemp"],
+        ["sec_return_temp", "二次侧回水温度", "degC", "secondary.returnTemp"],
+        ["sec_supply_pressure", "二次侧供水压力", "MPa", "secondary.supplyPressure"],
+        ["sec_return_pressure", "二次侧回水压力", "MPa", "secondary.returnPressure"],
+        ["sec_flow", "二次侧流量", "m3/h", "secondary.flow"],
+        ["circ_pump_freq", "循环泵频率", "Hz", "devices.circulationPump.frequency"],
+        ["circ_pump_current", "循环泵电流", "A", "devices.circulationPump.current"]
+      ],
+      "板式换热器": [
+        ["pri_supply_temp", "一次侧供水温度", "degC", "primary.supplyTemp"],
+        ["pri_return_temp", "一次侧回水温度", "degC", "primary.returnTemp"],
+        ["sec_supply_temp", "二次侧供水温度", "degC", "secondary.supplyTemp"],
+        ["sec_return_temp", "二次侧回水温度", "degC", "secondary.returnTemp"],
+        ["heat_exchange_delta", "二次侧温差", "degC", "derived.secondaryDeltaTemp"],
+        ["plate_status", "板换状态", "", "devices.plateHeatExchanger.statusText"]
+      ],
+      "循环泵": [
+        ["pump_run", "运行状态", "", "devices.circulationPump.runText"],
+        ["pump_fault", "故障状态", "", "devices.circulationPump.faultText"],
+        ["pump_freq", "运行频率", "Hz", "devices.circulationPump.frequency"],
+        ["pump_current", "运行电流", "A", "devices.circulationPump.current"],
+        ["sec_supply_pressure", "二次侧供水压力", "MPa", "secondary.supplyPressure"],
+        ["sec_return_pressure", "二次侧回水压力", "MPa", "secondary.returnPressure"]
+      ],
+      "补水泵": [
+        ["refill_run", "运行状态", "", "devices.refillPump.runText"],
+        ["sec_return_pressure", "二次侧回水压力", "MPa", "secondary.returnPressure"],
+        ["sec_supply_pressure", "二次侧供水压力", "MPa", "secondary.supplyPressure"],
+        ["refill_alarm", "补水告警", "", "derived.refillAlarm"]
+      ],
+      "电动调节阀": [
+        ["valve_open", "阀门开度", "%", "primary.valveOpen"],
+        ["pri_supply_temp", "一次侧供水温度", "degC", "primary.supplyTemp"],
+        ["sec_supply_temp", "二次侧供水温度", "degC", "secondary.supplyTemp"]
+      ],
+      "温度传感器": [
+        ["temperature", "温度", "degC", "secondary.supplyTemp"],
+        ["sensor_quality", "传感器质量", "", "derived.sensorQuality"]
+      ],
+      "压力传感器": [
+        ["pressure", "压力", "MPa", "secondary.supplyPressure"],
+        ["sensor_quality", "传感器质量", "", "derived.sensorQuality"]
+      ],
+      "流量计": [
+        ["flow", "流量", "m3/h", "secondary.flow"],
+        ["meter_quality", "仪表质量", "", "derived.sensorQuality"]
+      ],
+      "热表": [
+        ["pri_supply_temp", "供水温度", "degC", "primary.supplyTemp"],
+        ["pri_return_temp", "回水温度", "degC", "primary.returnTemp"],
+        ["pri_flow", "流量", "m3/h", "primary.flow"],
+        ["heat_power", "瞬时热功率", "kW", "derived.heatPower"],
+        ["total_heat", "累计热量", "GJ", "derived.totalHeat"]
+      ],
+      "电表": [
+        ["voltage", "电压", "V", "derived.voltage"],
+        ["current", "电流", "A", "devices.circulationPump.current"],
+        ["power", "功率", "kW", "derived.electricPower"],
+        ["total_energy", "累计电量", "kWh", "derived.totalEnergy"]
+      ],
+      "变频器": [
+        ["vfd_run", "运行状态", "", "devices.circulationPump.runText"],
+        ["vfd_fault", "故障状态", "", "devices.circulationPump.faultText"],
+        ["vfd_freq", "输出频率", "Hz", "devices.circulationPump.frequency"],
+        ["vfd_current", "输出电流", "A", "devices.circulationPump.current"]
+      ],
+      "通信网关": [
+        ["mqtt_status", "MQTT 状态", "", "derived.mqttText"],
+        ["signal", "信号质量", "%", "network.signal"],
+        ["device_count", "接入设备数", "台", "derived.deviceCount"],
+        ["last_upload", "最近上报", "", "timestamp"]
+      ]
+    };
+    let devices = loadDevices();
+    let selectedDeviceId = devices[0]?.id || null;
+    let interfaceEvents = loadInterfaceEvents();
+
+    function normalizeDevice(device) {
+      return {
+        ...device,
+        status: device.status || "online",
+        interfaceKind: device.interfaceKind || "manual",
+        interfaceName: device.interfaceName || "",
+        lastSeenAt: device.lastSeenAt || Date.now()
+      };
+    }
+
+    function createDevice({ name, code, type, address }) {
+      const seed = Date.now() % 10000;
+      return {
+        id: "dev-" + Date.now() + "-" + Math.random().toString(16).slice(2),
+        name,
+        code,
+        type,
+        address: address || "1",
+        status: "online",
+        interfaceKind: "manual",
+        interfaceName: "",
+        lastSeenAt: Date.now(),
+        seed,
+        network: {
+          mqtt: "online",
+          signal: 78 + (seed % 18)
+        },
+        base: buildBaseByType(type, seed)
+      };
+    }
+
+    function buildBaseByType(type, seed) {
+      const offset = seed % 7;
+      if (type === "循环泵") {
+        return {
+          primarySupplyTemp: 0,
+          primaryReturnTemp: 0,
+          primaryPressure: 0,
+          primaryFlow: 0,
+          valveOpen: 0,
+          secondarySupplyTemp: 42 + offset * 0.2,
+          secondaryReturnTemp: 36 + offset * 0.2,
+          secondarySupplyPressure: 0.31,
+          secondaryReturnPressure: 0.23,
+          secondaryFlow: 62 + offset,
+          pumpRun: true,
+          pumpFault: false,
+          pumpFreq: 32 + offset,
+          pumpCurrent: 10.8 + offset * 0.4,
+          refillRun: false,
+          plateStatus: "normal"
+        };
+      }
+      if (type === "补水泵") {
+        return {
+          primarySupplyTemp: 0,
+          primaryReturnTemp: 0,
+          primaryPressure: 0,
+          primaryFlow: 0,
+          valveOpen: 0,
+          secondarySupplyTemp: 41 + offset * 0.2,
+          secondaryReturnTemp: 35 + offset * 0.2,
+          secondarySupplyPressure: 0.28,
+          secondaryReturnPressure: 0.18,
+          secondaryFlow: 48 + offset,
+          pumpRun: false,
+          pumpFault: false,
+          pumpFreq: 0,
+          pumpCurrent: 0,
+          refillRun: true,
+          plateStatus: "normal"
+        };
+      }
+      if (type === "热表") {
+        return {
+          primarySupplyTemp: 70 + offset,
+          primaryReturnTemp: 50 + offset * 0.4,
+          primaryPressure: 0.78,
+          primaryFlow: 36 + offset,
+          valveOpen: 0,
+          secondarySupplyTemp: 44 + offset * 0.2,
+          secondaryReturnTemp: 37 + offset * 0.2,
+          secondarySupplyPressure: 0.3,
+          secondaryReturnPressure: 0.22,
+          secondaryFlow: 55 + offset,
+          pumpRun: false,
+          pumpFault: false,
+          pumpFreq: 0,
+          pumpCurrent: 0,
+          refillRun: false,
+          plateStatus: "normal"
+        };
+      }
+      if (type === "板式换热器") {
+        return {
+          primarySupplyTemp: 73 + offset,
+          primaryReturnTemp: 52 + offset * 0.3,
+          primaryPressure: 0.8,
+          primaryFlow: 39 + offset,
+          valveOpen: 0,
+          secondarySupplyTemp: 45 + offset * 0.2,
+          secondaryReturnTemp: 37 + offset * 0.2,
+          secondarySupplyPressure: 0.31,
+          secondaryReturnPressure: 0.23,
+          secondaryFlow: 61 + offset,
+          pumpRun: false,
+          pumpFault: false,
+          pumpFreq: 0,
+          pumpCurrent: 0,
+          refillRun: false,
+          plateStatus: "normal"
+        };
+      }
+      if (type === "电动调节阀") {
+        return {
+          primarySupplyTemp: 72 + offset,
+          primaryReturnTemp: 51,
+          primaryPressure: 0.82,
+          primaryFlow: 34 + offset,
+          valveOpen: 42 + offset,
+          secondarySupplyTemp: 44 + offset * 0.2,
+          secondaryReturnTemp: 37,
+          secondarySupplyPressure: 0.3,
+          secondaryReturnPressure: 0.22,
+          secondaryFlow: 52,
+          pumpRun: false,
+          pumpFault: false,
+          pumpFreq: 0,
+          pumpCurrent: 0,
+          refillRun: false,
+          plateStatus: "normal"
+        };
+      }
+      if (type === "温度传感器" || type === "压力传感器" || type === "流量计") {
+        return {
+          primarySupplyTemp: 0,
+          primaryReturnTemp: 0,
+          primaryPressure: 0,
+          primaryFlow: 0,
+          valveOpen: 0,
+          secondarySupplyTemp: 43 + offset * 0.3,
+          secondaryReturnTemp: 37,
+          secondarySupplyPressure: 0.29 + offset * 0.01,
+          secondaryReturnPressure: 0.22,
+          secondaryFlow: 46 + offset,
+          pumpRun: false,
+          pumpFault: false,
+          pumpFreq: 0,
+          pumpCurrent: 0,
+          refillRun: false,
+          plateStatus: "normal"
+        };
+      }
+      if (type === "电表" || type === "变频器" || type === "通信网关") {
+        return {
+          primarySupplyTemp: 0,
+          primaryReturnTemp: 0,
+          primaryPressure: 0,
+          primaryFlow: 0,
+          valveOpen: 0,
+          secondarySupplyTemp: 0,
+          secondaryReturnTemp: 0,
+          secondarySupplyPressure: 0,
+          secondaryReturnPressure: 0,
+          secondaryFlow: 0,
+          pumpRun: true,
+          pumpFault: false,
+          pumpFreq: 34 + offset,
+          pumpCurrent: 9.5 + offset * 0.5,
+          refillRun: false,
+          plateStatus: "normal"
+        };
+      }
+      return {
+        primarySupplyTemp: 72 + offset,
+        primaryReturnTemp: 51 + offset * 0.5,
+        primaryPressure: 0.82,
+        primaryFlow: 42 + offset,
+        valveOpen: 35 + offset,
+        secondarySupplyTemp: 45 + offset * 0.2,
+        secondaryReturnTemp: 38 + offset * 0.2,
+        secondarySupplyPressure: 0.32,
+        secondaryReturnPressure: 0.24,
+        secondaryFlow: 68 + offset,
+        pumpRun: true,
+        pumpFault: false,
+        pumpFreq: 35 + offset,
+        pumpCurrent: 12 + offset * 0.4,
+        refillRun: false,
+        plateStatus: "normal"
+      };
+    }
+
+    function defaultDevices() {
+      return [
+        createDevice({ name: "1 号换热机", code: "TEC-001", type: "换热机组", address: "1" }),
+        createDevice({ name: "二次侧循环泵", code: "PUMP-001", type: "循环泵", address: "2" })
+      ];
+    }
+
+    function loadDevices() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+        return Array.isArray(saved) && saved.length ? saved : defaultDevices();
+      } catch {
+        return defaultDevices();
+      }
+    }
+
+    function saveDevices() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(devices));
+    }
+
+    function loadInterfaceEvents() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(INTERFACE_EVENT_KEY));
+        return Array.isArray(saved) ? saved.slice(0, MAX_INTERFACE_EVENTS) : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function saveInterfaceEvents() {
+      localStorage.setItem(INTERFACE_EVENT_KEY, JSON.stringify(interfaceEvents));
+    }
+
+    function setText(id, value) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.textContent = value;
+      }
+    }
+
+    function setStatus(id, value, cls) {
+      const el = document.getElementById(id);
+      if (!el) {
+        return;
+      }
+      el.textContent = value;
+      el.className = "status " + cls;
+    }
+
+    function jitter(value, span, digits) {
+      if (value === 0) {
+        return 0;
+      }
+      const next = value + (Math.random() - 0.5) * span;
+      return Number(next.toFixed(digits));
+    }
+
+    function getSelectedDevice() {
+      return devices.find(device => device.id === selectedDeviceId) || devices[0] || null;
+    }
+
+    function buildLiveData(device) {
+      device = normalizeDevice(device);
+      const base = device.base;
+      const online = device.status !== "offline";
+      const secondarySupplyPressure = jitter(base.secondarySupplyPressure, 0.02, 2);
+      const secondaryReturnPressure = jitter(base.secondaryReturnPressure, 0.02, 2);
+      const lowPressure = secondaryReturnPressure < 0.2;
+      const secondarySupplyTemp = jitter(base.secondarySupplyTemp, 0.5, 1);
+      const secondaryReturnTemp = jitter(base.secondaryReturnTemp, 0.5, 1);
+      const primarySupplyTemp = jitter(base.primarySupplyTemp, 0.8, 1);
+      const primaryReturnTemp = jitter(base.primaryReturnTemp, 0.6, 1);
+      const primaryFlow = jitter(base.primaryFlow, 1.2, 1);
+      const pumpCurrent = jitter(base.pumpCurrent, 0.8, 1);
+      const pumpFreq = jitter(base.pumpFreq, 1.0, 1);
+      const heatPower = Math.max(0, (primarySupplyTemp - primaryReturnTemp) * primaryFlow * 1.16);
+      const electricPower = pumpCurrent > 0 ? pumpCurrent * 0.66 : 0;
+
+      const data = {
+        deviceId: device.code,
+        deviceType: device.type,
+        deviceAddress: device.address,
+        stationName: device.name,
+        timestamp: new Date().toLocaleString("zh-CN", { hour12: false }),
+        network: device.network,
+        acquisitionOk: online,
+        online,
+        primary: {
+          supplyTemp: primarySupplyTemp,
+          returnTemp: primaryReturnTemp,
+          pressure: jitter(base.primaryPressure, 0.02, 2),
+          flow: primaryFlow,
+          valveOpen: Math.round(jitter(base.valveOpen, 3, 0))
+        },
+        secondary: {
+          supplyTemp: secondarySupplyTemp,
+          returnTemp: secondaryReturnTemp,
+          supplyPressure: secondarySupplyPressure,
+          returnPressure: secondaryReturnPressure,
+          flow: jitter(base.secondaryFlow, 1.4, 1)
+        },
+        devices: {
+          circulationPump: {
+            run: base.pumpRun,
+            fault: base.pumpFault,
+            frequency: pumpFreq,
+            current: pumpCurrent
+          },
+          refillPump: {
+            run: base.refillRun || lowPressure
+          },
+          plateHeatExchanger: {
+            status: base.plateStatus,
+            statusText: base.plateStatus === "normal" ? "正常" : "异常"
+          }
+        },
+        derived: {
+          secondaryDeltaTemp: Number(Math.max(0, secondarySupplyTemp - secondaryReturnTemp).toFixed(1)),
+          refillAlarm: lowPressure ? "低压补水" : "正常",
+          sensorQuality: "正常",
+          heatPower: Number(heatPower.toFixed(1)),
+          totalHeat: Number((2600 + device.seed * 0.13).toFixed(1)),
+          voltage: Number(jitter(380, 4, 0)),
+          electricPower: Number(electricPower.toFixed(1)),
+          totalEnergy: Number((18000 + device.seed * 0.5).toFixed(1)),
+          mqttText: device.network.mqtt === "online" ? "在线" : "离线",
+          deviceCount: devices.length
+        },
+        alarms: lowPressure
+          ? [{ level: "warn", message: "二次侧回水压力偏低，建议检查补水状态" }]
+          : !online
+          ? [{ level: "warn", message: "设备离线，保留最后一次采集数据" }]
+          : [{ level: "info", message: "采集正常，暂无告警" }]
+      };
+
+      data.devices.circulationPump.runText = data.devices.circulationPump.run ? "运行" : "停止";
+      data.devices.circulationPump.faultText = data.devices.circulationPump.fault ? "故障" : "正常";
+      data.devices.refillPump.runText = data.devices.refillPump.run ? "运行" : "停止";
+      return data;
+    }
+
+    function valueByPath(data, path) {
+      return path.split(".").reduce((value, key) => value == null ? undefined : value[key], data);
+    }
+
+    function formatPointValue(value) {
+      if (typeof value === "number") {
+        return Number.isInteger(value) ? String(value) : value.toFixed(1);
+      }
+      if (typeof value === "boolean") {
+        return value ? "是" : "否";
+      }
+      if (value == null || value === "") {
+        return "--";
+      }
+      return String(value);
+    }
+
+    function renderDeviceList() {
+      const list = document.getElementById("deviceList");
+      list.innerHTML = "";
+      devices = devices.map(normalizeDevice);
+      devices.forEach(device => {
+        const card = document.createElement("button");
+        card.type = "button";
+        const offline = device.status === "offline";
+        card.className = [
+          "device-card",
+          device.id === selectedDeviceId ? "active" : "",
+          offline ? "offline" : ""
+        ].filter(Boolean).join(" ");
+        card.innerHTML = `
+          <b>${device.name}</b>
+          <span>${device.code} / ${device.type} / 地址 ${device.address}</span>
+          <span>${device.interfaceName || "manual"} · ${new Date(device.lastSeenAt).toLocaleTimeString("zh-CN", { hour12: false })}</span>
+          <i class="device-state">${offline ? "离线 / 已拔出" : "在线 / 已接入"}</i>
+        `;
+        card.addEventListener("click", () => {
+          selectedDeviceId = device.id;
+          renderDeviceList();
+          render(buildLiveData(device));
+        });
+        list.appendChild(card);
+      });
+    }
+
+    function findDeviceByInterface(kind, name) {
+      return devices.find(device => device.interfaceKind === kind && device.interfaceName === name);
+    }
+
+    function upsertDeviceFromEvent(event) {
+      const kind = event.kind || "unknown";
+      const name = event.name || "";
+      if (!["usb", "serial", "ethernet"].includes(kind) || !name) {
+        return null;
+      }
+
+      let device = findDeviceByInterface(kind, name);
+      if (event.action === "remove") {
+        if (device) {
+          device.status = "offline";
+          device.lastSeenAt = Date.now();
+          device.network.mqtt = "offline";
+          saveDevices();
+        }
+        return device;
+      }
+
+      if (!device) {
+        const type = kind === "ethernet" || kind === "serial" ? "通信网关" : "热表";
+        device = createDevice({
+          name: event.deviceName || `${name} 接入设备`,
+          code: event.deviceCode || `${kind.toUpperCase()}-${name}`,
+          type,
+          address: event.address || name
+        });
+        device.interfaceKind = kind;
+        device.interfaceName = name;
+        devices.push(device);
+      }
+
+      device.status = "online";
+      device.lastSeenAt = Date.now();
+      device.network.mqtt = "online";
+      selectedDeviceId = device.id;
+      saveDevices();
+      return device;
+    }
+
+    function interfaceEventTitle(event) {
+      const actionText = event.action === "add" ? "已接入" : event.action === "remove" ? "已移除" : "状态变化";
+      if (event.kind === "ethernet") {
+        return `网口 ${event.name || "eth"} ${actionText}`;
+      }
+      if (event.kind === "usb") {
+        return `USB 设备 ${actionText}`;
+      }
+      if (event.kind === "serial") {
+        return `串口设备 ${actionText}`;
+      }
+      return `接口设备 ${actionText}`;
+    }
+
+    function renderInterfaceEvents() {
+      const feed = document.getElementById("interfaceEventFeed");
+      if (!feed) {
+        return;
+      }
+      if (!interfaceEvents.length) {
+        feed.innerHTML = '<div class="event-card"><b>暂无接口事件</b><span>网线、USB、串口设备接入后会在这里提示</span></div>';
+        return;
+      }
+      feed.innerHTML = interfaceEvents.map(event => `
+        <div class="event-card">
+          <b>${interfaceEventTitle(event)}</b>
+          <span>${event.detail || "--"} · ${event.time}</span>
+        </div>
+      `).join("");
+    }
+
+    function showToast(event) {
+      const stack = document.getElementById("toastStack");
+      if (!stack) {
+        return;
+      }
+      const toast = document.createElement("div");
+      toast.className = "toast";
+      toast.innerHTML = `<b>${interfaceEventTitle(event)}</b><span>${event.detail || ""}</span>`;
+      stack.prepend(toast);
+      setTimeout(() => toast.remove(), 4500);
+    }
+
+    function pushInterfaceEvent(event) {
+      const next = {
+        id: "iface-" + Date.now() + "-" + Math.random().toString(16).slice(2),
+        kind: event.kind || "unknown",
+        action: event.action || "change",
+        name: event.name || "",
+        detail: event.detail || "",
+        time: new Date().toLocaleString("zh-CN", { hour12: false })
+      };
+      interfaceEvents = [next, ...interfaceEvents].slice(0, MAX_INTERFACE_EVENTS);
+      const affectedDevice = upsertDeviceFromEvent(next);
+      saveInterfaceEvents();
+      renderDeviceList();
+      if (affectedDevice) {
+        render(buildLiveData(affectedDevice));
+      }
+      renderInterfaceEvents();
+      showToast(next);
+    }
+
+    function render(data) {
+      const diffP = (data.secondary.supplyPressure - data.secondary.returnPressure).toFixed(2);
+      const mqttOnline = data.network.mqtt === "online";
+      const hasWarn = data.alarms.some(item => item.level !== "info");
+      const template = DEVICE_TEMPLATES[data.deviceType] || DEVICE_TEMPLATES["换热机组"];
+
+      setText("stationName", data.stationName);
+      setText("deviceId", data.deviceId);
+      setText("deviceTypeText", data.deviceType);
+      setText("currentAddress", data.deviceAddress);
+      setText("timestamp", data.timestamp);
+      setText("mode", "监控模式");
+      setText("mqtt", mqttOnline ? "MQTT 在线" : "MQTT 离线");
+      document.getElementById("mqtt").className = "pill " + (mqttOnline ? "online" : "offline");
+      setText("signal", "信号 " + data.network.signal + "%");
+      setText("totalDevices", devices.length);
+      setText("pointCount", template.length);
+
+      setText("secSupplyTemp", data.secondary.supplyTemp.toFixed(1));
+      setText("diffPressure", diffP);
+      setText("diffPressureDetail", diffP);
+      setText("pumpFreq", data.devices.circulationPump.frequency.toFixed(1));
+      setText("valveOpen", data.primary.valveOpen);
+
+      setText("priSupplyTemp", data.primary.supplyTemp.toFixed(1));
+      setText("priSupplyTempDetail", data.primary.supplyTemp.toFixed(1));
+      setText("priReturnTemp", data.primary.returnTemp.toFixed(1));
+      setText("priPressure", data.primary.pressure.toFixed(2));
+      setText("priPressureDetail", data.primary.pressure.toFixed(2));
+      setText("priFlow", data.primary.flow.toFixed(1));
+      setText("priValve", data.primary.valveOpen);
+
+      setText("secSupplyTemp2", data.secondary.supplyTemp.toFixed(1));
+      setText("secReturnTemp", data.secondary.returnTemp.toFixed(1));
+      setText("secSupplyPressure", data.secondary.supplyPressure.toFixed(2));
+      setText("secReturnPressure", data.secondary.returnPressure.toFixed(2));
+      setText("secFlow", data.secondary.flow.toFixed(1));
+      setText("secFlowDetail", data.secondary.flow.toFixed(1));
+
+      setStatus("acqStatus", data.acquisitionOk ? "正常" : "离线", data.acquisitionOk ? "ok" : "off");
+      setStatus("circPumpRun", data.devices.circulationPump.run ? "运行" : "停止", data.devices.circulationPump.run ? "ok" : "off");
+      setStatus("circPumpFault", data.devices.circulationPump.fault ? "故障" : "正常", data.devices.circulationPump.fault ? "danger" : "ok");
+      setText("circPumpCurrent", data.devices.circulationPump.current.toFixed(1));
+      setStatus("refillPumpRun", data.devices.refillPump.run ? "运行" : "停止", data.devices.refillPump.run ? "warn" : "off");
+      setStatus("plateStatus", data.devices.plateHeatExchanger.status === "normal" ? "正常" : "异常", data.devices.plateHeatExchanger.status === "normal" ? "ok" : "warn");
+
+      const alarmEl = document.getElementById("alarmList");
+      alarmEl.textContent = data.alarms.map(item => item.message).join(" / ");
+      alarmEl.className = "alarm" + (hasWarn ? " warn" : "");
+
+      renderPointTable(data, hasWarn);
+    }
+
+    function renderPointTable(data, hasWarn) {
+      const body = document.getElementById("pointTableBody");
+      const template = DEVICE_TEMPLATES[data.deviceType] || DEVICE_TEMPLATES["换热机组"];
+      const quality = !data.online ? ["off", "离线"] : hasWarn ? ["warn", "可疑"] : ["ok", "正常"];
+      body.innerHTML = template.map(([pointId, name, unit, path]) => {
+        const value = formatPointValue(valueByPath(data, path));
+        return `
+          <tr>
+            <td>${name}</td>
+            <td>${pointId}</td>
+            <td>${value}</td>
+            <td>${unit || "--"}</td>
+            <td><span class="status ${quality[0]}">${quality[1]}</span></td>
+            <td>${data.timestamp}</td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    document.getElementById("deviceForm").addEventListener("submit", event => {
+      event.preventDefault();
+      const form = new FormData(event.currentTarget);
+      const name = String(form.get("deviceName") || "").trim();
+      const code = String(form.get("deviceCode") || "").trim();
+      const type = String(form.get("deviceType") || "换热机组");
+      const address = String(form.get("deviceAddress") || "").trim();
+      if (!name || !code) {
+        return;
+      }
+      const device = createDevice({ name, code, type, address });
+      devices.push(device);
+      selectedDeviceId = device.id;
+      saveDevices();
+      event.currentTarget.reset();
+      renderDeviceList();
+      render(buildLiveData(device));
+    });
+
+    document.getElementById("deleteDeviceBtn").addEventListener("click", () => {
+      if (devices.length <= 1) {
+        return;
+      }
+      devices = devices.filter(device => device.id !== selectedDeviceId);
+      selectedDeviceId = devices[0]?.id || null;
+      saveDevices();
+      renderDeviceList();
+      const selected = getSelectedDevice();
+      if (selected) {
+        render(buildLiveData(selected));
+      }
+    });
+
+    document.getElementById("simulateEthBtn").addEventListener("click", () => {
+      const current = findDeviceByInterface("ethernet", "eth0");
+      const removing = current && current.status !== "offline";
+      pushInterfaceEvent({
+        kind: "ethernet",
+        action: removing ? "remove" : "add",
+        name: "eth0",
+        detail: removing ? "检测到 eth0 网线断开，关联设备已置为离线" : "检测到 eth0 网线插入，链路已建立"
+      });
+    });
+
+    document.getElementById("simulateUsbBtn").addEventListener("click", () => {
+      const current = findDeviceByInterface("serial", "ttyUSB0");
+      const removing = current && current.status !== "offline";
+      pushInterfaceEvent({
+        kind: "serial",
+        action: removing ? "remove" : "add",
+        name: "ttyUSB0",
+        detail: removing ? "USB 串口 ttyUSB0 已移除，关联设备已置为离线" : "检测到 USB 串口 ttyUSB0，已加入设备列表"
+      });
+    });
+
+    window.addEventListener("tec-interface-event", event => {
+      pushInterfaceEvent(event.detail || {});
+    });
+
+    window.tecPushInterfaceEvent = pushInterfaceEvent;
+    window.tecPushDeviceEvent = pushInterfaceEvent;
+
+    renderDeviceList();
+    renderInterfaceEvents();
+    render(buildLiveData(getSelectedDevice()));
+    setInterval(() => {
+      const selected = getSelectedDevice();
+      if (selected) {
+        render(buildLiveData(selected));
+      }
+    }, 1000);
+  </script>
+</body>
+</html>
