@@ -20,8 +20,45 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 PORT = 8765
 
+# ARPHRD_* constants from <uapi/linux/if_arp.h>
+ARPHRD_ETHER = 1
+ARPHRD_CAN = 280
+
 _clients: list[queue.Queue] = []
 _clients_lock = threading.Lock()
+
+
+def _read_sysfs(path: str) -> str:
+    """读 sysfs 一行；不存在或读不到就返回空串。"""
+    try:
+        with open(path) as f:
+            return f.read().strip()
+    except OSError:
+        return ""
+
+
+def _net_arphrd(net_path: str) -> int:
+    """读 /sys/class/net/<iface>/type，区分 ethernet (1) / CAN (280) / 其他。"""
+    raw = _read_sysfs(os.path.join(net_path, "type"))
+    try:
+        return int(raw)
+    except ValueError:
+        return 0
+
+
+def _net_carrier_up(net_path: str) -> bool:
+    """ethernet 网卡：carrier=1 表示物理链路已建立（网线接好且对端 up）。"""
+    return _read_sysfs(os.path.join(net_path, "carrier")) == "1"
+
+
+def _net_operstate_up(net_path: str) -> bool:
+    """通用：operstate=up 表示接口处于工作状态。CAN 一般用这个判断。"""
+    return _read_sysfs(os.path.join(net_path, "operstate")) == "up"
+
+
+def _usb_is_hub(usb_path: str) -> bool:
+    """USB Hub 的 bDeviceClass=09，跟"业务 USB 设备"区分开。"""
+    return _read_sysfs(os.path.join(usb_path, "bDeviceClass")) == "09"
 
 
 def _broadcast(event: dict) -> None:
@@ -48,11 +85,13 @@ def _normalize(props: dict) -> dict | None:
     product_id = props.get("ID_MODEL_ID", "")
     model = props.get("ID_MODEL", "") or props.get("ID_VENDOR", "")
 
-    if action not in ("add", "remove"):
+    if action not in ("add", "remove", "change"):
         return None
 
     # USB 串口（CH340 / CP2102 / FTDI / 等）
     if subsystem == "tty" and devname.startswith("/dev/ttyUSB"):
+        if action == "change":
+            return None  # 串口的 change 事件没业务含义
         return {
             "kind": "serial",
             "action": action,
@@ -66,28 +105,68 @@ def _normalize(props: dict) -> dict | None:
             ),
         }
 
-    # 以太网卡（USB 网卡 / 内置网口都会触发）
+    # 网络接口：区分 ethernet 与 CAN，并按 carrier / operstate 判断真实链路
     if subsystem == "net" and devtype == "":
-        name = devname.split("/")[-1] or devpath.split("/")[-1]
-        if name.startswith("lo") or name.startswith("docker") or name.startswith("br-"):
+        name = (
+            props.get("INTERFACE", "")
+            or devname.split("/")[-1]
+            or devpath.split("/")[-1]
+        )
+        if not name or name.startswith(("lo", "docker", "br-", "veth", "virbr")):
             return None
+
+        sysfs_path = f"/sys{devpath}" if devpath.startswith("/") else f"/sys/class/net/{name}"
+        arphrd = _net_arphrd(sysfs_path)
+
+        # 只关心 ethernet + CAN，其他（PPP / WWAN / IPIP …）暂时不报
+        if arphrd not in (ARPHRD_ETHER, ARPHRD_CAN):
+            return None
+
+        is_can = arphrd == ARPHRD_CAN
+        kind = "can" if is_can else "ethernet"
+
+        # 判断"在线":
+        # - ethernet 看 carrier（网线插上 + 对端 link up 才为 1）
+        # - CAN 看 operstate（CAN 没有 carrier 概念）
+        is_up = _net_operstate_up(sysfs_path) if is_can else _net_carrier_up(sysfs_path)
+
+        # change 事件按 carrier 翻成 add/remove；HMI 只懂 add/remove
+        if action == "change":
+            action = "add" if is_up else "remove"
+        elif action == "add" and not is_up:
+            # 接口存在但链路没起来：snapshot 阶段直接跳过，避免假"在线"
+            return None
+
         return {
-            "kind": "ethernet",
+            "kind": kind,
             "action": action,
             "name": name,
-            "deviceName": f"网卡 {name}",
+            "deviceName": ("CAN " if is_can else "网卡 ") + name,
             "deviceCode": name,
             "detail": (
-                f"检测到 {name} 网线插入，链路已建立"
+                (f"检测到 CAN 接口 {name} 已激活" if is_can else f"检测到 {name} 网线插入，链路已建立")
                 if action == "add"
-                else f"检测到 {name} 网线断开，关联设备已置为离线"
+                else (f"CAN 接口 {name} 已停用" if is_can else f"检测到 {name} 网线断开，关联设备已置为离线")
             ),
         }
 
     # 通用 USB 设备（手机 / U 盘 / HID）—— 只在没有更具体匹配时报
     if subsystem == "usb" and devtype == "usb_device":
-        # 忽略 root hub
+        # 忽略 root hub（Linux Foundation）和板载 USB Hub（bDeviceClass=09）
         if vendor_id == "1d6b":
+            return None
+        sysfs_path = f"/sys{devpath}" if devpath.startswith("/") else ""
+        if sysfs_path and _usb_is_hub(sysfs_path):
+            return None
+        # USB-to-Ethernet 桥接芯片（CDC ECM/NCM/EEM）已经会通过 net 子系统
+        # 单独报告 ethX，这里不要重复算成一台 USB 设备。
+        # ID_USB_INTERFACES 形如 ":020600:020201:"，
+        # 0206xx = CDC Ethernet Control Model
+        # 0902xx = CDC Network Control Model
+        usb_interfaces = props.get("ID_USB_INTERFACES", "")
+        if ":0206" in usb_interfaces or ":0209" in usb_interfaces:
+            return None
+        if action == "change":
             return None
         label = model or f"USB {vendor_id}:{product_id}"
         return {
