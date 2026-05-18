@@ -55,5 +55,9 @@ embedded-heating/
 - `prototype/hmi/`：浏览器侧的 HMI 模拟页 + 采样数据 + 采集伪代码，用来对齐显示需求。
 - `prototype/firmware-sim/`：可编译运行的 C 模拟器（Makefile + main.c），后续补充泵阀控制和保护策略。
 
-`firmware/` 当前只放公共头文件（`include/`）和架构 README，模块代码 app/core/drivers/platform 等到选型确定后再建。
+关键设计文档：
 
+- `docs/architecture/device-presence-and-data-flow.md`：设备插入/拔出监控、设备列表在线/离线状态、HMI/WebSocket/MQTT 数据传输链路。
+- `docs/architecture/interface-event-notifications.md`：网线、USB、串口等接口事件监听和 HMI 提示模型。
+
+`firmware/` 当前只放公共头文件（`include/`）和架构 README，模块代码 app/core/drivers/platform 等到选型确定后再建。

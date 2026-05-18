@@ -214,6 +214,15 @@
 
     .device-card.active::before { background: var(--primary); }
 
+    .device-card.offline {
+      color: #7a8592;
+      background: #eef2f6;
+      box-shadow: none;
+      opacity: 0.72;
+    }
+
+    .device-card.offline::before { background: #94a3b8; }
+
     .device-card b {
       display: block;
       font-size: 14px;
@@ -225,6 +234,24 @@
       margin-top: 4px;
       color: var(--muted);
       font-size: 12px;
+    }
+
+    .device-card .device-state {
+      display: inline-flex;
+      min-height: 22px;
+      align-items: center;
+      margin-top: 8px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: var(--green-soft);
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 850;
+    }
+
+    .device-card.offline .device-state {
+      background: #e2e8f0;
+      color: #64748b;
     }
 
     .main {
@@ -806,6 +833,16 @@
     let selectedDeviceId = devices[0]?.id || null;
     let interfaceEvents = loadInterfaceEvents();
 
+    function normalizeDevice(device) {
+      return {
+        ...device,
+        status: device.status || "online",
+        interfaceKind: device.interfaceKind || "manual",
+        interfaceName: device.interfaceName || "",
+        lastSeenAt: device.lastSeenAt || Date.now()
+      };
+    }
+
     function createDevice({ name, code, type, address }) {
       const seed = Date.now() % 10000;
       return {
@@ -814,6 +851,10 @@
         code,
         type,
         address: address || "1",
+        status: "online",
+        interfaceKind: "manual",
+        interfaceName: "",
+        lastSeenAt: Date.now(),
         seed,
         network: {
           mqtt: "online",
@@ -1047,7 +1088,9 @@
     }
 
     function buildLiveData(device) {
+      device = normalizeDevice(device);
       const base = device.base;
+      const online = device.status !== "offline";
       const secondarySupplyPressure = jitter(base.secondarySupplyPressure, 0.02, 2);
       const secondaryReturnPressure = jitter(base.secondaryReturnPressure, 0.02, 2);
       const lowPressure = secondaryReturnPressure < 0.2;
@@ -1068,7 +1111,8 @@
         stationName: device.name,
         timestamp: new Date().toLocaleString("zh-CN", { hour12: false }),
         network: device.network,
-        acquisitionOk: true,
+        acquisitionOk: online,
+        online,
         primary: {
           supplyTemp: primarySupplyTemp,
           returnTemp: primaryReturnTemp,
@@ -1112,6 +1156,8 @@
         },
         alarms: lowPressure
           ? [{ level: "warn", message: "二次侧回水压力偏低，建议检查补水状态" }]
+          : !online
+          ? [{ level: "warn", message: "设备离线，保留最后一次采集数据" }]
           : [{ level: "info", message: "采集正常，暂无告警" }]
       };
 
@@ -1141,11 +1187,22 @@
     function renderDeviceList() {
       const list = document.getElementById("deviceList");
       list.innerHTML = "";
+      devices = devices.map(normalizeDevice);
       devices.forEach(device => {
         const card = document.createElement("button");
         card.type = "button";
-        card.className = "device-card" + (device.id === selectedDeviceId ? " active" : "");
-        card.innerHTML = `<b>${device.name}</b><span>${device.code} / ${device.type} / 地址 ${device.address}</span>`;
+        const offline = device.status === "offline";
+        card.className = [
+          "device-card",
+          device.id === selectedDeviceId ? "active" : "",
+          offline ? "offline" : ""
+        ].filter(Boolean).join(" ");
+        card.innerHTML = `
+          <b>${device.name}</b>
+          <span>${device.code} / ${device.type} / 地址 ${device.address}</span>
+          <span>${device.interfaceName || "manual"} · ${new Date(device.lastSeenAt).toLocaleTimeString("zh-CN", { hour12: false })}</span>
+          <i class="device-state">${offline ? "离线 / 已拔出" : "在线 / 已接入"}</i>
+        `;
         card.addEventListener("click", () => {
           selectedDeviceId = device.id;
           renderDeviceList();
@@ -1153,6 +1210,49 @@
         });
         list.appendChild(card);
       });
+    }
+
+    function findDeviceByInterface(kind, name) {
+      return devices.find(device => device.interfaceKind === kind && device.interfaceName === name);
+    }
+
+    function upsertDeviceFromEvent(event) {
+      const kind = event.kind || "unknown";
+      const name = event.name || "";
+      if (!["usb", "serial", "ethernet"].includes(kind) || !name) {
+        return null;
+      }
+
+      let device = findDeviceByInterface(kind, name);
+      if (event.action === "remove") {
+        if (device) {
+          device.status = "offline";
+          device.lastSeenAt = Date.now();
+          device.network.mqtt = "offline";
+          saveDevices();
+        }
+        return device;
+      }
+
+      if (!device) {
+        const type = kind === "ethernet" || kind === "serial" ? "通信网关" : "热表";
+        device = createDevice({
+          name: event.deviceName || `${name} 接入设备`,
+          code: event.deviceCode || `${kind.toUpperCase()}-${name}`,
+          type,
+          address: event.address || name
+        });
+        device.interfaceKind = kind;
+        device.interfaceName = name;
+        devices.push(device);
+      }
+
+      device.status = "online";
+      device.lastSeenAt = Date.now();
+      device.network.mqtt = "online";
+      selectedDeviceId = device.id;
+      saveDevices();
+      return device;
     }
 
     function interfaceEventTitle(event) {
@@ -1208,7 +1308,12 @@
         time: new Date().toLocaleString("zh-CN", { hour12: false })
       };
       interfaceEvents = [next, ...interfaceEvents].slice(0, MAX_INTERFACE_EVENTS);
+      const affectedDevice = upsertDeviceFromEvent(next);
       saveInterfaceEvents();
+      renderDeviceList();
+      if (affectedDevice) {
+        render(buildLiveData(affectedDevice));
+      }
       renderInterfaceEvents();
       showToast(next);
     }
@@ -1252,7 +1357,7 @@
       setText("secFlow", data.secondary.flow.toFixed(1));
       setText("secFlowDetail", data.secondary.flow.toFixed(1));
 
-      setStatus("acqStatus", data.acquisitionOk ? "正常" : "异常", data.acquisitionOk ? "ok" : "danger");
+      setStatus("acqStatus", data.acquisitionOk ? "正常" : "离线", data.acquisitionOk ? "ok" : "off");
       setStatus("circPumpRun", data.devices.circulationPump.run ? "运行" : "停止", data.devices.circulationPump.run ? "ok" : "off");
       setStatus("circPumpFault", data.devices.circulationPump.fault ? "故障" : "正常", data.devices.circulationPump.fault ? "danger" : "ok");
       setText("circPumpCurrent", data.devices.circulationPump.current.toFixed(1));
@@ -1269,7 +1374,7 @@
     function renderPointTable(data, hasWarn) {
       const body = document.getElementById("pointTableBody");
       const template = DEVICE_TEMPLATES[data.deviceType] || DEVICE_TEMPLATES["换热机组"];
-      const quality = hasWarn ? ["warn", "可疑"] : ["ok", "正常"];
+      const quality = !data.online ? ["off", "离线"] : hasWarn ? ["warn", "可疑"] : ["ok", "正常"];
       body.innerHTML = template.map(([pointId, name, unit, path]) => {
         const value = formatPointValue(valueByPath(data, path));
         return `
@@ -1319,20 +1424,24 @@
     });
 
     document.getElementById("simulateEthBtn").addEventListener("click", () => {
+      const current = findDeviceByInterface("ethernet", "eth0");
+      const removing = current && current.status !== "offline";
       pushInterfaceEvent({
         kind: "ethernet",
-        action: "add",
-        name: "eth1",
-        detail: "检测到网线插入，链路已建立"
+        action: removing ? "remove" : "add",
+        name: "eth0",
+        detail: removing ? "检测到 eth0 网线断开，关联设备已置为离线" : "检测到 eth0 网线插入，链路已建立"
       });
     });
 
     document.getElementById("simulateUsbBtn").addEventListener("click", () => {
+      const current = findDeviceByInterface("serial", "ttyUSB0");
+      const removing = current && current.status !== "offline";
       pushInterfaceEvent({
-        kind: "usb",
-        action: "add",
-        name: "USB",
-        detail: "检测到 USB 设备插入，等待识别设备类型"
+        kind: "serial",
+        action: removing ? "remove" : "add",
+        name: "ttyUSB0",
+        detail: removing ? "USB 串口 ttyUSB0 已移除，关联设备已置为离线" : "检测到 USB 串口 ttyUSB0，已加入设备列表"
       });
     });
 
@@ -1341,6 +1450,7 @@
     });
 
     window.tecPushInterfaceEvent = pushInterfaceEvent;
+    window.tecPushDeviceEvent = pushInterfaceEvent;
 
     renderDeviceList();
     renderInterfaceEvents();
