@@ -52,3 +52,10 @@ SMH     # VanEck Semiconductor ETF
 SOXX    # iShares Semiconductor ETF
 DRAM    # Roundhill Memory ETF
 EWY     # iShares MSCI Korea ETF
+
+# === 日股 AI / 机器人补充（2026-05-19 加入）===
+6857.T      # Advantest — HBM/AI ATE 测试垄断
+6324.T      # Harmonic Drive — 谐波减速器世界第一
+6268.T      # Nabtesco — RV 减速器（机器人重型关节）
+6481.T      # THK — 滚柱丝杠 / 直线导轨
+6954.T      # Fanuc — 工业机器人本体龙头
