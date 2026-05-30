@@ -1,0 +1,721 @@
+{
+  "head": {
+    "c_para": "Prefix Start`1",
+    "c_spiceCmd": null
+  },
+  "BBox": {
+    "x": 290,
+    "y": 280,
+    "width": 450,
+    "height": 450
+  },
+  "canvas": {
+    "viewWidth": "1200",
+    "viewHeight": "1200",
+    "backGround": "#FFFFFF",
+    "gridVisible": "yes",
+    "gridColor": "#CCCCCC",
+    "gridSize": "10",
+    "canvasWidth": 1200,
+    "canvasHeight": 1200,
+    "gridStyle": "line",
+    "snapSize": 10,
+    "unit": "pixel",
+    "altSnapSize": 5
+  },
+  "itemOrder": [
+    "gge7",
+    "gge19",
+    "gge20",
+    "gge24",
+    "gge27",
+    "gge35",
+    "gge42",
+    "gge43",
+    "gge45",
+    "gge46",
+    "gge47",
+    "gge48",
+    "gge49",
+    "gge50",
+    "gge53",
+    "gge54",
+    "gge56",
+    "gge57"
+  ],
+  "wire": {
+    "gge48": {
+      "gId": "gge48",
+      "strokeColor": "#008800",
+      "strokeWidth": "1",
+      "strokeStyle": 0,
+      "fillColor": "none",
+      "pointArr": [
+        {
+          "x": 290,
+          "y": 430
+        },
+        {
+          "x": 370,
+          "y": 430
+        },
+        {
+          "x": 370,
+          "y": 490
+        }
+      ]
+    }
+  },
+  "schlib": {
+    "gge7": {
+      "head": {
+        "gId": "gge7",
+        "x": "410",
+        "y": "490",
+        "c_para": "package`HDR2X2`catid`20`spicePre`P`",
+        "importFlag": 0
+      },
+      "itemOrder": [
+        "gge9",
+        "gge10",
+        "gge11",
+        "gge12",
+        "gge13",
+        "gge14",
+        "gge15"
+      ],
+      "annotation": {
+        "gge9": {
+          "gId": "gge9",
+          "mark": "N",
+          "x": "402.5",
+          "y": "467",
+          "rotation": 0,
+          "fillColor": "#000080",
+          "fontFamily": "Arial",
+          "fontSize": "",
+          "fontWeight": "",
+          "fontStyle": "",
+          "dominantBaseline": "",
+          "type": "comment",
+          "string": "HDR2X2",
+          "visible": 0,
+          "textAnchor": "start"
+        },
+        "gge10": {
+          "gId": "gge10",
+          "mark": "P",
+          "x": "402.5",
+          "y": "457",
+          "rotation": 0,
+          "fillColor": "#000080",
+          "fontFamily": "Arial",
+          "fontSize": "",
+          "fontWeight": "",
+          "fontStyle": "",
+          "dominantBaseline": "",
+          "type": "comment",
+          "string": "P1",
+          "visible": 1,
+          "textAnchor": "start"
+        }
+      },
+      "rect": {
+        "gge11": {
+          "gId": "gge11",
+          "strokeColor": "#800000",
+          "strokeWidth": "1",
+          "strokeStyle": 0,
+          "fillColor": "#FFFFFF",
+          "x": "390",
+          "y": "470",
+          "rx": "",
+          "ry": "",
+          "width": "40",
+          "height": "30"
+        }
+      },
+      "pin": {
+        "gge12": {
+          "configure": {
+            "display": "show",
+            "electric": "0",
+            "spicePin": "1",
+            "x": "370",
+            "y": "480",
+            "rotation": "180",
+            "gId": "gge12"
+          },
+          "pinDot": {
+            "x": 370,
+            "y": 480
+          },
+          "path": {
+            "pathString": "M 370 480 h 20",
+            "pinColor": "#800000"
+          },
+          "name": {
+            "visible": 1,
+            "x": "393",
+            "y": "483",
+            "rotation": 0,
+            "text": "1",
+            "textAnchor": "start",
+            "fontFamily": "",
+            "fontSize": ""
+          },
+          "num": {
+            "visible": 0,
+            "x": "384",
+            "y": "479",
+            "rotation": 0,
+            "text": "1",
+            "textAnchor": "end",
+            "fontFamily": "",
+            "fontSize": ""
+          },
+          "dot": {
+            "visible": 0,
+            "x": "387",
+            "y": "480"
+          },
+          "clock": {}
+        },
+        "gge13": {
+          "configure": {
+            "display": "show",
+            "electric": "0",
+            "spicePin": "2",
+            "x": "450",
+            "y": "480",
+            "rotation": "0",
+            "gId": "gge13"
+          },
+          "pinDot": {
+            "x": 450,
+            "y": 480
+          },
+          "path": {
+            "pathString": "M 450 480 h -20",
+            "pinColor": "#800000"
+          },
+          "name": {
+            "visible": 1,
+            "x": "427",
+            "y": "483",
+            "rotation": 0,
+            "text": "2",
+            "textAnchor": "end",
+            "fontFamily": "",
+            "fontSize": ""
+          },
+          "num": {
+            "visible": 0,
+            "x": "436",
+            "y": "479",
+            "rotation": 0,
+            "text": "2",
+            "textAnchor": "start",
+            "fontFamily": "",
+            "fontSize": ""
+          },
+          "dot": {
+            "visible": 0,
+            "x": "433",
+            "y": "480"
+          },
+          "clock": {}
+        },
+        "gge14": {
+          "configure": {
+            "display": "show",
+            "electric": "0",
+            "spicePin": "3",
+            "x": "370",
+            "y": "490",
+            "rotation": "180",
+            "gId": "gge14"
+          },
+          "pinDot": {
+            "x": 370,
+            "y": 490
+          },
+          "path": {
+            "pathString": "M 370 490 h 20",
+            "pinColor": "#800000"
+          },
+          "name": {
+            "visible": 1,
+            "x": "393",
+            "y": "493",
+            "rotation": 0,
+            "text": "3",
+            "textAnchor": "start",
+            "fontFamily": "",
+            "fontSize": ""
+          },
+          "num": {
+            "visible": 0,
+            "x": "384",
+            "y": "489",
+            "rotation": 0,
+            "text": "3",
+            "textAnchor": "end",
+            "fontFamily": "",
+            "fontSize": ""
+          },
+          "dot": {
+            "visible": 0,
+            "x": "387",
+            "y": "490"
+          },
+          "clock": {}
+        },
+        "gge15": {
+          "configure": {
+            "display": "show",
+            "electric": "0",
+            "spicePin": "4",
+            "x": "450",
+            "y": "490",
+            "rotation": "0",
+            "gId": "gge15"
+          },
+          "pinDot": {
+            "x": 450,
+            "y": 490
+          },
+          "path": {
+            "pathString": "M 450 490 h -20",
+            "pinColor": "#800000"
+          },
+          "name": {
+            "visible": 1,
+            "x": "427",
+            "y": "493",
+            "rotation": 0,
+            "text": "4",
+            "textAnchor": "end",
+            "fontFamily": "",
+            "fontSize": ""
+          },
+          "num": {
+            "visible": 0,
+            "x": "436",
+            "y": "489",
+            "rotation": 0,
+            "text": "4",
+            "textAnchor": "start",
+            "fontFamily": "",
+            "fontSize": ""
+          },
+          "dot": {
+            "visible": 0,
+            "x": "433",
+            "y": "490"
+          },
+          "clock": {}
+        }
+      }
+    }
+  },
+  "junction": {
+    "gge49": {
+      "pinDot": {
+        "x": 370,
+        "y": 480
+      },
+      "r": "2.5",
+      "fillColor": "#CC0000",
+      "gId": "gge49"
+    }
+  },
+  "bus": {
+    "gge19": {
+      "gId": "gge19",
+      "strokeColor": "#008800",
+      "strokeWidth": "2",
+      "strokeStyle": 0,
+      "fillColor": "none",
+      "pointArr": [
+        {
+          "x": 420,
+          "y": 430
+        },
+        {
+          "x": 490,
+          "y": 430
+        }
+      ]
+    }
+  },
+  "busentry": {
+    "gge20": {
+      "gId": "gge20",
+      "x1": "500",
+      "y1": "450",
+      "x2": "510",
+      "y2": "440",
+      "rotation": "0"
+    }
+  },
+  "netlabel": {
+    "gge24": {
+      "gId": "gge24",
+      "pinDot": {
+        "x": 530,
+        "y": 440
+      },
+      "rotation": 0,
+      "fillColor": "#000080",
+      "name": "netLabel",
+      "textAnchor": "start",
+      "x": "532",
+      "y": "440",
+      "fontFamily": "Times New Roman",
+      "fontSize": "7pt"
+    }
+  },
+  "netflag": {
+    "gge27": {
+      "configure": {
+        "gId": "gge27",
+        "partId": "part_netLabel_gnD",
+        "x": "580",
+        "y": "470",
+        "rotation": "0"
+      },
+      "pinDot": {
+        "x": 580,
+        "y": 470
+      },
+      "mark": {
+        "netFlagString": "GND",
+        "fillColor": "#000080",
+        "x": "569",
+        "y": "457",
+        "rotation": "0",
+        "textAnchor": "start",
+        "visible": 0,
+        "fontFamily": "Times New Roman",
+        "fontSize": "9pt"
+      },
+      "shapes": {
+        "polyline": {
+          "gge30": {
+            "gId": "gge30",
+            "strokeColor": "#000000",
+            "strokeWidth": "1",
+            "strokeStyle": 0,
+            "fillColor": "none",
+            "pointArr": [
+              {
+                "x": 580,
+                "y": 480
+              },
+              {
+                "x": 580,
+                "y": 470
+              }
+            ]
+          },
+          "gge31": {
+            "gId": "gge31",
+            "strokeColor": "#000000",
+            "strokeWidth": "1",
+            "strokeStyle": 0,
+            "fillColor": "none",
+            "pointArr": [
+              {
+                "x": 570,
+                "y": 480
+              },
+              {
+                "x": 589,
+                "y": 480
+              }
+            ]
+          },
+          "gge32": {
+            "gId": "gge32",
+            "strokeColor": "#000000",
+            "strokeWidth": "1",
+            "strokeStyle": 0,
+            "fillColor": "none",
+            "pointArr": [
+              {
+                "x": 574,
+                "y": 482
+              },
+              {
+                "x": 587,
+                "y": 482
+              }
+            ]
+          },
+          "gge33": {
+            "gId": "gge33",
+            "strokeColor": "#000000",
+            "strokeWidth": "1",
+            "strokeStyle": 0,
+            "fillColor": "none",
+            "pointArr": [
+              {
+                "x": 576,
+                "y": 484
+              },
+              {
+                "x": 583,
+                "y": 484
+              }
+            ]
+          },
+          "gge34": {
+            "gId": "gge34",
+            "strokeColor": "#000000",
+            "strokeWidth": "1",
+            "strokeStyle": 0,
+            "fillColor": "none",
+            "pointArr": [
+              {
+                "x": 579,
+                "y": 486
+              },
+              {
+                "x": 581,
+                "y": 486
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "pin": {
+    "gge35": {
+      "configure": {
+        "display": "show",
+        "electric": "0",
+        "spicePin": "1",
+        "x": "340",
+        "y": "550",
+        "gId": "gge35"
+      },
+      "pinDot": {
+        "x": 340,
+        "y": 550
+      },
+      "path": {
+        "pathString": "M 340 550 h -20",
+        "pinColor": "#880000"
+      },
+      "name": {
+        "visible": 1,
+        "x": "318",
+        "y": "553",
+        "rotation": 0,
+        "text": "1",
+        "textAnchor": "end",
+        "fontFamily": "",
+        "fontSize": ""
+      },
+      "num": {
+        "visible": 1,
+        "x": "325",
+        "y": "549",
+        "rotation": 0,
+        "text": "1",
+        "textAnchor": "start",
+        "fontFamily": "",
+        "fontSize": ""
+      },
+      "dot": {
+        "visible": 0,
+        "x": "323",
+        "y": "550"
+      },
+      "clock": {
+        "visible": 0,
+        "pathString": "M 320 547 L 317 550 L 320 553"
+      }
+    }
+  },
+  "polyline": {
+    "gge42": {
+      "gId": "gge42",
+      "strokeColor": "#000000",
+      "strokeWidth": "1",
+      "strokeStyle": 0,
+      "fillColor": "none",
+      "pointArr": [
+        {
+          "x": 390,
+          "y": 540
+        },
+        {
+          "x": 540,
+          "y": 540
+        }
+      ]
+    }
+  },
+  "path": {
+    "gge43": {
+      "gId": "gge43",
+      "strokeColor": "#000000",
+      "strokeWidth": "1",
+      "strokeStyle": 0,
+      "fillColor": "none",
+      "pathString": "M340 590 C430 620 460 560 460 560"
+    },
+    "gge56": {
+      "gId": "gge56",
+      "strokeColor": "#000000",
+      "strokeWidth": "1",
+      "strokeStyle": 0,
+      "fillColor": "none",
+      "pathString": "M510,670 L493.36,636.72 A30,40 0 0 1 529.93,699.9Z"
+    }
+  },
+  "arc": {
+    "gge45": {
+      "gId": "gge45",
+      "strokeColor": "#000000",
+      "strokeWidth": "1",
+      "strokeStyle": 0,
+      "fillColor": "none",
+      "pathString": "M571.23,565.01 A40,40 0 0 1 515.01,621.23",
+      "helperDots": "540,590,580,630,590,550,500,640"
+    }
+  },
+  "rect": {
+    "gge46": {
+      "gId": "gge46",
+      "strokeColor": "#000000",
+      "strokeWidth": "1",
+      "strokeStyle": 0,
+      "fillColor": "none",
+      "x": "630",
+      "y": "510",
+      "rx": "",
+      "ry": "",
+      "width": "110",
+      "height": "80"
+    }
+  },
+  "polygon": {
+    "gge47": {
+      "gId": "gge47",
+      "strokeColor": "#000000",
+      "strokeWidth": "1",
+      "strokeStyle": 0,
+      "fillColor": "none",
+      "pointArr": [
+        {
+          "x": 650,
+          "y": 450
+        },
+        {
+          "x": 700,
+          "y": 470
+        },
+        {
+          "x": 720,
+          "y": 450
+        },
+        {
+          "x": 640,
+          "y": 410
+        }
+      ]
+    },
+    "gge52": {
+      "gId": "gge52",
+      "strokeColor": "#000000",
+      "strokeWidth": "1",
+      "strokeStyle": 0,
+      "fillColor": "none",
+      "pointArr": [
+        {
+          "x": 630,
+          "y": 640
+        },
+        {
+          "x": 690,
+          "y": 680
+        },
+        {
+          "x": 700,
+          "y": 620
+        },
+        {
+          "x": 600,
+          "y": 640
+        },
+        {
+          "x": 610,
+          "y": 590
+        }
+      ]
+    },
+    "gge53": {
+      "gId": "gge53",
+      "strokeColor": "#000000",
+      "strokeWidth": "1",
+      "strokeStyle": 0,
+      "fillColor": "none",
+      "pointArr": [
+        {
+          "x": 610,
+          "y": 630
+        },
+        {
+          "x": 700,
+          "y": 630
+        },
+        {
+          "x": 680,
+          "y": 700
+        },
+        {
+          "x": 590,
+          "y": 700
+        }
+      ]
+    }
+  },
+  "arrowhead": {
+    "gge50": {
+      "partType": "part_arrowhead",
+      "x": "570",
+      "y": "510",
+      "gId": "gge51",
+      "pathString": "M 570 510 L 566 502 L 577 510 L 566 518 Z",
+      "fillColor": "#333333"
+    }
+  },
+  "ellipse": {
+    "gge54": {
+      "gId": "gge54",
+      "strokeColor": "#000000",
+      "strokeWidth": "1",
+      "strokeStyle": 0,
+      "fillColor": "none",
+      "cx": "380",
+      "cy": "690",
+      "rx": "40",
+      "ry": "40"
+    }
+  },
+  "image": {
+    "gge57": {
+      "gId": "gge57",
+      "x": "320",
+      "y": "280",
+      "width": "271",
+      "height": "105",
+      "rotation": 0,
+      "href": "http://easyeda.com/images/img_media/logo.png"
+    }
+  }
+}
