@@ -1,0 +1,47 @@
+{
+  "device_id": "TEC-STATION-001",
+  "station_name": "换热站 1 号",
+  "timestamp": "2026-05-13 10:50:00",
+  "network": {
+    "mqtt": "online",
+    "signal": 86
+  },
+  "mode": "monitor",
+  "primary_side": {
+    "supply_temp_c": 72.4,
+    "return_temp_c": 51.8,
+    "supply_pressure_mpa": 0.82,
+    "flow_m3h": 42.6,
+    "valve_open_percent": 38
+  },
+  "secondary_side": {
+    "supply_temp_c": 45.2,
+    "return_temp_c": 38.1,
+    "supply_pressure_mpa": 0.32,
+    "return_pressure_mpa": 0.24,
+    "flow_m3h": 68.3
+  },
+  "devices": {
+    "circulation_pump": {
+      "run": true,
+      "fault": false,
+      "frequency_hz": 35.0,
+      "current_a": 12.4
+    },
+    "refill_pump": {
+      "run": false,
+      "fault": false
+    },
+    "plate_heat_exchanger": {
+      "status": "normal",
+      "delta_temp_c": 7.1
+    }
+  },
+  "alarms": [
+    {
+      "level": "info",
+      "message": "系统运行正常"
+    }
+  ]
+}
+
