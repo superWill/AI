@@ -1,0 +1,12 @@
+[Unit]
+Description=Energy HMI Y31 AI1 temperature collector
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /opt/energy-hmi/bin/y31_temperature_collector.py
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target

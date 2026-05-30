@@ -766,6 +766,7 @@
       ],
       "温度传感器": [
         ["temperature", "温度", "degC", "secondary.supplyTemp"],
+        ["raw_current", "输入电流", "mA", "derived.rawCurrentMa"],
         ["sensor_quality", "传感器质量", "", "derived.sensorQuality"]
       ],
       "压力传感器": [
@@ -802,7 +803,8 @@
         ["last_upload", "最近上报", "", "timestamp"]
       ]
     };
-    let devices = loadDevices();
+    let liveY31Temperature = null;
+    let devices = ensureDefaultTemperatureDevice(loadDevices());
     let selectedDeviceId = devices[0]?.id || null;
     let interfaceEvents = loadInterfaceEvents();
 
@@ -988,8 +990,17 @@
     function defaultDevices() {
       return [
         createDevice({ name: "1 号换热机", code: "TEC-001", type: "换热机组", address: "1" }),
-        createDevice({ name: "二次侧循环泵", code: "PUMP-001", type: "循环泵", address: "2" })
+        createDevice({ name: "二次侧循环泵", code: "PUMP-001", type: "循环泵", address: "2" }),
+        createDevice({ name: "Y31 温度传感器", code: "TEMP-Y31-AI1", type: "温度传感器", address: "Y31 1.1" })
       ];
+    }
+
+    function ensureDefaultTemperatureDevice(list) {
+      const devices = Array.isArray(list) ? list : [];
+      if (!devices.some(device => device.code === "TEMP-Y31-AI1")) {
+        devices.push(createDevice({ name: "Y31 温度传感器", code: "TEMP-Y31-AI1", type: "温度传感器", address: "Y31 1.1" }));
+      }
+      return devices;
     }
 
     function loadDevices() {
@@ -1032,6 +1043,18 @@
       }
       el.textContent = value;
       el.className = "status " + cls;
+    }
+
+    async function refreshLiveY31Temperature() {
+      try {
+        const response = await fetch("data/y31-ai1-temperature.json?ts=" + Date.now(), { cache: "no-store" });
+        if (!response.ok) {
+          throw new Error("HTTP " + response.status);
+        }
+        liveY31Temperature = await response.json();
+      } catch {
+        liveY31Temperature = null;
+      }
     }
 
     function jitter(value, span, digits) {
@@ -1118,7 +1141,29 @@
       data.devices.circulationPump.runText = data.devices.circulationPump.run ? "运行" : "停止";
       data.devices.circulationPump.faultText = data.devices.circulationPump.fault ? "故障" : "正常";
       data.devices.refillPump.runText = data.devices.refillPump.run ? "运行" : "停止";
+      applyLiveY31Temperature(data, device);
       return data;
+    }
+
+    function applyLiveY31Temperature(data, device) {
+      if (device.type !== "温度传感器" || device.code !== "TEMP-Y31-AI1") {
+        return;
+      }
+      if (!liveY31Temperature || !liveY31Temperature.ok || typeof liveY31Temperature.temperature_c !== "number") {
+        data.acquisitionOk = false;
+        data.derived.sensorQuality = "未采集";
+        data.alarms = [{ level: "warn", message: "Y31 AI1 温度采集未就绪" }];
+        return;
+      }
+
+      const temp = liveY31Temperature.temperature_c;
+      data.secondary.supplyTemp = temp;
+      data.secondary.returnTemp = temp;
+      data.derived.secondaryDeltaTemp = 0;
+      data.derived.sensorQuality = "实测";
+      data.derived.rawCurrentMa = liveY31Temperature.raw_ma;
+      data.timestamp = new Date(liveY31Temperature.timestamp || Date.now()).toLocaleString("zh-CN", { hour12: false });
+      data.alarms = [{ level: "info", message: `Y31 AI1 实测温度 ${temp.toFixed(2)} degC，电流 ${liveY31Temperature.raw_ma.toFixed(3)} mA` }];
     }
 
     function valueByPath(data, path) {
@@ -1342,15 +1387,18 @@
 
     window.tecPushInterfaceEvent = pushInterfaceEvent;
 
-    renderDeviceList();
-    renderInterfaceEvents();
-    render(buildLiveData(getSelectedDevice()));
-    setInterval(() => {
+    async function renderCurrentDevice() {
+      await refreshLiveY31Temperature();
       const selected = getSelectedDevice();
       if (selected) {
         render(buildLiveData(selected));
       }
-    }, 1000);
+    }
+
+    renderDeviceList();
+    renderInterfaceEvents();
+    renderCurrentDevice();
+    setInterval(renderCurrentDevice, 1000);
   </script>
 </body>
 </html>

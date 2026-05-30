@@ -87,6 +87,19 @@ def bits_from_coil_response(response, quantity):
     return bits[:quantity]
 
 
+def registers_from_response(response):
+    if len(response) < 7 or response[1] not in (3, 4):
+        return []
+    byte_count = response[2]
+    data = response[3 : 3 + byte_count]
+    if len(data) != byte_count or byte_count % 2 != 0:
+        return []
+    registers = []
+    for index in range(0, byte_count, 2):
+        registers.append((data[index] << 8) | data[index + 1])
+    return registers
+
+
 def main():
     parser = argparse.ArgumentParser(description="Small Modbus RTU probe without external packages.")
     parser.add_argument("--port", default="/dev/ttyS7")
@@ -117,8 +130,9 @@ def main():
             continue
         ok = check_response(response)
         bits = bits_from_coil_response(response, quantity) if ok else []
+        registers = registers_from_response(response) if ok else []
         print(
-            "slave={slave} function={function} address={address} request={request} response={response} crc_ok={ok} bits={bits}".format(
+            "slave={slave} function={function} address={address} request={request} response={response} crc_ok={ok} bits={bits} registers={registers}".format(
                 slave=slave,
                 function=function,
                 address=address,
@@ -126,6 +140,7 @@ def main():
                 response=response.hex(" "),
                 ok=ok,
                 bits=bits,
+                registers=registers,
             )
         )
 

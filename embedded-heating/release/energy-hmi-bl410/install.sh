@@ -20,8 +20,17 @@ rm -rf "${APP_ROOT}/html"
 mkdir -p "${APP_ROOT}/html"
 cp -r "${RELEASE_ROOT}/html/." "${APP_ROOT}/html/"
 
+mkdir -p "${APP_ROOT}/bin"
+cp -r "${RELEASE_ROOT}/bin/." "${APP_ROOT}/bin/"
+chmod +x "${APP_ROOT}/bin/y31_temperature_collector.py"
+
 cp "${RELEASE_ROOT}/energy-hmi.nginx.conf" /etc/nginx/sites-available/energy-hmi
 ln -sf /etc/nginx/sites-available/energy-hmi /etc/nginx/sites-enabled/energy-hmi
+
+cp "${RELEASE_ROOT}/energy-hmi-y31-temperature.service" /etc/systemd/system/energy-hmi-y31-temperature.service
+systemctl daemon-reload
+systemctl enable energy-hmi-y31-temperature.service
+systemctl restart energy-hmi-y31-temperature.service
 
 nginx -t
 systemctl enable nginx

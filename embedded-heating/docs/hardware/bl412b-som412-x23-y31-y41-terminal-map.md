@@ -15,7 +15,51 @@ Y31      Y 系列 I/O 板，4 路模拟量输入
 Y41      Y 系列 I/O 板，4 路模拟量输出
 ```
 
-## 2. X23 端子
+## 2. 厂家绑定项
+
+下面这些接口、命令和命名方式是当前 BL412B / 北莱工业机平台绑定项，不应当当成通用 Linux 标准接口：
+
+| 项目 | 示例 | 绑定说明 | 迁移影响 |
+|---|---|---|---|
+| 工业机型号 | `BL412B-SOM412-X23-Y31-Y41` | 主机和扩展板组合来自厂家选型 | 换机器或换扩展板后端子数量、顺序、能力可能变化 |
+| X/Y 扩展板命名 | `X23`、`Y31`、`Y41` | 厂家的 I/O 模块型号 | 其他厂家通常不会使用这套命名 |
+| X23 端子映射 | `DI1` 在端子 7，`DO4` 在端子 2 | 端子号和功能由厂家硬件定义 | 换模块后必须重新查手册或实测 |
+| Y31 通道映射 | `slot 1 channel 1` = `Y31 AI1` | `slot.channel` 是厂家工具的寻址方式 | 不能假设其他平台也用 `1.1`、`1.2` |
+| Y41 通道映射 | `slot 2 channel 1` = `Y41 AO1` | `slot 2` 对应当前这台机器上的 Y41 | 板卡顺序变化时 `2.1` 可能不再是 AO1 |
+| Y 系列工具 | `/usr/sbin/ioy show`、`/usr/sbin/ioy set 2.1 12` | 厂家提供的 Y 系列 AI/AO 命令行工具 | 其他 Linux 设备通常没有 `ioy` |
+| DI/DO sysfs | `/sys/class/beilai/DI1/data`、`/sys/class/beilai/DO4/data` | 厂家驱动暴露的 sysfs 节点，`beilai` 是厂商相关命名 | 换平台后路径和读写方式可能完全不同 |
+| DO 控制方式 | `echo 1 > /sys/class/beilai/DO4/data` | 当前驱动用 `data` 文件控制开关量输出 | 其他驱动可能使用 GPIO、Modbus、PLC API 或专用 SDK |
+| 串口映射 | X23 `ttyS7-A/B` -> `/dev/ttyS7` | 当前系统镜像和硬件连线给出的设备名 | 不同内核、设备树或板卡上 `/dev/ttyS*` 可能变化 |
+| 默认网络地址 | ETH1 `192.168.1.110` | 当前设备调试配置 | 现场网络或恢复出厂后可能不同 |
+
+相对通用的部分：
+
+```text
+RS485 A/B、DI/DO、4~20mA、0~20mA、0~10V、Modbus RTU、stty 这些概念是工业控制通用概念。
+但具体端子号、Linux 设备文件、sysfs 路径、ioy 命令参数，都是当前厂家平台和当前配置绑定的。
+```
+
+当前常用厂家命令：
+
+```bash
+# 查看 Y31/Y41 当前 AI/AO 配置和值
+/usr/sbin/ioy show
+
+# 读 Y31 第 1 路 AI，当前设备上是 slot 1 channel 1
+/usr/sbin/ioy get 1.1
+
+# 设置 Y41 第 1 路 AO，当前 4t20 模式下 12 表示 12mA，不是 12V
+/usr/sbin/ioy set 2.1 12
+
+# 读 X23 DI1
+cat /sys/class/beilai/DI1/data
+
+# 控制 X23 DO4，也就是 X23 端子 2
+echo 1 > /sys/class/beilai/DO4/data
+echo 0 > /sys/class/beilai/DO4/data
+```
+
+## 3. X23 端子
 
 X23 是 20PIN 模块，包含：
 
@@ -59,7 +103,7 @@ COM 是 DI 干接点公共端。
 GND 用于 DI 湿接点或信号地。
 ```
 
-## 3. 门磁接入
+## 4. 门磁接入
 
 普通电控门磁通常是干接点开关，不输出电压。可以直接接 X23 的 DI。
 
@@ -87,7 +131,7 @@ DO1~DO4
 POWER
 ```
 
-## 4. KBDD-0400 模块接入
+## 5. KBDD-0400 模块接入
 
 如果使用 KBDD-0400 这类 RS485/Modbus 输入模块，则走 X23 的 RS485 端子。
 
@@ -161,7 +205,7 @@ KBDD-0400 如果是 Modbus RTU 输入模块，后续需要确认：
 DI 状态寄存器地址
 ```
 
-## 5. Y31 端子
+## 6. Y31 端子
 
 Y31 是 10PIN 模块，4 路单端模拟量输入：
 
@@ -201,7 +245,7 @@ RS485 设备
 0~10V 电压型传感器
 ```
 
-## 6. Y41 端子
+## 7. Y41 端子
 
 Y41 是 10PIN 模块，4 路模拟量输出：
 
@@ -241,7 +285,7 @@ RS485
 普通 DI 输入
 ```
 
-## 7. 当前建议
+## 8. 当前建议
 
 门磁优先直接接 X23：
 
@@ -258,3 +302,122 @@ COM：X23 端子 11
 ```
 
 如果压力传感器是 `0~10V` 或 `0.5~4.5V` 电压型，则不能直接接 Y31，需要继续用 DAQ4212，或更换成电压输入型 Y33/Y34 板卡。
+
+## 9. 2026-05-22 实测记录
+
+### 9.1 KHDQ-0400 门磁输入
+
+KHDQ-0400 是 RS485 / Modbus 数字量输入模块，不是模拟量模块。它的 RS485 接到 X23 后，工业机通过串口读模块内部寄存器；门磁实际接在 KHDQ-0400 的输入端。
+
+```text
+X23 17 ttyS7-A -> KHDQ-0400 485A
+X23 18 ttyS7-B -> KHDQ-0400 485B
+X23 12 GND     -> KHDQ-0400 GND，建议连接
+
+KHDQ-0400 VIN+ -> 外部 12/24V +
+KHDQ-0400 GND  -> 外部 12/24V -
+
+门磁一端 -> KHDQ-0400 IN1
+门磁一端 -> KHDQ-0400 COM
+```
+
+术语：
+
+```text
+IN1 = Input 1，第 1 路输入端。
+COM = Common，输入公共端。
+```
+
+`X23 17/18` 只负责 RS485 通信，不表示门磁接在工业机第 17/18 路输入。实测 KHDQ-0400 的 485A/485B 间约 `0.5~0.6V`，这是正常 RS485 空闲差分电压，不能作为供电使用。
+
+当前已验证读法：
+
+```bash
+python3 /root/modbus_rtu_probe.py \
+  --port /dev/ttyS7 \
+  --baud 9600 \
+  --slave 1 \
+  --function 3 \
+  --address 0x22 \
+  --quantity 1 \
+  --timeout 0.5
+```
+
+持续观察并拆出 4 路 DI：
+
+```bash
+while true; do
+  v=$(python3 /root/modbus_rtu_probe.py --port /dev/ttyS7 --baud 9600 --slave 1 --function 3 --address 0x22 --quantity 1 --timeout 0.5 | sed -n 's/.*registers=\[\([0-9]*\)\].*/\1/p')
+  python3 -c "v=int('$v'); print(f'raw={v} hex=0x{v:04X} DI1={v&1} DI2={(v>>1)&1} DI3={(v>>2)&1} DI4={(v>>3)&1}')"
+  sleep 0.5
+done
+```
+
+实测门磁靠近/远离时 `DI1` 在 `0/1` 变化，说明门磁接在 KHDQ-0400 第 1 路输入：
+
+```text
+raw=61472 hex=0xF020 DI1=0 DI2=0 DI3=0 DI4=0
+raw=61473 hex=0xF021 DI1=1 DI2=0 DI3=0 DI4=0
+```
+
+### 9.2 SBWZ-2280 温度变送器接 Y31
+
+照片中的 SBWZ-2280 端子定义按面板丝印理解为：
+
+```text
+左上 = 1 = 4-20mA+
+右上 = 2 = 4-20mA-
+左下 = 3 = 24VDC+
+右下 = 4 = 24VDC-
+
+5 / 6 / 7 / 8 = RTD/TC 温度探头输入端
+```
+
+不能把 24V 电源接到 `1/2`。`1/2` 是 4-20mA 输出端，`3/4` 是变送器供电端。
+
+本次实测跑通的回路接法：
+
+```text
+DR-45-24 +V       -> SBWZ-2280 端子 3：24VDC+
+SBWZ-2280 端子 4：24VDC- -> Y31 端子 1：AI1+
+Y31 端子 2：AI1- -> DR-45-24 -V
+```
+
+这个接法让 `DR-45-24 +V -> SBWZ -> Y31 AI1 -> DR-45-24 -V` 形成 4-20mA 电流回路。Y31 是电流输入，所以不需要 250Ω 电阻。
+
+如果用 DAQ4212 读这个变送器，则必须在 4-20mA 回路中增加采样电阻，例如：
+
+```text
+4mA  x 250Ω = 1V
+20mA x 250Ω = 5V
+```
+
+因为 DAQ4212 的 AI 读的是电压，不是电流。没有采样电阻时，DAQ4212 AI0 读到接近 `0V` 是正常现象，不能代表温度。
+
+Y31 读取命令：
+
+```bash
+/usr/sbin/ioy get 1.1
+```
+
+按 `4-20mA -> 0-100degC` 换算：
+
+```bash
+while true; do
+  ma=$(/usr/sbin/ioy get 1.1)
+  awk -v ma="$ma" 'BEGIN {
+    temp=(ma-4)/(20-4)*100;
+    printf "Y31 AI1=%.6f mA, temp=%.2f degC\n", ma, temp;
+  }'
+  sleep 0.5
+done
+```
+
+实测输出：
+
+```text
+Y31 AI1=8.182507 mA, temp=26.14 degC
+Y31 AI1=9.485810 mA, temp=34.29 degC
+```
+
+常温约 `26degC`，用手捂探头后升至约 `34degC`，说明变送器、Y31 输入和换算链路已跑通。
