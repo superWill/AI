@@ -59,5 +59,6 @@ embedded-heating/
 
 - `docs/architecture/device-presence-and-data-flow.md`：设备插入/拔出监控、设备列表在线/离线状态、HMI/WebSocket/MQTT 数据传输链路。
 - `docs/architecture/interface-event-notifications.md`：网线、USB、串口等接口事件监听和 HMI 提示模型。
+- `docs/business/controllable-industrial-devices.md`：热能中控机可接入/可控制的工业设备、协议、典型数据和 BL412B 硬件映射。
 
 `firmware/` 当前只放公共头文件（`include/`）和架构 README，模块代码 app/core/drivers/platform 等到选型确定后再建。

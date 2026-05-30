@@ -1,2 +1,6 @@
 prototype/firmware-sim/build/
 docs/business/*.html
+
+__pycache__/
+*.pyc
+.DS_Store

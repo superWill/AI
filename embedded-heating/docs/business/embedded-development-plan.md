@@ -24,6 +24,8 @@
 - 本地屏幕是串口屏、Linux HMI、MCU 直连屏还是 Web HMI。
 - MQTT 平台主题、报文格式、QoS、鉴权和离线缓存要求。
 
+设备接入范围、常见协议和典型数据先按 `docs/business/controllable-industrial-devices.md` 管理，后续再沉淀为正式点表和驱动配置。
+
 ## 2. Development Objective
 
 嵌入式软件目标不是只把设备“接起来”，而是让换热站在正常、异常、断网和人工干预场景下都能安全自治。
@@ -398,4 +400,3 @@ maintenance_loop_60s:
 - `hmi-pages.md`：本地屏页面设计。
 - `ota-design.md`：远程升级设计。
 - `test-plan.md`：嵌入式测试计划。
-
