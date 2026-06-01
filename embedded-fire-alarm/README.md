@@ -28,6 +28,7 @@ embedded-fire-alarm/
     business/            Market reference, compliance / certification notes
     point-table/         Loop point-table data model (detectors / modules / zones)
     protocols/           Loop bus draft + CRT (graphics-workstation) link draft
+    rk3506-migration/    GD32F407VET6 -> RK3506 migration research
     safety/              Interlock rules per GB 50116
   firmware/
     include/             Public C headers (fac_loop / fac_alarm / fac_interlock / fac_link / fac_panel / fac_point)
