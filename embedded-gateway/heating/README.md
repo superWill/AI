@@ -16,7 +16,7 @@
 ## Directory Layout
 
 ```text
-embedded-heating/
+embedded-gateway/heating/
   README.md
   config/                Default runtime configuration (default-parameters.json)
   docs/                  All design documentation

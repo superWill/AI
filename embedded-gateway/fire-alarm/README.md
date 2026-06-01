@@ -19,7 +19,7 @@
 ## Directory Layout
 
 ```text
-embedded-fire-alarm/
+embedded-gateway/fire-alarm/
   README.md
   .gitignore
   config/                Default runtime configuration
