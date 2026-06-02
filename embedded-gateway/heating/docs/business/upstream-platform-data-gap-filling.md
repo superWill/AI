@@ -83,4 +83,4 @@
 ## 7. 下一步
 
 - ✅《[面向优化平台的数据接口契约](../protocols/upstream-platform-data-contract.md)》：上送点表、采样频率、时间戳/质量码规范、接收下发设定值与执行回传协议。
-- 待办：在 PRD/控制逻辑中补充"接收平台设定值 → 本地执行 → 回传"的闭环数据流定义。
+- ✅ 在 [PRD §8.6](../product/thermal-control-gateway-prd.md) 补充"接收平台设定值 → 本地执行 → 回传"闭环数据流（含 FR-M09~M12）。

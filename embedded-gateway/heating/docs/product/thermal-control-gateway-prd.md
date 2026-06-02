@@ -15,6 +15,8 @@
 | [`thermal-source-edge-gateway-research-report.md`](../business/thermal-source-edge-gateway-research-report.md) | 市场/技术调研 | 本产品即调研结论中的"标准版：热源控制终端（RK3506+MCU）" |
 | [`thermal-control-gateway-design-debate.md`](./thermal-control-gateway-design-debate.md) | 产品/架构辩论与决策记录 | 本文多处设计取舍的理由存档（ADR 式），下文标注 `[决策N]` 处对应该文裁决 |
 | [`thermal-control-gateway-phased-plan.md`](./thermal-control-gateway-phased-plan.md) | 分阶段实现方案 | 把本 PRD 落成可排期的台架→现场顾问→有限自动→供暖季验证四段，含三张工程表 |
+| [`upstream-platform-data-contract.md`](../protocols/upstream-platform-data-contract.md) | 优化平台数据接口契约 | 定义上送点表、时间戳/质量码、下发设定值与执行回传协议；本文 §8.6 闭环数据流的协议依据 |
+| [`upstream-platform-data-gap-filling.md`](../business/upstream-platform-data-gap-filling.md) | 优化平台补位策略 | 网关作为现场数据源 + 策略执行端的定位，本文与优化平台联动的业务动因 |
 
 **一句话区分**：边缘网关 PRD 回答"现场数据怎么采上来、传上去"；本文回答"热源怎么被稳定、安全、节能地控制住"。
 
@@ -303,6 +305,24 @@ RK 周期发心跳 → MCU 收到则允许普通控制
 ```
 验收：心跳周期/超时可配；中断后 MCU 输出安全状态；恢复需握手。
 
+### 8.6 场景 F：优化平台设定值落地与回传（闭环）
+
+优化平台是**顾问/优化角色**：它给"要什么"（目标值），网关本地决定"怎么拧"，并把"实际拧到哪"回传。平台不直接驱动执行器，更不绕过安全分层。协议细节见 [数据接口契约 §6](../protocols/upstream-platform-data-contract.md)。
+
+```text
+平台下发设定值（property/set：目标供温/目标阀位 + valid_until）
+  → 网关安全校验（与限值/联锁冲突即拒绝，回 blocked_by_safety）
+  → 校验通过 → 作为本地气候补偿+PID 的目标值，由本地闭环执行
+  → 回传执行结果（command_reply：status + achieved 实际达到值）
+  → 设定值超 valid_until 未刷新 → 回退本地默认策略（防平台失联跑飞）
+```
+
+验收：
+- 平台设定值仅改变**目标值**，不直接动执行器，本地闭环负责执行。
+- 与安全限值/联锁冲突的设定值被拒绝并回传 `blocked_by_safety`，不越过 §6 分层安全。
+- 回传 `achieved` 实际达到值，形成"建议→执行→验证"闭环。
+- 设定值带有效期；平台失联超期后网关按本地策略自治（接 §8.4 断网自治）。
+
 ## 9. 功能需求清单（控制相关）
 
 ### 9.1 控制环与状态机
@@ -343,6 +363,10 @@ RK 周期发心跳 → MCU 收到则允许普通控制
 | FR-M06 | 本地模式优先级高于远程 | P1 |
 | FR-M07 | 控制命令模型（含 command_id/target/value/source/timestamp/timeout/reason） | P0 |
 | FR-M08 | 控制命令回执 command_reply | P0 |
+| FR-M09 | 接收优化平台下发设定值（目标供温/阀位 + valid_until），作为本地闭环目标值 | P1 |
+| FR-M10 | 设定值安全校验：与限值/联锁冲突即拒绝并回 blocked_by_safety | P1 |
+| FR-M11 | 回传执行结果 achieved（实际达到值），形成执行闭环 | P1 |
+| FR-M12 | 设定值超 valid_until 未刷新则回退本地默认策略（防平台失联跑飞） | P1 |
 
 控制命令必须包含（沿用采集 PRD 约定）：
 
