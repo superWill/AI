@@ -135,6 +135,8 @@ RK 管控制      —— 控制环、状态机、调度、HMI、上报，断网�
 
 **核心原则不是"全靠 MCU 软件兜底"，而是分层——越靠下越可靠：机械 > 硬接线 > MCU > RK。** 软件不是最后一道防线。
 
+> RK3506 与 MCU 的职责划分、片内 M0 能否承担安全角色、方案 A/B 取舍，见 [`../hardware/rk3506-mcu-responsibility-split.md`](../hardware/rk3506-mcu-responsibility-split.md)。
+
 ### 6.1 四层安全责任
 
 | 层级 | 谁执行 | 负责什么 | 关键点 |
