@@ -1,0 +1,22 @@
+{
+  "device_id": "stn-001",
+  "client_id": "gw-stn-001",
+
+  "broker_host": "127.0.0.1",
+  "broker_port": 1883,
+  "keepalive": 30,
+
+  "username": "",
+  "password": "",
+
+  "tls": false,
+  "ca_certs": null,
+  "certfile": null,
+  "keyfile": null,
+
+  "telemetry_interval": 30,
+  "heartbeat_interval": 60,
+  "buffer_max": 5000,
+
+  "_note": "Day1 用本地 mosquitto：broker_host=127.0.0.1, tls=false。Day2 上云：改 broker_host/port + username/password，TLS 时把 tls=true 并填证书路径。"
+}
