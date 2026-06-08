@@ -7,6 +7,7 @@
 > - `modbus_demo.py` Modbus 协议演示(虚拟串口) · `modbus_rtu.py` 真串口主/从
 > - `modbus_sim.py`+`sim_config.json` 配置驱动模拟器(多从站+故障注入,网关陪练)
 > - `gateway.py`+`gateway_config.json` 三层网关骨架(采集→队列→上云)
+> - `drm_hmi.py` 本地 LCD 仪表盘(纯 Python 直写 DRM,无 GUI 库/无 fb0/无浏览器)
 > 配套：[嵌入式常识清单](../../docs/embedded-common-sense.md) · [成长路径](../../docs/embedded-expert-growth-path.md)
 > 协议/架构延伸：[Modbus/RS485 基础](../../docs/protocols/fieldbus-modbus-rs485-basics.md) · [网关可靠性与性能](../../docs/architecture/gateway-reliability-and-performance.md)
 
