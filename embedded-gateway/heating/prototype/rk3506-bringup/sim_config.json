@@ -1,0 +1,31 @@
+{
+  "baud": 9600,
+  "_说明": "陪练设备清单。registers 的 key 是寄存器地址(字符串);base 固定值,给 swing/period_s 就在 base±swing 间正弦慢变。fault: none/offline/bad_crc/exception。",
+  "slaves": [
+    {
+      "addr": 1,
+      "name": "热表#1",
+      "fault": "none",
+      "registers": {
+        "0": { "base": 235, "swing": 40, "period_s": 60 },
+        "1": { "base": 486, "swing": 20, "period_s": 90 },
+        "2": { "base": 1 }
+      }
+    },
+    {
+      "addr": 2,
+      "name": "电表#2",
+      "fault": "none",
+      "registers": {
+        "0": { "base": 2200, "swing": 30, "period_s": 45 },
+        "1": { "base": 520, "swing": 80, "period_s": 30 }
+      }
+    },
+    {
+      "addr": 3,
+      "name": "坏表#3(模拟掉线)",
+      "fault": "offline",
+      "registers": { "0": { "base": 0 } }
+    }
+  ]
+}

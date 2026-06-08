@@ -1,0 +1,30 @@
+{
+  "baud": 9600,
+  "device_id": "rk3506-gw-01",
+  "poll_interval_s": 3,
+  "upload_interval_s": 10,
+  "timeout_s": 1.0,
+  "offline_after": 3,
+  "_说明": "网关要轮询哪些设备、读哪些寄存器、怎么换算。start/count=一次批量读的范围;points.reg=寄存器号,scale=工程量换算,q 质量码由采集结果决定。",
+  "devices": [
+    {
+      "addr": 1, "name": "热表#1", "start": 0, "count": 3,
+      "points": [
+        { "reg": 0, "id": "supply_temp", "scale": 0.1, "unit": "℃" },
+        { "reg": 1, "id": "humidity",    "scale": 0.1, "unit": "%RH" },
+        { "reg": 2, "id": "status",      "scale": 1,   "unit": "" }
+      ]
+    },
+    {
+      "addr": 2, "name": "电表#2", "start": 0, "count": 2,
+      "points": [
+        { "reg": 0, "id": "voltage", "scale": 0.1,  "unit": "V" },
+        { "reg": 1, "id": "current", "scale": 0.01, "unit": "A" }
+      ]
+    },
+    {
+      "addr": 3, "name": "坏表#3", "start": 0, "count": 1,
+      "points": [ { "reg": 0, "id": "x", "scale": 1, "unit": "" } ]
+    }
+  ]
+}

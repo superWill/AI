@@ -2,9 +2,23 @@
 
 > 对象：**HD-RK3506-IOT V1.2** 工业机（万象，核心板 HD-RK3506J-256）
 > 系统：Buildroot，Linux 6.1.118，armv7l，root/root，eth0 默认 `192.168.1.10`
-> 本目录：`loopback_test.py` 串口自环 · `wifi.py` WiFi 配置 · `modbus_demo.py` Modbus RTU 主从演示
+> 本目录脚本：
+> - `loopback_test.py` 串口自环 · `wifi.py` WiFi 配置
+> - `modbus_demo.py` Modbus 协议演示(虚拟串口) · `modbus_rtu.py` 真串口主/从
+> - `modbus_sim.py`+`sim_config.json` 配置驱动模拟器(多从站+故障注入,网关陪练)
+> - `gateway.py`+`gateway_config.json` 三层网关骨架(采集→队列→上云)
 > 配套：[嵌入式常识清单](../../docs/embedded-common-sense.md) · [成长路径](../../docs/embedded-expert-growth-path.md)
 > 协议/架构延伸：[Modbus/RS485 基础](../../docs/protocols/fieldbus-modbus-rs485-basics.md) · [网关可靠性与性能](../../docs/architecture/gateway-reliability-and-performance.md)
+
+## Modbus 采集 → 网关骨架(已在板子实测)
+```
+配置驱动模拟器(104:USB-TTL)  ──真串口──►  网关骨架(板子:ttyS1)
+  modbus_sim.py 多从站+故障注入            gateway.py 轮询→队列→上云
+```
+- 真串口接线:`ttyS1_TX(pin8)→对端RX`、`对端TX→ttyS1_RX(pin10)`、`GND→pin9`(跨机必接)。
+- 验证过:多设备轮询、工程量换算、质量码、故障隔离+退避、离线设备每轮仍上报、`clock_sync` 标记时间可信度。
+- 真上线:模拟器换成真表(USB-RS485);`gateway.py` uploader 的 print 换成 [`gateway_mqtt.py`](../cloud-gateway-mqtt/gateway_mqtt.py) 的 publish;配 systemd 掉电自启。
+- ⚠️ 板子无 RTC,重启时间乱(常识 §11):需 NTP 或上电向云/上位机校时,否则 `clock_sync=unsynced`。
 
 这份文档的价值不在"结论是通的"，而在**排查路径**——一个放反的短接帽卡了我们半天，
 代码/查手册 AI 几秒就给了，真正难的是物理世界里的常识。整个过程没瞎改一行代码。
