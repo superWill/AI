@@ -15,11 +15,13 @@
 import json
 import os
 import select
+import socket
 import struct
 import sys
 import termios
 import threading
 import time
+from collections import deque
 
 BAUDS = {9600: termios.B9600, 19200: termios.B19200, 38400: termios.B38400,
          57600: termios.B57600, 115200: termios.B115200}
@@ -85,6 +87,55 @@ def clock_synced():
     return time.gmtime().tm_year >= 2020
 
 
+# ---------- 极简 MQTT 发布端(MQTT 3.1.1 / QoS0,纯标准库)+ 断网缓冲补传 ----------
+
+def _mqtt_len(n):
+    out = b""
+    while True:
+        b = n % 128; n //= 128
+        if n:
+            b |= 0x80
+        out += bytes([b])
+        if not n:
+            return out
+
+
+class MqttPub:
+    def __init__(self, host, port, client_id, topic, bufmax=200):
+        self.host, self.port, self.cid, self.topic = host, port, client_id, topic
+        self.sock = None
+        self.buf = deque(maxlen=bufmax)              # 断网时缓存,恢复后补发
+
+    def _connect(self):
+        s = socket.create_connection((self.host, self.port), timeout=5)
+        cid = self.cid.encode()
+        body = b"\x00\x04MQTT\x04\x02" + struct.pack(">H", 60) + struct.pack(">H", len(cid)) + cid
+        s.sendall(b"\x10" + _mqtt_len(len(body)) + body)
+        ack = s.recv(4)
+        if len(ack) < 4 or ack[0] != 0x20 or ack[3] != 0:
+            s.close(); raise OSError("CONNACK 失败 %r" % ack)
+        self.sock = s
+
+    def _raw(self, payload):
+        t, p = self.topic.encode(), payload.encode()
+        body = struct.pack(">H", len(t)) + t + p
+        self.sock.sendall(b"\x30" + _mqtt_len(len(body)) + body)   # PUBLISH QoS0
+
+    def publish(self, obj):
+        try:
+            if self.sock is None:
+                self._connect()
+                while self.buf:                      # 重连后先补发缓冲,标 replay
+                    o = self.buf.popleft(); o["replay"] = True
+                    self._raw(json.dumps(o, ensure_ascii=False))
+            self._raw(json.dumps(obj, ensure_ascii=False))
+            return True
+        except OSError:
+            self.sock = None
+            self.buf.append(obj)                     # 断网:缓存,等恢复补传
+            return False
+
+
 # ---------- 采集层 ----------
 
 def poller(fd, cfg, state, lock, stop):
@@ -129,6 +180,10 @@ def poller(fd, cfg, state, lock, stop):
 def uploader(cfg, state, lock, stop):
     dev_id = cfg.get("device_id", "gw-01")
     up_interval = cfg.get("upload_interval_s", 10)
+    m = cfg.get("mqtt")
+    mq = MqttPub(m["host"], m.get("port", 1883), dev_id,
+                 m.get("topic", "station/%s/telemetry" % dev_id),
+                 m.get("buffer", 200)) if m else None
     seq = 0
     while not stop.is_set():
         time.sleep(up_interval)
@@ -141,8 +196,13 @@ def uploader(cfg, state, lock, stop):
                      "clock_sync": "synced" if clock_synced() else "unsynced", "seq": seq,
                      "devices": [{"addr": s["addr"], "name": s["name"], "ok": s["ok"],
                                   "points": s["points"]} for s in snap]}
-        # ↓↓↓ 真上线:把这行 print 换成 gateway_mqtt.py 的 publish(telemetry) ↓↓↓
-        print("[上传→云] " + json.dumps(telemetry, ensure_ascii=False), flush=True)
+        if mq:                                           # 真发 MQTT(失败自动缓存补传)
+            ok = mq.publish(telemetry)
+            print("[MQTT %s] topic=%s seq=%d%s"
+                  % ("✅已发" if ok else "⚠️断网→已缓存%d条" % len(mq.buf),
+                     mq.topic, seq, "" if ok else ""), flush=True)
+        else:
+            print("[上传→云(占位)] " + json.dumps(telemetry, ensure_ascii=False), flush=True)
         print("[健康] " + "  ".join("%d:%s" % (s["addr"], s["health"]) for s in snap)
               + ("  ⚠️时间未校准" if not clock_synced() else ""), flush=True)
 
