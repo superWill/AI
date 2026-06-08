@@ -2,8 +2,9 @@
 
 > 对象：**HD-RK3506-IOT V1.2** 工业机（万象，核心板 HD-RK3506J-256）
 > 系统：Buildroot，Linux 6.1.118，armv7l，root/root，eth0 默认 `192.168.1.10`
-> 本目录：`loopback_test.py` 串口自环测试脚本 + 本次排查实录
+> 本目录：`loopback_test.py` 串口自环 · `wifi.py` WiFi 配置 · `modbus_demo.py` Modbus RTU 主从演示
 > 配套：[嵌入式常识清单](../../docs/embedded-common-sense.md) · [成长路径](../../docs/embedded-expert-growth-path.md)
+> 协议/架构延伸：[Modbus/RS485 基础](../../docs/protocols/fieldbus-modbus-rs485-basics.md) · [网关可靠性与性能](../../docs/architecture/gateway-reliability-and-performance.md)
 
 这份文档的价值不在"结论是通的"，而在**排查路径**——一个放反的短接帽卡了我们半天，
 代码/查手册 AI 几秒就给了，真正难的是物理世界里的常识。整个过程没瞎改一行代码。
