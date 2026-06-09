@@ -36,7 +36,9 @@ embedded-gateway/heating/
 
 ## Architecture Rule
 
-安全保护层优先级最高。远程 MQTT 指令、本地屏手动操作、自动控制算法都不能绕过安全保护。
+稳定性和安全是最高优先级。安全保护层优先级最高，远程 MQTT 指令、本地屏手动操作、自动控制算法都不能绕过安全保护。
+
+工程实现默认按失效场景设计：所有外部 I/O 必须带超时，所有采集值必须有质量码，设备离线不能拖死主循环，平台失联要能本地自治，控制输出必须有限值、联锁、失联回退和人工接管路径。软件不能作为最后一道安全防线。
 
 ## First Development Target
 
@@ -57,6 +59,9 @@ embedded-gateway/heating/
 
 关键设计文档：
 
+- `docs/embedded-common-sense.md`：嵌入式常识清单，用于审核 AI 方案和现场排障。
+- `docs/embedded-expert-growth-path.md`：AI 协作版嵌入式工程师成长路径。
+- `docs/embedded-learning-mindmap.md`：绑定 RK3506/MCU/HMI/MQTT/安全分层的学习思维导图。
 - `docs/architecture/device-presence-and-data-flow.md`：设备插入/拔出监控、设备列表在线/离线状态、HMI/WebSocket/MQTT 数据传输链路。
 - `docs/architecture/interface-event-notifications.md`：网线、USB、串口等接口事件监听和 HMI 提示模型。
 - `docs/business/controllable-industrial-devices.md`：热能中控机可接入/可控制的工业设备、协议、典型数据和 BL412B 硬件映射。

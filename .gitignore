@@ -21,6 +21,9 @@ Thumbs.db
 .idea/
 *.iml
 
+# Generated local outputs
+outputs/
+
 # Secrets — 不要提交任何 API key / token
 .env
 .env.local

@@ -123,7 +123,7 @@ cat /sys/kernel/debug/pinctrl/*/pinmux-pins | grep -iE "uart|serial"
 
 | | 状态 | 证据 |
 |---|---|---|
-| **蓝牙** | ✅ 开机即通 | `hci0 UP RUNNING`，BlueZ 5.77，固件 `rtl8723d_fw.bin` 已加载；扫到 4 个周边设备 |
+| **蓝牙** | ✅ 开机即通；✅ GATT 双向收发已通 | `hci0 UP RUNNING`，BlueZ 5.77，固件 `rtl8723d_fw.bin` 已加载；可扫到周边设备；作为 BLE Central 连 227 的 NUS 外设，RX 写入和 TX notify 均已抓包确认 |
 | **WiFi** | ✅ 硬件就绪、未连网 | `wlan0` 存在，rfkill 未拦(soft=0)；扫到 8 个 2.4G 热点；连 AP 用 `wpa_supplicant` |
 
 工具：`bluetoothctl / wpa_supplicant / hostapd / hciattach / rtk_hciattach` 都有（缺 `iw`、`btmgmt`）。
@@ -134,6 +134,58 @@ bluetoothctl power on
 timeout 12 bluetoothctl --timeout 10 scan on
 bluetoothctl devices            # 列出扫到的设备
 # 配对：bluetoothctl → pair <MAC> → connect <MAC>
+```
+
+### BLE GATT 透传验证（227 当外设）
+
+拓扑：`192.168.1.227` 当 BLE 外设（GATT Server），广播 `GW-PEER`；RK3506 当 BLE 主机（Central），订阅 TX、写 RX。
+
+227 侧脚本：`ble_peripheral.py`，使用 Nordic UART Service：
+
+| UUID | 方向 | 用途 |
+|---|---|---|
+| `6e400001-b5a3-f393-e0a9-e50e24dcca9e` | service | NUS 服务 |
+| `6e400002-b5a3-f393-e0a9-e50e24dcca9e` | RK → 227 | RX write |
+| `6e400003-b5a3-f393-e0a9-e50e24dcca9e` | 227 → RK | TX notify |
+
+实测关键点：
+
+- 128-bit UUID + 名字 + TxPower 会超过 31B 广播包上限；广播包只放 `LocalName=GW-PEER`，连上后再发现服务。
+- 227 要显式 `Discoverable=True` / `connectable`，否则 BlueZ 可能显示广告实例存在，但 RK3506 空口扫不到或连不上。
+- RK3506 当前 `bluetoothctl connect` 路径不可靠（`Device1` 缺 `Connect()`）；验收脚本用 `gatttool` 独占 HCI，临时停 `bluetoothd` 后再恢复。
+
+当前实测句柄（每次重启 GATT 可能变化，以 `--char-desc` 为准）：
+
+| 句柄 | 含义 |
+|---|---|
+| `0x001d` | TX notify value |
+| `0x001e` | TX CCCD，写 `0100` 开启通知 |
+| `0x0020` | RX write value |
+
+验收命令（板子上）：
+
+```bash
+scp ble_nus_probe.sh root@192.168.1.10:/tmp/
+MSG=final-proof /tmp/ble_nus_probe.sh
+```
+
+成功证据：
+
+```text
+== subscribe TX ==
+Characteristic value was written successfully
+== write RX: final-proof ==
+Characteristic value was written successfully
+ATT: Handle notify (0x1b)
+  handle 0x001d
+  value 0x65 0x63 0x68 0x6f ...   # echo:final-proof
+```
+
+227 日志同步看到：
+
+```text
+[板子→227] b'final-proof'
+[227→板子] echo:final-proof
 ```
 
 ### WiFi 扫描 / 连接
@@ -185,3 +237,42 @@ python3 wifi.py status --json                 # 给上层程序调用
 ```bash
 sudo ip route add 192.168.1.10/32 dev enp3s0      # enp3s0=227 上接工业机的有线口
 ```
+
+## 五、调试串口备忘（经 227 看 RK3506）
+
+RK3506 当前启动参数：
+
+```text
+console=ttyFIQ0
+```
+
+227 上插 CH340 USB-TTL 时，正常应出现：
+
+```bash
+ls -l /dev/ttyUSB0
+```
+
+如果 `dmesg` 显示先 attached 到 `ttyUSB0` 又马上 disconnected，并出现 `brltty` 抢占：
+
+```text
+ch341-uart converter now attached to ttyUSB0
+usbfs: interface 0 claimed by ch341 while 'brltty' sets config #1
+ch341-uart converter now disconnected from ttyUSB0
+```
+
+先停掉 227 上的 `brltty`，再重新插 USB-TTL：
+
+```bash
+sudo systemctl stop brltty brltty-udev
+sudo systemctl disable brltty brltty-udev
+```
+
+打开串口：
+
+```bash
+sudo busybox microcom -s 1500000 /dev/ttyUSB0
+# 若乱码再试 115200
+sudo busybox microcom -s 115200 /dev/ttyUSB0
+```
+
+接线必须是 3.3V TTL，先只接 `GND + RK_TX → CH340_RX` 就应该能看到输出；看不到时优先查 GND、TX/RX 是否接反、是否接到板子的调试三针口，而不是改软件。
