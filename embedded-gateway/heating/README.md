@@ -61,6 +61,7 @@ embedded-gateway/heating/
 
 - `docs/embedded-common-sense.md`：嵌入式常识清单，用于审核 AI 方案和现场排障。
 - `docs/embedded-expert-growth-path.md`：AI 协作版嵌入式工程师成长路径。
+- `docs/learning-progress.md`：当前学习步骤和进度标记，下一步从 RS485 / Modbus RTU 开始。
 - `docs/embedded-learning-mindmap.md`：绑定 RK3506/MCU/HMI/MQTT/安全分层的学习思维导图。
 - `docs/architecture/device-presence-and-data-flow.md`：设备插入/拔出监控、设备列表在线/离线状态、HMI/WebSocket/MQTT 数据传输链路。
 - `docs/architecture/interface-event-notifications.md`：网线、USB、串口等接口事件监听和 HMI 提示模型。
