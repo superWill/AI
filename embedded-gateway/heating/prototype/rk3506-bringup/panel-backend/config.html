@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>面板配置后台</title>
+<style>
+  :root { --ink:#1c2733; --mut:#6b7785; --line:#dfe6ec; --acc:#0f766e; --bg:#f3f6f8; }
+  * { box-sizing:border-box; }
+  body { margin:0; font:15px/1.5 -apple-system,system-ui,"PingFang SC",sans-serif; color:var(--ink); background:var(--bg); }
+  header { background:#fff; border-bottom:1px solid var(--line); padding:14px 18px; position:sticky; top:0; display:flex; align-items:center; gap:12px; }
+  header h1 { font-size:18px; margin:0; color:var(--acc); }
+  .sub { color:var(--mut); font-size:13px; }
+  main { max-width:920px; margin:0 auto; padding:16px; }
+  .page { background:#fff; border:1px solid var(--line); border-radius:12px; padding:14px; margin-bottom:16px; box-shadow:0 8px 24px rgba(31,45,61,.06); }
+  .page-head { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+  .page-head input { font-size:16px; font-weight:600; border:none; border-bottom:2px solid var(--line); padding:4px 2px; flex:1; }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th { text-align:left; color:var(--mut); font-weight:500; padding:4px 6px; border-bottom:1px solid var(--line); }
+  td { padding:3px 4px; }
+  td input, td select { width:100%; padding:5px 6px; border:1px solid var(--line); border-radius:6px; font-size:13px; }
+  td.w-lab input { min-width:90px; } td.w-num input { width:64px; } td.w-u input{ width:54px; }
+  button { font:inherit; border:none; border-radius:8px; padding:8px 14px; cursor:pointer; }
+  .btn-acc { background:var(--acc); color:#fff; }
+  .btn-light { background:#eef2f5; color:var(--ink); }
+  .btn-del { background:#fdecea; color:#c0392b; padding:5px 9px; border-radius:6px; }
+  .row-btns { margin-top:10px; display:flex; gap:8px; }
+  .bar { position:sticky; bottom:0; background:#fff; border-top:1px solid var(--line); padding:12px 18px; display:flex; gap:10px; align-items:center; }
+  #msg { color:var(--mut); }
+</style>
+</head>
+<body>
+<header>
+  <h1>面板配置后台</h1>
+  <span class="sub">勾选要在小屏显示/控制的点 → 保存即生效</span>
+</header>
+<main id="pages"></main>
+<div class="bar">
+  <button class="btn-light" onclick="addPage()">+ 添加页</button>
+  <button class="btn-acc" onclick="save()">保存并应用</button>
+  <span id="msg"></span>
+</div>
+
+<script>
+let cfg = { pages: [] };
+const WIDGETS = ["value", "setpoint", "switch"];
+
+function el(tag, attrs={}, ...kids){ const e=document.createElement(tag);
+  for(const k in attrs){ if(k==="value") e.value=attrs[k]; else e.setAttribute(k,attrs[k]); }
+  kids.forEach(c=>e.append(c)); return e; }
+
+function tileRow(t){
+  const tr = el("tr");
+  const mk = (key, w, ph) => { const i=el("input",{value:t[key]??"",placeholder:ph||""});
+    i.oninput=()=>t[key]= (w==="num"? (i.value===""?undefined:Number(i.value)) : i.value); return i; };
+  tr.append(
+    el("td",{class:"w-lab"}, mk("label","str","名称")),
+    el("td",{class:"w-num"}, mk("addr","num")),
+    el("td",{class:"w-num"}, mk("reg","num")),
+    el("td",{class:"w-num"}, mk("scale","num")),
+    el("td",{class:"w-u"},   mk("unit","str")),
+  );
+  const sel = el("select"); WIDGETS.forEach(w=>{ const o=el("option",{value:w}); o.textContent=w; sel.append(o); });
+  sel.value = t.widget||"value"; sel.onchange=()=>t.widget=sel.value;
+  tr.append(el("td",{}, sel),
+    el("td",{class:"w-num"}, mk("write_reg","num")),
+    el("td",{class:"w-num"}, mk("step","num")));
+  const del = el("button",{class:"btn-del"}); del.textContent="删"; del.onclick=()=>{ const p=cfg.pages.find(p=>p.tiles.includes(t)); p.tiles.splice(p.tiles.indexOf(t),1); render(); };
+  tr.append(el("td",{}, del));
+  return tr;
+}
+
+function render(){
+  const root = document.getElementById("pages"); root.innerHTML="";
+  cfg.pages.forEach(p=>{
+    const card = el("div",{class:"page"});
+    const head = el("div",{class:"page-head"});
+    const ti = el("input",{value:p.title||""}); ti.oninput=()=>p.title=ti.value;
+    const pd = el("button",{class:"btn-del"}); pd.textContent="删除页"; pd.onclick=()=>{ cfg.pages.splice(cfg.pages.indexOf(p),1); render(); };
+    head.append(ti, pd); card.append(head);
+    const tbl = el("table");
+    tbl.append(el("tr",{}, ...["标签","地址","寄存器","换算","单位","控件","写寄存器","步长",""].map(h=>el("th",{},document.createTextNode(h)))));
+    (p.tiles||[]).forEach(t=>tbl.append(tileRow(t)));
+    card.append(tbl);
+    const add = el("button",{class:"btn-light"}); add.textContent="+ 添加点"; add.onclick=()=>{ p.tiles.push({label:"新点",addr:1,reg:0,scale:1,unit:"",widget:"value"}); render(); };
+    card.append(el("div",{class:"row-btns"}, add));
+    root.append(card);
+  });
+}
+function addPage(){ cfg.pages.push({title:"新页", tiles:[]}); render(); }
+
+async function load(){
+  try { cfg = await (await fetch("/api/config")).json(); if(!cfg.pages) cfg.pages=[]; }
+  catch(e){ cfg={pages:[]}; }
+  render();
+}
+async function save(){
+  const msg=document.getElementById("msg"); msg.textContent="保存中…";
+  // 清掉 undefined 字段
+  const clean = JSON.parse(JSON.stringify(cfg));
+  try {
+    const r = await fetch("/api/config",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(clean)});
+    const j = await r.json();
+    msg.textContent = j.ok ? "✅ 已保存,面板正在重载…" : ("❌ "+(j.err||"失败"));
+  } catch(e){ msg.textContent="❌ 网络错误"; }
+}
+load();
+</script>
+</body>
+</html>
