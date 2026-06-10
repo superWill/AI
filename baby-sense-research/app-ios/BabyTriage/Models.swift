@@ -23,6 +23,7 @@ final class BabyProfile {
 
 enum RecordingQuality: String, Codable {
     case ok, tooNoisy, tooShort, tooFar
+    case micDenied       // 未获麦克风权限
     case manual          // "先手动记录"路径,无音频
 }
 

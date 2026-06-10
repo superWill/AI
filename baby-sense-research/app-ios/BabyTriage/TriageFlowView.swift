@@ -95,7 +95,9 @@ private struct RecordingScreen: View {
                 }
             }
             .frame(height: 40)
-            Text("正在仔细听…").font(.subheadline).foregroundStyle(.secondary)
+            Text(flow.elapsedSec > 0 ? "正在仔细听… 已录 \(flow.elapsedSec)s" : "正在仔细听…")
+                .font(.subheadline).foregroundStyle(.secondary)
+                .monospacedDigit()
 
             Button { flow.stopRecording() } label: {
                 Image(systemName: "stop.fill")
@@ -112,9 +114,19 @@ private struct RecordingScreen: View {
     }
 }
 
-// S3 分析结果 —— 质量检查 + 中性读数; 不合格 → 引导重录
+// S3 分析结果 —— 质量检查 + 中性读数; 不合格 → 按原因给具体引导
 private struct AnalysisScreen: View {
     @Bindable var flow: FlowState
+
+    private var hintText: String {
+        switch flow.analysis?.recordingQuality {
+        case .tooShort: "录得有点短，至少录 3–5 秒。\n没听清就不分析——不给你瞎说。"
+        case .tooFar: "声音有点轻，可能离得远——靠近一点再录。\n没听清就不分析——不给你瞎说。"
+        case .tooNoisy: "背景有点吵，换个安静点的位置试试。\n没听清就不分析——不给你瞎说。"
+        default: "可能背景有点吵、离得有点远，或录得太短了。\n没听清就不分析——不给你瞎说。"
+        }
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
             if let a = flow.analysis, a.recordingQuality == .ok {
@@ -139,10 +151,17 @@ private struct AnalysisScreen: View {
                 Button("下一步：补充情况 →") { flow.proceedToContext() }
                     .buttonStyle(.borderedProminent)
                     .frame(maxWidth: .infinity)
+            } else if flow.analysis?.recordingQuality == .micDenied {
+                Label("没拿到麦克风权限", systemImage: "mic.slash")
+                    .font(.subheadline.weight(.medium))
+                Text("可以在 设置 > 隐私 里打开麦克风权限；\n现在也可以先手动记录这次哭闹。")
+                    .font(.subheadline).foregroundStyle(.secondary)
+                Button("先手动记录") { flow.manualEntry() }
+                    .buttonStyle(.borderedProminent)
             } else {
                 Label("这段没太听清", systemImage: "mic.slash")
                     .font(.subheadline.weight(.medium))
-                Text("可能背景有点吵、离得有点远，或录得太短了。\n没听清就不分析——不给你瞎说。")
+                Text(hintText)
                     .font(.subheadline).foregroundStyle(.secondary)
                 Button("靠近些，重录") { flow.startRecording() }
                     .buttonStyle(.borderedProminent)

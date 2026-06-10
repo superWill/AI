@@ -8,6 +8,14 @@ import SwiftData
 @MainActor
 final class AcceptanceTests: XCTestCase {
 
+
+    private func makeMockFlow(failEveryN: Int = 0) -> FlowState {
+        let flow = FlowState()
+        flow.analyzer = MockCryAnalyzer(failEveryN: failEveryN)
+        flow.recorder = MockAudioRecorder()
+        return flow
+    }
+
     private func makeWorld() throws -> (ModelContext, BabyProfile) {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
         let container = try ModelContainer(for: BabyProfile.self, configurations: config)
@@ -34,8 +42,7 @@ final class AcceptanceTests: XCTestCase {
     // 验收 1: 正常闭环 —— 录音→上下文→建议→选动作→反馈已缓解→档案链完整
     func testNormalLoopPersistsFullChain() throws {
         let (ctx, baby) = try makeWorld()
-        let flow = FlowState()
-        flow.analyzer = MockCryAnalyzer(failEveryN: 0)
+        let flow = makeMockFlow()
 
         flow.startRecording()
         flow.stopRecording()
@@ -105,8 +112,7 @@ final class AcceptanceTests: XCTestCase {
     // 验收 4: 危险升级 —— 勾发热直接升级, 不给建议
     func testDangerSymptomEscalatesImmediately() throws {
         let (ctx, baby) = try makeWorld()
-        let flow = FlowState()
-        flow.analyzer = MockCryAnalyzer(failEveryN: 0)
+        let flow = makeMockFlow()
         flow.manualEntry()
         flow.symptomChoice = "发热"
         flow.submitContext(modelContext: ctx, baby: baby)
@@ -120,8 +126,7 @@ final class AcceptanceTests: XCTestCase {
     // 验收 4b: 反馈"更严重"也升级
     func testWorseOutcomeEscalates() throws {
         let (ctx, baby) = try makeWorld()
-        let flow = FlowState()
-        flow.analyzer = MockCryAnalyzer(failEveryN: 0)
+        let flow = makeMockFlow()
         flow.startRecording(); flow.stopRecording(); flow.proceedToContext()
         flow.symptomChoice = "都没有"
         flow.submitContext(modelContext: ctx, baby: baby)
@@ -135,7 +140,7 @@ final class AcceptanceTests: XCTestCase {
     // 验收 5: 手动记录分支 —— 不录音也能完整走完, 档案标记 manual
     func testManualPathCompletesLoop() throws {
         let (ctx, baby) = try makeWorld()
-        let flow = FlowState()
+        let flow = makeMockFlow()
         flow.manualEntry()
         XCTAssertEqual(flow.step, .context)
         flow.symptomChoice = "都没有"
@@ -155,8 +160,7 @@ final class AcceptanceTests: XCTestCase {
 
     // 补充: 录音质量不合格 → 不进入后续流程
     func testNoisyRecordingBlocksAnalysis() throws {
-        let flow = FlowState()
-        flow.analyzer = MockCryAnalyzer(failEveryN: 1)   // 每次都"太吵"
+        let flow = makeMockFlow(failEveryN: 1)   // 每次都"太吵"
         flow.startRecording()
         flow.stopRecording()
         XCTAssertEqual(flow.analysis?.recordingQuality, .tooNoisy)

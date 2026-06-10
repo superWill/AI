@@ -135,7 +135,9 @@ struct ProfileView: View {
     private var nextBasisCard: some View {
         card {
             Text("下次 App 会这样排序").font(.subheadline.weight(.medium))
-            let reasons = records.compactMap(\.nextReason).prefix(3)
+            // 升级政策由下方固定行统一表达, 最近依据只列促排/降权, 避免重复
+            let reasons = records.compactMap(\.nextReason)
+                .filter { $0.kind != .escalate }.prefix(3)
             if reasons.isEmpty {
                 Text("完成一次完整记录后，这里会告诉你下次建议为什么这么排。")
                     .font(.caption).foregroundStyle(.secondary)

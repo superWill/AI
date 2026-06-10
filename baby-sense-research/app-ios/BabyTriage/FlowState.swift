@@ -25,7 +25,17 @@ final class FlowState {
         }
     }
 
-    var analyzer: CryAnalyzing = MockCryAnalyzer()
+    var analyzer: CryAnalyzing
+    var recorder: AudioRecording
+    var elapsedSec = 0
+    private var elapsedTimer: Timer?
+
+    init() {
+        // -uitest: 全 Mock(无权限弹窗/确定性); 正常运行: 真录音 + 真质量检测
+        let uitest = ProcessInfo.processInfo.arguments.contains("-uitest")
+        analyzer = uitest ? MockCryAnalyzer() : RealCryQualityAnalyzer()
+        recorder = uitest ? MockAudioRecorder() : RealAudioRecorder()
+    }
 
     // 会话内暂存
     var analysis: CryAnalysis?
@@ -40,11 +50,30 @@ final class FlowState {
     var diaperRecent = false
     var symptomChoice: String = "都没有"
 
-    func startRecording() { step = .recording }
+    func startRecording() {
+        step = .recording
+        elapsedSec = 0
+        recorder.onAutoStop = { [weak self] in self?.stopRecording() }   // 满 15s 自动停
+        recorder.requestPermissionAndStart { [weak self] ok in
+            guard let self else { return }
+            if ok {
+                self.elapsedTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
+                    self?.elapsedSec += 1
+                }
+            } else {
+                self.analysis = CryAnalysis(recordingQuality: .micDenied, cryConfidence: 0,
+                                            intensity: 0, noiseLevel: 0,
+                                            durationSec: 0, hasPauses: false)
+                self.step = .analysis
+            }
+        }
+    }
 
     func stopRecording() {
-        let a = analyzer.analyze(durationSec: Double.random(in: 6...14))
-        analysis = a
+        guard step == .recording else { return }
+        elapsedTimer?.invalidate(); elapsedTimer = nil
+        let (samples, rate) = recorder.stop()
+        analysis = analyzer.analyze(samples: samples, sampleRate: rate)
         isManual = false
         step = .analysis
     }
