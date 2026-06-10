@@ -97,7 +97,7 @@ static uint16_t crc16(const uint8_t *d, int n) { uint16_t c = 0xFFFF;
     for (int i = 0; i < n; i++) { c ^= d[i]; for (int b = 0; b < 8; b++) c = (c & 1) ? (c >> 1) ^ 0xA001 : c >> 1; }
     return c; }
 static int rd_frame(uint8_t *buf, int cap) {
-    int len = 0; struct timeval tv = { 0, 400000 };
+    int len = 0; struct timeval tv = { 0, 150000 };     /* 150ms 够响应,失败更快恢复 */
     for (;;) {
         fd_set rf; FD_ZERO(&rf); FD_SET(ser_fd, &rf);
         if (select(ser_fd + 1, &rf, 0, 0, &tv) <= 0) break;
@@ -155,7 +155,8 @@ typedef struct {
     int addr, reg, write_reg, step, vmin, vmax, widget, inited;
     double scale; char unit[10];
     lv_obj_t *val, *sw; int cur;
-    volatile int rawval, ok;          /* 采集线程写,UI 线程读 */
+    volatile int rawval, ok, ever;    /* 采集线程写,UI 线程读;ever=读到过(缓存最后好值) */
+    volatile uint32_t last_ok_ms;     /* 最后一次成功读的时刻,用于判新鲜/变旧 */
 } tile_t;
 static tile_t tiles[64]; static int ntiles;
 typedef struct { tile_t *t; int dir; } btnctx_t;
@@ -261,9 +262,11 @@ static void *poll_thread(void *arg) {
             tile_t *t = &tiles[i]; int v;
             while (dequeue_write(&cmd)) write_reg(cmd.addr, cmd.reg, cmd.val); /* 读的间隙也及时处理写,控制更跟手 */
             t->ok = (read_reg(t->addr, t->reg, &v) == 0);
-            if (t->ok) t->rawval = v;
+            if (!t->ok) { usleep(40000); t->ok = (read_reg(t->addr, t->reg, &v) == 0); }  /* 失败重试一次 */
+            if (t->ok) { t->rawval = v; t->ever = 1; t->last_ok_ms = tick_cb(); }  /* 缓存最后好值 */
+            usleep(40000);                               /* 帧间静默,避免请求粘连(RTU 必须) */
         }
-        usleep(150000);
+        usleep(100000);
     }
     return NULL;
 }
@@ -280,8 +283,14 @@ static void ui_tick(lv_timer_t *tm) {
             if (t->ok && !t->inited) { t->cur = t->rawval;
                 snprintf(s, sizeof(s), "%.1f", t->rawval * t->scale); lv_label_set_text(t->val, s); t->inited = 1; }
         } else {
-            if (t->ok) snprintf(s, sizeof(s), "%.1f", t->rawval * t->scale); else strcpy(s, "--");
+            uint32_t col;
+            if (!t->ever) { strcpy(s, "--"); col = 0xc0392b; }          /* 从没读到:红 */
+            else {
+                snprintf(s, sizeof(s), "%.1f", t->rawval * t->scale);
+                col = (tick_cb() - t->last_ok_ms > 4000) ? 0xb45309 : C_INK;  /* >4s 没刷新:橙(旧值) */
+            }
             lv_label_set_text(t->val, s);
+            lv_obj_set_style_text_color(t->val, lv_color_hex(col), 0);
         }
     }
 }

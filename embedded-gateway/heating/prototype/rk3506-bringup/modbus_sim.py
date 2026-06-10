@@ -48,22 +48,34 @@ def open_serial(dev, baud):
     return fd
 
 
-def read_frame(fd, timeout=5.0, gap=0.03):
+def _read_exact(fd, n, deadline):
+    b = b""
+    while len(b) < n and time.time() < deadline:
+        r, _, _ = select.select([fd], [], [], max(0, deadline - time.time()))
+        if r:
+            c = os.read(fd, n - len(b))
+            if c:
+                b += c
+    return b
+
+
+def read_frame(fd, timeout=5.0):
+    """按 Modbus 帧长精确分帧(不靠时间间隔,彻底避免请求粘连)。
+    先读 addr+func,再按功能码读固定长度的剩余字节。"""
     deadline = time.time() + timeout
-    while time.time() < deadline:
-        r, _, _ = select.select([fd], [], [], deadline - time.time())
-        if not r:
-            continue
-        buf = os.read(fd, 256)
-        if not buf:
-            continue
-        while True:
-            r2, _, _ = select.select([fd], [], [], gap)
-            if r2:
-                buf += os.read(fd, 256)
-            else:
-                return buf
-    return b""
+    head = _read_exact(fd, 2, deadline)          # 从站地址 + 功能码
+    if len(head) < 2:
+        return b""
+    func = head[1] & 0x7F
+    if func in (0x03, 0x04, 0x05, 0x06):
+        body = _read_exact(fd, 6, deadline)      # 起始2 + 数量/值2 + CRC2 = 共8字节
+    elif func == 0x10:                           # 写多个:变长
+        pre = _read_exact(fd, 5, deadline)       # 起始2 数量2 字节数1
+        nb = pre[4] if len(pre) >= 5 else 0
+        body = pre + _read_exact(fd, nb + 2, deadline)
+    else:
+        body = _read_exact(fd, 6, deadline)      # 未知:按 8 字节尽力读
+    return head + body
 
 
 def reg_value(spec, t0):
@@ -136,7 +148,8 @@ def main():
                         note = "[故障:bad_crc] CRC故意错"
                     else:
                         note = "正常应答 %s" % vals
-            print("收 %s  →  %s" % (hx(frame), note), flush=True)
+            if "正常应答" not in note:                  # 只打异常/写/离线,正常读不刷日志(否则 I/O 拖慢→请求粘连)
+                print("收 %s  →  %s" % (hx(frame), note), flush=True)
             if resp:
                 os.write(fd, resp)
     except KeyboardInterrupt:
