@@ -32,6 +32,7 @@ baby-sense-research/
 │   ├── extract_embeddings.py      ← YAMNet embedding 提取（哭声）
 │   ├── train_eval.py              ← YAMNet 版 L3
 │   ├── eval_L1.py                 ← YAMNet 版 L1（含 ESC embedding 提取）
+│   ├── train_l1_model.py          ← L1 产品训练：Keras 头 + 导出 TFLite（可端侧）
 │   └── 实验结果.md                 ← 全部数字 + 解读 + 评估修正说明
 └── data/                          ← 数据与 venv，已 .gitignore（不入库）
     ├── donateacry-corpus/         ← git clone（见下）
@@ -85,6 +86,16 @@ uv pip install --python data/.venv-arm/bin/python -r requirements-yamnet.txt
 data/.venv-arm/bin/python baseline/extract_embeddings.py   # 提哭声 embedding → work/embeddings.npz
 data/.venv-arm/bin/python baseline/train_eval.py           # YAMNet 版 L3
 data/.venv-arm/bin/python baseline/eval_L1.py              # YAMNet 版 L1（首次会提 2000 条 ESC embedding）
+```
+
+### C. L1 产品模型训练 + 导出端侧（M1 起点）
+
+```bash
+# 需先跑过 B 的 extract_embeddings.py 和 eval_L1.py（生成两个 npz）
+data/.venv-arm/bin/python baseline/train_l1_model.py
+# → 训 Keras 分类头(可导出) → 评估 → 导出 data/work/l1_model/l1_head.tflite (~67KB)
+# → iOS 再用 coremltools 从 saved_model 导 .mlpackage
+# 端侧推理 = YAMNet(出 1024d embedding) → 此分类头(出哭声概率)
 ```
 
 > 跑前确保已跑过 A 的 `prepare_data.py`（YAMNet 脚本复用其 manifest）。
