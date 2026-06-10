@@ -23,7 +23,8 @@ struct MockCryAnalyzer: CryAnalyzing {
 
     func analyze(durationSec: Double) -> CryAnalysis {
         Self.counter += 1
-        if failEveryN > 0, Self.counter % failEveryN == 0 {
+        let forceNoisy = ProcessInfo.processInfo.arguments.contains("-forceNoisy")
+        if forceNoisy || (failEveryN > 0 && Self.counter % failEveryN == 0) {
             return CryAnalysis(recordingQuality: .tooNoisy, cryConfidence: 0.3,
                                intensity: 0.2, noiseLevel: 0.9,
                                durationSec: durationSec, hasPauses: false)

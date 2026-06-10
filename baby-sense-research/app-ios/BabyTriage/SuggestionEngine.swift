@@ -91,7 +91,8 @@ struct SuggestionEngine {
                 }
             }
 
-            let reason = reasons.first ?? "常规排查项"
+            // 最多展示两条理由(上下文 + 历史), 历史理由是"个性化在生效"的证据
+            let reason = reasons.isEmpty ? "常规排查项" : reasons.prefix(2).joined(separator: "；")
             scored.append(RankedSuggestion(action: action, score: score, reason: reason))
         }
 

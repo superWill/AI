@@ -6,8 +6,6 @@ options:
 settings:
   SWIFT_VERSION: "5.10"
   GENERATE_INFOPLIST_FILE: YES
-  INFOPLIST_KEY_NSMicrophoneUsageDescription: "录音仅在本机分析宝宝哭声，默认不上传。"
-  INFOPLIST_KEY_UILaunchScreen_Generation: YES
   CODE_SIGNING_ALLOWED: NO
 targets:
   BabyTriage:
@@ -17,3 +15,34 @@ targets:
     settings:
       PRODUCT_BUNDLE_IDENTIFIER: com.babysense.babytriage
       INFOPLIST_KEY_CFBundleDisplayName: "哭闹排查助手"
+      INFOPLIST_KEY_NSMicrophoneUsageDescription: "录音仅在本机分析宝宝哭声，默认不上传。"
+      INFOPLIST_KEY_UILaunchScreen_Generation: YES
+  BabyTriageTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: [Tests/Unit]
+    dependencies:
+      - target: BabyTriage
+    settings:
+      TEST_HOST: $(BUILT_PRODUCTS_DIR)/BabyTriage.app/BabyTriage
+      BUNDLE_LOADER: $(TEST_HOST)
+  BabyTriageUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources: [Tests/UI]
+    dependencies:
+      - target: BabyTriage
+    settings:
+      TEST_TARGET_NAME: BabyTriage
+schemes:
+  BabyTriage:
+    build:
+      targets:
+        BabyTriage: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - BabyTriageTests
+        - BabyTriageUITests

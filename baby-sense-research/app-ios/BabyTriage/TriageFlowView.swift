@@ -55,6 +55,7 @@ private struct RecordHome: View {
                     .frame(width: 116, height: 116)
                     .background(Color.accentColor.opacity(0.12), in: Circle())
             }
+            .accessibilityLabel("开始录音")
             .padding(.top, 30)
             Text("开始录音")
                 .font(.subheadline.weight(.medium))
@@ -77,6 +78,9 @@ private struct RecordHome: View {
 private struct RecordingScreen: View {
     @Bindable var flow: FlowState
     @State private var pulse = false
+    // 持续动画会让 XCUITest 等待 app 空闲而卡住, UI 测试模式下静止
+    private let animated = !ProcessInfo.processInfo.arguments.contains("-uitest")
+
     var body: some View {
         VStack(spacing: 20) {
             Spacer()
@@ -85,8 +89,9 @@ private struct RecordingScreen: View {
                     Capsule()
                         .fill(Color.accentColor)
                         .frame(width: 5, height: pulse ? 34 : 10)
-                        .animation(.easeInOut(duration: 0.5).repeatForever()
-                            .delay(Double(i) * 0.12), value: pulse)
+                        .animation(animated
+                            ? .easeInOut(duration: 0.5).repeatForever().delay(Double(i) * 0.12)
+                            : nil, value: pulse)
                 }
             }
             .frame(height: 40)
@@ -98,11 +103,12 @@ private struct RecordingScreen: View {
                     .frame(width: 64, height: 64)
                     .background(.quaternary, in: Circle())
             }
+            .accessibilityLabel("停止录音")
             .padding(.top, 12)
             Text("停止").font(.caption).foregroundStyle(.tertiary)
             Spacer()
         }
-        .onAppear { pulse = true }
+        .onAppear { if animated { pulse = true } }
     }
 }
 
@@ -245,6 +251,7 @@ private struct SuggestScreen: View {
                         .strokeBorder(.secondary.opacity(0.3), lineWidth: 0.7))
                 }
                 .foregroundStyle(.primary)
+                .accessibilityIdentifier("suggestion-\(s.rank)")
             }
             Text("选一个先试 →（其余作备选）")
                 .font(.caption).foregroundStyle(.tertiary)

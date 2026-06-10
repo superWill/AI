@@ -30,6 +30,26 @@ xcodebuild -project BabyTriage.xcodeproj -scheme BabyTriage \
 - 本地存储 SwiftData，**不上云**；M1a 不录真音频（模拟），自然不保存音频。
 - 已验证：模拟器编译通过 + 启动运行（S1 渲染正确、通知权限按预期弹出）。
 
+## 自动化验收（已全绿 ✅ 11/11）
+
+评审 5 条验收已固化为测试，随时回归：
+
+```bash
+xcodebuild -project BabyTriage.xcodeproj -scheme BabyTriage \
+  -destination 'platform=iOS Simulator,name=iPhone 15' test
+```
+
+| 验收条目 | 逻辑层(单元) | UI层(模拟器实点) |
+|---|---|---|
+| 1 正常闭环全链路 | `testNormalLoopPersistsFullChain` ✅ | `testNormalLoopEndToEnd` ✅ |
+| 2 历史促排+理由"最近对宝宝有效 n/m" | `testEffectiveHistoryPromotesAndExplains` ✅ | （多轮UI易碎,由真人体验) |
+| 3 无效降权+理由"最近几次效果不明显" | `testIneffectiveHistoryDemotesAndExplains` ✅ | 同上 |
+| 4 危险升级(发热→就医,不给建议) | `testDangerSymptomEscalatesImmediately` + `testWorseOutcomeEscalates` ✅ | `testDangerEscalation` ✅ |
+| 5 手动记录分支走完闭环 | `testManualPathCompletesLoop` ✅ | `testManualPathEndToEnd` ✅ |
+| 补:太吵→引导重录 | `testNoisyRecordingBlocksAnalysis` ✅ | `testNoisyRecordingGuidesRetry` ✅ |
+
+> UI 测试用 `-uitest` 启动参数关闭通知弹窗与持续动画(保证自动化稳定)；`-forceNoisy` 可强制"太吵"分支。
+
 ## 闭环验收路径（模拟器里手点）
 
 1. 记一次 → 开始录音 → 停止 → 看到"是宝宝的哭声 + 强度中等"（约每5次出现"没太听清→重录"）
