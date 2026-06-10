@@ -1,0 +1,33 @@
+{
+  "_说明": "小屏要显示/控制哪些点 —— 后台(网页/文件)配置,面板只渲染这里配的。",
+  "_widget": "value=只读数值; setpoint=带 +/- 写寄存器; switch=开关写寄存器",
+  "pages": [
+    { "title": "PRIMARY", "tiles": [
+      { "label": "S.TEMP", "addr": 1, "reg": 0, "scale": 0.1,  "unit": "C",   "widget": "value" },
+      { "label": "S.PRES", "addr": 1, "reg": 1, "scale": 0.01, "unit": "MPa", "widget": "value" },
+      { "label": "S.FLOW", "addr": 1, "reg": 2, "scale": 0.1,  "unit": "t/h", "widget": "value" },
+      { "label": "R.TEMP", "addr": 2, "reg": 0, "scale": 0.1,  "unit": "C",   "widget": "value" },
+      { "label": "R.PRES", "addr": 2, "reg": 1, "scale": 0.01, "unit": "MPa", "widget": "value" }
+    ] },
+    { "title": "SECONDARY", "tiles": [
+      { "label": "S.TEMP", "addr": 3, "reg": 0, "scale": 0.1,  "unit": "C",   "widget": "value" },
+      { "label": "S.PRES", "addr": 3, "reg": 1, "scale": 0.01, "unit": "MPa", "widget": "value" },
+      { "label": "S.FLOW", "addr": 3, "reg": 2, "scale": 0.1,  "unit": "t/h", "widget": "value" },
+      { "label": "R.TEMP", "addr": 4, "reg": 0, "scale": 0.1,  "unit": "C",   "widget": "value" },
+      { "label": "R.PRES", "addr": 4, "reg": 1, "scale": 0.01, "unit": "MPa", "widget": "value" }
+    ] },
+    { "title": "DEVICES", "tiles": [
+      { "label": "PUMP Hz",  "addr": 5, "reg": 1, "scale": 0.1,  "unit": "Hz", "widget": "value" },
+      { "label": "PUMP A",   "addr": 5, "reg": 2, "scale": 0.1,  "unit": "A",  "widget": "value" },
+      { "label": "HEX dT",   "addr": 7, "reg": 1, "scale": 0.1,  "unit": "C",  "widget": "value" },
+      { "label": "VOLT",     "addr": 8, "reg": 0, "scale": 0.1,  "unit": "V",  "widget": "value" },
+      { "label": "CURR",     "addr": 8, "reg": 1, "scale": 0.01, "unit": "A",  "widget": "value" }
+    ] },
+    { "title": "CONTROL", "tiles": [
+      { "label": "SET TEMP", "addr": 1, "reg": 10, "scale": 0.1, "unit": "C", "widget": "setpoint",
+        "write_reg": 10, "step": 5, "min": 400, "max": 850 },
+      { "label": "CIRC PUMP", "addr": 5, "reg": 0, "widget": "switch", "write_reg": 10 },
+      { "label": "REFILL PUMP", "addr": 6, "reg": 0, "widget": "switch", "write_reg": 10 }
+    ] }
+  ]
+}

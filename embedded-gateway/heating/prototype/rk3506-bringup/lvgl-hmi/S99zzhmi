@@ -1,0 +1,7 @@
+#!/bin/sh
+# RK3506 控制面板开机自启(busybox init)。放 /etc/init.d/,非侵入,rm 即恢复厂家 demo。
+case "$1" in
+  start) /root/hmi_start.sh & ;;
+  stop)  killall hmi_lvgl 2>/dev/null ;;
+esac
+exit 0

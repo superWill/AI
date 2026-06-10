@@ -114,6 +114,11 @@ def main():
                 note = "请求CRC错,丢弃不应答"
             elif s.get("fault") == "offline":
                 note = "[故障:offline] 不应答"
+            elif func == 0x06:                          # 写单个寄存器(控制!)
+                reg, val = struct.unpack(">HH", frame[2:6])
+                s.setdefault("registers", {})[str(reg)] = {"base": val}   # 存下被控值
+                resp = frame[:6] + crc16(frame[:6])     # 0x06 原样回 addr/reg/val
+                note = "[写] 寄存器%d=%d" % (reg, val)
             elif func != 0x03:
                 resp, note = exc_resp(addr, func, 1), "非0x03→异常码1"
             else:
