@@ -1,12 +1,19 @@
-# BabyTriage — 哭闹排查助手 iOS（M1a ✅ + M1b-1 ✅）
+# BabyTriage — 哭闹排查助手 iOS（M1a ✅ M1b-1 ✅ M1c ✅）
 
 > 先骨架后模型。当前状态：
 > - **M1a ✅** 完整本地闭环（建议→动作→追问→档案→历史影响下次排序），验收 11/11
 > - **M1a.5 ✅** 手感验收（截图巡游 12 屏，4 条标准全过）
-> - **M1b-1 ✅** 真录音（AVAudioEngine→16k mono，15s 自动停）+ 真质量检测（时长/音量/SNR 纯 DSP）+ 强度/停顿比测量；权限被拒走手动记录
-> - 待做：M1b-2 尖锐度等谱特征 → M1c YAMNet/Core ML（替换 `cryConfidence` 启发式占位）
+> - **M1b-1 ✅** 真录音（AVAudioEngine→16k mono，15s 自动停）+ 质量检测（时长/音量/SNR 纯 DSP）+ 强度/停顿比
+> - **M1c ✅ 端侧模型已接入**："是不是宝宝哭声"由 **YAMNet+训练头(Core ML)** 真判定：
+>   - `ML/YAMNetEmbedding.mlpackage`（6.2MB，权重fp16/IO fp32）+ `ML/CryHead.mlpackage`（268KB）+ `ML/melmatrix.bin`（烘焙 mel 矩阵，保证端侧与训练逐位一致）
+>   - Swift 前端 `MelFrontend`（vDSP 幅度谱×烘焙mel）→ `CryDetector`（CoreML 两段推理+均值池化）
+>   - **黄金一致性测试**：同一音频 端侧 vs 训练端(hub) 概率差 <0.1（实测哭声 0.975 vs 0.985，噪声一致）；模型层拒识噪声(<0.3)
+>   - 不像哭声 → `notCry` →"录到的声音不太像宝宝的哭声"引导重录/手动
+>   - 重新导出：`data/.venv-arm/bin/python baseline/export_coreml.py`
+> - 待做：M1b-2 尖锐度谱特征（可选）→ M1d 捐赠/隐私授权
 >
-> 测试/UI 自动化仍用 Mock（`-uitest` 参数），真录音真分析只在正常运行时生效——回归 16/16 全绿。
+> 测试/UI 自动化仍用 Mock（`-uitest`），真录音真模型只在正常运行生效——回归 **19/19** 全绿（含 3 个黄金模型测试）。
+> ⚠️ 转换坑位记录：coremltools 转 fp16 模型默认 IO 也是 fp16，iOS 端喂 Float32 MLMultiArray 会被按字节误读输出全零——必须 `dtype=np.float32` 强制 IO fp32（脚本已处理）。
 
 ## 跑起来
 

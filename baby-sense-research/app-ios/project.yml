@@ -20,7 +20,10 @@ targets:
   BabyTriageTests:
     type: bundle.unit-test
     platform: iOS
-    sources: [Tests/Unit]
+    sources:
+      - Tests/Unit
+      - path: Tests/Fixtures
+        buildPhase: resources
     dependencies:
       - target: BabyTriage
     settings:

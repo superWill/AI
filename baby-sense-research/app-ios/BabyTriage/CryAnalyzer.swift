@@ -18,9 +18,13 @@ protocol CryAnalyzing {
     func analyze(samples: [Float], sampleRate: Double) -> CryAnalysis
 }
 
-// MARK: - 真实现 (M1b-1)
+// MARK: - 真实现 (M1b-1 质量闸门 + M1c 模型哭声判定)
 
 struct RealCryQualityAnalyzer: CryAnalyzing {
+    /// M1c: CoreML 哭声检测器; nil 时回退 ZCR 启发式(测试合成信号 / 模型缺失)
+    var detector: CryDetecting? = CryDetector.shared
+    /// 低于此概率判 notCry(取保守值, 黄金集: 哭声0.97+/噪声0.0001)
+    var cryThreshold: Double = 0.5
 
     func analyze(samples: [Float], sampleRate: Double) -> CryAnalysis {
         let duration = Double(samples.count) / sampleRate
@@ -73,11 +77,21 @@ struct RealCryQualityAnalyzer: CryAnalyzing {
             hasPauses = Double(inactive) / Double(span) > 0.15
         }
 
-        // cryConfidence 启发式占位: 婴儿哭声基频 ~300–600Hz, 活跃帧 ZCR 落带内 → 偏高
-        // ⚠️ 不是模型判断, M1c 用 YAMNet 替换
-        let activeZcr = activeIdx.isEmpty ? 0
-            : activeIdx.map { zcr[$0] }.reduce(0, +) / Double(activeIdx.count)
-        let cryConfidence = (0.03...0.14).contains(activeZcr) ? 0.85 : 0.55
+        // M1c: 真模型判定"是不是婴儿哭声"(YAMNet+训练头, 端侧 CoreML)
+        let cryConfidence: Double
+        if let prob = detector?.cryProbability(samples: samples) {
+            cryConfidence = prob
+            if prob < cryThreshold {
+                return CryAnalysis(recordingQuality: .notCry, cryConfidence: prob,
+                                   intensity: intensity, noiseLevel: min(1.0, noiseFloor / 0.05),
+                                   durationSec: duration, hasPauses: hasPauses)
+            }
+        } else {
+            // 回退: ZCR 启发式(仅模型不可用时)
+            let activeZcr = activeIdx.isEmpty ? 0
+                : activeIdx.map { zcr[$0] }.reduce(0, +) / Double(activeIdx.count)
+            cryConfidence = (0.03...0.14).contains(activeZcr) ? 0.85 : 0.55
+        }
 
         return CryAnalysis(recordingQuality: .ok,
                            cryConfidence: cryConfidence,

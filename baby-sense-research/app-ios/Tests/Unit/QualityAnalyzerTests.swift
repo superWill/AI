@@ -6,7 +6,8 @@ import XCTest
 final class QualityAnalyzerTests: XCTestCase {
 
     private let sr: Double = 16_000
-    private let analyzer = RealCryQualityAnalyzer()
+    // detector: nil —— 本组测的是 DSP 质量闸门, 合成正弦不该被模型(M1c)拦截
+    private let analyzer = RealCryQualityAnalyzer(detector: nil)
 
     // 确定性伪随机(LCG), 保证测试可复现
     private struct LCG {
