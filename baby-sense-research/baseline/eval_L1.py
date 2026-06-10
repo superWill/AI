@@ -16,11 +16,9 @@ import numpy as np
 import soundfile as sf
 import tensorflow as tf
 import tensorflow_hub as hub
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import roc_auc_score, roc_curve
-from sklearn.model_selection import StratifiedGroupKFold
-from sklearn.pipeline import make_pipeline
-from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import roc_auc_score
+
+from metrics import l1_cv, print_l1, recall_at_fpr
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, "data")
@@ -80,25 +78,13 @@ def main() -> None:
     groups = np.concatenate([cry["uuids"],
                              np.char.add("escfold_", esc["fold"].astype(str))])
 
-    auc_zs = roc_auc_score(y, zs)
-    fpr, tpr, _ = roc_curve(y, zs)
-    print(f"\n[零样本 YAMNet] AUC = {auc_zs:.4f} | "
-          f"召回@FPR1% = {tpr[np.searchsorted(fpr, 0.01)]:.3f} | "
-          f"召回@FPR5% = {tpr[np.searchsorted(fpr, 0.05)]:.3f}")
+    # 零样本：直接用 YAMNet 哭声类分数当检测器(无训练)，单一 ROC + 保守低误报召回
+    print(f"\n[零样本 YAMNet] AUC = {roc_auc_score(y, zs):.4f} | "
+          f"召回@FPR1%(保守) = {recall_at_fpr(y, zs, 0.01):.3f} | "
+          f"召回@FPR5%(保守) = {recall_at_fpr(y, zs, 0.05):.3f}")
 
-    oof = np.zeros(len(y))
-    skf = StratifiedGroupKFold(n_splits=5, shuffle=True, random_state=42)
-    for tr, te in skf.split(X, y, groups):
-        clf = make_pipeline(StandardScaler(),
-                            LogisticRegression(class_weight="balanced",
-                                               max_iter=5000, C=0.1))
-        clf.fit(X[tr], y[tr])
-        oof[te] = clf.predict_proba(X[te])[:, 1]
-    auc = roc_auc_score(y, oof)
-    fpr, tpr, _ = roc_curve(y, oof)
-    print(f"[训练 logreg ] AUC = {auc:.4f} | "
-          f"召回@FPR1% = {tpr[np.searchsorted(fpr, 0.01)]:.3f} | "
-          f"召回@FPR5% = {tpr[np.searchsorted(fpr, 0.05)]:.3f}")
+    # 训练版：与 MFCC 同一套按折评估(C=0.5)，报 mean±std + 旧乐观算法对照
+    print_l1("[训练 logreg YAMNet]", l1_cv(X, y, groups))
 
 
 if __name__ == "__main__":

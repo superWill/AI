@@ -13,12 +13,13 @@ import os
 import numpy as np
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import (balanced_accuracy_score, classification_report,
-                             confusion_matrix, f1_score, roc_auc_score, roc_curve)
+                             confusion_matrix, f1_score, roc_auc_score)
 from sklearn.model_selection import StratifiedGroupKFold
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
 from features import feature_vector
+from metrics import l1_cv, print_l1
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, "data")
@@ -97,17 +98,13 @@ def main():
     print(f"\ndonateacry {len(labels)} 条, 维度 {cry_X.shape[1]}, "
           f"独立婴儿 {len(set(uuids.tolist()))}")
 
-    # A) L1 哭声 vs 环境音
+    # A) L1 哭声 vs 环境音（按折评估 + 修正的低误报召回）
     X = np.concatenate([cry_X, f["esc_X"]])
     esc_pos = (f["esc_cat"] == "crying_baby").astype(int)
     y = np.concatenate([np.ones(len(cry_X), int), esc_pos])
     groups = np.concatenate([uuids, np.char.add("esc_", f["esc_fold"].astype(str))])
-    cls, pred, prob = cv(X, y.astype(str), groups)
-    auc = roc_auc_score(y, prob[:, list(cls).index("1")])
-    fpr, tpr, _ = roc_curve(y, prob[:, list(cls).index("1")])
-    report("A) L1 哭声检测: donateacry+ESC婴儿哭 vs 49类环境音", y.astype(str), cls, pred, prob)
-    print(f"  >> 召回@FPR1%={tpr[np.searchsorted(fpr,0.01)]:.3f}  "
-          f"召回@FPR5%={tpr[np.searchsorted(fpr,0.05)]:.3f}  AUC={auc:.3f}")
+    print_l1("A) L1 哭声检测 [MFCC]: donateacry+ESC婴儿哭 vs 49类环境音",
+             l1_cv(X, y, groups))
 
     # B) hungry vs rest
     yb = np.where(labels == "hungry", "hungry", "rest")

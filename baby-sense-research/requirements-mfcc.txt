@@ -1,0 +1,7 @@
+# MFCC baseline（零编译，秒装，跑 prepare_data + run_experiments + leakage_demo）
+# 已测版本见行尾注释。用法见 README.md。
+numpy>=1.26,<3        # tested 1.26.4
+scipy>=1.11           # tested 1.17.1
+scikit-learn>=1.4     # tested 1.9.0
+soundfile>=0.12       # tested 0.14.0
+# 外部工具：ffmpeg（转码 caf/3gp/44.1k → 16k wav），需自行安装（brew install ffmpeg）
