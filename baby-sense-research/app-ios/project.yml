@@ -1,0 +1,19 @@
+name: BabyTriage
+options:
+  bundleIdPrefix: com.babysense
+  deploymentTarget:
+    iOS: "17.0"
+settings:
+  SWIFT_VERSION: "5.10"
+  GENERATE_INFOPLIST_FILE: YES
+  INFOPLIST_KEY_NSMicrophoneUsageDescription: "录音仅在本机分析宝宝哭声，默认不上传。"
+  INFOPLIST_KEY_UILaunchScreen_Generation: YES
+  CODE_SIGNING_ALLOWED: NO
+targets:
+  BabyTriage:
+    type: application
+    platform: iOS
+    sources: [BabyTriage]
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.babysense.babytriage
+      INFOPLIST_KEY_CFBundleDisplayName: "哭闹排查助手"
