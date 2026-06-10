@@ -20,6 +20,8 @@
 #include "lvgl/lvgl.h"
 #include "cJSON.h"
 
+extern const lv_font_t cjk20;        /* 中文字体(cjk20.c,Noto Sans CJK SC 子集) */
+
 /* ---------- 裸 DRM ---------- */
 #define DRM_IOCTL_SET_MASTER 0x641e
 #define DRM_IOCTL_MODE_CREATE_DUMB 0xc02064b2
@@ -208,7 +210,7 @@ static void build_tile(lv_obj_t *parent, int x, int y, int w, int h, cJSON *tj) 
     const char *label = cJSON_GetObjectItem(tj, "label")->valuestring;
 
     lv_obj_t *c = lv_obj_create(parent); lv_obj_set_pos(c, x, y); lv_obj_set_size(c, w, h); card_style(c);
-    lbl(c, &lv_font_montserrat_14, C_MUT, LV_ALIGN_TOP_LEFT, 2, 0, label);
+    lbl(c, &cjk20, C_MUT, LV_ALIGN_TOP_LEFT, 2, 0, label);    /* 标签用中文字体 */
     if (t->widget == WIDGET_SW) {
         t->sw = lv_switch_create(c); lv_obj_set_size(t->sw, 70, 36);
         lv_obj_align(t->sw, LV_ALIGN_BOTTOM_LEFT, 2, -2);
@@ -239,6 +241,7 @@ static void ui_build(const char *cfg_path) {
     lv_obj_t *tv = lv_tabview_create(scr);
     lv_tabview_set_tab_bar_size(tv, 42);
     lv_obj_set_style_bg_color(tv, lv_color_hex(C_BG), 0);
+    lv_obj_set_style_text_font(lv_tabview_get_tab_bar(tv), &cjk20, 0);   /* 页签用中文字体 */
     cJSON *pages = cJSON_GetObjectItem(root, "pages"), *page;
     cJSON_ArrayForEach(page, pages) {
         const char *title = cJSON_GetObjectItem(page, "title")->valuestring;

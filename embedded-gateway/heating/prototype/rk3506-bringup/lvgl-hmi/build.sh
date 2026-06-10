@@ -22,7 +22,7 @@ if [ ! -f liblvgl.a ]; then
     ar rcs liblvgl.a obj/*.o
 fi
 
-echo "链接 main + cJSON…"
-$CC $FLAGS -static main.c cJSON.c liblvgl.a -lm -lpthread -o hmi_lvgl
+echo "链接 main + cJSON + 中文字体…"
+$CC $FLAGS -static main.c cJSON.c cjk20.c liblvgl.a -lm -lpthread -o hmi_lvgl
 arm-linux-gnueabihf-strip hmi_lvgl
 echo "=== 产物 ==="; ls -lh hmi_lvgl; file hmi_lvgl
