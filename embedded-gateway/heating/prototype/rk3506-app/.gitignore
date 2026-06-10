@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+run/
+data/
+*.png
+.playwright-mcp/

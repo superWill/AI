@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nexus Edge OS</title>
+    <!-- 在页面加载前立即应用主题，避免闪烁 -->
+    <script>
+      (function() {
+        try {
+          const theme = localStorage.getItem('nexus_theme');
+          const html = document.documentElement;
+          if (theme === 'dark') {
+            html.classList.add('dark');
+            console.log('[Theme Init] Applied dark theme before page load');
+          } else {
+            html.classList.remove('dark');
+            console.log('[Theme Init] Applied light theme before page load');
+          }
+        } catch (e) {
+          console.error('[Theme Init] Error:', e);
+        }
+      })();
+    </script>
+    <script>
+      // 配置 Tailwind 深色模式
+      if (typeof tailwind !== 'undefined') {
+        tailwind.config = {
+          darkMode: 'class',
+        };
+      } else {
+        // 如果 tailwind 还未加载，先定义配置
+        window.tailwindConfig = {
+          darkMode: 'class',
+        };
+      }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      // Tailwind 加载后应用配置
+      if (window.tailwindConfig) {
+        tailwind.config = window.tailwindConfig;
+        delete window.tailwindConfig;
+      }
+    </script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f3f4f6;
+      }
+      .dark body {
+        background-color: #111827;
+      }
+      /* Custom scrollbar for table containers */
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #c1c1c1;
+        border-radius: 4px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #a8a8a8;
+      }
+      /* Animation classes */
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .animate-fade-in {
+        animation: fadeIn 0.4s ease-out forwards;
+      }
+    </style>
+<link rel="stylesheet" href="/index.css">
+  <script type="module" crossorigin src="./assets/index-n2gKbeTv.js"></script>
+</head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

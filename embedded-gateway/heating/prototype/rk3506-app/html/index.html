@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RK3506 供热网关</title>
+<style>
+  :root{--bg:#0f172a;--card:#1e293b;--ink:#e2e8f0;--muted:#94a3b8;--line:#334155;
+    --ok:#22c55e;--off:#64748b;--warn:#f59e0b;--bad:#ef4444;--accent:#38bdf8;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif}
+  header{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;background:#0b1220;border-bottom:1px solid var(--line)}
+  header h1{font-size:18px;margin:0}
+  .pills{display:flex;gap:8px;flex-wrap:wrap}
+  .pill{font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;background:#0b1220;border:1px solid var(--line)}
+  .pill.on{color:var(--ok);border-color:var(--ok)}
+  .pill.down{color:var(--bad);border-color:var(--bad)}
+  .wrap{display:grid;grid-template-columns:260px 1fr;gap:14px;padding:14px}
+  .col{display:grid;gap:12px;align-content:start}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px}
+  .card h2{margin:0 0 10px;font-size:14px;color:var(--muted)}
+  .dev{width:100%;text-align:left;background:#0b1220;border:1px solid var(--line);border-radius:8px;
+    color:var(--ink);padding:10px;margin-bottom:8px;cursor:pointer}
+  .dev.active{border-color:var(--accent);background:#13233a}
+  .dev b{display:block;font-size:14px}
+  .dev span{display:block;font-size:12px;color:var(--muted);margin-top:3px}
+  .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:middle}
+  .dot.ok{background:var(--ok)}.dot.off{background:var(--off)}
+  table{width:100%;border-collapse:collapse}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);font-size:13px}
+  th{color:var(--muted);font-weight:700}
+  td.v{font-size:16px;font-weight:800}
+  .q{font-size:11px;font-weight:800;padding:2px 8px;border-radius:999px}
+  .q.good{color:var(--ok);background:rgba(34,197,94,.12)}
+  .q.offline,.q.bad{color:var(--bad);background:rgba(239,68,68,.12)}
+  .ctl{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;margin-bottom:10px}
+  .ctl label{font-size:13px;color:var(--muted)}
+  .ctl input{width:120px}
+  .ctl b{min-width:54px;text-align:right}
+  button.send{background:var(--accent);color:#001;border:0;border-radius:6px;padding:8px 12px;font-weight:800;cursor:pointer}
+  .ev{font-size:12px;color:var(--muted);padding:7px 0;border-bottom:1px dashed var(--line)}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+  .kpi{background:#0b1220;border:1px solid var(--line);border-radius:8px;padding:10px}
+  .kpi span{font-size:12px;color:var(--muted)}.kpi b{display:block;font-size:22px;margin-top:4px}
+</style>
+</head>
+<body>
+<header>
+  <h1>RK3506 供热网关 <span style="color:var(--muted);font-size:13px" id="devid">--</span></h1>
+  <div class="pills">
+    <span class="pill" id="clock">--</span>
+    <span class="pill on" id="mqtt">MQTT</span>
+    <span class="pill" id="online">在线 0/0</span>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="col">
+    <div class="card">
+      <h2>接入设备</h2>
+      <div id="devlist"></div>
+    </div>
+    <div class="card">
+      <h2>接口 / 控制事件</h2>
+      <div id="events"></div>
+    </div>
+  </div>
+
+  <div class="col">
+    <div class="kpis">
+      <div class="kpi"><span>接入设备</span><b id="kpiDev">--</b></div>
+      <div class="kpi"><span>在线</span><b id="kpiOnline">--</b></div>
+      <div class="kpi"><span>采集点位</span><b id="kpiPts">--</b></div>
+      <div class="kpi"><span>当前设备</span><b id="kpiCur" style="font-size:16px">--</b></div>
+    </div>
+
+    <div class="card">
+      <h2>远程控制(下发设定值 → 安全校验 → 写回 → 反馈)</h2>
+      <div class="ctl">
+        <label>二次侧供水温度设定 (20–75℃)</label>
+        <input type="range" id="tempSp" min="20" max="75" value="50">
+        <b id="tempSpV">50</b>
+        <button class="send" onclick="send('sec_supply_temp_sp','tempSp')">下发</button>
+      </div>
+      <div class="ctl">
+        <label>阀门开度设定 (0–100%)</label>
+        <input type="range" id="valveSp" min="0" max="100" value="45">
+        <b id="valveSpV">45</b>
+        <button class="send" onclick="send('valve_open_sp','valveSp')">下发</button>
+      </div>
+      <div class="ctl">
+        <label>循环泵频率设定 (0–50Hz)</label>
+        <input type="range" id="freqSp" min="0" max="50" value="32">
+        <b id="freqSpV">32</b>
+        <button class="send" onclick="send('pump_freq_sp','freqSp')">下发</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 id="curName">当前设备采集点表</h2>
+      <table><thead><tr><th>点位</th><th>当前值</th><th>单位</th><th>质量</th></tr></thead>
+      <tbody id="pts"></tbody></table>
+    </div>
+  </div>
+</div>
+
+<script>
+let view = null, selected = null;
+["tempSp","valveSp","freqSp"].forEach(id=>{
+  const el=document.getElementById(id);
+  el.addEventListener("input",()=>document.getElementById(id+"V").textContent=el.value);
+});
+async function send(point_id, sliderId){
+  const value = Number(document.getElementById(sliderId).value);
+  const r = await fetch("/api/command",{method:"POST",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({point_id, value})});
+  const j = await r.json();
+  if(!j.ok) alert("被拒绝: "+j.reason);
+}
+function render(){
+  if(!view) return;
+  document.getElementById("devid").textContent = view.device_id||"";
+  const yr = new Date().getFullYear();
+  document.getElementById("clock").textContent = yr>=2020 ? new Date().toLocaleTimeString("zh-CN") : "时钟未校准";
+  const devs = view.devices||[];
+  const online = devs.filter(d=>d.ok).length;
+  const pts = devs.reduce((n,d)=>n+Object.keys(d.points||{}).length,0);
+  document.getElementById("online").textContent = `在线 ${online}/${devs.length}`;
+  document.getElementById("kpiDev").textContent = devs.length;
+  document.getElementById("kpiOnline").textContent = `${online}/${devs.length}`;
+  document.getElementById("kpiPts").textContent = pts;
+  if(!selected && devs[0]) selected = devs[0].addr;
+  // 设备列表
+  const dl = document.getElementById("devlist"); dl.innerHTML="";
+  devs.forEach(d=>{
+    const b=document.createElement("button");
+    b.className="dev"+(d.addr===selected?" active":"");
+    b.innerHTML=`<b><span class="dot ${d.ok?'ok':'off'}"></span>${d.name}</b>`
+      +`<span>${d.type||''} · 地址 ${d.addr} · ${d.health}</span>`;
+    b.onclick=()=>{selected=d.addr;render();};
+    dl.appendChild(b);
+  });
+  // 事件
+  document.getElementById("events").innerHTML =
+    (view.events||[]).slice(0,8).map(e=>`<div class="ev">${e.detail||e.action||e.kind||''}</div>`).join("")
+    || '<div class="ev">暂无事件</div>';
+  // 当前设备点表
+  const cur = devs.find(d=>d.addr===selected)||devs[0];
+  if(cur){
+    document.getElementById("kpiCur").textContent = cur.name;
+    document.getElementById("curName").textContent = `当前设备采集点表 — ${cur.name}`;
+    document.getElementById("pts").innerHTML = Object.entries(cur.points).map(([id,p])=>`
+      <tr><td>${id}</td><td class="v">${p.v===null?'--':p.v}</td><td>${p.u||''}</td>
+      <td><span class="q ${p.q}">${p.q}</span></td></tr>`).join("");
+  }
+}
+const es = new EventSource("/api/stream");
+es.onmessage = ev => { try{ view = JSON.parse(ev.data); render(); }catch{} };
+es.onerror = ()=>{ document.getElementById("mqtt").className="pill down"; };
+</script>
+</body>
+</html>

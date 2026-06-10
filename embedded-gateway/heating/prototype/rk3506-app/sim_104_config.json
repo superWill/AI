@@ -1,0 +1,64 @@
+{
+  "baud": 9600,
+  "_说明": "104 陪练设备清单(给 sim_104.py)。registers 类型见 sim_104.py 头注:base/swing/period_s 慢变;fixed 常量;setpoint 可写指令;feedback 朝指定寄存器收敛。寄存器号/量纲与 app_config.json 的 reg/scale 一一对应。",
+  "slaves": [
+    { "addr": 1, "name": "1号换热机组", "fault": "none",
+      "registers": {
+        "0": { "base": 720, "swing": 60, "period_s": 90 },
+        "1": { "base": 500, "swing": 40, "period_s": 110 },
+        "2": { "base": 780, "swing": 40, "period_s": 70 },
+        "3": { "base": 360, "swing": 50, "period_s": 80 },
+        "4": { "feedback": "100", "init": 45, "rate": 0.3 },
+        "5": { "feedback": "101", "init": 500, "rate": 0.3 },
+        "6": { "base": 400, "swing": 30, "period_s": 95 },
+        "7": { "base": 310, "swing": 20, "period_s": 65 },
+        "100": { "setpoint": 45 },
+        "101": { "setpoint": 500 }
+      }
+    },
+    { "addr": 2, "name": "二次侧循环泵", "fault": "none",
+      "registers": {
+        "0": { "fixed": 1 },
+        "1": { "feedback": "100", "init": 320, "rate": 0.3 },
+        "2": { "base": 110, "swing": 15, "period_s": 40 },
+        "100": { "setpoint": 320 }
+      }
+    },
+    { "addr": 3, "name": "一次侧电动调节阀", "fault": "none",
+      "registers": {
+        "0": { "base": 45, "swing": 5, "period_s": 120 },
+        "1": { "fixed": 0 },
+        "2": { "fixed": 0 }
+      }
+    },
+    { "addr": 4, "name": "压力模块", "fault": "none",
+      "registers": {
+        "0": { "base": 310, "swing": 30, "period_s": 60 },
+        "1": { "base": 220, "swing": 20, "period_s": 75 }
+      }
+    },
+    { "addr": 5, "name": "安全IO板", "fault": "none",
+      "registers": {
+        "0": { "fixed": 0 }, "1": { "fixed": 0 },
+        "2": { "fixed": 0 }, "3": { "fixed": 0 }
+      }
+    },
+    { "addr": 6, "name": "热表#6", "fault": "none",
+      "registers": {
+        "0": { "base": 710, "swing": 50, "period_s": 100 },
+        "1": { "base": 490, "swing": 30, "period_s": 120 },
+        "2": { "base": 350, "swing": 40, "period_s": 85 },
+        "3": { "base": 820, "swing": 60, "period_s": 90 }
+      }
+    },
+    { "addr": 7, "name": "电表#7", "fault": "none",
+      "registers": {
+        "0": { "base": 3800, "swing": 50, "period_s": 50 },
+        "1": { "base": 120, "swing": 20, "period_s": 35 }
+      }
+    },
+    { "addr": 8, "name": "坏表#8(模拟离线)", "fault": "offline",
+      "registers": { "0": { "base": 0 } }
+    }
+  ]
+}

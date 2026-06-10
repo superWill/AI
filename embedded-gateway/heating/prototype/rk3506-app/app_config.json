@@ -1,0 +1,81 @@
+{
+  "device_id": "rk3506-gw-01",
+  "source": "sim",
+  "serial": "/dev/ttyS1",
+  "baud": 9600,
+  "http_port": 8092,
+  "html_dir": "html",
+  "poll_interval_s": 2,
+  "telemetry_interval_s": 10,
+  "heartbeat_interval_s": 30,
+
+  "_说明": "每个点位同时带 sim 字段(base/swing/period_s/fixed/round)和 modbus 字段(reg/scale),一套配置两种源都能用。source=sim 板子自造;source=modbus 走真串口轮询 104(sim_104.py + sim_104_config.json)。可控点位:valve_open_sp/pump_freq_sp/sec_supply_temp_sp,经 SAFE_RANGES 校验。",
+
+  "mqtt": { "host": "127.0.0.1", "port": 1883, "username": null, "password": null },
+
+  "control_map": {
+    "valve_open_sp":       { "addr": 1, "reg": 100, "scale": 1 },
+    "sec_supply_temp_sp":  { "addr": 1, "reg": 101, "scale": 0.1 },
+    "pump_freq_sp":        { "addr": 2, "reg": 100, "scale": 0.1 }
+  },
+
+  "devices": [
+    { "addr": 1, "name": "1号换热机组", "type": "换热机组", "start": 0, "count": 8, "fault": "none",
+      "points": [
+        { "id": "pri_supply_temp",     "reg": 0, "scale": 0.1,   "base": 72,   "swing": 6,    "period_s": 90,  "unit": "℃" },
+        { "id": "pri_return_temp",     "reg": 1, "scale": 0.1,   "base": 50,   "swing": 4,    "period_s": 110, "unit": "℃" },
+        { "id": "pri_supply_pressure", "reg": 2, "scale": 0.001, "base": 0.78, "swing": 0.04, "period_s": 70, "round": 2, "unit": "MPa" },
+        { "id": "pri_flow",            "reg": 3, "scale": 0.1,   "base": 36,   "swing": 5,    "period_s": 80,  "unit": "m³/h" },
+        { "id": "valve_open",          "reg": 4, "scale": 1,     "base": 45,   "unit": "%" },
+        { "id": "sec_supply_temp",     "reg": 5, "scale": 0.1,   "base": 50,   "unit": "℃" },
+        { "id": "sec_return_temp",     "reg": 6, "scale": 0.1,   "base": 40,   "swing": 3,    "period_s": 95,  "unit": "℃" },
+        { "id": "sec_supply_pressure", "reg": 7, "scale": 0.001, "base": 0.31, "swing": 0.02, "period_s": 65, "round": 2, "unit": "MPa" }
+      ]
+    },
+    { "addr": 2, "name": "二次侧循环泵", "type": "循环泵", "start": 0, "count": 3, "fault": "none",
+      "points": [
+        { "id": "pump_run",     "reg": 0, "scale": 1,   "fixed": 1, "unit": "" },
+        { "id": "pump_freq",    "reg": 1, "scale": 0.1, "base": 32, "unit": "Hz" },
+        { "id": "pump_current", "reg": 2, "scale": 0.1, "base": 11, "swing": 1.5, "period_s": 40, "unit": "A" }
+      ]
+    },
+    { "addr": 3, "name": "一次侧电动调节阀", "type": "电动调节阀", "start": 0, "count": 3, "fault": "none",
+      "points": [
+        { "id": "valve_open",   "reg": 0, "scale": 1, "base": 45, "swing": 5, "period_s": 120, "unit": "%" },
+        { "id": "limit_open",   "reg": 1, "scale": 1, "fixed": 0, "unit": "" },
+        { "id": "limit_close",  "reg": 2, "scale": 1, "fixed": 0, "unit": "" }
+      ]
+    },
+    { "addr": 4, "name": "压力模块", "type": "压力传感器", "start": 0, "count": 2, "fault": "none",
+      "points": [
+        { "id": "sec_supply_pressure", "reg": 0, "scale": 0.001, "base": 0.31, "swing": 0.03, "period_s": 60, "round": 2, "unit": "MPa" },
+        { "id": "sec_return_pressure", "reg": 1, "scale": 0.001, "base": 0.22, "swing": 0.02, "period_s": 75, "round": 2, "unit": "MPa" }
+      ]
+    },
+    { "addr": 5, "name": "安全IO板", "type": "安全IO", "start": 0, "count": 4, "fault": "none",
+      "points": [
+        { "id": "estop",         "reg": 0, "scale": 1, "fixed": 0, "unit": "" },
+        { "id": "water_low",     "reg": 1, "scale": 1, "fixed": 0, "unit": "" },
+        { "id": "over_pressure", "reg": 2, "scale": 1, "fixed": 0, "unit": "" },
+        { "id": "door_open",     "reg": 3, "scale": 1, "fixed": 0, "unit": "" }
+      ]
+    },
+    { "addr": 6, "name": "热表#6", "type": "热表", "start": 0, "count": 4, "fault": "none",
+      "points": [
+        { "id": "supply_temp", "reg": 0, "scale": 0.1, "base": 71,  "swing": 5,  "period_s": 100, "unit": "℃" },
+        { "id": "return_temp", "reg": 1, "scale": 0.1, "base": 49,  "swing": 3,  "period_s": 120, "unit": "℃" },
+        { "id": "flow",        "reg": 2, "scale": 0.1, "base": 35,  "swing": 4,  "period_s": 85,  "unit": "m³/h" },
+        { "id": "heat_power",  "reg": 3, "scale": 1,   "base": 820, "swing": 60, "period_s": 90,  "unit": "kW" }
+      ]
+    },
+    { "addr": 7, "name": "电表#7", "type": "电表", "start": 0, "count": 2, "fault": "none",
+      "points": [
+        { "id": "voltage", "reg": 0, "scale": 0.1, "base": 380, "swing": 5, "period_s": 50, "unit": "V" },
+        { "id": "current", "reg": 1, "scale": 0.1, "base": 12,  "swing": 2, "period_s": 35, "unit": "A" }
+      ]
+    },
+    { "addr": 8, "name": "坏表#8(模拟离线)", "type": "热表", "start": 0, "count": 1, "fault": "offline",
+      "points": [ { "id": "supply_temp", "reg": 0, "scale": 0.1, "base": 0, "unit": "℃" } ]
+    }
+  ]
+}

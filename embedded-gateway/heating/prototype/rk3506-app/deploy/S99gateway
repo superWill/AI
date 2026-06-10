@@ -1,0 +1,54 @@
+#!/bin/sh
+# RK3506 网关应用开机自启(busybox init,放 /etc/init.d/S99gateway)。
+# 启动后端 app.py(采集+HTTP+MQTT+控制)与本地 LCD 第一屏 drm_hmi_v2.py。
+# 根文件系统可能只读,运行产物一律放可写的 /userdata。
+
+APP=/userdata/rk3506-app
+RUN=/userdata/rk3506-app/run
+PY=$(command -v python3 || echo /usr/bin/python3)
+
+stop_conflicts() {
+  # 释放屏幕:停掉厂家 LVGL demo(两种命名)
+  killall lv_demo rk3506_lvgl_test 2>/dev/null
+  # 停掉可能残留的老 energy-hmi(会占 8092 端口和屏幕)
+  for p in $(ps 2>/dev/null | grep -E 'serve_hmi|energy-hmi/drm_hmi' | grep -v grep | awk '{print $1}'); do
+    kill "$p" 2>/dev/null
+  done
+}
+
+start() {
+  mkdir -p "$RUN"
+  stop_conflicts
+  sleep 1
+  # 1) 后端:nexus-edge-os 前端 + 适配(:8092 同时供 Web UI 和 LCD 的 /api/snapshot)
+  if [ ! -f "$RUN/app.pid" ] || ! kill -0 "$(cat "$RUN/app.pid" 2>/dev/null)" 2>/dev/null; then
+    nohup "$PY" "$APP/nexus_server.py" --config "$APP/app_config.json" \
+      --dist "$APP/nexus-dist" >>"$RUN/app.log" 2>&1 &
+    echo $! > "$RUN/app.pid"
+    echo "gateway backend (nexus) started pid $!"
+  fi
+  # 2) 本地 LCD 第一屏(读后端快照;后端没起来会自显示 STARTING 并重试)
+  sleep 2
+  if [ ! -f "$RUN/lcd.pid" ] || ! kill -0 "$(cat "$RUN/lcd.pid" 2>/dev/null)" 2>/dev/null; then
+    nohup "$PY" "$APP/drm_hmi_v4.py" >>"$RUN/lcd.log" 2>&1 &
+    echo $! > "$RUN/lcd.pid"
+    echo "gateway LCD started pid $!"
+  fi
+}
+
+stop() {
+  for p in lcd app; do
+    if [ -f "$RUN/$p.pid" ]; then
+      kill "$(cat "$RUN/$p.pid")" 2>/dev/null
+      rm -f "$RUN/$p.pid"
+    fi
+  done
+  echo "gateway stopped"
+}
+
+case "$1" in
+  start) start ;;
+  stop) stop ;;
+  restart) stop; sleep 1; start ;;
+  *) echo "usage: $0 {start|stop|restart}"; exit 1 ;;
+esac
