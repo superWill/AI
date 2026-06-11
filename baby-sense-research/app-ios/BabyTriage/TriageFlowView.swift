@@ -372,6 +372,30 @@ private struct ArchivedScreen: View {
                     .background(Color.accentColor.opacity(0.1),
                                 in: RoundedRectangle(cornerRadius: 10))
                 }
+
+                // M1d 捐赠询问: 单独同意, 每段一次, 不强求
+                if flow.donationOffered {
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("愿意匿名捐赠这段录音，帮助改进哭声识别吗？")
+                            .font(.caption.weight(.medium))
+                        Text("仅此一段 · 匿名 · 先保存在本机（可在档案页随时删除），不会自动上传。")
+                            .font(.caption2).foregroundStyle(.secondary)
+                        HStack {
+                            Button("愿意捐赠") { flow.donate() }
+                                .buttonStyle(.bordered).font(.caption)
+                            Button("不用了") { flow.declineDonation() }
+                                .buttonStyle(.plain).font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                    .padding(10)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .overlay(RoundedRectangle(cornerRadius: 10)
+                        .strokeBorder(.secondary.opacity(0.3), lineWidth: 0.7))
+                } else if flow.donationDecided, rec.donation?.status == .savedPending {
+                    Label("已保存捐赠段，谢谢你 🙏", systemImage: "checkmark.seal")
+                        .font(.caption).foregroundStyle(.secondary)
+                }
             }
 
             Button("完成 · 再记一次") { flow.reset() }

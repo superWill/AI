@@ -41,6 +41,7 @@ final class CryRecord {
     @Relationship(deleteRule: .cascade) var action: ActionAttempt?
     @Relationship(deleteRule: .cascade) var outcome: Outcome?
     @Relationship(deleteRule: .cascade) var nextReason: NextSuggestionReason?
+    @Relationship(deleteRule: .cascade) var donation: Donation?
 
     init(ts: Date = .now, durationSec: Double, intensity: Double,
          noiseLevel: Double, cryConfidence: Double, quality: RecordingQuality) {
@@ -160,6 +161,27 @@ final class Outcome {
     }
 
     var relief: Relief { Relief(rawValue: reliefRaw) ?? .none }
+}
+
+// M1d: 捐赠状态 —— 单独同意(每段一次), 默认不捐; 云端未建, 先存本机待上传
+enum DonationStatus: String, Codable {
+    case savedPending    // 已同意, 文件存本机待上传
+    case declined        // 明确拒绝(不再询问)
+}
+
+@Model
+final class Donation {
+    var statusRaw: String
+    var fileName: String?
+    var ts: Date
+
+    init(status: DonationStatus, fileName: String?, ts: Date = .now) {
+        self.statusRaw = status.rawValue
+        self.fileName = fileName
+        self.ts = ts
+    }
+
+    var status: DonationStatus { DonationStatus(rawValue: statusRaw) ?? .declined }
 }
 
 enum ReasonKind: String, Codable {

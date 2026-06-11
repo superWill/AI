@@ -74,8 +74,35 @@ final class FlowState {
         elapsedTimer?.invalidate(); elapsedTimer = nil
         let (samples, rate) = recorder.stop()
         analysis = analyzer.analyze(samples: samples, sampleRate: rate)
+        // M1d: 仅会话内暂存(质量合格才可能被捐赠); 不落盘, reset 即弃
+        lastSamples = analysis?.recordingQuality == .ok ? samples : []
         isManual = false
         step = .analysis
+    }
+
+    // MARK: - M1d 捐赠(单独同意)
+
+    var lastSamples: [Float] = []
+    var donationDecided = false
+
+    /// 是否在档案卡上展示捐赠询问: 有合格录音 + 未决定过
+    var donationOffered: Bool {
+        record?.quality == .ok && !lastSamples.isEmpty && !donationDecided
+    }
+
+    func donate() {
+        guard let rec = record, !lastSamples.isEmpty else { return }
+        if let name = try? DonationWriter.save(samples: lastSamples) {
+            rec.donation = Donation(status: .savedPending, fileName: name)
+        }
+        lastSamples = []
+        donationDecided = true
+    }
+
+    func declineDonation() {
+        record?.donation = Donation(status: .declined, fileName: nil)
+        lastSamples = []
+        donationDecided = true
     }
 
     func manualEntry() {
@@ -152,5 +179,7 @@ final class FlowState {
         chosenAction = nil
         escalationMessage = ""
         symptomChoice = "都没有"
+        lastSamples = []          // 未捐赠的音频随会话丢弃
+        donationDecided = false
     }
 }

@@ -14,6 +14,7 @@ struct ProfileView: View {
                 effectivenessCard
                 daypartCard
                 nextBasisCard
+                donationCard
                 Text("仅供参考，不能替代医生 · 不做健康评分/发育判断")
                     .font(.caption2).foregroundStyle(.tertiary)
             }
@@ -160,6 +161,32 @@ struct ProfileView: View {
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         }
+    }
+
+    // M1d: 捐赠管理(透明可控) —— 无云端, 待上传仅存本机, 可一键全删
+    @State private var pendingDonations = DonationWriter.pendingFiles().count
+
+    private var donationCard: some View {
+        card {
+            Text("捐赠的录音").font(.subheadline.weight(.medium))
+            if pendingDonations == 0 {
+                Text("没有保存任何捐赠录音。只有你在记录后明确同意，才会保存。")
+                    .font(.caption).foregroundStyle(.secondary)
+            } else {
+                HStack {
+                    Label("本机待上传 \(pendingDonations) 段（不会自动上传）",
+                          systemImage: "tray.full")
+                        .font(.caption)
+                    Spacer()
+                    Button("全部删除") {
+                        DonationWriter.deleteAll()
+                        pendingDonations = 0
+                    }
+                    .font(.caption).foregroundStyle(.red)
+                }
+            }
+        }
+        .onAppear { pendingDonations = DonationWriter.pendingFiles().count }
     }
 
     private func icon(for k: ReasonKind) -> String {
