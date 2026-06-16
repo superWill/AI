@@ -1,0 +1,10 @@
+[
+  {
+    "file": "golden_cry.wav",
+    "expected_prob": 0.9854
+  },
+  {
+    "file": "golden_noise.wav",
+    "expected_prob": 0.0005
+  }
+]

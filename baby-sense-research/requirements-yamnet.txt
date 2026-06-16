@@ -1,0 +1,10 @@
+# YAMNet 确认实验（extract_embeddings + train_eval + eval_L1）
+# ⚠️ 必须 arm64 原生 Python：x86 Python(含 /usr/local 下的 Homebrew、Rosetta) 跑 TF 会因 AVX 崩溃。
+# ⚠️ setuptools 必须 <81：>=82 删除了 tensorflow_hub 依赖的 pkg_resources。
+tensorflow>=2.16        # tested 2.21.0 (Apple Silicon 原生)
+tensorflow-hub>=0.16    # tested 0.16.1
+scikit-learn>=1.4       # tested 1.9.0
+soundfile>=0.12         # tested 0.14.0
+setuptools<81           # tested 80.10.2 —— 提供 pkg_resources
+# numpy 由 tensorflow 拉取（tested 2.4.6）
+# 外部工具：ffmpeg
