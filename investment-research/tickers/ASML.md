@@ -84,6 +84,17 @@ EUV 光刻**独家垄断**——7nm 以下先进芯片没有它一颗都造不�
 |---|---|---|---|---|
 | 2026-06-19 | 建档观察 | 市值 ~$7000 亿 | — | 硅基端最硬收税口；商业周期风险 < TSM 地缘风险 |
 
+## 大佬持仓（2026 Q1 13F · 滞后披露、仅美股多头）
+
+集中型"宽护城河价值成长派"的心头好：
+
+- **Stuart McLaughlin / Triple Frond Partners** ~7.10%（Q1 +11%）
+- **Pat Dorsey / Dorsey Asset Management** ~4.96%（护城河理论提出者，大涨后略减）
+- **Stephen Mandel / Lone Pine Capital** ~3.38%
+- **Dev Kantesaria / Valley Forge Capital** ~1.90%（极集中质量复利派，同时持 EDA）
+
+> 信号：股东名册几乎是"宽护城河价值派花名册"——最聪明的集中型资金也在这里下注，印证"不可或缺"方向。
+
 ## 参考
 
 - 主题笔记：[硅基消费 × 碳基娱乐](../notes/2026-06-19-silicon-consumption-carbon-entertainment.md)

@@ -85,6 +85,17 @@ data_source: 网络调研 2026-06-19
 |---|---|---|---|---|
 | 2026-06-19 | 建档观察 | 市值 ~$1.9 万亿 | — | 制造端近独家收税口；质量最高（66% GM）；唯一软肋是台海 |
 
+## 大佬持仓（2026 Q1 13F · 滞后披露、仅美股 ADR 多头）
+
+成长型亿万富翁的**最高信念票**（四家里 guru 含金量最高）：
+
+- **Philippe Laffont / Coatue Management** —— **TSM 是其第一大持仓**
+- **Ken Fisher / Fisher Asset Management** —— ~1780 万股，年内浮盈 ~$20 亿
+- **Lewis Sanders / Sanders Capital** —— >3200 万股的最大持有者之一，浮盈 ~$35 亿（Q1 略减 12%）
+- **Capital World Investors** Q1 增持 +20%；UBS、Susquehanna 大幅加仓
+
+> ⚠️ **巴菲特/伯克希尔不在**：2022 Q3 建仓、2023 初即因"地缘"清仓——史上最有耐心的资金都选择退出，是 TSM 台海风险最强的现实注脚。
+
 ## 参考
 
 - 主题笔记：[硅基消费 × 碳基娱乐](../notes/2026-06-19-silicon-consumption-carbon-entertainment.md)
