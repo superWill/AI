@@ -5,8 +5,8 @@ sector: Semiconductors
 layer: Layer 2 — DSP / 定制 ASIC
 position_type: core
 status: watching
-last_updated: 2026-05-07
-data_source: scripts/fetch_quotes.py snapshot 2026-05-07
+last_updated: 2026-06-19
+data_source: 网络调研 2026-06-19（业绩/格局/估值）
 ---
 
 # Marvell (MRVL)
@@ -15,22 +15,32 @@ data_source: scripts/fetch_quotes.py snapshot 2026-05-07
 
 数据中心 800G/1.6T 光模块 DSP 双寡头之一（Marvell + Broadcom），同时是 AWS Trainium 等定制 ASIC 主要设计合作伙伴。
 
-## 关键数据（基准日 2026-05-07，yfinance 实时）
+## 关键数据（基准日 2026-06-19，网络调研）
 
 | 指标 | 数据 |
 |---|---|
-| 股价 | **$172.15** |
-| 市值 | **$150.5B** |
-| TTM PE | 56.26 |
-| Forward PE | 31.67 |
-| Forward P/S | 18.37 |
-| 52 周区间 | $56.69 → $175.80 |
-| 50 日均线 | $115.21 |
-| 200 日均线 | $89.85 |
-| 股息率 | 0.14% |
+| 股价 | **~$328**（极度震荡，建议实时再核） |
+| 市值 | **~$230B** |
+| TTM PE | ~109x |
+| 52 周区间 | $56.69 → ~$330 |
+| 分析师中位目标 | **~$240（低于现价）** · 最高 ~$321 / KeyBanc $385 / 低 $110 |
+| 共识评级 | Buy（28–36 位分析师） |
 | Beta | 2.25 |
 
-> **⚠️ 笔记勘误**：v1 写"$78 / $65–70B"已严重过期——今日 **$172 / $150.5B**，市值 **2.2×**。一年区间 $56.69 → $175.80 = **+210%**。Forward P/S 从笔记的 39 已落到 18.37——绝对 P/S 下降**不是因为估值便宜了，而是基本面（收入）跑得比股价快**。Beta 2.25 验证了高 AI 板块敏感度。
+> **⚠️ 估值已 re-rate 到共识之上**：较 2026-05-07（$172/$150B）又近翻倍，主因 6/2 黄仁勋 COMPUTEX 背书（+41.8%）+ $20 亿合作 + 纳入标普 500。**现价 ~$328 已高于中位目标 $240、逼近多数最高目标**——靠叙事而非估值支撑。PE 100x+ × Beta 2.25 = 回撤剧烈（年内曾因 Trainium3 socket 传闻一度腰斩后又新高）。
+> （历史勘误留档：v1 写"$78/$65–70B"早已过期；2026-05-07 为 $172/$150.5B。）
+
+## 财务（FY26 / FY27）
+
+| 指标 | 数据 |
+|---|---|
+| Q1 FY27 营收 | $24.18 亿，YoY +28%（创纪录、超指引中点） |
+| 数据中心占比 | 76%（光互联+定制硅+交换多产品放量） |
+| Q2 FY27 指引 | $27 亿、调整后 EPS $0.93（双超预期） |
+| FY27 全年指引 | ~$110 亿（+30%） |
+| FY26 全年 | $81.95 亿，YoY +42% |
+
+> 基本面是真加速、非争议点；争议在**估值与竞争格局**。
 
 ## 护城河类型
 
@@ -53,15 +63,17 @@ data_source: scripts/fetch_quotes.py snapshot 2026-05-07
 
 ## 风险
 
-- **AVGO 直接竞争**：Broadcom 资源更强，可能在某代抢领先
-- **客户内化风险**：超大规模客户开始想"再砍一刀"自己做更多内部 IP
-- **CPO 替代**：长期看 CPO 普及可能改变 DSP 的市场结构
+- **AVGO 拉开差距**：定制 ASIC 协同设计 AVGO ~70%+ vs MRVL ~20–25%（两家合计 ~95%）。AVGO 2026 新增 Apple，并握 Google/Meta/OpenAI/Anthropic，$730 亿 AI 储备、目标 2027 AI 收入 $1000 亿。MRVL 是结构性"老二 / 双源备份"。
+- **⚠️ socket 可被夺（真实风险，新增）**：Trainium3 设计据报丢给 Alchip（chiplet 方案被单片 die 取代）；6/9 ByteDance ASIC 外流致 MRVL 单日 -10%。主力 Trainium/Maia 仍稳（JPM/Morningstar 称份额担忧被夸大），但边际新 socket 竞争加剧、新进入者（Alchip）上位。
+- **客户集中**：定制硅主要靠 AWS + 微软两家。
+- **估值风险**：现价高于中位目标、PE 100x+、Beta 2.25——任何不及预期都是双位数单日跌。
+- **CPO 替代**：长期 CPO 普及可能重构 DSP 市场结构（MRVL 用 Celestial AI 对冲）。
 
 ## 估值锚
 
-- Forward P/S 39x 已 price in 高速增长
-- AVGO 同主题 forward PE ~30x，AVGO 体量大但增速类似
-- 任何执行不及预期会被剧烈惩罚
+- 现价 ~$328 已**高于 36 位分析师中位目标 $240**——安全垫为负，靠叙事支撑。
+- 滚动 PE ~109x；AVGO 同主题但份额/体量更大。
+- 更优入场：等板块性回撤（此股 -20~30% 是常态）拉回安全垫，或下一代 socket 续约确认后。
 
 ## 退出条件
 
@@ -71,9 +83,10 @@ data_source: scripts/fetch_quotes.py snapshot 2026-05-07
 
 ## 跟踪信号
 
-- 季度 Data Center 业务收入占比与增速
-- 1.6T 光模块出货节奏（Coherent、Lumentum 联动）
-- 超大规模厂自研 ASIC 项目公告
+- 季度 Data Center 营收占比与增速；ASIC 当期收入 vs $11B 项目峰值兑现节奏
+- **socket 公告**：Trainium4/Maia 下一代是否续约、是否再丢新 socket、10+ 设计管线转量产数
+- 1.6T 光模块出货节奏（Coherent、Lumentum 联动）；Celestial AI / CPO 进展；英伟达 $20 亿合作落地
+- 卖方中位目标能否上修到现价之上（否则缺安全垫）
 
 ## 参考
 
