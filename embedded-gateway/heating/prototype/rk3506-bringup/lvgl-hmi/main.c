@@ -155,6 +155,7 @@ static int dequeue_write(wcmd_t *out) {
 
 typedef struct {
     int addr, reg, write_reg, step, vmin, vmax, widget, inited;
+    int source, ch;                   /* source: 0=Modbus 1=ADC(直读IIO); ch=ADC 通道 */
     double scale; char unit[10];
     lv_obj_t *val, *sw; int cur;
     volatile int rawval, ok, ever;    /* 采集线程写,UI 线程读;ever=读到过(缓存最后好值) */
@@ -197,8 +198,8 @@ static void sw_cb(lv_event_t *e) {
 
 static void build_tile(lv_obj_t *parent, int x, int y, int w, int h, cJSON *tj) {
     tile_t *t = &tiles[ntiles++];
-    t->addr = cJSON_GetObjectItem(tj, "addr")->valueint;
-    t->reg = cJSON_GetObjectItem(tj, "reg")->valueint;
+    cJSON *aj = cJSON_GetObjectItem(tj, "addr"); t->addr = aj ? aj->valueint : 0;
+    cJSON *rj = cJSON_GetObjectItem(tj, "reg"); t->reg = rj ? rj->valueint : 0;
     cJSON *sc = cJSON_GetObjectItem(tj, "scale"); t->scale = sc ? sc->valuedouble : 1.0;
     cJSON *u = cJSON_GetObjectItem(tj, "unit"); snprintf(t->unit, sizeof(t->unit), "%s", u ? u->valuestring : "");
     cJSON *wr = cJSON_GetObjectItem(tj, "write_reg"); t->write_reg = wr ? wr->valueint : t->reg;
@@ -207,6 +208,9 @@ static void build_tile(lv_obj_t *parent, int x, int y, int w, int h, cJSON *tj) 
     cJSON *mx = cJSON_GetObjectItem(tj, "max"); t->vmax = mx ? mx->valueint : 65535;
     const char *wg = cJSON_GetObjectItem(tj, "widget")->valuestring;
     t->widget = !strcmp(wg, "setpoint") ? WIDGET_SET : !strcmp(wg, "switch") ? WIDGET_SW : WIDGET_VALUE;
+    cJSON *src = cJSON_GetObjectItem(tj, "source");
+    t->source = (src && !strcmp(src->valuestring, "adc")) ? 1 : 0;   /* 数据源:adc=直读IIO */
+    cJSON *chj = cJSON_GetObjectItem(tj, "ch"); t->ch = chj ? chj->valueint : 0;
     const char *label = cJSON_GetObjectItem(tj, "label")->valuestring;
 
     lv_obj_t *c = lv_obj_create(parent); lv_obj_set_pos(c, x, y); lv_obj_set_size(c, w, h); card_style(c);
@@ -256,6 +260,13 @@ static void ui_build(const char *cfg_path) {
     }
 }
 
+/* 直读 ADC(IIO sysfs):in_voltageN_raw */
+static int read_adc(int ch, int *out) {
+    char p[80]; snprintf(p, sizeof(p), "/sys/bus/iio/devices/iio:device0/in_voltage%d_raw", ch);
+    FILE *f = fopen(p, "r"); if (!f) return -1;
+    int ok = (fscanf(f, "%d", out) == 1); fclose(f); return ok ? 0 : -1;
+}
+
 /* 采集线程:持续读串口,只写缓存(rawval/ok),不碰 LVGL */
 static void *poll_thread(void *arg) {
     (void)arg; wcmd_t cmd;
@@ -264,8 +275,12 @@ static void *poll_thread(void *arg) {
         for (int i = 0; i < ntiles; i++) {
             tile_t *t = &tiles[i]; int v;
             while (dequeue_write(&cmd)) write_reg(cmd.addr, cmd.reg, cmd.val); /* 读的间隙也及时处理写,控制更跟手 */
-            t->ok = (read_reg(t->addr, t->reg, &v) == 0);
-            if (!t->ok) { usleep(40000); t->ok = (read_reg(t->addr, t->reg, &v) == 0); }  /* 失败重试一次 */
+            if (t->source == 1) {            /* ADC:直读 IIO,不走 Modbus */
+                t->ok = (read_adc(t->ch, &v) == 0);
+            } else {
+                t->ok = (read_reg(t->addr, t->reg, &v) == 0);
+                if (!t->ok) { usleep(40000); t->ok = (read_reg(t->addr, t->reg, &v) == 0); }  /* 失败重试一次 */
+            }
             if (t->ok) { t->rawval = v; t->ever = 1; t->last_ok_ms = tick_cb(); }  /* 缓存最后好值 */
             usleep(40000);                               /* 帧间静默,避免请求粘连(RTU 必须) */
         }

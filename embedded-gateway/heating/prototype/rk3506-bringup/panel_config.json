@@ -21,7 +21,8 @@
       { "label": "泵电流",   "addr": 5, "reg": 2, "scale": 0.1,  "unit": "A",  "widget": "value" },
       { "label": "换热温度", "addr": 7, "reg": 1, "scale": 0.1,  "unit": "C",  "widget": "value" },
       { "label": "电压",     "addr": 8, "reg": 0, "scale": 0.1,  "unit": "V",  "widget": "value" },
-      { "label": "电流",     "addr": 8, "reg": 1, "scale": 0.01, "unit": "A",  "widget": "value" }
+      { "label": "电流",     "addr": 8, "reg": 1, "scale": 0.01, "unit": "A",  "widget": "value" },
+      { "label": "采集 IN3", "source": "adc", "ch": 3, "scale": 1.7578, "unit": "mV", "widget": "value" }
     ] },
     { "title": "控制", "tiles": [
       { "label": "目标温度", "addr": 1, "reg": 10, "scale": 0.1, "unit": "C", "widget": "setpoint",
