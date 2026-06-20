@@ -5,7 +5,8 @@ sector: Rare Earth Mining & Magnets
 layer: Layer 0–1 — 矿产 + 永磁
 position_type: thematic
 status: watching
-last_updated: 2026-05-07
+last_updated: 2026-06-20
+data_source: 网络调研 2026-06-20
 ---
 
 # MP Materials (MP)
@@ -14,13 +15,17 @@ last_updated: 2026-05-07
 
 北美唯一规模化稀土矿（Mountain Pass）+ 唯一垂直整合到磁铁的美国公司。**美国国防部持有约 15% 股权 + 10 年 NdPr $110/kg 价格保底**——工业品里极罕见的"国家队待遇"。
 
-## 关键数据
+## 关键数据（基准 2026-06-20，网络调研）
 
 | 指标 | 数据 |
 |---|---|
-| 股价 | ~$60–70 |
-| 市值 | ~$12B |
-| 分析师目标价 | $79.08 |
+| 股价 | ~$72 |
+| 市值 | ~$12.9B |
+| TTM 营收 | $254M（2025 全年 $275M，YoY +35%） |
+| EPS（TTM） | **-$0.42**（仍亏，等磁材放量转正） |
+| 分析师 | **Strong Buy**，目标 ~$80（18 位） |
+
+> DoD 价格保底协议 10/1 生效，管理层指引 Q4'25 起转盈。2025 股价 +230%——稀土瓶颈被市场认知，MS"Humanoid 100"里 4 家稀土股全是表现最好的一档。
 
 ## 护城河类型
 
@@ -70,4 +75,6 @@ last_updated: 2026-05-07
 
 ## 参考
 
+- 主题笔记：[具身智能卡点：脑-关节-磁材](../notes/2026-06-20-embodied-ai-chokepoints.md)（磁材=肌肉原料卡点）
 - 主题笔记：[2026-05 AI/机器人/量子产业链](../notes/2026-05-ai-robotics-quantum-supply-chain-v1.md#5.1) §3.2
+- 相关：[6324.T](6324.T.md)（执行器卡点）· [NVDA](NVDA.md)（大脑卡点）
