@@ -4,9 +4,9 @@
 
 ## 当前进度
 
-当前学到: **3. RS485 / Modbus RTU 现场总线入门**。
+当前学到: **3. RS485 / Modbus RTU 与私有 MCU 协议**,正在推进 **4. RK3506 应用 + 104 设备模拟**。
 
-下一步不是继续扩展 BLE,而是把 RS485、Modbus RTU、寄存器表、超时重试、质量码吃透。供热现场大多数表计、变频器、远程 IO、温压流模块都会遇到这些内容。
+当前目标不是继续扩展 BLE,而是在 RK3506 上做一个实际运行的供热网关应用:104 机器模拟各种现场设备,RK3506 采集、做点表、判断质量码,再把数据呈现到本地 LCD。
 
 ## 学习路线
 
@@ -15,11 +15,12 @@
 | 0. 项目全局认知 | 已完成 | RK3506 网关、MCU/HMI/MQTT/断网自治、安全优先的整体关系 | `docs/embedded-learning-mindmap.md` |
 | 1. 嵌入式通信分层 | 已完成 | 应用协议层、芯片外设层、电气接口层、物理接线层的区别 | 能区分 Modbus、UART、RS485、A/B 接线 |
 | 2. RK3506 蓝牙与串口验证 | 已完成 | BLE Central/Peripheral、GATT RX/TX、串口日志、227 作为调试机 | `prototype/rk3506-bringup/README.md` |
-| 3. RS485 / Modbus RTU | 进行中 | 主从轮询、帧格式、功能码、CRC、异常码、超时 | `docs/protocols/fieldbus-modbus-rs485-basics.md` |
-| 4. 现场设备与 IO 点表 | 待学 | DI/DO/AI/AO、热量表、电表、变频器、温压流模块 | `../../docs/field-device-io-catalog.md` |
-| 5. 采集可靠性 | 待学 | 轮询周期、超时、重试、离线判断、质量码、断线恢复 | `docs/architecture/gateway-reliability-and-performance.md` |
-| 6. 本地 HMI 和 MQTT | 待学 | 本地显示、遥测上报、断网缓存、补传 | `prototype/hmi/`, `prototype/cloud-gateway-mqtt/` |
-| 7. 控制与安全联锁 | 待学 | 限幅、互锁、回读确认、失联回退、人工接管 | `docs/safety/safety-rules-draft.md` |
+| 3. RS485 / Modbus RTU 与私有 MCU 协议 | 进行中 | 主从轮询、帧格式、功能码、CRC、异常码、超时、设备类型识别 | `docs/protocols/fieldbus-modbus-rs485-basics.md`, `docs/protocols/private-mcu-device-identification.md` |
+| 4. RK3506 应用 + 104 设备模拟 | 进行中 | 模拟设备清单、点表映射、LCD 展示、故障注入 | `docs/architecture/rk3506-104-simulator-application-plan.md` |
+| 5. 现场设备与 IO 点表 | 进行中 | 设备表、点表、状态表、设备模板、DI/DO/AI/AO、量程换算、App 添加设备 | `docs/point-table/point-table-learning-notes.md`, `docs/point-table/device-template-design-notes.md`, `../../docs/field-device-io-catalog.md` |
+| 6. 采集可靠性 | 待学 | 轮询周期、超时、重试、离线判断、质量码、断线恢复 | `docs/architecture/gateway-reliability-and-performance.md` |
+| 7. 本地 HMI 和 MQTT | 待学 | 本地显示、遥测上报、断网缓存、补传 | `prototype/hmi/`, `prototype/cloud-gateway-mqtt/` |
+| 8. 控制与安全联锁 | 待学 | 限幅、互锁、回读确认、失联回退、人工接管 | `docs/safety/safety-rules-draft.md` |
 
 ## 当前阶段任务
 

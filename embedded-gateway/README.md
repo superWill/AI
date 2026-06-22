@@ -15,6 +15,7 @@
 ## 通用资料入口
 
 - [`docs/field-device-io-catalog.md`](docs/field-device-io-catalog.md) — 热源与消防现场设备、IO 类型、常见量程、HMI 卡片和试验台设备清单。
+- [`docs/xiongmai-ip-camera-integration-plan.md`](docs/xiongmai-ip-camera-integration-plan.md) — 雄迈 / XM 系列 IP 摄像头接入 RK3506 网关的硬件、ONVIF/RTSP、HMI、MQTT 和验收方案。
 
 ## 共性设计原则
 

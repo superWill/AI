@@ -1,0 +1,242 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2600" height="2900" viewBox="0 0 2600 2900">
+  <defs>
+    <style>
+      .bg { fill: #f7f9fb; }
+      .title { font-family: "PingFang SC", "Microsoft YaHei", Arial, sans-serif; font-size: 54px; font-weight: 700; fill: #102033; }
+      .subtitle { font-family: "PingFang SC", "Microsoft YaHei", Arial, sans-serif; font-size: 28px; fill: #526170; }
+      .lane-title { font-family: "PingFang SC", "Microsoft YaHei", Arial, sans-serif; font-size: 32px; font-weight: 700; fill: #24384c; }
+      .box-title { font-family: "PingFang SC", "Microsoft YaHei", Arial, sans-serif; font-size: 30px; font-weight: 700; fill: #102033; }
+      .box-text { font-family: "PingFang SC", "Microsoft YaHei", Arial, sans-serif; font-size: 24px; fill: #263746; }
+      .small { font-family: "PingFang SC", "Microsoft YaHei", Arial, sans-serif; font-size: 22px; fill: #263746; }
+      .note { font-family: "PingFang SC", "Microsoft YaHei", Arial, sans-serif; font-size: 21px; fill: #536475; }
+      .lane { fill: #ffffff; stroke: #d5dde6; stroke-width: 3; rx: 18; }
+      .start { fill: #e9f7ef; stroke: #3aa66f; stroke-width: 4; rx: 18; }
+      .process { fill: #eef5ff; stroke: #4c7fc4; stroke-width: 4; rx: 16; }
+      .module { fill: #fff7e8; stroke: #d9922b; stroke-width: 4; rx: 16; }
+      .comm { fill: #f2ecff; stroke: #8167c8; stroke-width: 4; rx: 16; }
+      .decision { fill: #fff0f0; stroke: #d05b66; stroke-width: 4; }
+      .storage { fill: #edf8fb; stroke: #4698a8; stroke-width: 4; rx: 16; }
+      .line { fill: none; stroke: #516170; stroke-width: 4; marker-end: url(#arrow); }
+      .thin { fill: none; stroke: #7a8794; stroke-width: 3; marker-end: url(#arrow); }
+      .loop { fill: none; stroke: #465563; stroke-width: 5; marker-end: url(#arrow); }
+      .label { font-family: "PingFang SC", "Microsoft YaHei", Arial, sans-serif; font-size: 22px; font-weight: 700; fill: #465563; }
+    </style>
+    <marker id="arrow" markerWidth="16" markerHeight="16" refX="12" refY="8" orient="auto">
+      <path d="M 0 0 L 16 8 L 0 16 z" fill="#516170"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="2600" height="2900"/>
+  <text class="title" x="1300" y="95" text-anchor="middle">ES3IN1_CIU003_Rewrite 固件主流程图</text>
+  <text class="subtitle" x="1300" y="142" text-anchor="middle">三合一探测器：平台初始化、通信模式、传感器检测、驱阀、自动编址与上报流程</text>
+
+  <rect class="lane" x="80" y="190" width="610" height="1140"/>
+  <text class="lane-title" x="120" y="245">1. 上电与初始化</text>
+
+  <rect class="lane" x="745" y="190" width="610" height="1140"/>
+  <text class="lane-title" x="785" y="245">2. 主循环调度</text>
+
+  <rect class="lane" x="1410" y="190" width="1110" height="1140"/>
+  <text class="lane-title" x="1450" y="245">3. 通信处理</text>
+
+  <rect class="lane" x="80" y="1410" width="2440" height="1580"/>
+  <text class="lane-title" x="120" y="1465">4. Module_Handle 业务模块</text>
+
+  <rect class="start" x="170" y="300" width="430" height="96"/>
+  <text class="box-title" x="385" y="342" text-anchor="middle">上电启动</text>
+  <text class="box-text" x="385" y="374" text-anchor="middle">进入 main()</text>
+
+  <rect class="process" x="170" y="455" width="430" height="176"/>
+  <text class="box-title" x="385" y="500" text-anchor="middle">Init_Platform()</text>
+  <text class="box-text" x="385" y="536" text-anchor="middle">关闭中断 / 时钟 / SysTick</text>
+  <text class="box-text" x="385" y="570" text-anchor="middle">GPIO / ADC / 安全输出态</text>
+  <text class="box-text" x="385" y="604" text-anchor="middle">二总线定时器 / 看门狗 / 开中断</text>
+
+  <rect class="process" x="170" y="690" width="430" height="276"/>
+  <text class="box-title" x="385" y="735" text-anchor="middle">Init_Sofaware()</text>
+  <text class="box-text" x="385" y="772" text-anchor="middle">Start_Comp()</text>
+  <text class="box-text" x="385" y="806" text-anchor="middle">Bus_Comm_Init()</text>
+  <text class="box-text" x="385" y="840" text-anchor="middle">Upload_Init()</text>
+  <text class="box-text" x="385" y="874" text-anchor="middle">Module_Init()</text>
+  <text class="box-text" x="385" y="908" text-anchor="middle">Self_Init() / Can_Comm_Init()</text>
+  <text class="box-text" x="385" y="942" text-anchor="middle">Init_Comm_Mode()</text>
+
+  <rect class="storage" x="170" y="1030" width="430" height="190"/>
+  <text class="box-title" x="385" y="1076" text-anchor="middle">Fflash 参数恢复</text>
+  <text class="box-text" x="385" y="1114" text-anchor="middle">ID / LA / UC / 产品模式</text>
+  <text class="box-text" x="385" y="1148" text-anchor="middle">通信模式 / 烟感参数 / CO 参数</text>
+  <text class="note" x="385" y="1184" text-anchor="middle">缺省或校验失败时回默认值</text>
+
+  <rect class="process" x="835" y="300" width="430" height="96"/>
+  <text class="box-title" x="1050" y="342" text-anchor="middle">while(1)</text>
+  <text class="box-text" x="1050" y="374" text-anchor="middle">主循环只调总入口</text>
+
+  <rect class="process" x="835" y="455" width="430" height="96"/>
+  <text class="box-title" x="1050" y="497" text-anchor="middle">DOG()</text>
+  <text class="box-text" x="1050" y="529" text-anchor="middle">看门狗入口，当前保留</text>
+
+  <rect class="comm" x="835" y="610" width="430" height="132"/>
+  <text class="box-title" x="1050" y="655" text-anchor="middle">Comm_Mode_Handle()</text>
+  <text class="box-text" x="1050" y="692" text-anchor="middle">强制模式 / 自动侦测</text>
+  <text class="box-text" x="1050" y="724" text-anchor="middle">处理保存请求</text>
+
+  <polygon class="decision" points="1050,805 1275,900 1050,995 825,900"/>
+  <text class="box-title" x="1050" y="892" text-anchor="middle">当前二总线</text>
+  <text class="box-title" x="1050" y="930" text-anchor="middle">模式？</text>
+
+  <rect class="process" x="835" y="1060" width="430" height="132"/>
+  <text class="box-title" x="1050" y="1105" text-anchor="middle">Self_Handle()</text>
+  <text class="box-text" x="1050" y="1142" text-anchor="middle">消费 25ms 节拍</text>
+  <text class="box-text" x="1050" y="1174" text-anchor="middle">触发烟感 / 温感采样</text>
+
+  <rect class="module" x="835" y="1245" width="430" height="96"/>
+  <text class="box-title" x="1050" y="1288" text-anchor="middle">Module_Handle()</text>
+  <text class="box-text" x="1050" y="1320" text-anchor="middle">传感器和执行器业务</text>
+
+  <rect class="comm" x="1500" y="300" width="430" height="156"/>
+  <text class="box-title" x="1715" y="344" text-anchor="middle">Bus_Comm_Handle()</text>
+  <text class="box-text" x="1715" y="382" text-anchor="middle">接收监控 / CRC / 帧解析</text>
+  <text class="box-text" x="1715" y="416" text-anchor="middle">地址匹配 / 寄存器读写</text>
+
+  <rect class="comm" x="2020" y="300" width="410" height="156"/>
+  <text class="box-title" x="2225" y="344" text-anchor="middle">事件上传缓存</text>
+  <text class="box-text" x="2225" y="382" text-anchor="middle">烟 / 温 / CO / 故障</text>
+  <text class="box-text" x="2225" y="416" text-anchor="middle">被主机轮询取走</text>
+
+  <polygon class="decision" points="1715,610 1940,705 1715,800 1490,705"/>
+  <text class="box-title" x="1715" y="696" text-anchor="middle">当前 CAN</text>
+  <text class="box-title" x="1715" y="734" text-anchor="middle">模式？</text>
+
+  <rect class="comm" x="1500" y="870" width="430" height="166"/>
+  <text class="box-title" x="1715" y="913" text-anchor="middle">Can_Comm_Handle()</text>
+  <text class="box-text" x="1715" y="952" text-anchor="middle">状态帧 / 传感器帧</text>
+  <text class="box-text" x="1715" y="986" text-anchor="middle">地址帧周期上报</text>
+  <text class="box-text" x="1715" y="1020" text-anchor="middle">主机命令入口预留</text>
+
+  <rect class="process" x="2020" y="870" width="410" height="166"/>
+  <text class="box-title" x="2225" y="913" text-anchor="middle">Sleep_Handle()</text>
+  <text class="box-text" x="2225" y="952" text-anchor="middle">低功耗入口</text>
+  <text class="box-text" x="2225" y="986" text-anchor="middle">当前保留</text>
+
+  <rect class="module" x="170" y="1545" width="430" height="250"/>
+  <text class="box-title" x="385" y="1590" text-anchor="middle">烟感检测</text>
+  <text class="box-text" x="385" y="1630" text-anchor="middle">红外 / 蓝光 / 暗电流采样</text>
+  <text class="box-text" x="385" y="1666" text-anchor="middle">排序平均滤波</text>
+  <text class="box-text" x="385" y="1702" text-anchor="middle">背光补偿</text>
+  <text class="box-text" x="385" y="1738" text-anchor="middle">报警 / 故障 / 维护判断</text>
+  <text class="note" x="385" y="1774" text-anchor="middle">连续计数确认，抑制瞬态误报</text>
+
+  <rect class="module" x="670" y="1545" width="430" height="250"/>
+  <text class="box-title" x="885" y="1590" text-anchor="middle">温感检测</text>
+  <text class="box-text" x="885" y="1630" text-anchor="middle">T1 / T2 采样</text>
+  <text class="box-text" x="885" y="1666" text-anchor="middle">AD 转温度 / 查表</text>
+  <text class="box-text" x="885" y="1702" text-anchor="middle">历史缓存 / 滤波</text>
+  <text class="box-text" x="885" y="1738" text-anchor="middle">定温 / 升温报警</text>
+  <text class="note" x="885" y="1774" text-anchor="middle">开路 / 短路故障判断</text>
+
+  <rect class="module" x="1170" y="1545" width="430" height="250"/>
+  <text class="box-title" x="1385" y="1590" text-anchor="middle">CO 检测</text>
+  <text class="box-text" x="1385" y="1630" text-anchor="middle">每 1s 有效采样</text>
+  <text class="box-text" x="1385" y="1666" text-anchor="middle">排序滤波 / 快慢滤波</text>
+  <text class="box-text" x="1385" y="1702" text-anchor="middle">mV 转 ppm / 趋势更新</text>
+  <text class="box-text" x="1385" y="1738" text-anchor="middle">预警 / 报警 / 故障判断</text>
+  <text class="note" x="1385" y="1774" text-anchor="middle">稳定低浓度时允许零点补偿</text>
+
+  <rect class="module" x="1670" y="1545" width="430" height="250"/>
+  <text class="box-title" x="1885" y="1590" text-anchor="middle">驱阀状态机</text>
+  <text class="box-text" x="1885" y="1630" text-anchor="middle">Valve_Request_Fire 只置请求</text>
+  <text class="box-text" x="1885" y="1666" text-anchor="middle">IDLE → ARM_CHECK</text>
+  <text class="box-text" x="1885" y="1702" text-anchor="middle">FIRE_PULSE → FB_WAIT</text>
+  <text class="box-text" x="1885" y="1738" text-anchor="middle">SUCCESS / FAIL / LOCKED</text>
+  <text class="note" x="1885" y="1774" text-anchor="middle">成功后锁定，防止重复驱动</text>
+
+  <rect class="module" x="2170" y="1545" width="260" height="250"/>
+  <text class="box-title" x="2300" y="1590" text-anchor="middle">自动编址</text>
+  <text class="box-text" x="2300" y="1630" text-anchor="middle">地址 ADC</text>
+  <text class="box-text" x="2300" y="1666" text-anchor="middle">raw → mV</text>
+  <text class="box-text" x="2300" y="1702" text-anchor="middle">有效范围</text>
+  <text class="box-text" x="2300" y="1738" text-anchor="middle">最接近分档</text>
+  <text class="note" x="2300" y="1774" text-anchor="middle">供地址帧上报</text>
+
+  <rect class="storage" x="170" y="1905" width="560" height="230"/>
+  <text class="box-title" x="450" y="1950" text-anchor="middle">状态 / 结果汇总</text>
+  <text class="box-text" x="450" y="1990" text-anchor="middle">Smoke_result_t / Temp_result_t</text>
+  <text class="box-text" x="450" y="2026" text-anchor="middle">CO state / fault flags / ppm</text>
+  <text class="box-text" x="450" y="2062" text-anchor="middle">ValveControl / AutoAddr</text>
+  <text class="note" x="450" y="2098" text-anchor="middle">供 CAN、二总线、系统状态读取</text>
+
+  <rect class="comm" x="850" y="1905" width="500" height="230"/>
+  <text class="box-title" x="1100" y="1950" text-anchor="middle">二总线对外访问</text>
+  <text class="box-text" x="1100" y="1990" text-anchor="middle">LA / ID / UC 地址匹配</text>
+  <text class="box-text" x="1100" y="2026" text-anchor="middle">读写寄存器 / 参数保存</text>
+  <text class="box-text" x="1100" y="2062" text-anchor="middle">事件上传缓存</text>
+  <text class="note" x="1100" y="2098" text-anchor="middle">保存通信模式时写 EE_OPE_MODE</text>
+
+  <rect class="comm" x="1470" y="1905" width="500" height="230"/>
+  <text class="box-title" x="1720" y="1950" text-anchor="middle">CAN 对外上报</text>
+  <text class="box-text" x="1720" y="1990" text-anchor="middle">状态帧：产品 / 版本 / 标志</text>
+  <text class="box-text" x="1720" y="2026" text-anchor="middle">传感器帧：烟 / 温 / CO</text>
+  <text class="box-text" x="1720" y="2062" text-anchor="middle">地址帧：地址 / mV / raw</text>
+  <text class="note" x="1720" y="2098" text-anchor="middle">命令处理入口等待主机协议确认</text>
+
+  <rect class="storage" x="2090" y="1905" width="340" height="230"/>
+  <text class="box-title" x="2260" y="1950" text-anchor="middle">掉电参数</text>
+  <text class="box-text" x="2260" y="1990" text-anchor="middle">EE_ID / EE_LA / EE_UC</text>
+  <text class="box-text" x="2260" y="2026" text-anchor="middle">EE_OPE_MODE</text>
+  <text class="box-text" x="2260" y="2062" text-anchor="middle">烟感 / CO 参数</text>
+  <text class="note" x="2260" y="2098" text-anchor="middle">结构参数带校验</text>
+
+  <rect class="process" x="170" y="2260" width="2260" height="560"/>
+  <text class="box-title" x="1300" y="2310" text-anchor="middle">推荐联调顺序</text>
+  <text class="box-text" x="245" y="2370">1. 上电安全态</text>
+  <text class="box-text" x="245" y="2410">2. 时钟和 SysTick</text>
+  <text class="box-text" x="245" y="2450">3. Flash 参数读写</text>
+  <text class="box-text" x="245" y="2490">4. ADC 通道</text>
+  <text class="box-text" x="245" y="2530">5. 二总线基础收发</text>
+  <text class="box-text" x="245" y="2570">6. CAN 基础收发</text>
+  <text class="box-text" x="245" y="2610">7. 通信模式掉电保存</text>
+  <text class="box-text" x="1020" y="2370">8. 烟感采样和报警</text>
+  <text class="box-text" x="1020" y="2410">9. 温感采样和报警</text>
+  <text class="box-text" x="1020" y="2450">10. CO 采样、预热、故障、报警</text>
+  <text class="box-text" x="1020" y="2490">11. 自动编址</text>
+  <text class="box-text" x="1020" y="2530">12. 驱阀和反馈</text>
+  <text class="box-text" x="1020" y="2570">13. 整机联动和事件上传</text>
+  <text class="note" x="1300" y="2740" text-anchor="middle">原则：main.c 只做总调度；业务算法放 Module；通信协议放 bus；硬件外设放 Platform；参数统一走 Fflash。</text>
+
+  <path class="line" d="M 385 396 L 385 455"/>
+  <path class="line" d="M 385 631 L 385 690"/>
+  <path class="line" d="M 385 966 L 385 1030"/>
+  <path class="line" d="M 600 1125 C 700 1125 730 348 835 348"/>
+  <path class="line" d="M 1050 396 L 1050 455"/>
+  <path class="line" d="M 1050 551 L 1050 610"/>
+  <path class="line" d="M 1050 742 L 1050 805"/>
+  <path class="line" d="M 1050 995 L 1050 1060"/>
+  <path class="line" d="M 1050 1192 L 1050 1245"/>
+  <path class="line" d="M 1275 900 C 1410 900 1410 378 1500 378"/>
+  <text class="label" x="1345" y="872">是</text>
+  <path class="thin" d="M 1050 995 C 1265 1018 1410 1018 1500 1018"/>
+  <text class="label" x="1300" y="1040">否，继续主循环</text>
+  <path class="line" d="M 1930 378 L 2020 378"/>
+  <path class="line" d="M 1715 456 L 1715 610"/>
+  <path class="line" d="M 1715 800 L 1715 870"/>
+  <text class="label" x="1740" y="842">是</text>
+  <path class="thin" d="M 1940 705 C 2070 705 2225 760 2225 870"/>
+  <text class="label" x="2025" y="700">否</text>
+  <path class="line" d="M 1930 953 L 2020 953"/>
+  <path class="loop" d="M 2225 1036 C 2500 1150 2500 260 1265 348"/>
+
+  <path class="line" d="M 1050 1341 C 1050 1430 385 1430 385 1545"/>
+  <path class="line" d="M 1050 1341 C 1050 1430 885 1430 885 1545"/>
+  <path class="line" d="M 1050 1341 C 1050 1430 1385 1430 1385 1545"/>
+  <path class="line" d="M 1050 1341 C 1050 1430 1885 1430 1885 1545"/>
+  <path class="line" d="M 1050 1341 C 1050 1430 2300 1430 2300 1545"/>
+
+  <path class="line" d="M 385 1795 L 385 1905"/>
+  <path class="line" d="M 885 1795 C 885 1850 450 1850 450 1905"/>
+  <path class="line" d="M 1385 1795 C 1385 1850 450 1850 450 1905"/>
+  <path class="line" d="M 1885 1795 C 1885 1850 450 1850 450 1905"/>
+  <path class="line" d="M 2300 1795 C 2300 1850 450 1850 450 1905"/>
+  <path class="line" d="M 730 2020 L 850 2020"/>
+  <path class="line" d="M 730 2020 C 1000 2160 1450 2160 1470 2020"/>
+  <path class="line" d="M 1970 2020 L 2090 2020"/>
+</svg>
