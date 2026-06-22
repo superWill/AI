@@ -127,13 +127,23 @@ class SimSource:
 # 3) 数据源:真串口 Modbus(轮询 104) —— 复用已验证的采集逻辑
 # ===========================================================================
 class ModbusSource:
-    def __init__(self, dev, baud, devices_cfg, timeout=1.0):
+    def __init__(self, dev, baud, devices_cfg, timeout=1.0, reliability=None):
         import termios
         self.termios = termios
         bauds = {9600: termios.B9600, 19200: termios.B19200, 38400: termios.B38400,
                  57600: termios.B57600, 115200: termios.B115200}
         self.devices = devices_cfg
         self.timeout = timeout
+        # 招2 故障隔离+退避参数(可配,缺省安全值)
+        rel = reliability or {}
+        self.offline_after = rel.get("offline_after", 3)     # 连续失败 N 次→离线
+        self.backoff_base = rel.get("backoff_base_s", 5)     # 退避起始秒
+        self.backoff_max = rel.get("backoff_max_s", 30)      # 退避封顶秒
+        self.default_retries = rel.get("retries", 1)
+        # 每设备运行时健康状态:坏设备不再每轮耗满超时,而是降频探测
+        self.dev_state = {d["addr"]: {"fails": 0, "offline": False, "next_due": 0.0,
+                                      "backoff_idx": 0, "last_sample": None}
+                          for d in self.devices}
         self.lock = threading.Lock()   # 采集线程与控制写共用串口,事务必须串行
         self.fd = os.open(dev, os.O_RDWR | os.O_NOCTTY)
         a = termios.tcgetattr(self.fd)
@@ -171,38 +181,82 @@ class ModbusSource:
                 break
             return buf
 
-    def read_holding(self, addr, start, count):
-        resp = self._txn(struct.pack(">BBHH", addr, 0x03, start, count), self.timeout)
-        if not resp:
-            return None, "timeout"
-        if self._crc(resp[:-2]) != resp[-2:]:
-            return None, "crc_error"
-        if resp[1] & 0x80:
-            return None, "exception"
-        n = resp[2]
-        return [struct.unpack(">H", resp[3 + i:5 + i])[0] for i in range(0, n, 2)], None
+    def read_holding(self, addr, start, count, timeout=None, retries=0):
+        """招5:timeout/crc 错可重试;exception 是设备明确拒绝(真应答),不重试。"""
+        timeout = timeout or self.timeout
+        body = struct.pack(">BBHH", addr, 0x03, start, count)
+        err = "timeout"
+        for _ in range(retries + 1):
+            resp = self._txn(body, timeout)
+            if not resp:
+                err = "timeout"; continue
+            if self._crc(resp[:-2]) != resp[-2:]:
+                err = "crc_error"; continue
+            if resp[1] & 0x80:
+                return None, "exception"
+            n = resp[2]
+            return [struct.unpack(">H", resp[3 + i:5 + i])[0] for i in range(0, n, 2)], None
+        return None, err
 
     def write_register(self, addr, reg, value) -> bool:
         body = struct.pack(">BBHH", addr, 0x06, reg, int(value) & 0xFFFF)
         resp = self._txn(body, self.timeout)
         return bool(resp) and resp[:6] == body  # echo 确认
 
+    def _bad_points(self, d, q):
+        return {p["id"]: {"v": None, "u": p.get("unit", ""), "q": q} for p in d["points"]}
+
     def poll(self) -> dict:
         out = {}
+        now = time.monotonic()
         for d in self.devices:
             addr = d["addr"]
-            regs, err = self.read_holding(addr, d["start"], d["count"])
+            st = self.dev_state[addr]
+            # 招2:离线设备退避未到期→本轮不碰总线,复用上次样本,整轮耗时被压住
+            if st["offline"] and now < st["next_due"]:
+                s = dict(st["last_sample"]) if st["last_sample"] else {
+                    "addr": addr, "name": d["name"], "type": d.get("type", ""),
+                    "ok": False, "points": self._bad_points(d, "offline")}
+                s["offline"] = True
+                s["fails"] = st["fails"]
+                s["next_retry_s"] = max(0, round(st["next_due"] - now, 1))
+                s["health"] = "离线·下次重试 %ss" % s["next_retry_s"]
+                out[addr] = s
+                continue
+            timeout = d.get("timeout_ms", self.timeout * 1000) / 1000.0
+            retries = d.get("retries", self.default_retries)
+            regs, err = self.read_holding(addr, d["start"], d["count"], timeout, retries)
             ts = int(time.time() * 1000)
             if err:
-                out[addr] = {"addr": addr, "name": d["name"], "type": d.get("type", ""),
-                             "ts": ts, "ok": False, "health": "异常(%s)" % err,
-                             "points": {p["id"]: {"v": None, "u": p.get("unit", ""),
-                                                  "q": "bad"} for p in d["points"]}}
+                st["fails"] += 1
+                if st["fails"] >= self.offline_after and not st["offline"]:
+                    st["offline"] = True
+                if st["offline"]:                       # 进入/维持离线:几何退避降频
+                    backoff = min(self.backoff_base * (2 ** st["backoff_idx"]), self.backoff_max)
+                    st["next_due"] = now + backoff
+                    st["backoff_idx"] += 1
+                    health = "离线·下次重试 %ss" % round(backoff, 1)
+                    q = "offline"
+                else:
+                    health = "异常(%s)×%d" % (err, st["fails"])
+                    q = "bad"
+                sample = {"addr": addr, "name": d["name"], "type": d.get("type", ""),
+                          "ts": ts, "ok": False, "health": health,
+                          "fails": st["fails"], "offline": st["offline"],
+                          "next_retry_s": max(0, round(st["next_due"] - now, 1)) if st["offline"] else 0,
+                          "points": self._bad_points(d, q)}
+                st["last_sample"] = sample
+                out[addr] = sample
                 continue
+            # 成功:复位故障状态,恢复每轮轮询
+            st["fails"] = 0; st["offline"] = False; st["backoff_idx"] = 0; st["next_due"] = 0.0
             pts = {p["id"]: {"v": round(regs[p["reg"] - d["start"]] * p.get("scale", 1), 3),
                              "u": p.get("unit", ""), "q": "good"} for p in d["points"]}
-            out[addr] = {"addr": addr, "name": d["name"], "type": d.get("type", ""),
-                         "ts": ts, "ok": True, "health": "在线", "points": pts}
+            sample = {"addr": addr, "name": d["name"], "type": d.get("type", ""),
+                      "ts": ts, "ok": True, "health": "在线", "fails": 0,
+                      "offline": False, "next_retry_s": 0, "points": pts}
+            st["last_sample"] = sample
+            out[addr] = sample
         return out
 
     # 控制写:point_id → (addr,reg,scale) 由 control_map 给出;按 scale 折算成寄存器值
@@ -226,6 +280,15 @@ class Runtime:
         self.commands = deque(maxlen=50)     # 控制指令记录
         self.seq = 0
         self.data_path = os.path.join(HERE, "data", "registry.json")
+        self.last_poll_mono = time.monotonic()   # 招4:采集存活时间戳,看门狗据此判活
+
+    def mark_alive(self):
+        with self.lock:
+            self.last_poll_mono = time.monotonic()
+
+    def collector_age_ms(self):
+        with self.lock:
+            return int((time.monotonic() - self.last_poll_mono) * 1000)
 
     def update(self, snap):
         with self.lock:
