@@ -24,6 +24,9 @@ Thumbs.db
 # Generated local outputs
 outputs/
 
+# MCP / 工具缓存（Playwright MCP 抓的页面快照与日志）
+.playwright-mcp/
+
 # Secrets — 不要提交任何 API key / token
 .env
 .env.local
