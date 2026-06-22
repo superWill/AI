@@ -1,0 +1,26 @@
+{
+  "_note": "POST /api/config/devices 的请求体样例:一台 RS485 8AI 模块 + 一个温度测点。添加后只更新 current_draft.json,需再调 /api/config/validate 与 /api/config/compile,并重启服务(或将来 activate)才会真正生效。",
+  "hardware": {
+    "device_id": "ai_mod_3",
+    "hardware_template": "rs485_8ai_modbus",
+    "bus_id": "rs485_1",
+    "slave": 3,
+    "timeout_ms": 250,
+    "retries": 1,
+    "channels": [
+      { "channel": "AI1", "register": 0, "function": 3, "data_type": "uint16", "raw_range": [0, 65535], "eng_range": [0, 150], "scale": 0.1, "unit": "℃" }
+    ]
+  },
+  "business_devices": [
+    {
+      "business_id": "pri_temp_point",
+      "business_template": "temperature_point",
+      "industry": "heating",
+      "bindings": {
+        "measurement": { "point_id": "pri_supply_temp", "label": "一次供水温度", "from": "ai_mod_3.AI1" }
+      },
+      "alarms": [ { "type": "high", "limit": 95, "unit": "℃" } ],
+      "display": { "page": "primary_loop", "card": "primary_temp", "label": "一次供温", "priority": 10 }
+    }
+  ]
+}

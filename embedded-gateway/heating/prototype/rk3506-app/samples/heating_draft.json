@@ -1,0 +1,87 @@
+{
+  "config_version": 1,
+  "industry": "heating",
+  "buses": [
+    { "bus_id": "rs485_1", "type": "rs485", "baud": 9600, "parity": "N", "data_bits": 8, "stop_bits": 1 }
+  ],
+  "hardware_devices": [
+    {
+      "device_id": "hx_ai_1",
+      "hardware_template": "rs485_8ai_modbus",
+      "bus_id": "rs485_1",
+      "slave": 1,
+      "timeout_ms": 250,
+      "retries": 1,
+      "channels": [
+        { "channel": "AI1", "register": 0, "function": 3, "data_type": "uint16", "raw_range": [0, 65535], "eng_range": [0, 150], "scale": 0.1, "unit": "℃" },
+        { "channel": "AI2", "register": 1, "function": 3, "data_type": "uint16", "raw_range": [0, 65535], "eng_range": [0, 150], "scale": 0.1, "unit": "℃" },
+        { "channel": "AI3", "register": 2, "function": 3, "data_type": "uint16", "raw_range": [0, 65535], "eng_range": [0, 1.6], "scale": 0.001, "unit": "MPa" },
+        { "channel": "AI6", "register": 5, "function": 3, "data_type": "uint16", "raw_range": [0, 65535], "eng_range": [0, 150], "scale": 0.1, "unit": "℃" }
+      ]
+    },
+    {
+      "device_id": "pump_vfd_2",
+      "hardware_template": "vfd_modbus",
+      "bus_id": "rs485_1",
+      "slave": 2,
+      "timeout_ms": 250,
+      "retries": 1,
+      "channels": [
+        { "channel": "REG0", "register": 0, "function": 3, "data_type": "uint16", "unit": "" },
+        { "channel": "REG1", "register": 1, "function": 3, "data_type": "uint16", "scale": 0.1, "unit": "Hz" }
+      ]
+    },
+    {
+      "device_id": "safety_io_5",
+      "hardware_template": "rs485_8di_modbus",
+      "bus_id": "rs485_1",
+      "slave": 5,
+      "channels": [
+        { "channel": "DI1", "register": 0, "function": 2, "data_type": "bool", "unit": "" },
+        { "channel": "DI2", "register": 1, "function": 2, "data_type": "bool", "unit": "" }
+      ]
+    }
+  ],
+  "business_devices": [
+    {
+      "business_id": "sec_supply_temp_point",
+      "business_template": "temperature_point",
+      "industry": "heating",
+      "bindings": {
+        "measurement": { "point_id": "sec_supply_temp", "label": "二次供水温度", "from": "hx_ai_1.AI6" }
+      },
+      "alarms": [ { "type": "high", "limit": 65, "unit": "℃", "deadband": 1 } ],
+      "display": { "page": "secondary_loop", "card": "secondary_temp", "label": "二次供温", "priority": 10 }
+    },
+    {
+      "business_id": "sec_supply_pressure_point",
+      "business_template": "pressure_point",
+      "industry": "heating",
+      "bindings": {
+        "measurement": { "point_id": "sec_supply_pressure", "label": "二次供水压力", "from": "hx_ai_1.AI3" }
+      },
+      "alarms": [ { "type": "high", "limit": 1.0, "unit": "MPa" } ],
+      "display": { "page": "secondary_loop", "card": "secondary_pressure", "label": "二次供压", "priority": 20 }
+    },
+    {
+      "business_id": "circulation_pump_1",
+      "business_template": "circulation_pump",
+      "industry": "heating",
+      "bindings": {
+        "feedback": { "point_id": "pump_run", "label": "运行反馈", "from": "pump_vfd_2.REG0" },
+        "setpoint": { "point_id": "pump_freq_sp", "label": "频率设定", "from": "pump_vfd_2.REG1", "limit_lo": 0, "limit_hi": 50, "rate_limit_per_s": 5 }
+      },
+      "display": { "page": "pumps", "card": "circ_pump_1", "label": "循环泵1", "priority": 10 }
+    },
+    {
+      "business_id": "safety_io_panel",
+      "business_template": "safety_io",
+      "industry": "heating",
+      "bindings": {
+        "fault": { "point_id": "estop", "label": "急停", "from": "safety_io_5.DI1" },
+        "measurement": { "point_id": "water_low", "label": "缺水", "from": "safety_io_5.DI2" }
+      },
+      "display": { "page": "system", "card": "safety_io", "label": "安全IO", "priority": 90 }
+    }
+  ]
+}

@@ -4,8 +4,7 @@ run/
 data/
 *.png
 .playwright-mcp/
-
-# 配置发布/激活的运行时产物（非源码）
+# 配置发布/激活的运行时生成物(每部署一份,非源码,不入库)
 build/
 current_draft.json
 tests/_build_tmp*/

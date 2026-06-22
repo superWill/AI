@@ -43,15 +43,24 @@ SAFE_RANGES = {
 }
 
 
-def safety_check(point_id: str, value) -> tuple[bool, str]:
-    rng = SAFE_RANGES.get(point_id)
-    if rng is None:
-        return False, f"未知或不可远程设定的点位 {point_id}"
+def safety_check(point_id: str, value, policy: dict | None = None) -> tuple[bool, str]:
+    """有 policy 即"产物驱动严格模式":只允许 policy 内点位,policy 外一律拒绝,
+    绝不回退 SAFE_RANGES(否则旧硬编码点位会被放行)。无 policy 时才回退 SAFE_RANGES。
+    policy 形如 {point_id: {"lo": .., "hi": .., "rate_per_s": ..}}(compiler 产出)。"""
+    if policy:                                  # 严格模式:点位必须在 policy 内
+        if point_id not in policy:
+            return False, f"未知或不可远程设定的点位 {point_id}"
+        lo, hi = policy[point_id].get("lo"), policy[point_id].get("hi")
+    else:                                       # 回退模式:无 policy 才用内置 SAFE_RANGES
+        if point_id not in SAFE_RANGES:
+            return False, f"未知或不可远程设定的点位 {point_id}"
+        lo, hi = SAFE_RANGES[point_id]
+    if lo is None or hi is None:
+        return False, f"{point_id} 缺少安全限值"
     try:
         v = float(value)
     except (TypeError, ValueError):
         return False, f"{point_id} 值非法 {value!r}"
-    lo, hi = rng
     if not (lo <= v <= hi):
         return False, f"{point_id}={v} 超出安全限值 [{lo},{hi}]"
     return True, ""
@@ -460,15 +469,22 @@ class MqttClient:
 # 6) 控制器:下发设定值 → 安全校验 → 写数据源 → 记录 + 回传
 # ===========================================================================
 class Controller:
-    def __init__(self, runtime, source, control_map, mqtt=None, base_topic=""):
+    def __init__(self, runtime, source, control_map, mqtt=None, base_topic="",
+                 safety_policy=None):
         self.rt = runtime
         self.source = source
         self.control_map = control_map
         self.mqtt = mqtt
         self.base = base_topic
+        self.safety_policy = safety_policy or {}   # 编译产物;空则 safety_check 回退 SAFE_RANGES
+        self._last = {}                            # point_id -> (value, ts) 用于速率限制
 
     def apply(self, point_id, value, command_id="", origin="local"):
-        ok, reason = safety_check(point_id, value)
+        ok, reason = safety_check(point_id, value, self.safety_policy)
+        if not ok:
+            self._record(command_id, point_id, value, "blocked_by_safety", reason, origin)
+            return False, reason
+        ok, reason = self._rate_check(point_id, value)
         if not ok:
             self._record(command_id, point_id, value, "blocked_by_safety", reason, origin)
             return False, reason
@@ -478,8 +494,21 @@ class Controller:
         else:
             wrote = self.source.write_setpoint(point_id, value, self.control_map)
         status = "accepted" if wrote else "write_failed"
+        if wrote:
+            self._last[point_id] = (float(value), time.time())
         self._record(command_id, point_id, value, status, "" if wrote else "源写入失败", origin)
         return wrote, ""
+
+    def _rate_check(self, point_id, value) -> tuple[bool, str]:
+        """safety_policy 里声明了 rate_per_s 才限速;无历史值则放行(首条命令)。"""
+        rate = (self.safety_policy.get(point_id) or {}).get("rate_per_s")
+        if not rate or point_id not in self._last:
+            return True, ""
+        prev_v, prev_t = self._last[point_id]
+        dt = max(time.time() - prev_t, 1e-3)
+        if abs(float(value) - prev_v) / dt > rate:
+            return False, f"{point_id} 变化速率超限(>{rate}/s)"
+        return True, ""
 
     def _record(self, command_id, point_id, value, status, reason, origin):
         rec = {"command_id": command_id, "point_id": point_id, "value": value,
@@ -690,7 +719,9 @@ def main():
                           username=mcfg.get("username"), password=mcfg.get("password"))
         mqtt.subscribe(f"{base}/property/set")
 
-    controller = Controller(runtime, source, cfg.get("control_map", {}), mqtt, base)
+    # safety_policy 来自 loader 生成配置(编译产物);旧 app_config 无此键则回退 SAFE_RANGES
+    controller = Controller(runtime, source, cfg.get("control_map", {}), mqtt, base,
+                            safety_policy=cfg.get("safety_policy"))
     if mqtt:
         controller_holder["c"] = controller
 
