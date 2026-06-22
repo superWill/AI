@@ -11,6 +11,10 @@
 
   "_说明": "每个点位同时带 sim 字段(base/swing/period_s/fixed/round)和 modbus 字段(reg/scale),一套配置两种源都能用。source=sim 板子自造;source=modbus 走真串口轮询 104(sim_104.py + sim_104_config.json)。可控点位:valve_open_sp/pump_freq_sp/sec_supply_temp_sp,经 SAFE_RANGES 校验。",
 
+  "_可靠性说明": "reliability:坏设备连续失败 offline_after 次→离线,之后按 backoff_base_s 几何退避(封顶 backoff_max_s)降频探测,不再每轮耗满超时。retries=每设备读重试次数(timeout/crc 才重试)。stale_limit_s=采集停滞多久判看门狗 critical。watchdog.device 配 /dev/watchdog 时仅采集新鲜才喂狗(off-board 留空即只软件告警)。每设备可加 timeout_ms/retries 覆盖。",
+  "reliability": { "offline_after": 3, "backoff_base_s": 5, "backoff_max_s": 30, "retries": 1, "stale_limit_s": 6 },
+  "watchdog": { "device": "", "interval_s": 5 },
+
   "mqtt": { "host": "127.0.0.1", "port": 1883, "username": null, "password": null },
 
   "control_map": {

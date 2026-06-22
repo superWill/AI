@@ -104,6 +104,7 @@ class SimSource:
             if faulted:
                 out[addr] = {"addr": addr, "name": d["name"], "type": d["type"],
                              "ts": ts, "ok": False, "health": "离线",
+                             "offline": True, "fails": 0, "next_retry_s": 0,
                              "points": {p["id"]: {"v": None, "u": p.get("unit", ""),
                                                   "q": "offline"} for p in d["points"]}}
                 continue
@@ -119,7 +120,8 @@ class SimSource:
                                          p.get("period_s", 60)), p.get("round", 1))
                 pts[pid] = {"v": v, "u": p.get("unit", ""), "q": "good"}
             out[addr] = {"addr": addr, "name": d["name"], "type": d["type"],
-                         "ts": ts, "ok": True, "health": "在线", "points": pts}
+                         "ts": ts, "ok": True, "health": "在线",
+                         "offline": False, "fails": 0, "next_retry_s": 0, "points": pts}
         return out
 
 
@@ -511,7 +513,15 @@ def make_handler(runtime: Runtime, controller: Controller, html_dir: str):
         def do_GET(self):
             path = self.path.split("?", 1)[0]
             if path == "/api/health":
-                return self._json({"ok": True, "ts": int(time.time() * 1000)})
+                devs = runtime.view()["devices"]
+                offline = [{"addr": d["addr"], "name": d.get("name"),
+                            "fails": d.get("fails", 0), "next_retry_s": d.get("next_retry_s", 0)}
+                           for d in devs if d.get("offline")]
+                return self._json({"ok": True, "ts": int(time.time() * 1000),
+                                   "collector_age_ms": runtime.collector_age_ms(),
+                                   "devices_total": len(devs),
+                                   "devices_offline": len(offline),
+                                   "offline": offline})
             if path == "/api/snapshot":
                 return self._json(runtime.view())
             if path == "/api/stream":
@@ -575,8 +585,46 @@ def collector_loop(source, runtime, interval, stop):
     while not stop.is_set():
         try:
             runtime.update(source.poll())
+            runtime.mark_alive()              # 招4:喂"采集存活",看门狗据此判活
         except Exception as exc:
             print("[采集] 异常:", exc, flush=True)
+        stop.wait(interval)
+
+
+def watchdog_loop(runtime, cfg, stop):
+    """招4 看门狗:采集新鲜才喂硬件狗;停滞则停喂(硬件超时复位)+ 软件告警。
+    off-board 无 /dev/watchdog 时自动退化为只软件存活监控。"""
+    rel = cfg.get("reliability", {})
+    stale_limit = rel.get("stale_limit_s", max(6, cfg.get("poll_interval_s", 2) * 3))
+    wd = cfg.get("watchdog") or {}
+    wd_dev, interval = wd.get("device"), wd.get("interval_s", 5)
+    fd = None
+    if wd_dev and os.path.exists(wd_dev):
+        try:
+            fd = os.open(wd_dev, os.O_WRONLY)
+            print("[看门狗] 硬件看门狗 %s 启用,喂狗周期 %ss" % (wd_dev, interval), flush=True)
+        except OSError as exc:
+            print("[看门狗] 打开 %s 失败:%s,退化为软件告警" % (wd_dev, exc), flush=True)
+    else:
+        print("[看门狗] 无硬件狗,软件存活监控:采集停滞 >%ss 告警" % stale_limit, flush=True)
+    warned = False
+    while not stop.is_set():
+        age = runtime.collector_age_ms() / 1000.0
+        if age <= stale_limit:
+            if warned:
+                runtime.add_event({"kind": "watchdog", "action": "recovered",
+                                   "detail": "采集恢复 age=%.1fs" % age})
+                warned = False
+            if fd is not None:
+                try:
+                    os.write(fd, b"w")        # 仅采集新鲜时喂狗
+                except OSError:
+                    pass
+        elif not warned:                       # 停滞:停喂(硬件复位)+ 记 critical
+            print("[看门狗] 采集停滞 age=%.1fs > %ss,停止喂狗" % (age, stale_limit), flush=True)
+            runtime.add_event({"kind": "watchdog", "action": "critical",
+                               "detail": "采集停滞 %.1fs,看门狗停喂" % age})
+            warned = True
         stop.wait(interval)
 
 
@@ -610,7 +658,8 @@ def main():
 
     if source_kind == "modbus":
         dev = args.serial or cfg.get("serial", "/dev/ttyS1")
-        source = ModbusSource(dev, cfg.get("baud", 9600), devices)
+        source = ModbusSource(dev, cfg.get("baud", 9600), devices,
+                              reliability=cfg.get("reliability"))
         print(f"[源] modbus 真串口 {dev}", flush=True)
     else:
         source = SimSource(devices)
@@ -648,6 +697,8 @@ def main():
     stop = threading.Event()
     threading.Thread(target=collector_loop,
                      args=(source, runtime, cfg.get("poll_interval_s", 2), stop),
+                     daemon=True).start()
+    threading.Thread(target=watchdog_loop, args=(runtime, cfg, stop),
                      daemon=True).start()
     if mqtt:
         threading.Thread(target=uploader_loop,
