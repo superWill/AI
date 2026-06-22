@@ -42,6 +42,29 @@ CONTROLS = [
     ("循环泵频率", "pump_freq", "pump_freq_sp", 0, 50, 2, "Hz", AMBER),
 ]
 
+# 编译产物 display_model 驱动的卡片(监控页用)。空=回退到平铺点表。
+# 由 configure_display() 从 display_model.json 派生;page/card 模型在本地 HMI 才真正发挥。
+DISPLAY_CARDS = []
+
+
+def configure_display(display_model):
+    """从 display_model.json 派生监控页卡片:按 (页序, card priority) 排序,
+    每卡片含标题与点位列表。无 display_model 则清空,监控页回退平铺点表。"""
+    DISPLAY_CARDS.clear()
+    if not display_model:
+        return
+    items = []
+    for pi, page in enumerate(display_model.get("pages", [])):
+        for card in page.get("cards", []):
+            # 优先用人类可读 label,缺省回退 card id
+            title = card.get("label") or card.get("card", "")
+            fields = [(f["point_id"], f.get("label") or f["point_id"])
+                      for f in card.get("fields", []) if f.get("point_id")]
+            items.append(((pi, card.get("priority", 50)), title, fields))
+    items.sort(key=lambda t: t[0])
+    for _, title, fields in items:
+        DISPLAY_CARDS.append({"title": title, "fields": fields})
+
 
 class FB:
     def __init__(self, w=W, h=H):
@@ -175,6 +198,14 @@ def all_points(view):
     return out
 
 
+def point_of(view, pid):
+    for d in view.get("devices", []):
+        p = (d.get("points") or {}).get(pid)
+        if p is not None:
+            return p
+    return None
+
+
 # ---- 侧栏(可点导航) ----
 def draw_sidebar(fb, page, buttons):
     fb.rect(0, 0, 76, H, SIDEBAR)
@@ -281,7 +312,13 @@ def page_overview(fb, view, targets, buttons):
     _status_bar(fb, view)
 
 
+def _qcolor(q):
+    return GREEN if q in ("good", "") else (AMBER if q in ("stale", "est") else RED)
+
+
 def page_monitor(fb, view, targets, buttons):
+    if DISPLAY_CARDS:
+        return _page_monitor_cards(fb, view)
     pts = all_points(view)
     fb.round_rect(88, 64, W - 88 - 12, 400, CARD, r=10, border=LINE)
     fb.text("采集点表 · 共 %d 点" % len(pts), 104, 76, 1, MUTED)
@@ -292,12 +329,37 @@ def page_monitor(fb, view, targets, buttons):
         row = idx % per
         x = 104 + col * (col_w + 8)
         ry = 102 + row * 27
-        qc = GREEN if q in ("good", "") else (AMBER if q in ("stale", "est") else RED)
-        fb.rect(x, ry + 5, 7, 7, qc)
+        fb.rect(x, ry + 5, 7, 7, _qcolor(q))
         fb.text(pid[:16], x + 14, ry, 1, INK)
         fb.text_right("%s %s" % (fnum(v), u), x + col_w - 6, ry, 1,
                       INK if q in ("good", "") else MUTED)
         fb.hline(x, x + col_w - 6, ry + 22, (34, 44, 62))
+
+
+def _page_monitor_cards(fb, view):
+    """display_model 驱动:按卡片分组渲染,2 列流式排布,超出可视高度的卡片截断。"""
+    col_w = (W - 88 - 12 - 12) // 2
+    colx = [88, 88 + col_w + 12]
+    coly = [64, 64]
+    for c in DISPLAY_CARDS:
+        fields = c["fields"][:6]
+        ch = 30 + len(fields) * 22 + 8
+        ci = 0 if coly[0] <= coly[1] else 1
+        x, y = colx[ci], coly[ci]
+        if y + ch > 466:
+            continue
+        fb.round_rect(x, y, col_w, ch, CARD, r=10, border=LINE)
+        fb.text(c["title"][:14], x + 14, y + 8, 1, MUTED)
+        ry = y + 30
+        for pid, label in fields:
+            p = point_of(view, pid) or {}
+            q = p.get("q", "")
+            fb.rect(x + 14, ry + 5, 7, 7, _qcolor(q))
+            fb.text(label[:10], x + 24, ry, 1, INK)
+            fb.text_right("%s %s" % (fnum(p.get("v")), p.get("u", "")), x + col_w - 14, ry, 1,
+                          INK if q in ("good", "") else MUTED)
+            ry += 22
+        coly[ci] = y + ch + 12
 
 
 def page_nodes(fb, view, targets, buttons):

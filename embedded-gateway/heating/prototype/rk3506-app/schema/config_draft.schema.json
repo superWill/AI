@@ -1,0 +1,202 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://embedded-gateway/heating/config_draft.schema.json",
+  "title": "config_draft",
+  "description": "边缘网关配置草稿(编译器输入契约)。目标态分层结构:buses / hardware_devices / business_devices。注意:本 schema 是编译器输入,与当前运行时的扁平 app_config.json(devices[].points[] + control_map)不同;编译器负责把本草稿编译为 point_registry/poll_plan/display_model/safety_policy 等运行产物。详见 PRD §35。JSON Schema 只能保证结构/枚举/必填;跨数组唯一性与引用完整性见 x-compiler-constraints,由编译器 validate 阶段强制。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["config_version", "industry", "buses", "hardware_devices", "business_devices"],
+  "properties": {
+    "config_version": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "草稿版本号;发布后由编译器递增并记录回滚点。"
+    },
+    "industry": {
+      "type": "string",
+      "enum": ["heating", "fire", "building", "energy", "water"],
+      "description": "行业包标识;决定可用的 business_template 集合。"
+    },
+    "buses": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/bus" }
+    },
+    "hardware_devices": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/hardware_device" }
+    },
+    "business_devices": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/business_device" }
+    }
+  },
+
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$",
+      "minLength": 1,
+      "maxLength": 64,
+      "description": "小写蛇形标识;全局或局部唯一性由编译器强制。"
+    },
+
+    "bus": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["bus_id", "type"],
+      "properties": {
+        "bus_id": { "$ref": "#/$defs/id" },
+        "type": { "type": "string", "enum": ["rs485", "tcp"] },
+        "baud": { "type": "integer", "enum": [1200, 2400, 4800, 9600, 19200, 38400, 57600, 115200] },
+        "parity": { "type": "string", "enum": ["N", "E", "O"] },
+        "data_bits": { "type": "integer", "enum": [7, 8] },
+        "stop_bits": { "type": "integer", "enum": [1, 2] }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "type": { "const": "rs485" } } },
+          "then": { "required": ["baud", "parity", "data_bits", "stop_bits"] }
+        }
+      ]
+    },
+
+    "hardware_device": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["device_id", "hardware_template", "bus_id", "channels"],
+      "properties": {
+        "device_id": { "$ref": "#/$defs/id" },
+        "hardware_template": {
+          "type": "string",
+          "enum": [
+            "rs485_8ai_modbus", "rs485_8di_modbus", "rs485_8do_modbus",
+            "rs485_ao_modbus", "modbus_tcp_generic", "heat_meter_modbus",
+            "energy_meter_modbus", "vfd_modbus", "private_mcu"
+          ]
+        },
+        "bus_id": { "$ref": "#/$defs/id", "description": "必须引用一个已声明的 buses[].bus_id。" },
+        "slave": { "type": "integer", "minimum": 1, "maximum": 247, "description": "Modbus 从站地址;tcp 设备可省。" },
+        "timeout_ms": { "type": "integer", "minimum": 50, "maximum": 5000, "default": 250 },
+        "retries": { "type": "integer", "minimum": 0, "maximum": 5, "default": 1 },
+        "channels": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/channel" }
+        }
+      }
+    },
+
+    "channel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["channel", "data_type"],
+      "properties": {
+        "channel": { "type": "string", "pattern": "^(AI|DI|DO|AO|REG)[0-9]+$", "description": "通道标识,如 AI1/DI3/REG0。" },
+        "register": { "type": "integer", "minimum": 0, "maximum": 65535 },
+        "function": { "type": "integer", "enum": [1, 2, 3, 4], "description": "Modbus 功能码;省略由模板默认。" },
+        "data_type": { "type": "string", "enum": ["bool", "uint16", "int16", "uint32", "int32", "float32"] },
+        "raw_range": {
+          "type": "array", "items": { "type": "number" }, "minItems": 2, "maxItems": 2,
+          "description": "[min,max] 原始量程;AI/AO 必填(由编译器强制)。"
+        },
+        "eng_range": {
+          "type": "array", "items": { "type": "number" }, "minItems": 2, "maxItems": 2,
+          "description": "[min,max] 工程量程;AI/AO 必填。"
+        },
+        "scale": { "type": "number", "description": "可选线性缩放,与 raw/eng_range 二选一表达换算。" },
+        "unit": { "type": "string", "maxLength": 16 }
+      }
+    },
+
+    "business_device": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["business_id", "business_template", "bindings"],
+      "properties": {
+        "business_id": { "$ref": "#/$defs/id" },
+        "business_template": {
+          "type": "string",
+          "enum": [
+            "temperature_point", "pressure_point", "circulation_pump",
+            "makeup_pump", "control_valve", "heat_meter", "energy_meter",
+            "vfd", "safety_io"
+          ]
+        },
+        "industry": { "type": "string", "enum": ["heating", "fire", "building", "energy", "water"] },
+        "backend_only": { "type": "boolean", "description": "纯后台设备,无需 display 绑定。" },
+        "bindings": {
+          "type": "object",
+          "minProperties": 1,
+          "propertyNames": {
+            "enum": ["measurement", "command", "feedback", "fault", "setpoint", "derived"]
+          },
+          "additionalProperties": { "$ref": "#/$defs/binding" }
+        },
+        "alarms": { "type": "array", "items": { "$ref": "#/$defs/alarm" } },
+        "display": { "$ref": "#/$defs/display_binding" }
+      }
+    },
+
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "角色由 bindings 的键表达(measurement/feedback/command/setpoint/fault/derived),无需重复 role 字段。",
+      "required": ["point_id"],
+      "properties": {
+        "point_id": { "$ref": "#/$defs/id" },
+        "label": { "type": "string", "maxLength": 32, "description": "点位人类可读名(如\"二次侧供水温度\");缺省则展示用 point_id。" },
+        "from": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*\\.(AI|DI|DO|AO|REG)[0-9]+$",
+          "description": "硬件来源 device_id.channel;derived 点可省并改用 expr。"
+        },
+        "expr": { "type": "string", "description": "derived 点的计算表达式,如 'sec_supply_pressure - sec_return_pressure'。" },
+        "limit_lo": { "type": "number", "description": "command/setpoint 安全下限,编译进 safety_policy。" },
+        "limit_hi": { "type": "number", "description": "command/setpoint 安全上限。" },
+        "rate_limit_per_s": { "type": "number", "minimum": 0, "description": "command/setpoint 每秒最大变化量(可选)。" }
+      }
+    },
+
+    "alarm": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "limit"],
+      "properties": {
+        "type": { "type": "string", "enum": ["high", "high_high", "low", "low_low", "deviation", "comm", "feedback_mismatch"] },
+        "limit": { "type": "number" },
+        "unit": { "type": "string", "maxLength": 16 },
+        "deadband": { "type": "number", "minimum": 0, "description": "回差,避免抖动反复报警。" }
+      }
+    },
+
+    "display_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["page"],
+      "properties": {
+        "page": { "type": "string", "enum": ["overview", "primary_loop", "secondary_loop", "pumps", "makeup", "devices", "alarms", "system"] },
+        "card": { "type": "string", "maxLength": 64 },
+        "label": { "type": "string", "maxLength": 24, "description": "卡片人类可读标题(如\"二次侧供温\");缺省则用 card id。" },
+        "priority": { "type": "integer", "minimum": 0, "maximum": 99 }
+      }
+    }
+  },
+
+  "x-compiler-constraints": {
+    "description": "以下约束 JSON Schema 无法表达,必须由编译器 validate 阶段强制(PRD §10.2、§22);违反即阻止发布并返回错误列表。",
+    "rules": [
+      "buses[].bus_id 全局唯一。",
+      "hardware_devices[].device_id 全局唯一。",
+      "business_devices[].business_id 全局唯一。",
+      "所有 bindings[].point_id 在整个网关内唯一(§10.2 点位 ID 唯一)。",
+      "同一 bus_id 下 hardware_devices[].slave 不重复(§10.2 地址不重复)。",
+      "hardware_devices[].bus_id 必须指向已声明的 buses[].bus_id。",
+      "binding.from 的 'device_id.channel' 必须指向已声明的 hardware_device 及其 channel。",
+      "channel.channel 前缀为 AI/AO 时,raw_range 与 eng_range 必填(§10.2 量程)。",
+      "role 为 command/setpoint 的 binding 必须存在对应 safety_policy 限值,且控制对象应绑定 feedback(§10.2 反馈点)。",
+      "已发布 business_device 必须有 display 或显式标记为后台设备(§10.2 显示卡片)。",
+      "business_template 必须属于声明的 industry 行业包(§28)。"
+    ]
+  }
+}

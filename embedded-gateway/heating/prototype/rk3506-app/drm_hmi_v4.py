@@ -4,7 +4,8 @@
 在 v3 基础上加:读 Goodix 触摸屏(/dev/input/event0),点 −/+ 按钮下发设定值。
 触摸坐标 0..799/0..479,与屏幕 1:1(已 ioctl 实测)。控制走本机 /api/command(安全校验)。
 
-用法:  python3 drm_hmi_v4.py [port]
+用法:  python3 drm_hmi_v4.py [port] [--products build]
+       --products 给定时,监控页按编译产物 display_model.json 分组(否则平铺点表)。
 """
 import fcntl
 import json
@@ -18,7 +19,17 @@ import urllib.request
 
 import dashboard
 
-PORT = int(sys.argv[1]) if len(sys.argv) > 1 else 8092
+def _arg(flag):
+    if flag in sys.argv:
+        i = sys.argv.index(flag)
+        if i + 1 < len(sys.argv):
+            return sys.argv[i + 1]
+    return None
+
+
+_pos = [a for a in sys.argv[1:] if not a.startswith("--")]
+PORT = int(_pos[0]) if _pos else 8092
+PRODUCTS = _arg("--products")
 BASE = "http://127.0.0.1:%d" % PORT
 TOUCH_DEV = "/dev/input/event0"
 
@@ -119,6 +130,12 @@ def post_cmd(point_id, value):
 
 
 def main():
+    if PRODUCTS:
+        dm_path = os.path.join(PRODUCTS, "display_model.json")
+        if os.path.exists(dm_path):
+            dashboard.configure_display(json.load(open(dm_path, encoding="utf-8")))
+            print("[显示] 监控页按 %s 分组(%d 卡片)" % (dm_path, len(dashboard.DISPLAY_CARDS)),
+                  flush=True)
     scr = Screen()
     targets = {}
     state = {"buttons": [], "view": {"devices": []}, "page": "overview"}
