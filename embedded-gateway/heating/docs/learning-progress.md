@@ -18,7 +18,7 @@
 | 3. RS485 / Modbus RTU 与私有 MCU 协议 | 进行中 | 主从轮询、帧格式、功能码、CRC、异常码、超时、设备类型识别 | `docs/protocols/fieldbus-modbus-rs485-basics.md`, `docs/protocols/private-mcu-device-identification.md` |
 | 4. RK3506 应用 + 104 设备模拟 | 进行中 | 模拟设备清单、点表映射、LCD 展示、故障注入 | `docs/architecture/rk3506-104-simulator-application-plan.md` |
 | 5. 现场设备与 IO 点表 | 进行中 | 设备表、点表、状态表、设备模板、DI/DO/AI/AO、量程换算、App 添加设备 | `docs/point-table/point-table-learning-notes.md`, `docs/point-table/device-template-design-notes.md`, `../../docs/field-device-io-catalog.md` |
-| 6. 采集可靠性 | 待学 | 轮询周期、超时、重试、离线判断、质量码、断线恢复 | `docs/architecture/gateway-reliability-and-performance.md` |
+| 6. 采集可靠性 | 已落地 | 轮询周期、超时、重试、离线判断、质量码、断线恢复 | `docs/architecture/gateway-reliability-and-performance.md`;已写进 `prototype/rk3506-app/app.py`(每设备超时+重试、故障隔离退避、看门狗),故障注入长跑 `prototype/rk3506-app/tests/reliability_soak.py` 11/11 通过 |
 | 7. 本地 HMI 和 MQTT | 待学 | 本地显示、遥测上报、断网缓存、补传 | `prototype/hmi/`, `prototype/cloud-gateway-mqtt/` |
 | 8. 控制与安全联锁 | 待学 | 限幅、互锁、回读确认、失联回退、人工接管 | `docs/safety/safety-rules-draft.md` |
 

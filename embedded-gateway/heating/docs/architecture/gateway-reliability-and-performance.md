@@ -72,6 +72,30 @@ while True:
 
 ---
 
+## 6. 已在 app.py 落地的招式(阶段6 实战)
+
+文档讲完要落到代码。下面对到 [`prototype/rk3506-app/app.py`](../../prototype/rk3506-app/app.py):
+
+| 招 | 落地点 | 实现 |
+|---|---|---|
+| 招1 处处超时(精化) | `ModbusSource.poll` | 读每设备 `timeout_ms`(缺省回退全局),坏设备探测轮也便宜 |
+| 招5 重试 | `ModbusSource.read_holding(…, retries)` | `timeout`/`crc` 错才重试;`exception` 是设备明确拒绝(真应答),不重试 |
+| **招2 故障隔离+退避** | `ModbusSource.dev_state` + `poll` | 连续失败 `offline_after` 次→离线;之后按 `backoff_base_s` 几何退避(封顶 `backoff_max_s`)**降频探测,未到期本轮不碰总线**;一次成功即复位回每轮轮询 |
+| **招4 看门狗** | `Runtime.mark_alive` + `watchdog_loop` | 采集每轮喂"存活时间戳";`watchdog_loop` 仅采集新鲜才喂 `/dev/watchdog`,停滞 > `stale_limit_s` 停喂(硬件复位)+ 记 critical;off-board 无硬件狗时退化为只软件告警 |
+| 可观测 | `/api/health` | 暴露 `collector_age_ms`、`devices_offline`、每设备 `fails`/`next_retry_s` |
+
+配置见 `app_config.json` 的 `reliability` / `watchdog` 块与每设备 `timeout_ms`/`retries`。
+
+**验证(硬件在环精神,Mac+pty 无需真板子)**:`prototype/rk3506-app/tests/reliability_soak.py`
+经 `serial_bridge`(pty 对)接 `sim_104`(注入 `offline`/`bad_crc`)与 `app.py --source modbus`,
+断言:坏设备判离线、好设备不受影响、**退避使坏设备被探测次数 << 好设备**(实测 10s 内坏 #8 仅 2 次 vs 好 #1 七次)、
+故障清除后自动恢复、看门狗停滞告警+恢复。**11/11 通过**。
+
+> 尚未做(板上链路):`deploy/S99gateway` 仍是 `nohup` 无 respawn——进程死了没人拉起。
+> 看门狗的"自杀重启"要靠监督者补齐:`systemd Restart=always + WatchdogSec`,或 S99 加 `while true; do …; done` 守护。
+
+---
+
 ## 一句话总结
 - **不卡死** = 处处超时 + 故障隔离 + 采集/上传解耦 + 看门狗兜底。
 - **提性能** = 批量读 + 分级轮询 + 多总线并行 + 提波特率。
