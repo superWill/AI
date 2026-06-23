@@ -1,0 +1,195 @@
+// 网关 daemon 骨架（Go 移植自 app.py 的三个 loop + main 装配）。
+// 骨架阶段：sim 源 + Runtime + Controller + 可选 MQTT + collector/watchdog/uploader。
+// HTTP/HMI 与 modbus 源装配为后续。
+package main
+
+import (
+	"encoding/json"
+	"flag"
+	"fmt"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
+)
+
+type pollSource interface{ Poll() obj }
+
+func collectorLoop(src pollSource, rt *Runtime, interval time.Duration, stop <-chan struct{}) {
+	for {
+		rt.Update(src.Poll())
+		rt.MarkAlive()
+		select {
+		case <-stop:
+			return
+		case <-time.After(interval):
+		}
+	}
+}
+
+func watchdogLoop(rt *Runtime, cfg obj, stop <-chan struct{}) {
+	rel := asObj(cfg["reliability"])
+	poll := toF(getOr(cfg, "poll_interval_s", float64(2)))
+	staleLimit := toF(getOr(rel, "stale_limit_s", maxF(6, poll*3)))
+	wd := asObj(cfg["watchdog"])
+	wdDev := asStr(get(wd, "device"))
+	interval := toF(getOr(wd, "interval_s", float64(5)))
+	var fd *os.File
+	if wdDev != "" {
+		if _, err := os.Stat(wdDev); err == nil {
+			fd, _ = os.OpenFile(wdDev, os.O_WRONLY, 0)
+		}
+	}
+	warned := false
+	for {
+		age := float64(rt.CollectorAgeMs()) / 1000.0
+		if age <= staleLimit {
+			if warned {
+				rt.AddEvent(obj{"kind": "watchdog", "action": "recovered",
+					"detail": fmt.Sprintf("采集恢复 age=%.1fs", age)})
+				warned = false
+			}
+			if fd != nil {
+				fd.Write([]byte("w"))
+			}
+		} else if !warned {
+			rt.AddEvent(obj{"kind": "watchdog", "action": "critical",
+				"detail": fmt.Sprintf("采集停滞 %.1fs,看门狗停喂", age)})
+			warned = true
+		}
+		select {
+		case <-stop:
+			if fd != nil {
+				fd.Close()
+			}
+			return
+		case <-time.After(time.Duration(interval * float64(time.Second))):
+		}
+	}
+}
+
+func uploaderLoop(rt *Runtime, pub *MqttPub, base string, tTele, tHb time.Duration, stop <-chan struct{}) {
+	var nextT, nextH time.Time
+	for {
+		now := time.Now()
+		if !now.Before(nextT) {
+			pub.Publish(base+"/telemetry", rt.Telemetry())
+			nextT = now.Add(tTele)
+		}
+		if !now.Before(nextH) {
+			pub.Publish(base+"/heartbeat", obj{"device_id": rt.cfg["device_id"],
+				"online": true, "ts": time.Now().UnixMilli()})
+			nextH = now.Add(tHb)
+		}
+		select {
+		case <-stop:
+			return
+		case <-time.After(time.Second):
+		}
+	}
+}
+
+func runGateway(args []string) {
+	fs := flag.NewFlagSet("run", flag.ExitOnError)
+	cfgPath := fs.String("config", "app_config.json", "运行配置")
+	srcKind := fs.String("source", "", "采集源 sim|modbus(空则用配置)")
+	seconds := fs.Int("seconds", 0, ">0 则跑 N 秒后 dump view 退出(冒烟用)")
+	fs.Parse(args)
+
+	raw, err := os.ReadFile(*cfgPath)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "读取配置失败: %v\n", err)
+		os.Exit(2)
+	}
+	var cfg obj
+	if err := json.Unmarshal(raw, &cfg); err != nil {
+		fmt.Fprintf(os.Stderr, "解析配置失败: %v\n", err)
+		os.Exit(2)
+	}
+
+	kind := *srcKind
+	if kind == "" {
+		kind = asStr(getOr(cfg, "source", "sim"))
+	}
+	if kind != "sim" {
+		fmt.Fprintln(os.Stderr, "骨架阶段仅支持 --source sim(modbus 源装配为后续)")
+		os.Exit(2)
+	}
+	sim := NewSimSource(asArr(cfg["devices"]), nil)
+	fmt.Println("[源] sim 内置仿真")
+
+	rt := NewRuntime(cfg, nil, nil)
+	base := "station/" + asStr(getOr(cfg, "device_id", "rk3506-gw-01"))
+
+	var pub *MqttPub
+	if mcfg := asObj(cfg["mqtt"]); mcfg != nil {
+		pub = NewMqttPub(asStr(mcfg["host"]), int(toF(getOr(mcfg, "port", float64(1883)))),
+			asStr(getOr(cfg, "device_id", "rk3506-gw-01")), asStr(mcfg["username"]), asStr(mcfg["password"]))
+	}
+
+	ctrl := NewController(ControllerDeps{
+		Snapshot: func() obj { return SamplesView(rt.Get()) },
+		Write:    func(pid string, v float64) bool { return sim.WriteSetpoint(pid, v) },
+		Clock:    defaultClock,
+		Record: func(r ControlRecord) {
+			rec := obj{"command_id": r.CommandID, "point_id": r.PointID, "value": r.Value,
+				"status": r.Status, "reason": r.Reason, "origin": r.Origin, "ts": r.TS}
+			rt.RecordCommand(rec)
+			reasonPart := ""
+			if r.Reason != "" {
+				reasonPart = " " + r.Reason
+			}
+			rt.AddEvent(obj{"kind": "command", "action": r.Status,
+				"detail": fmt.Sprintf("%s ← %v (%s%s)", r.PointID, r.Value, r.Status, reasonPart)})
+			if pub != nil {
+				pub.Publish(base+"/command_reply", rec)
+			}
+		},
+		Alarm: func(a ControlAlarm) {
+			rt.AddEvent(obj{"kind": "alarm", "action": a.Action, "detail": a.Detail})
+		},
+		Policy: asObj(cfg["safety_policy"]),
+	})
+
+	if pub != nil {
+		pub.Subscribe(base+"/property/set", func(payload []byte) {
+			var cmd obj
+			if json.Unmarshal(payload, &cmd) != nil {
+				return
+			}
+			pl := asObj(cmd["payload"])
+			if pl == nil {
+				pl = cmd
+			}
+			for pid, val := range pl {
+				ctrl.Apply(pid, val, asStr(cmd["command_id"]), "platform")
+			}
+		})
+	}
+
+	stop := make(chan struct{})
+	go collectorLoop(sim, rt, time.Duration(toF(getOr(cfg, "poll_interval_s", float64(2)))*float64(time.Second)), stop)
+	go watchdogLoop(rt, cfg, stop)
+	if pub != nil {
+		go uploaderLoop(rt, pub, base,
+			time.Duration(toF(getOr(cfg, "telemetry_interval_s", float64(10)))*float64(time.Second)),
+			time.Duration(toF(getOr(cfg, "heartbeat_interval_s", float64(30)))*float64(time.Second)), stop)
+	}
+	fmt.Println("[daemon] collector/watchdog" + map[bool]string{true: "/uploader", false: ""}[pub != nil] + " 已启动")
+
+	if *seconds > 0 { // 冒烟:跑 N 秒 dump view 退出
+		time.Sleep(time.Duration(*seconds) * time.Second)
+		close(stop)
+		b, _ := json.MarshalIndent(rt.View(), "", "  ")
+		fmt.Println(string(b))
+		return
+	}
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, syscall.SIGINT, syscall.SIGTERM)
+	<-sig
+	close(stop)
+	if pub != nil {
+		pub.Disconnect()
+	}
+	fmt.Println("\n退出。")
+}

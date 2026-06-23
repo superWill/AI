@@ -41,6 +41,8 @@ func main() {
 		runControllerLoop(os.Args[2:])
 	case "runtimecase":
 		runRuntimeCase(os.Args[2:])
+	case "run":
+		runGateway(os.Args[2:])
 	default:
 		usage()
 	}
