@@ -177,9 +177,14 @@ func runGateway(args []string) {
 	}
 	fmt.Println("[daemon] collector/watchdog" + map[bool]string{true: "/uploader", false: ""}[pub != nil] + " 已启动")
 
+	htmlDir := asStr(getOr(cfg, "html_dir", "html"))
+	port := int(toF(getOr(cfg, "http_port", float64(8092))))
+	srv := startHTTP(rt, ctrl, htmlDir, port)
+
 	if *seconds > 0 { // 冒烟:跑 N 秒 dump view 退出
 		time.Sleep(time.Duration(*seconds) * time.Second)
 		close(stop)
+		srv.Close()
 		b, _ := json.MarshalIndent(rt.View(), "", "  ")
 		fmt.Println(string(b))
 		return
@@ -188,6 +193,7 @@ func runGateway(args []string) {
 	signal.Notify(sig, syscall.SIGINT, syscall.SIGTERM)
 	<-sig
 	close(stop)
+	srv.Close()
 	if pub != nil {
 		pub.Disconnect()
 	}
