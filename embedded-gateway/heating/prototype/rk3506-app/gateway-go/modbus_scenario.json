@@ -1,0 +1,18 @@
+{
+  "devices": [
+    {"addr":1,"name":"采集模块","type":"采集模块","start":0,"count":3,
+     "points":[{"id":"t1","reg":0,"scale":0.1,"unit":"℃"},
+               {"id":"t2","reg":1,"scale":0.1,"unit":"℃"},
+               {"id":"f1","reg":2,"scale":0.1,"unit":"m3/h"}]}
+  ],
+  "reliability": {"offline_after":3,"backoff_base_s":5,"backoff_max_s":30,"retries":1},
+  "steps": [
+    {"mono":0.0,"wall":1000.0,"reads":{"1":{"regs":[310,451,327]}}},
+    {"mono":2.0,"wall":1002.0,"reads":{"1":{"err":"timeout"}}},
+    {"mono":4.0,"wall":1004.0,"reads":{"1":{"err":"crc_error"}}},
+    {"mono":6.0,"wall":1006.0,"reads":{"1":{"err":"timeout"}}},
+    {"mono":8.3,"wall":1008.3,"reads":{"1":{"err":"timeout"}}},
+    {"mono":11.0,"wall":1011.0,"reads":{"1":{"err":"timeout"}}},
+    {"mono":21.0,"wall":1021.0,"reads":{"1":{"regs":[320,450,330]}}}
+  ]
+}

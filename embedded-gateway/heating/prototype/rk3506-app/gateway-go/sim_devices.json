@@ -1,0 +1,11 @@
+[
+  {"addr":1,"name":"采集模块","type":"采集模块","points":[
+    {"id":"sec_supply_temp","unit":"℃"},
+    {"id":"outdoor_temp","base":-3,"swing":4,"period_s":120,"round":1,"unit":"℃"},
+    {"id":"pri_flow","fixed":32.7,"unit":"m3/h"},
+    {"id":"pri_supply_temp","base":78,"swing":3,"period_s":300,"unit":"℃"}
+  ]},
+  {"addr":2,"name":"循环泵","type":"循环泵","fault":"offline","points":[
+    {"id":"pump_freq","unit":"Hz"}
+  ]}
+]
