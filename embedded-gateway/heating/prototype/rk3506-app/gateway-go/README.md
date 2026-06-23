@@ -18,8 +18,8 @@
 | **仿真数据源** | `app.py` 的 `SimSource` | ✅ 完成 | 时钟可注入,与 Python 固定时刻对拍:**12 个相位全一致**(sin+银行家舍入)+ RK3506 armv7l == Mac Python |
 | **Modbus 协议核心** | `app.py` 的 `_crc`/请求帧/应答解析 | ✅ 完成 | **逐字节对拍** Python:CRC16/读写请求帧字节级一致 + 解析(正常/crc/异常/超时)语义一致 + 单测 + RK3506 armv7l == Mac |
 | **Modbus 轮询状态机** | `ModbusSource.poll` 故障退避(招2/招5) | ✅ 完成 | 注入读结果+时钟,脚本化序列**逐步对拍** Python(离线判定/几何退避/恢复/int·float 格式化)+ RK3506 == Mac |
-| Modbus 串口传输 | `ModbusSource._txn` / termios | ⬜ 下一个 | **碰硬件**:板上拉 pty/串口对 `modbus_sim.py` 端到端比对读数 |
-| 控制/安全逻辑 | `app.py`(控制环/safety) | ⬜ **最后** | 新旧并行跑 + 数据比对通过才切;不通过不切 |
+| **Modbus 串口传输** | `ModbusSource._txn` / termios(x/sys/unix) | ✅ 完成 | **板上 pty 真串口端到端**:Go 读模拟从站 == app.py 真实 ModbusSource(偏移/数量正确 + 静默→timeout 一致) |
+| 控制/安全逻辑 | `app.py`(控制环/safety) | ⬜ **最后一块** | 新旧并行跑 + 数据比对通过才切;不通过不切 |
 | HMI | `hmi_lvgl`(C/LVGL) | — | 已是原生,不在迁移范围 |
 
 - `compiler.py` + `loader.py` → **单个 `gatewayc` 二进制(1.9 MB)+ 子命令**(`compile`/`load`)。
@@ -58,7 +58,8 @@ GOOS=linux GOARCH=arm GOARM=7 go build -ldflags="-s -w" -o gatewayc-arm .
 | `sim.go` | `SimSource` 仿真源(对照 app.py),时钟可注入 |
 | `modbus.go` | Modbus 协议核心:CRC16 / 请求帧 / 应答解析(对照 app.py ModbusSource) |
 | `modbus_poll.go` | Modbus 轮询故障退避状态机(读结果+时钟可注入) |
-| `main.go` | CLI 子命令:`compile` / `load` / `simpoll` / `modbusframe` / `modbuspoll` |
+| `serial_linux.go` / `serial_other.go` | Modbus 串口传输(Linux termios via x/sys;非 Linux 给 stub) |
+| `main.go` | CLI 子命令:`compile` / `load` / `simpoll` / `modbusframe` / `modbuspoll` / `modbusread` |
 | `mqtt/gateway_mqtt.go` | 云↔网关 MQTT 守护进程(对照 gateway_mqtt.py),`go build ./mqtt` |
 | `*_test.go` | 单测:MQTT 逻辑 / Modbus CRC·帧·解析 |
 | `*_harness.py` / `compare.py` / `*_scenario.json` | 对拍工具(调用 Python 真实代码作参照) |

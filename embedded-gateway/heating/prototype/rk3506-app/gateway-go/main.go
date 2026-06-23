@@ -28,6 +28,8 @@ func main() {
 		runModbusFrame(os.Args[2:])
 	case "modbuspoll":
 		runModbusPoll(os.Args[2:])
+	case "modbusread":
+		runModbusRead(os.Args[2:])
 	default:
 		usage()
 	}
