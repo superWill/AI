@@ -39,6 +39,8 @@ func main() {
 		runSimControlCase(os.Args[2:])
 	case "controllerloop":
 		runControllerLoop(os.Args[2:])
+	case "runtimecase":
+		runRuntimeCase(os.Args[2:])
 	default:
 		usage()
 	}

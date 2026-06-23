@@ -20,14 +20,16 @@
 | **Modbus 轮询状态机** | `ModbusSource.poll` 故障退避(招2/招5) | ✅ 完成 | 注入读结果+时钟,脚本化序列**逐步对拍** Python(离线判定/几何退避/恢复/int·float 格式化)+ RK3506 == Mac |
 | **Modbus 串口传输** | `ModbusSource._txn` / termios(x/sys/unix) | ✅ 完成 | **板上 pty 真串口端到端**:Go 读模拟从站 == app.py 真实 ModbusSource(偏移/数量正确 + 静默→timeout 一致) |
 | 控制/安全逻辑(对拍) | `app.py` safety_check + Controller | 🟡 **对拍验证通过(含双端闭环),未切生产** | L1 决策(含多小数 reason 逐字一致)+ L2 SimSource 闭环 + L3 单pty写值 + **L3 双端完整闭环**(板上两端 /dev/pts 桥接:Controller→FC06写→从站→轮询回读→confirm,confirmed/timeout 两结局 Go==Python),均与 app.py 真实实现对拍一致。⚠️ **接真实设备 / 替换生产控制器 仍未做**(需授权) |
+| **运行时状态容器** | `app.py` 的 `Runtime` | ✅ 完成 | 时钟可注入,脚本化 ops 对拍 app.py 真实 Runtime:快照/事件(上限20,新→旧)/指令(上限50,view 取10)/telemetry seq+设备列表/看门狗时戳;含上限与顺序场景 + armv7l==Mac |
+| 运行时外壳其余(轨A) | `app.py` 的 HTTP/REST/SSE、三个 loop、main() 装配、内置 MqttClient | ⬜ 进行中 | 装配成可替 `python3 app.py` 的 Go 网关 daemon(sim→板上对拍) |
 | HMI | `hmi_lvgl`(C/LVGL) | — | 已是原生,不在迁移范围 |
 
 - `compiler.py` + `loader.py` → **单个 `gatewayc` 二进制(1.9 MB)+ 子命令**(`compile`/`load`)。
 - `gateway_mqtt.py` → **`gateway-mqtt` 二进制(armv7l 5.1 MB,含 paho)**,守护进程。
 
-## 这是什么 / 不是什么
-- **是**:`config_draft.json → 4 产物`(point_registry / poll_plan / display_model / safety_policy)的纯函数编译器,逐函数对照 `compiler.py`,错误串逐字一致。
-- **不是**:还没碰运行时、采集、控制、安全执行。那些按上表顺序、并行验证后再迁。
+## 这是什么 / 不是什么(诚实边界)
+- **是**:网关的**核心逻辑 + 运行时状态**(配置/采集/控制/安全/MQTT/Runtime)已逐组件移植,**均与 app.py 真实实现对拍一致 + RK3506 实跑**。
+- **不是**:① 还没装配成一个能替 `python3 app.py` 的 Go 网关 daemon(HTTP/REST/SSE、三个 loop、main 装配、内置 MqttClient 统一 —— 轨 A 进行中);② **从未接真实设备、从未替换生产控制器**(轨 B,需显式授权 + 真机影子并行等闸门)。Python 仍是唯一生产实现。
 
 ## 构建 / 验证
 
@@ -70,9 +72,10 @@ GOOS=linux GOARCH=arm GOARM=7 go build -ldflags="-s -w" -o gatewayc-arm .
 | `controller_l3_board.py` / `modbus_write_harness.py` | 板上 PTY 对拍 Python/Go 的写值映射、FC06 帧与回显确认 |
 | `controller_loop.go` / `controller_loop_other.go` | **双端完整闭环 L3** 的 Go 端:串口轮询 + Apply + 回读 confirm(Linux;非 Linux stub) |
 | `pty_link.py` / `modbus_slave_on.py` / `controller_loop_harness.py` / `controller_l3_loop_board.py` | 双端 pty 桥 + 开路径从站 + Python 闭环 + 板上编排对拍 |
+| `runtime.go` / `runtime_case.go` | 运行时状态容器 `Runtime`(对照 app.py)+ 脚本化对拍 runner |
 | `runtime_view.go` | 数据源 `{addr: sample}` → Controller/HMI 使用的稳定有序 `devices[]` 快照 |
 | `modbus_write.go` | `point_id + value + control_map` → `addr/reg/register_value`，银行家舍入对齐 Python |
-| `main.go` | CLI 子命令:`compile` / `load` / `simpoll` / `modbusframe` / `modbuspoll` / `modbusread` / `modbuswrite` / `controllercase` / `simcontrolcase` / `controllerloop` |
+| `main.go` | CLI 子命令:`compile` / `load` / `simpoll` / `modbusframe` / `modbuspoll` / `modbusread` / `modbuswrite` / `controllercase` / `simcontrolcase` / `controllerloop` / `runtimecase` |
 | `mqtt/gateway_mqtt.go` | 云↔网关 MQTT 守护进程(对照 gateway_mqtt.py),`go build ./mqtt` |
 | `*_test.go` | 单测:MQTT 逻辑 / Modbus CRC·帧·解析 |
 | `*_harness.py` / `compare.py` / `*_scenario.json` | 对拍工具(调用 Python 真实代码作参照) |
