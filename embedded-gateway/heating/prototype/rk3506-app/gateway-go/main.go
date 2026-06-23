@@ -43,6 +43,8 @@ func main() {
 		runRuntimeCase(os.Args[2:])
 	case "run":
 		runGateway(os.Args[2:])
+	case "shadow":
+		runShadow(os.Args[2:])
 	default:
 		usage()
 	}
