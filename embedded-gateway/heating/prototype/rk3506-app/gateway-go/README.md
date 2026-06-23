@@ -29,8 +29,8 @@
 - `gateway_mqtt.py` → **`gateway-mqtt` 二进制(armv7l 5.1 MB,含 paho)**,守护进程。
 
 ## 这是什么 / 不是什么(诚实边界)
-- **是**:网关的**核心逻辑 + 运行时状态**(配置/采集/控制/安全/MQTT/Runtime)已逐组件移植,**均与 app.py 真实实现对拍一致 + RK3506 实跑**。
-- **不是**:① 还没装配成一个能替 `python3 app.py` 的 Go 网关 daemon(HTTP/REST/SSE、三个 loop、main 装配、内置 MqttClient 统一 —— 轨 A 进行中);② **从未接真实设备、从未替换生产控制器**(轨 B,需显式授权 + 真机影子并行等闸门)。Python 仍是唯一生产实现。
+- **是**:网关全栈(配置/采集/控制/安全/MQTT/Runtime/HTTP-HMI/三 loop)已逐组件移植 + **装配成 `gatewayc run` 整机**,**均与 app.py 真实实现对拍/板上实跑**。`run --source sim` 与 `python3 app.py` 关键端点对拍;`run --source modbus` 板上串口采集读数正确。
+- **未做**:① MQTT uploader 帧与 app.py 在 broker 上的对拍(uploader 已接线);② **从未接真实设备、从未替换生产控制器**(轨 B,需显式授权 + 真机影子并行等闸门)。Python 仍是唯一生产实现。
 
 ## 构建 / 验证
 
