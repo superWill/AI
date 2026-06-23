@@ -1,6 +1,6 @@
-// 网关 daemon 骨架（Go 移植自 app.py 的三个 loop + main 装配）。
-// 骨架阶段：sim 源 + Runtime + Controller + 可选 MQTT + collector/watchdog/uploader。
-// HTTP/HMI 与 modbus 源装配为后续。
+// 网关 daemon（Go 移植自 app.py 的三个 loop + main 装配）。
+// sim/modbus 源 + Runtime + Controller + 可选 MQTT + collector/watchdog/uploader + HTTP/HMI。
+// modbus 源走串口(Linux,见 modbus_daemon_linux.go);可替 `python3 app.py`。
 package main
 
 import (
@@ -111,12 +111,24 @@ func runGateway(args []string) {
 	if kind == "" {
 		kind = asStr(getOr(cfg, "source", "sim"))
 	}
-	if kind != "sim" {
-		fmt.Fprintln(os.Stderr, "骨架阶段仅支持 --source sim(modbus 源装配为后续)")
+	var src pollSource
+	var writeFn func(string, float64) bool
+	switch kind {
+	case "sim":
+		s := NewSimSource(asArr(cfg["devices"]), nil)
+		fmt.Println("[源] sim 内置仿真")
+		src, writeFn = s, s.WriteSetpoint
+	case "modbus":
+		ms, w, err := newModbusRuntime(cfg)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "modbus 源装配失败: %v\n", err)
+			os.Exit(2)
+		}
+		src, writeFn = ms, w
+	default:
+		fmt.Fprintf(os.Stderr, "未知源: %s\n", kind)
 		os.Exit(2)
 	}
-	sim := NewSimSource(asArr(cfg["devices"]), nil)
-	fmt.Println("[源] sim 内置仿真")
 
 	rt := NewRuntime(cfg, nil, nil)
 	base := "station/" + asStr(getOr(cfg, "device_id", "rk3506-gw-01"))
@@ -129,7 +141,7 @@ func runGateway(args []string) {
 
 	ctrl := NewController(ControllerDeps{
 		Snapshot: func() obj { return SamplesView(rt.Get()) },
-		Write:    func(pid string, v float64) bool { return sim.WriteSetpoint(pid, v) },
+		Write:    writeFn,
 		Clock:    defaultClock,
 		Record: func(r ControlRecord) {
 			rec := obj{"command_id": r.CommandID, "point_id": r.PointID, "value": r.Value,
@@ -168,7 +180,7 @@ func runGateway(args []string) {
 	}
 
 	stop := make(chan struct{})
-	go collectorLoop(sim, rt, time.Duration(toF(getOr(cfg, "poll_interval_s", float64(2)))*float64(time.Second)), stop)
+	go collectorLoop(src, rt, time.Duration(toF(getOr(cfg, "poll_interval_s", float64(2)))*float64(time.Second)), stop)
 	go watchdogLoop(rt, cfg, stop)
 	if pub != nil {
 		go uploaderLoop(rt, pub, base,
