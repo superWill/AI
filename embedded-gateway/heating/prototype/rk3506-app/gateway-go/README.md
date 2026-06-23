@@ -19,7 +19,7 @@
 | **Modbus 协议核心** | `app.py` 的 `_crc`/请求帧/应答解析 | ✅ 完成 | **逐字节对拍** Python:CRC16/读写请求帧字节级一致 + 解析(正常/crc/异常/超时)语义一致 + 单测 + RK3506 armv7l == Mac |
 | **Modbus 轮询状态机** | `ModbusSource.poll` 故障退避(招2/招5) | ✅ 完成 | 注入读结果+时钟,脚本化序列**逐步对拍** Python(离线判定/几何退避/恢复/int·float 格式化)+ RK3506 == Mac |
 | **Modbus 串口传输** | `ModbusSource._txn` / termios(x/sys/unix) | ✅ 完成 | **板上 pty 真串口端到端**:Go 读模拟从站 == app.py 真实 ModbusSource(偏移/数量正确 + 静默→timeout 一致) |
-| 控制/安全逻辑(对拍) | `app.py` safety_check + Controller | 🟡 **对拍验证通过,未切生产** | L1 决策(含多小数 reason 与 Python 逐字一致)+ L2 SimSource 闭环 + L3 **单 pty 写值**(板上 armv7l,FC06 帧逐字节一致、银行家舍入一致),均与 app.py 真实 Controller 对拍一致。⚠️ 仅对拍:**双端完整闭环 / 接真实设备 / 替换生产控制器 均未做** |
+| 控制/安全逻辑(对拍) | `app.py` safety_check + Controller | 🟡 **对拍验证通过(含双端闭环),未切生产** | L1 决策(含多小数 reason 逐字一致)+ L2 SimSource 闭环 + L3 单pty写值 + **L3 双端完整闭环**(板上两端 /dev/pts 桥接:Controller→FC06写→从站→轮询回读→confirm,confirmed/timeout 两结局 Go==Python),均与 app.py 真实实现对拍一致。⚠️ **接真实设备 / 替换生产控制器 仍未做**(需授权) |
 | HMI | `hmi_lvgl`(C/LVGL) | — | 已是原生,不在迁移范围 |
 
 - `compiler.py` + `loader.py` → **单个 `gatewayc` 二进制(1.9 MB)+ 子命令**(`compile`/`load`)。
@@ -68,9 +68,11 @@ GOOS=linux GOARCH=arm GOARM=7 go build -ldflags="-s -w" -o gatewayc-arm .
 | `controller.go` | `safety_check + Controller` 决策链，依赖注入，尚未接生产执行器 |
 | `controller_case.go` / `controller_harness.py` | 脚本化运行 Go Controller，并与 `app.py` 真实 Controller 对拍 |
 | `controller_l3_board.py` / `modbus_write_harness.py` | 板上 PTY 对拍 Python/Go 的写值映射、FC06 帧与回显确认 |
+| `controller_loop.go` / `controller_loop_other.go` | **双端完整闭环 L3** 的 Go 端:串口轮询 + Apply + 回读 confirm(Linux;非 Linux stub) |
+| `pty_link.py` / `modbus_slave_on.py` / `controller_loop_harness.py` / `controller_l3_loop_board.py` | 双端 pty 桥 + 开路径从站 + Python 闭环 + 板上编排对拍 |
 | `runtime_view.go` | 数据源 `{addr: sample}` → Controller/HMI 使用的稳定有序 `devices[]` 快照 |
 | `modbus_write.go` | `point_id + value + control_map` → `addr/reg/register_value`，银行家舍入对齐 Python |
-| `main.go` | CLI 子命令:`compile` / `load` / `simpoll` / `modbusframe` / `modbuspoll` / `modbusread` |
+| `main.go` | CLI 子命令:`compile` / `load` / `simpoll` / `modbusframe` / `modbuspoll` / `modbusread` / `modbuswrite` / `controllercase` / `simcontrolcase` / `controllerloop` |
 | `mqtt/gateway_mqtt.go` | 云↔网关 MQTT 守护进程(对照 gateway_mqtt.py),`go build ./mqtt` |
 | `*_test.go` | 单测:MQTT 逻辑 / Modbus CRC·帧·解析 |
 | `*_harness.py` / `compare.py` / `*_scenario.json` | 对拍工具(调用 Python 真实代码作参照) |
