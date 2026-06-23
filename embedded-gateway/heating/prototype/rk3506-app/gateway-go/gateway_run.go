@@ -73,7 +73,7 @@ func uploaderLoop(rt *Runtime, pub *MqttPub, base string, tTele, tHb time.Durati
 	for {
 		now := time.Now()
 		if !now.Before(nextT) {
-			pub.Publish(base+"/telemetry", rt.Telemetry())
+			pub.PublishTelemetry(base+"/telemetry", rt.Telemetry())
 			nextT = now.Add(tTele)
 		}
 		if !now.Before(nextH) {
@@ -136,7 +136,8 @@ func runGateway(args []string) {
 	var pub *MqttPub
 	if mcfg := asObj(cfg["mqtt"]); mcfg != nil {
 		pub = NewMqttPub(asStr(mcfg["host"]), int(toF(getOr(mcfg, "port", float64(1883)))),
-			asStr(getOr(cfg, "device_id", "rk3506-gw-01")), asStr(mcfg["username"]), asStr(mcfg["password"]))
+			asStr(getOr(cfg, "device_id", "rk3506-gw-01")), asStr(mcfg["username"]), asStr(mcfg["password"]),
+			int(toF(getOr(mcfg, "keepalive", float64(30)))), int(toF(getOr(mcfg, "buffer_max", float64(5000)))))
 	}
 
 	ctrl := NewController(ControllerDeps{
