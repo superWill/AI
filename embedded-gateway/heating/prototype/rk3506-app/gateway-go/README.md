@@ -21,7 +21,7 @@
 | **Modbus 串口传输** | `ModbusSource._txn` / termios(x/sys/unix) | ✅ 完成 | **板上 pty 真串口端到端**:Go 读模拟从站 == app.py 真实 ModbusSource(偏移/数量正确 + 静默→timeout 一致) |
 | 控制/安全逻辑(对拍) | `app.py` safety_check + Controller | 🟡 **对拍验证通过(含双端闭环),未切生产** | L1 决策(含多小数 reason 逐字一致)+ L2 SimSource 闭环 + L3 单pty写值 + **L3 双端完整闭环**(板上两端 /dev/pts 桥接:Controller→FC06写→从站→轮询回读→confirm,confirmed/timeout 两结局 Go==Python),均与 app.py 真实实现对拍一致。⚠️ **接真实设备 / 替换生产控制器 仍未做**(需授权) |
 | **运行时状态容器** | `app.py` 的 `Runtime` | ✅ 完成 | 时钟可注入,脚本化 ops 对拍 app.py 真实 Runtime:快照/事件(上限20,新→旧)/指令(上限50,view 取10)/telemetry seq+设备列表/看门狗时戳;含上限与顺序场景 + armv7l==Mac |
-| **daemon 装配(轨A)** | `app.py` 的 collector/watchdog/uploader loop + main + MQTT(paho 替手写 MqttClient) | ✅ 完成 | sim:collector→Runtime→View(Mac+板);**modbus 源**:板上 `--source modbus` 经串口轮询 pty 从站读数入 View 正确;**MQTT uploader**:ECS broker 上 Go daemon vs app.py 同跑,telemetry/heartbeat 帧结构一致;**断网缓存/重连补传/发布失败补传**:ECS 隔离掐 daemon 链路 9s(订阅者全程在线),seq 1..19 **连续无洞**、缓存帧标 `replay:true`,断网瞬间帧靠 PUBACK 失败判定收进缓存不丢 |
+| **daemon 装配(轨A)** | `app.py` 的 collector/watchdog/uploader loop + main + MQTT(paho 替手写 MqttClient) | ✅ 完成 | sim:collector→Runtime→View(Mac+板);**modbus 源**:板上 `--source modbus` 经串口轮询 pty 从站读数入 View 正确;**MQTT uploader**:ECS broker 上 Go daemon vs app.py 同跑,telemetry/heartbeat 帧结构一致;**断网缓存/重连补传/发布失败补传**:ECS 隔离掐 daemon 链路 9s(订阅者全程在线),seq 1..19 **连续无洞**、缓存帧标 `replay:true`,断网瞬间帧靠 PUBACK 失败判定收进缓存不丢;**下行订阅恢复**:property/set 订阅放进 OnConnect 回调(paho `ResumeSubs` 默认 false,首连/重连前 Subscribe 会静默失败),ECS 验证**首连竞态(daemon 先于 broker 起)+ 断线重连**两场景下,云端命令都被收到并回 command_reply |
 | **HTTP/REST/SSE + 静态 HMI(轨A)** | `app.py` 的 `make_handler` | ✅ 完成 | net/http 移植;**与 `python3 app.py` 同跑对拍**:/api/health·/api/snapshot 键结构一致、/api/command(接受+未知拦截)精确一致、静态首页一致(差异仅 Go 整数值浮点渲成 `50` vs Python `50.0`,数值同) |
 | HMI | `hmi_lvgl`(C/LVGL) | — | 已是原生,不在迁移范围 |
 
@@ -30,6 +30,7 @@
 
 ## 这是什么 / 不是什么(诚实边界)
 - **是**:网关全栈(配置/采集/控制/安全/MQTT/Runtime/HTTP-HMI/三 loop)已逐组件移植 + **装配成 `gatewayc run` 整机**,**均与 app.py 真实实现对拍/板上实跑**。`run --source sim` 与 `python3 app.py` 关键端点对拍;`run --source modbus` 板上串口采集读数正确。
+- **MQTT 投递语义(准确边界)**:遥测是**至少一次**投递——缓存为内存环形队列,超 `buffer_max` 丢最旧、进程重启丢缓存;QoS1 在 PUBACK 不确定时可能重复。即「**进程存活、缓存未满的窗口内 seq 连续无洞,平台须按 seq 去重**」。要跨重启不丢需 paho FileStore + `CleanSession=false`(未启用)。
 - **未做(轨 B,需显式授权)**:**从未接真实设备、从未替换生产控制器**——真机影子并行(只读)→ 浸泡/故障注入 → 单站灰度可回滚 → 逐站铺开。Python 仍是唯一生产实现。
 
 ## 构建 / 验证

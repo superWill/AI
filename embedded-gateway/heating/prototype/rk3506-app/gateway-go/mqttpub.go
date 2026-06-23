@@ -5,6 +5,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"os"
 	"sync"
 	"time"
 
@@ -16,6 +17,8 @@ type MqttPub struct {
 	buf       []obj // 断网缓存(telemetry 原始帧)
 	bufMu     sync.Mutex
 	bufferMax int
+	subs      map[string]func([]byte) // 已注册订阅(topic→handler),重连后据此恢复
+	subMu     sync.Mutex
 }
 
 func NewMqttPub(host string, port int, clientID, user, pass string, keepalive, bufferMax int) *MqttPub {
@@ -25,6 +28,7 @@ func NewMqttPub(host string, port int, clientID, user, pass string, keepalive, b
 	if bufferMax <= 0 {
 		bufferMax = 5000
 	}
+	p := &MqttPub{bufferMax: bufferMax, subs: map[string]func([]byte){}}
 	opts := mqtt.NewClientOptions().
 		AddBroker(fmt.Sprintf("tcp://%s:%d", host, port)).
 		SetClientID(clientID).
@@ -32,13 +36,33 @@ func NewMqttPub(host string, port int, clientID, user, pass string, keepalive, b
 		SetAutoReconnect(true).
 		SetConnectRetry(true).
 		SetConnectRetryInterval(time.Second).
-		SetMaxReconnectInterval(30 * time.Second)
+		SetMaxReconnectInterval(30 * time.Second).
+		// 关键:paho ResumeSubs 默认 false,且首连/重连前 Subscribe 会静默失败。
+		// 按官方范式把(重)订阅放进 OnConnect,每次连上都恢复全部订阅。
+		SetOnConnectHandler(func(_ mqtt.Client) { p.resubscribe() })
 	if user != "" {
 		opts.SetUsername(user).SetPassword(pass)
 	}
-	p := &MqttPub{client: mqtt.NewClient(opts), bufferMax: bufferMax}
+	p.client = mqtt.NewClient(opts)
 	p.client.Connect()
 	return p
+}
+
+// resubscribe 把已注册的全部订阅重新下发,检查 SUBACK(失败打日志,不静默)。
+func (p *MqttPub) resubscribe() {
+	p.subMu.Lock()
+	items := make(map[string]func([]byte), len(p.subs))
+	for t, h := range p.subs {
+		items[t] = h
+	}
+	p.subMu.Unlock()
+	for topic, h := range items {
+		hh := h
+		tok := p.client.Subscribe(topic, 1, func(_ mqtt.Client, m mqtt.Message) { hh(m.Payload()) })
+		if !tok.WaitTimeout(5*time.Second) || tok.Error() != nil {
+			fmt.Fprintf(os.Stderr, "[MQTT] 订阅失败 %s: %v\n", topic, tok.Error())
+		}
+	}
 }
 
 // connected 反映真实 socket 状态（AutoReconnect 下 IsConnected 断网仍 true，必须用 IsConnectionOpen）。
@@ -100,8 +124,15 @@ func (p *MqttPub) flush(topic string) {
 	}
 }
 
+// Subscribe 登记订阅并立即(若已连)下发;断连/重连由 OnConnect→resubscribe 兜底恢复。
 func (p *MqttPub) Subscribe(topic string, handler func(payload []byte)) {
-	p.client.Subscribe(topic, 1, func(_ mqtt.Client, m mqtt.Message) { handler(m.Payload()) })
+	p.subMu.Lock()
+	p.subs[topic] = handler
+	p.subMu.Unlock()
+	if p.connected() {
+		p.resubscribe()
+	}
+	// 未连则不在此下发(必失败),等首个 OnConnect 触发恢复。
 }
 
 func (p *MqttPub) Disconnect() { p.client.Disconnect(250) }
