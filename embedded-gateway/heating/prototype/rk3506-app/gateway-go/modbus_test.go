@@ -40,3 +40,32 @@ func TestParseReadHolding(t *testing.T) {
 		t.Errorf("空应 timeout, 得 %q", e)
 	}
 }
+
+func TestModbusSetpointWriterMapsAndRoundsLikePython(t *testing.T) {
+	var addr, reg, value int
+	writer := NewModbusSetpointWriter(
+		obj{"valve_open_sp": obj{"addr": 3, "reg": 120, "scale": 0.1}},
+		func(a, r, v int) bool {
+			addr, reg, value = a, r, v
+			return true
+		},
+	)
+
+	if !writer.WriteSetpoint("valve_open_sp", 12.25) {
+		t.Fatal("write should succeed")
+	}
+	if addr != 3 || reg != 120 || value != 122 {
+		t.Fatalf("write=(addr=%d reg=%d value=%d), want (3,120,122)", addr, reg, value)
+	}
+}
+
+func TestModbusSetpointWriterRejectsUnknownPoint(t *testing.T) {
+	called := false
+	writer := NewModbusSetpointWriter(obj{}, func(a, r, v int) bool {
+		called = true
+		return true
+	})
+	if writer.WriteSetpoint("unknown", 1) || called {
+		t.Fatal("unknown point must not reach register writer")
+	}
+}

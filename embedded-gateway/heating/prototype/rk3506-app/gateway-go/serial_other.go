@@ -12,3 +12,8 @@ func runModbusRead(args []string) {
 	fmt.Fprintln(os.Stderr, "modbusread 仅 Linux 支持（在 RK3506 上运行）")
 	os.Exit(2)
 }
+
+func runModbusWrite(args []string) {
+	fmt.Fprintln(os.Stderr, "modbuswrite 仅 Linux 支持（在 RK3506 上运行）")
+	os.Exit(2)
+}

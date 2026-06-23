@@ -5,6 +5,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"sort"
 	"strings"
@@ -35,8 +36,8 @@ func set(xs ...string) map[string]bool {
 	}
 	return m
 }
-func asObj(v interface{}) obj   { m, _ := v.(obj); return m }
-func asArr(v interface{}) arr   { s, _ := v.(arr); return s }
+func asObj(v interface{}) obj    { m, _ := v.(obj); return m }
+func asArr(v interface{}) arr    { s, _ := v.(arr); return s }
 func asStr(v interface{}) string { s, _ := v.(string); return s }
 func has(m obj, k string) bool   { _, ok := m[k]; return ok }
 
@@ -304,13 +305,13 @@ func buildPointRegistry(draft obj) obj {
 			bd := asObj(bdi)
 			pid := asStr(bd["point_id"])
 			entry := obj{
-				"point_id":        pid,
-				"name":            firstNonEmpty(asStr(get(bd, "label")), pid),
-				"role":            role,
-				"business_id":     biz["business_id"],
+				"point_id":          pid,
+				"name":              firstNonEmpty(asStr(get(bd, "label")), pid),
+				"role":              role,
+				"business_id":       biz["business_id"],
 				"business_template": biz["business_template"],
-				"writable":        writableRoles[role],
-				"quality_rules":   obj{"non_good_on_timeout": true, "stale_after_polls": float64(2)},
+				"writable":          writableRoles[role],
+				"quality_rules":     obj{"non_good_on_timeout": true, "stale_after_polls": float64(2)},
 			}
 			if role == "derived" {
 				entry["source"] = obj{"kind": "derived", "expr": get(bd, "expr")}
@@ -542,6 +543,16 @@ func firstNonEmpty(a, b string) string {
 }
 func toF(v interface{}) float64 {
 	if f, ok := v.(float64); ok {
+		return f
+	}
+	if i, ok := v.(int); ok {
+		return float64(i)
+	}
+	if i, ok := v.(int64); ok {
+		return float64(i)
+	}
+	if n, ok := v.(json.Number); ok {
+		f, _ := n.Float64()
 		return f
 	}
 	return 0

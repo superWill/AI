@@ -105,8 +105,20 @@ func (s *SerialPort) ReadHolding(addr, start, count int, timeoutSec float64, ret
 	return nil, errc
 }
 
+// WriteRegister 对照 app.py write_register：FC06，从站应原样回显前 6 字节才算成功。
+func (s *SerialPort) WriteRegister(addr, reg, value int, timeoutSec float64) bool {
+	body := []byte{byte(addr), 0x06, byte(reg >> 8), byte(reg & 0xFF),
+		byte(value >> 8), byte(value & 0xFF)}
+	resp := s.Txn(body, timeoutSec)
+	return len(resp) >= 6 &&
+		resp[0] == body[0] && resp[1] == body[1] &&
+		resp[2] == body[2] && resp[3] == body[3] &&
+		resp[4] == body[4] && resp[5] == body[5]
+}
+
 // runModbusRead: 打开串口读一次保持寄存器（板上对 modbus_sim 对拍用）。
-//   gatewayc modbusread <dev> <baud> <addr> <start> <count> [timeoutSec] [retries]
+//
+//	gatewayc modbusread <dev> <baud> <addr> <start> <count> [timeoutSec] [retries]
 func runModbusRead(args []string) {
 	if len(args) < 5 {
 		fmt.Fprintln(os.Stderr, "用法: gatewayc modbusread <dev> <baud> <addr> <start> <count> [timeoutSec] [retries]")
@@ -129,5 +141,41 @@ func runModbusRead(args []string) {
 	defer sp.Close()
 	regs, e := sp.ReadHolding(atoi(args[2]), atoi(args[3]), atoi(args[4]), timeout, retries)
 	b, _ := json.Marshal(obj{"regs": regs, "err": e})
+	fmt.Println(string(b))
+}
+
+// runModbusWrite: 经 point_id → control_map → FC06 真串口写值。
+// gatewayc modbuswrite <dev> <baud> <point_id> <value> <addr> <reg> <scale> [timeoutSec]
+func runModbusWrite(args []string) {
+	if len(args) < 7 {
+		fmt.Fprintln(os.Stderr, "用法: gatewayc modbuswrite <dev> <baud> <point_id> <value> <addr> <reg> <scale> [timeoutSec]")
+		os.Exit(2)
+	}
+	atoi := func(s string) int { n, _ := strconv.Atoi(s); return n }
+	value, _ := strconv.ParseFloat(args[3], 64)
+	scale, _ := strconv.ParseFloat(args[6], 64)
+	timeout := 1.0
+	if len(args) > 7 {
+		timeout, _ = strconv.ParseFloat(args[7], 64)
+	}
+	sp, err := OpenSerial(args[0], atoi(args[1]))
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "打开串口失败: %v\n", err)
+		os.Exit(2)
+	}
+	defer sp.Close()
+	writer := NewModbusSetpointWriter(
+		obj{args[2]: obj{"addr": atoi(args[4]), "reg": atoi(args[5]), "scale": scale}},
+		func(addr, reg, registerValue int) bool {
+			return sp.WriteRegister(addr, reg, registerValue, timeout)
+		},
+	)
+	ok := writer.WriteSetpoint(args[2], value)
+	registerValue := int(pyRound(value/scale, 0))
+	b, _ := json.Marshal(obj{
+		"ok": ok, "point_id": args[2], "value": value,
+		"addr": atoi(args[4]), "reg": atoi(args[5]), "register_value": registerValue,
+		"frame": fmt.Sprintf("%x", BuildWriteRegister(atoi(args[4]), atoi(args[5]), registerValue)),
+	})
 	fmt.Println(string(b))
 }

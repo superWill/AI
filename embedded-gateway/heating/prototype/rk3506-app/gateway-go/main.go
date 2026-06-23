@@ -1,6 +1,7 @@
 // gatewayc —— 网关配置工具链（Go）。子命令：
-//   gatewayc compile <draft.json> [--out DIR] [--validate-only]     （对照 compiler.py）
-//   gatewayc load <build_dir> [--device-id ID] [--source sim|modbus] [--emit-app-config FILE]  （对照 loader.py）
+//
+//	gatewayc compile <draft.json> [--out DIR] [--validate-only]     （对照 compiler.py）
+//	gatewayc load <build_dir> [--device-id ID] [--source sim|modbus] [--emit-app-config FILE]  （对照 loader.py）
 package main
 
 import (
@@ -30,6 +31,12 @@ func main() {
 		runModbusPoll(os.Args[2:])
 	case "modbusread":
 		runModbusRead(os.Args[2:])
+	case "modbuswrite":
+		runModbusWrite(os.Args[2:])
+	case "controllercase":
+		runControllerCase(os.Args[2:])
+	case "simcontrolcase":
+		runSimControlCase(os.Args[2:])
 	default:
 		usage()
 	}
@@ -80,9 +87,10 @@ func runModbusPoll(args []string) {
 }
 
 // modbusframe: Modbus 协议帧构造/解析（逐字节对拍用）。
-//   req <addr> <start> <count>   读保持寄存器请求 hex
-//   write <addr> <reg> <value>   写单寄存器请求 hex
-//   parse <resp_hex>             解析应答 -> {regs, err}
+//
+//	req <addr> <start> <count>   读保持寄存器请求 hex
+//	write <addr> <reg> <value>   写单寄存器请求 hex
+//	parse <resp_hex>             解析应答 -> {regs, err}
 func runModbusFrame(args []string) {
 	atoi := func(s string) int { n, _ := strconv.Atoi(s); return n }
 	if len(args) < 1 {
@@ -141,6 +149,9 @@ func usage() {
 	fmt.Fprintln(os.Stderr, "用法:")
 	fmt.Fprintln(os.Stderr, "  gatewayc compile <draft.json> [--out DIR] [--validate-only]")
 	fmt.Fprintln(os.Stderr, "  gatewayc load <build_dir> [--device-id ID] [--source sim|modbus] [--emit-app-config FILE]")
+	fmt.Fprintln(os.Stderr, "  gatewayc controllercase <scenario.json>")
+	fmt.Fprintln(os.Stderr, "  gatewayc simcontrolcase <scenario.json>")
+	fmt.Fprintln(os.Stderr, "  gatewayc modbuswrite <dev> <baud> <point_id> <value> <addr> <reg> <scale> [timeoutSec]")
 	os.Exit(2)
 }
 
