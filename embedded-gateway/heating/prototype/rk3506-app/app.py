@@ -488,6 +488,10 @@ class Controller:
         if not ok:
             self._record(command_id, point_id, value, "blocked_by_safety", reason, origin)
             return False, reason
+        ok, reason = self._interlock_check(point_id)     # 写前联锁:急停/缺水/质量码
+        if not ok:
+            self._record(command_id, point_id, value, "blocked_by_interlock", reason, origin)
+            return False, reason
         # 写数据源(sim 直接写设定值;modbus 按 control_map 写寄存器)
         if isinstance(self.source, SimSource):
             wrote = self.source.write_setpoint(point_id, value)
@@ -496,8 +500,71 @@ class Controller:
         status = "accepted" if wrote else "write_failed"
         if wrote:
             self._last[point_id] = (float(value), time.time())
+            threading.Thread(target=self._confirm_feedback,   # 写后回读确认(非阻塞)
+                             args=(point_id, value, command_id, origin),
+                             daemon=True).start()
         self._record(command_id, point_id, value, status, "" if wrote else "源写入失败", origin)
         return wrote, ""
+
+    def _point(self, pid):
+        """从运行时快照取点位 {v,u,q};复用 Runtime.view(),不另存储。"""
+        for d in self.rt.view()["devices"]:
+            p = d.get("points", {}).get(pid)
+            if p is not None:
+                return p
+        return None
+
+    def _interlock_check(self, point_id) -> tuple[bool, str]:
+        """写前联锁:safety_policy 声明的每个联锁点必须质量码 GOOD 且条件满足,否则拒写。
+        条件键 equals/max/min;联锁点缺失或非 GOOD 一律视为不安全。"""
+        for il in (self.safety_policy.get(point_id) or {}).get("interlocks", []) or []:
+            ilp = il.get("point")
+            p = self._point(ilp)
+            if p is None:
+                return False, f"联锁点 {ilp} 不在快照中"
+            if p.get("q") != "good":
+                return False, f"联锁点 {ilp} 质量码非 GOOD({p.get('q')})"
+            try:
+                fv = float(p.get("v"))
+            except (TypeError, ValueError):
+                return False, f"联锁点 {ilp} 值非法 {p.get('v')!r}"
+            if "equals" in il and fv != float(il["equals"]):
+                return False, f"联锁未满足:{ilp}={fv} 需={il['equals']}"
+            if "max" in il and fv > float(il["max"]):
+                return False, f"联锁未满足:{ilp}={fv} 需≤{il['max']}"
+            if "min" in il and fv < float(il["min"]):
+                return False, f"联锁未满足:{ilp}={fv} 需≥{il['min']}"
+        return True, ""
+
+    def _confirm_feedback(self, point_id, value, command_id, origin):
+        """写后回读确认:在 confirm_timeout_s 内盯反馈点收敛到命令值±tolerance。
+        收敛→confirmed;超时→feedback_timeout + 告警。无 feedback 声明则跳过。"""
+        pol = self.safety_policy.get(point_id) or {}
+        fb = pol.get("feedback")
+        if not fb:
+            return
+        timeout = pol.get("confirm_timeout_s") or 5
+        tol = pol.get("confirm_tolerance")
+        tol = 1 if tol is None else tol
+        target = float(value)
+        deadline = time.time() + timeout
+        while time.time() < deadline:
+            time.sleep(0.5)
+            p = self._point(fb)
+            if p and p.get("q") == "good":
+                try:
+                    if abs(float(p["v"]) - target) <= tol:
+                        self._record(command_id, point_id, value, "confirmed",
+                                     f"反馈 {fb}={p['v']} 已收敛", origin)
+                        return
+                except (TypeError, ValueError):
+                    pass
+        p = self._point(fb)
+        cur = p.get("v") if p else None
+        self._record(command_id, point_id, value, "feedback_timeout",
+                     f"反馈 {fb}={cur} {timeout}s 内未收敛到 {target}±{tol}", origin)
+        self.rt.add_event({"kind": "alarm", "action": "feedback_timeout",
+                           "detail": f"{point_id}←{value} 回读确认失败(feedback={fb})"})
 
     def _rate_check(self, point_id, value) -> tuple[bool, str]:
         """safety_policy 里声明了 rate_per_s 才限速;无历史值则放行(首条命令)。"""
