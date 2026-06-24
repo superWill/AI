@@ -32,6 +32,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 # 配置发布后端(PRD §10 安全入口):草稿落盘 + 校验 + 编译,不热切运行时、不接 /api/nodes。
 CONFIG_DRAFT_PATH = os.path.join(HERE, "current_draft.json")
 CONFIG_BUILD_DIR = os.path.join(HERE, "build")
+GATEWAYC_BIN = "gatewayc"   # D3:配置编译/校验调 gatewayc compile/load;二进制不可用时回退 Python compiler
 
 
 def _read_json(path):
@@ -288,22 +289,73 @@ def add_device_to_draft(draft, payload):
     return True, [], new_draft
 
 
+def _gatewayc_compile_cli(draft, out_dir=None, validate_only=False):
+    """D3:调 `gatewayc compile`。返回 (ok, errors)。out_dir 给定则落 4 产物;
+    validate_only 仅校验。gatewayc 二进制不存在抛 FileNotFoundError(由上层回退 Python)。"""
+    import subprocess
+    import tempfile
+    fd, tmp = tempfile.mkstemp(suffix=".json")
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as f:
+            json.dump(draft, f, ensure_ascii=False)
+        cmd = [GATEWAYC_BIN, "compile", tmp]
+        if validate_only:
+            cmd.append("--validate-only")
+        elif out_dir:
+            cmd += ["--out", out_dir]
+        r = subprocess.run(cmd, capture_output=True, text=True)
+        if r.returncode == 0:
+            return True, []
+        # gatewayc 把校验错误打到 stderr 的 "  - <err>" 行(与 Python compiler 逐字对拍一致)
+        errs = [ln.strip()[2:] for ln in r.stderr.splitlines() if ln.strip().startswith("- ")]
+        return False, errs or [(r.stderr.strip() or "gatewayc compile 失败")]
+    finally:
+        try:
+            os.remove(tmp)
+        except OSError:
+            pass
+
+
+def _validate_draft(draft):
+    """D3:优先 gatewayc compile --validate-only;无二进制回退 Python compiler.validate。"""
+    try:
+        _ok, errs = _gatewayc_compile_cli(draft, validate_only=True)
+        return errs
+    except FileNotFoundError:
+        return compiler.validate(draft)
+
+
+def _emit_generated(vd):
+    """gatewayc load <vd> --emit-app-config <vd>/app_config.generated.json。"""
+    import subprocess
+    out = os.path.join(vd, "app_config.generated.json")
+    subprocess.run([GATEWAYC_BIN, "load", vd, "--emit-app-config", out],
+                   capture_output=True, text=True, check=True)
+
+
 def compile_draft(draft):
     """validate → compile → 写 build/versions/N/*.json + 该目录内 app_config.generated.json
-    + 存 current_draft.json。**不设 active、不热切运行时**(activate 留到后续)。返回 (ok, errors, status)。"""
-    errs = compiler.validate(draft)
+    + 存 current_draft.json。**不设 active、不热切运行时**(activate 留到后续)。返回 (ok, errors, status)。
+    D3:编译/校验走 `gatewayc compile/load`;无 gatewayc 二进制(CI/测试)则回退 Python compiler/loader。"""
+    errs = _validate_draft(draft)
     if errs:
         return False, errs, None                      # 校验失败不落任何产物
-    products = compiler.compile(draft)
     n = next_version()                                # 写到新版本目录,绝不覆盖 active 所指
     vd = version_dir(n)
     os.makedirs(vd, exist_ok=True)
-    for name, obj in products.items():
-        json.dump(obj, open(os.path.join(vd, name), "w", encoding="utf-8"),
-                  ensure_ascii=False, indent=2)
-    cfg = load_runtime_cfg(vd)
-    json.dump(cfg, open(os.path.join(vd, "app_config.generated.json"),
-                        "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+    try:
+        ok, cerrs = _gatewayc_compile_cli(draft, out_dir=vd)
+        if not ok:
+            return False, cerrs, None
+        _emit_generated(vd)                           # gatewayc load → app_config.generated.json
+    except FileNotFoundError:                         # 无 gatewayc 二进制 → 回退 Python
+        products = compiler.compile(draft)
+        for name, obj in products.items():
+            json.dump(obj, open(os.path.join(vd, name), "w", encoding="utf-8"),
+                      ensure_ascii=False, indent=2)
+        cfg = load_runtime_cfg(vd)
+        json.dump(cfg, open(os.path.join(vd, "app_config.generated.json"),
+                            "w", encoding="utf-8"), ensure_ascii=False, indent=2)
     json.dump(draft, open(CONFIG_DRAFT_PATH, "w", encoding="utf-8"),
               ensure_ascii=False, indent=2)
     # 普通 compile **不改 active**(activate 才改);如有争议先不自动设 active。
@@ -844,7 +896,7 @@ def make_handler(runtime, live_ctx, hub, dist_dir, endpoint, tokens):
             if path == "/api/config/validate":   # 校验草稿,返回错误列表(不落产物)
                 if not self._authed():
                     return self._json({"error": "Unauthorized"}, 401)
-                errs = compiler.validate(body)
+                errs = _validate_draft(body)          # D3:gatewayc compile --validate-only(无二进制回退 Python)
                 return self._json({"ok": not errs, "errors": errs})
             if path == "/api/config/compile":    # 校验+编译+落产物,不热切运行时
                 if not self._authed():
@@ -965,9 +1017,13 @@ def main():
                     help="给定则 remote 模式:从 gatewayc(如 http://127.0.0.1:8091)取数 + 转发控制,nexus 不开 source")
     ap.add_argument("--gw-pidfile", default="/tmp/gwsup/gatewayc.pid",
                     help="remote 激活重启 gatewayc 用的 pid 文件(supervisor 写)")
+    ap.add_argument("--gatewayc-bin", default="gatewayc",
+                    help="D3:配置编译/校验调用的 gatewayc 二进制路径(不可用时回退 Python compiler)")
     ap.add_argument("--products", default=None,
                     help="编译产物目录;给定则从 point_registry 派生可控点与设备类型")
     args = ap.parse_args()
+    global GATEWAYC_BIN
+    GATEWAYC_BIN = args.gatewayc_bin                   # D3:配置编译/校验用的 gatewayc 二进制
 
     cfg_path = select_startup_config(args.config)     # 有 active 则从 versions/<active> 起 live
     cfg = json.load(open(cfg_path))
