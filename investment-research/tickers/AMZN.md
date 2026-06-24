@@ -5,8 +5,8 @@ sector: AI 变现 / 零售媒体广告 + AWS + agentic commerce
 layer: Layer 9 — AI 变现入口（广告/交易抽税收税口）
 position_type: core
 status: watching
-last_updated: 2026-06-21
-data_source: 网络调研 2026-06-21
+last_updated: 2026-06-24
+data_source: 网络调研 2026-06-21；2026-06-24 加 Anthropic 股权敞口(Claude 企业赢家)+ 盈利质量旗
 ---
 
 # Amazon (AMZN)
@@ -14,6 +14,21 @@ data_source: 网络调研 2026-06-21
 ## 一句话定位
 
 Agent 时代"对交易抽税赢过广告"的押注。它的广告美元（$700 亿+ TTM）**最抗 agent 化**——贴在交易点上（零售媒体），软件级增量利润率。更狠的是：Rufus/Alexa for Shopping + Buy-for-Me + **把 AI 购物技术开放给第三方零售商** = 把自己做成 **agentic commerce 的基础设施**。无论商品留在 Amazon 还是走 agent，它都抽到税。见框架 [agent 入口](../notes/2026-06-21-agent-era-advertising-entry-point.md)。
+
+## ⭐ 2026-06-24 更新：隐藏的 Anthropic 敞口（你买 AMZN = 间接持有"企业 AI 助手赢家"）
+
+**为什么重要**：美国 AI 普及战里,**消费端 ChatGPT 赢、但企业/编程端是 Claude 赢**(Fortune 100 的 70%、head-to-head 对决赢 ~70%、增速最快)。`[KNOWN 2026]` Claude 的母公司 **Anthropic 是私有、不能直接买**——而 **Amazon 是它最大的外部股东**,所以 **AMZN 是上市标的里最干净的"Claude/Anthropic 代理敞口"**。
+
+**持股规模(实测)** `[KNOWN 2026]`：
+- Amazon 累计投入 **$80 亿 + 2026/4 再追加最多 $250 亿**($50 亿当下 + 至多 $200 亿挂钩里程碑)。
+- 4 月 filing 账面 **$742 亿**(可转债 $422 亿 + 无投票优先股 $320 亿),对标 Anthropic 2 月 **$3800 亿** Series G。
+- **Anthropic 估值已飙到 $9650 亿**(奔 $1 万亿 IPO)→ 按中高 teens 持股比,**Amazon 这笔现值约 $1350–1600 亿** = **AMZN ~$2.6 万亿市值的 ~5-6%,一块没被当主业算的隐藏资产**。
+
+**双重受益**：① 股权升值(Anthropic 估值曲线)② **AWS 托管 Claude**——Anthropic 承诺 10 年 **$1000 亿** AWS 开支 + 年底前 ~**1GW Trainium2/3**(还顺带验证 Amazon 自研芯片)。
+
+**⚠️ 但这是盈利质量旗(必须标)**：`[KNOWN 2026]` Fortune 点出 **Amazon/Google 近期"亮眼 AI 利润"约一半来自 Anthropic 估值上调的账面 mark,不是主业**。含义两面:
+- 正面:真实、可能继续升值的隐藏资产;**Anthropic IPO 是 crystallize 催化**。
+- 负面:**这是未实现的私有 markup**——它把报告利润撑高、拉低了盈利质量(呼应 [organic-growth-screen](../) 的"别把非经营增长当主业")。Anthropic 一旦 de-rate,这块利润反向蒸发。**看 AMZN 盈利要把这块剥出来看主业。**
 
 ## 关键数据（基准 2026-06-21，网络调研）
 
@@ -72,6 +87,7 @@ Agent 时代"对交易抽税赢过广告"的押注。它的广告美元（$700 �
 
 - **⚠️ 被中立超级 agent 架空（首要）**：ChatGPT/Apple 成购物门口，Amazon 降格哑管道。
 - **AWS 减速 / AI capex 见顶**：股价真驱动，与你半导体书的共同风险。
+- **⚠️ Anthropic markup 反转**：隐藏资产升值在撑报告利润(近半 AI 利润来自此 mark);Anthropic 若 de-rate,利润反向蒸发 + 盈利质量被重估。
 - **监管**：反垄断（捆绑/自营优先）。
 - **估值**：~30x，安全垫薄。
 
@@ -93,12 +109,15 @@ Agent 时代"对交易抽税赢过广告"的押注。它的广告美元（$700 �
 - **Rufus/Alexa for Shopping 的 GMV 贡献** + 第三方采用（基础设施 thesis 验证）
 - AWS 增速 + backlog（股价真驱动）
 - 第三方 agent 是采用 Amazon 交易轨道还是绕开
+- **Anthropic 估值/IPO 进展 + Claude 企业份额**（隐藏资产 crystallize + 验证"企业 AI 赢家"敞口）
+- **财报里 Anthropic mark 占利润比例**（剥离它看主业真实盈利）
 
 ## 仓位与历史
 
 | 日期 | 操作 | 价格 | 仓位 | 备注 |
 |---|---|---|---|---|
 | 2026-06-21 | 建档观察 | ~$244 | — | 交易抽税赢过广告；agentic commerce 轨道两头通吃；但 AWS 才是股价真驱动 |
+| 2026-06-24 | 更新观察 | — | — | 补隐藏 Anthropic 敞口(~$1350-1600 亿,AMZN 市值 ~5-6%)=最干净 Claude 代理；盈利质量旗(近半 AI 利润来自 mark) |
 
 ## 参考
 
