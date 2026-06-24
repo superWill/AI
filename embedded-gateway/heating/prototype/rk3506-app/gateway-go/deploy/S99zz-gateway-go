@@ -1,5 +1,6 @@
 #!/bin/sh
-# gatewayc-核心拓扑开机自启:supervisor(gatewayc 核心 + nexus 客户端)+ LCD→gatewayc:8091。
+# gatewayc-核心拓扑开机自启:supervisor(gatewayc 核心 + ui 客户端)+ LCD(gatewayc lcd)→8091。
+# 整数零 Python:核心 / UI / LCD 全是 gatewayc(Go),板上不再起任何 python。
 #
 # ⚠ 这是「生产切换」的产物——把板子真的切到 Go 核心。
 #   仅在 轨B影子浸泡通过 + 单站灰度授权 之后启用,不在边界重构阶段部署。
@@ -15,7 +16,7 @@ mkdir -p "$RUN" "$APP/build"
 
 start() {
   # 清掉可能残留的旧 Python 网关(nexus 内嵌 / app.py)与旧 LCD / 旧 supervisor
-  for p in $(ps 2>/dev/null | grep -E 'nexus_server\.py|app\.py --source|drm_hmi|supervisor\.sh|gatewayc run' | grep -v grep | awk '{print $1}'); do
+  for p in $(ps 2>/dev/null | grep -E 'nexus_server\.py|app\.py --source|drm_hmi|gatewayc lcd|supervisor\.sh|gatewayc run' | grep -v grep | awk '{print $1}'); do
     kill "$p" 2>/dev/null
   done
   sleep 1
@@ -27,9 +28,11 @@ start() {
   GATEWAYC="$GATEWAYC" NEXUS="$APP/nexus_server.py" PY="$PY" BUILD="$APP/build" \
     FALLBACK_CFG="$APP/app_config.json" DIST="$APP/nexus-dist" CORE="$CORE" RUN="$RUN" \
     nohup "$APP/supervisor.sh" >>"$RUN/sup.out" 2>&1 &
-  # LCD → gatewayc:8091(drm_hmi_v4 取位置参数端口;继承 GATEWAYC_CONTROL_TOKEN 带鉴权)
-  nohup "$PY" "$APP/drm_hmi_v4.py" 8091 >>"$RUN/lcd.log" 2>&1 &
-  echo "[S99-go] gatewayc-核心拓扑已起(supervisor + LCD→8091)"
+  # LCD = gatewayc lcd → gatewayc:8091(继承 GATEWAYC_CONTROL_TOKEN 带鉴权)。整数零 Python。
+  PROD=""
+  [ -f "$APP/build/active" ] && PROD="--products $APP/build/versions/$(cat "$APP/build/active")"
+  nohup "$GATEWAYC" lcd --port 8091 $PROD >>"$RUN/lcd.log" 2>&1 &
+  echo "[S99-go] gatewayc-核心拓扑已起(supervisor + gatewayc lcd→8091,零 Python)"
 }
 
 stop() {
@@ -42,7 +45,7 @@ stop() {
     sleep 1; i=$((i+1))
   done
   i=0; while [ $i -lt 3 ]; do
-    for p in $(ps 2>/dev/null | grep -E 'gatewayc run|gatewayc ui|nexus_server\.py|drm_hmi_v4' | grep -v grep | awk '{print $1}'); do
+    for p in $(ps 2>/dev/null | grep -E 'gatewayc run|gatewayc ui|gatewayc lcd|nexus_server\.py|drm_hmi_v4' | grep -v grep | awk '{print $1}'); do
       kill -9 "$p" 2>/dev/null
     done
     sleep 1; i=$((i+1))
