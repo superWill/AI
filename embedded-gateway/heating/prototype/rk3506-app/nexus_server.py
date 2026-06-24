@@ -629,6 +629,8 @@ def remote_activate(version):
     prev = read_active()
     write_active(version)
     if not _restart_gatewayc():
+        if prev is not None:                 # 重启没成 → 回退指针,别留 active 翻了但没切的不一致
+            write_active(prev)
         return False, ["无法重启 gatewayc(pidfile 不可用,supervisor 在跑吗?)"], "failed"
     if _wait_gatewayc_healthy(CORE_URL):
         return True, [], "active"

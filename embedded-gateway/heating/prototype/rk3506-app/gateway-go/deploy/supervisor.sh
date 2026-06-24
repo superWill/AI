@@ -53,7 +53,8 @@ nexus_loop() {
   while [ "$STOP" = 0 ]; do
     log "启动 nexus(remote → $CORE)"
     "$PY" "$NEXUS" --core-url "$CORE" --config "$FALLBACK_CFG" --dist "$DIST" \
-        --port "$NEXUS_PORT" --products "$BUILD" >> "$RUN/nexus.log" 2>&1
+        --port "$NEXUS_PORT" --products "$BUILD" --gw-pidfile "$RUN/gatewayc.pid" \
+        >> "$RUN/nexus.log" 2>&1
     [ "$STOP" = 0 ] && { log "nexus 退出(code $?),2s 后重启"; sleep 2; }
   done
 }
