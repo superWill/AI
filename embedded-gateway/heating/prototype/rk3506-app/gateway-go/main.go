@@ -45,6 +45,8 @@ func main() {
 		runGateway(os.Args[2:])
 	case "shadow":
 		runShadow(os.Args[2:])
+	case "health":
+		runHealth(os.Args[2:])
 	default:
 		usage()
 	}
