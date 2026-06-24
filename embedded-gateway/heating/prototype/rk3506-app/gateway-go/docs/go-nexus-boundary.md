@@ -83,4 +83,7 @@ RS485 ──┤ 唯一总线主站:采集/控制/安全/Runtime/MQTT      │
     `build_nodes_tags` 所需(dev:addr/name/type/ok;point:v/u)**无缺失**。
   - `/api/command` 返 `{ok,reason}` —— 与 nexus 控制契约(`live_ctx.controller.apply→{ok,reason}`)一致。
   - 结论:gatewayc 的 snapshot/command 是 nexus 现有内嵌取数/控制的**结构级 drop-in**,无需给 gatewayc 补字段。
-- 第 2 步(nexus 加 gatewayc 客户端取数 + 并行对账)待开。
+- **第 2 步 ✅**:nexus 加 `gatewayc_view` 客户端 + `nexus_reconcile.py` 并行对账;ECS 实测 8 节点/27 标签结构逐项一致。
+- **第 3 步 ✅**:nexus `--core-url` remote 模式——collect 取 gatewayc snapshot 喂同一 runtime(make_handler 不改)、控制经 RemoteController 转发 `/api/command`、不开 source/不当总线主站;ECS 实测取数+转发(停 gatewayc 下发即报错证明确为转发)、内嵌模式回归无损。
+- **第 4 步 ✅(生产装配)**:`gatewayc health` 启动健康门 + `deploy/supervisor.sh` busybox 崩溃自愈 + 激活=翻指针+重启+健康门+回退(D1方案A)。ECS 实测:杀 gatewayc/nexus 自动重生;激活 v2→gatewayc 重启切 8→2 设备、回滚→切回 8 设备。
+- **第 5–6 步(LCD 改向 gatewayc:8091 + S99 改装 supervisor)= 真正的生产切换**:把板子切到 gatewayc-核心拓扑,**应在轨B影子浸泡通过 + 单站灰度授权之后再做**,不在边界重构(纯机制构建)阶段执行。
