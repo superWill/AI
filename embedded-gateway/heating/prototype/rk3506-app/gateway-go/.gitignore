@@ -8,3 +8,7 @@
 /build_go/
 /build_arm/
 __pycache__/
+
+# 轨B影子 arm 构建产物(部署脚本现编)
+deploy/gatewayc-shadow-arm
+gatewayc-amd64
