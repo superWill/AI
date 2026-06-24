@@ -61,6 +61,17 @@ RS485 总线**只能有一个主站**。app.py(Python)正在轮询,Go **不得**
 3. 比对器 + 每日 diff 报告。
 4. 14 天浸泡报告:diff 率、资源曲线、命中的停止条件(若有)。
 
+## 6b. 阶段一进展(2026-06)
+- ✅ **Go 影子 + 写封死 + 不变量测试**已落(`gateway_shadow.go` / `shadow_test.go`,`gatewayc shadow`)。
+- ✅ **比对器**`shadow_compare.py`(板外只读对账)已落。
+- ✅ **app.py 只读旁路**(2A,`--shadow-tap`,默认关)已落并经真程序验证。
+- ✅ **ECS 全链路 dry-run**(真 app.py `--shadow-tap` + `gatewayc shadow` + 比对器,8 设备 sim):
+  注入 3 条命令(2 放行 + 1 越界),**决策对账 3/3 一致**(`decision_diffs:0`、`pending:0`)、
+  `view_diffs:0`(tol 0.5)、Go 影子 RSS ~5–7 MB(amd64)。
+- ⏳ **待板子物理接入**(USB 网卡 en12 当前未连):上板跑真实影子、armv7 RSS 基线、14 天浸泡。
+  接入后:Mac 跑 `scripts/setup_rk3506_macos_route.sh` → 板上 `app.py --shadow-tap` + `gatewayc-arm shadow` →
+  板外 `shadow_compare.py --http http://192.168.1.10:8092`。
+
 ## 7. 明确不做(本阶段边界)
 - 不写任何寄存器、不接管控制、不切流、不灰度。
 - 不改 app.py 控制逻辑(仅加只读旁路出数,且需单独评审)。

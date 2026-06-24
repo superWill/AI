@@ -677,11 +677,14 @@ def make_handler(runtime: Runtime, controller: Controller, html_dir: str):
 # ===========================================================================
 # 8) 线程:采集、上云、心跳
 # ===========================================================================
-def collector_loop(source, runtime, interval, stop):
+def collector_loop(source, runtime, interval, stop, shadow=None):
     while not stop.is_set():
         try:
-            runtime.update(source.poll())
+            samples = source.poll()
+            runtime.update(samples)
             runtime.mark_alive()              # 招4:喂"采集存活",看门狗据此判活
+            if shadow:                         # 轨B只读旁路:把原始采样发出去(默认关)
+                shadow(samples)
         except Exception as exc:
             print("[采集] 异常:", exc, flush=True)
         stop.wait(interval)
@@ -746,6 +749,8 @@ def main():
     ap.add_argument("--source", choices=["sim", "modbus"], default=None)
     ap.add_argument("--serial", default=None)
     ap.add_argument("--port", type=int, default=None)
+    ap.add_argument("--shadow-tap", action="store_true",
+                    help="把每轮原始采样旁路发到 _shadow/samples(轨B只读影子用,默认关)")
     args = ap.parse_args()
 
     cfg = json.load(open(args.config))
@@ -786,6 +791,14 @@ def main():
                           username=mcfg.get("username"), password=mcfg.get("password"))
         mqtt.subscribe(f"{base}/property/set")
 
+    shadow_cb = None
+    if (args.shadow_tap or cfg.get("shadow_tap")) and mqtt:
+        def shadow_cb(samples, _m=mqtt, _t=f"{base}/_shadow/samples"):
+            try:
+                _m.publish(_t, {"ts": time.time(), "samples": samples})
+            except Exception:
+                pass   # 旁路永不影响生产采集
+
     # safety_policy 来自 loader 生成配置(编译产物);旧 app_config 无此键则回退 SAFE_RANGES
     controller = Controller(runtime, source, cfg.get("control_map", {}), mqtt, base,
                             safety_policy=cfg.get("safety_policy"))
@@ -794,7 +807,7 @@ def main():
 
     stop = threading.Event()
     threading.Thread(target=collector_loop,
-                     args=(source, runtime, cfg.get("poll_interval_s", 2), stop),
+                     args=(source, runtime, cfg.get("poll_interval_s", 2), stop, shadow_cb),
                      daemon=True).start()
     threading.Thread(target=watchdog_loop, args=(runtime, cfg, stop),
                      daemon=True).start()
