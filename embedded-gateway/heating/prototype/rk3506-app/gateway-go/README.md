@@ -31,7 +31,8 @@
 ## 这是什么 / 不是什么(诚实边界)
 - **是**:网关全栈(配置/采集/控制/安全/MQTT/Runtime/HTTP-HMI/三 loop)已逐组件移植 + **装配成 `gatewayc run` 整机**,**均与 app.py 真实实现对拍/板上实跑**。`run --source sim` 与 `python3 app.py` 关键端点对拍;`run --source modbus` 板上串口采集读数正确。
 - **MQTT 投递语义(准确边界)**:遥测是**至少一次**投递——缓存为内存环形队列,超 `buffer_max` 丢最旧、进程重启丢缓存;QoS1 在 PUBACK 不确定时可能重复。即「**进程存活、缓存未满的窗口内 seq 连续无洞,平台须按 seq 去重**」。要跨重启不丢需 paho FileStore + `CleanSession=false`(未启用)。
-- **未做(轨 B,需显式授权)**:**从未接真实设备、从未替换生产控制器**——真机影子并行(只读)→ 浸泡/故障注入 → 单站灰度可回滚 → 逐站铺开。Python 仍是唯一生产实现。
+- **替换范围(关键)**:`gatewayc` 替的是 **app.py 的网关核心**,**不是** `nexus_server.py` 的完整生产系统(edge-os socket.io / 登录鉴权 / 配置 activate·rollback / `/api/tags/write`·`/api/init` / LCD 仍是 Python)。方向=Go 核心 + Python 暂留 Nexus/HMI/配置适配层。范围、P0 缺口、完成度(app.py 核心 ~85–90% / 完整生产系统 ~60–70%)与路线见 [`docs/replacement-scope-and-gaps.md`](docs/replacement-scope-and-gaps.md)。
+- **未做(轨 B,需显式授权)**:**从未接真实设备、从未替换生产控制器**——真机影子并行(只读,**已在板上 armv7 起,sim 数据**)→ 浸泡/故障注入 → 单站灰度可回滚 → 逐站铺开。Python 仍是唯一生产实现。
 
 ## 构建 / 验证
 
