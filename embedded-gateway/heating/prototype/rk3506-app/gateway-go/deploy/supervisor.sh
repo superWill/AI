@@ -58,23 +58,29 @@ gatewayc_loop() {
   done
 }
 
-nexus_loop() {
+# gatewayc ui(Go,替 python nexus_server.py)——edge-os UI 客户端,板上零 Python。
+ui_loop() {
   while [ "$STOP" = 0 ]; do
-    log "启动 nexus(remote → $CORE)"
-    "$PY" "$NEXUS" --core-url "$CORE" --config "$FALLBACK_CFG" --dist "$DIST" \
-        --port "$NEXUS_PORT" --products "$BUILD" --gw-pidfile "$RUN/gatewayc.pid" \
-        >> "$RUN/nexus.log" 2>&1
-    [ "$STOP" = 0 ] && { log "nexus 退出(code $?),2s 后重启"; sleep 2; }
+    prod=""                                     # 产物:active 存在则用 versions/<active>(展示映射与 live 同源)
+    if [ -f "$BUILD/active" ]; then
+      av=$(cat "$BUILD/active" 2>/dev/null); vd="$BUILD/versions/$av"
+      [ -f "$vd/point_registry.json" ] && prod="--products $vd"
+    fi
+    log "启动 gatewayc ui(remote → $CORE)$prod"
+    "$GATEWAYC" ui --core-url "$CORE" --port "$NEXUS_PORT" --build "$BUILD" \
+        --draft "$BUILD/current_draft.json" --gw-pidfile "$RUN/gatewayc.pid" --dist "$DIST" \
+        $prod >> "$RUN/ui.log" 2>&1
+    [ "$STOP" = 0 ] && { log "gatewayc ui 退出(code $?),2s 后重启"; sleep 2; }
   done
 }
 
-log "supervisor 起步:GATEWAYC=$GATEWAYC NEXUS=$NEXUS BUILD=$BUILD"
+log "supervisor 起步:GATEWAYC=$GATEWAYC BUILD=$BUILD(零 Python:core + ui 都是 gatewayc)"
 gatewayc_loop &
-# 启动健康门:gatewayc 就绪(采集新鲜)后才拉起 nexus,避免 nexus 空转报错。
+# 启动健康门:gatewayc 核心就绪(采集新鲜)后才拉起 ui,避免 ui 空转报错。
 if "$GATEWAYC" health --url "$CORE" --timeout "$HEALTH_TIMEOUT"; then
-  log "gatewayc 健康门通过,拉起 nexus"
+  log "gatewayc 核心健康门通过,拉起 gatewayc ui"
 else
-  log "⚠ gatewayc $HEALTH_TIMEOUT s 内未就绪,仍拉起 nexus(它会重试取数)"
+  log "⚠ gatewayc 核心 $HEALTH_TIMEOUT s 内未就绪,仍拉起 ui(它会重试取数)"
 fi
-nexus_loop &
+ui_loop &
 wait

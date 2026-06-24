@@ -15,7 +15,7 @@ i=0; while [ $i -lt 6 ]; do
   sleep 1; i=$((i+1))
 done
 i=0; while [ $i -lt 3 ]; do
-  for p in $(ps 2>/dev/null | grep -E 'gatewayc run|nexus_server\.py|drm_hmi' | grep -v grep | awk '{print $1}'); do
+  for p in $(ps 2>/dev/null | grep -E 'gatewayc run|gatewayc ui|nexus_server\.py|drm_hmi' | grep -v grep | awk '{print $1}'); do
     kill -9 "$p" 2>/dev/null
   done
   sleep 1; i=$((i+1))
