@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2026 06 21 portfolio beta and ballast</title>
+  <link rel="stylesheet" href="../_assets/style.css" />
+</head>
+<body>
+  <div class="site-shell">
+  <div class="page">
+    <div class="topbar">
+      <div class="nav-cluster">
+        <a class="back" href="../index.html">← 返回投研首页</a>
+        <a class="nav-link secondary" href="../all-docs.html">全部文档</a>
+      </div>
+      <div class="nav-cluster">
+        <a class="home-link" href="../notes.html">Notes</a>
+        <a class="home-link" href="../candidates.html">Candidates</a>
+        <a class="home-link" href="../tickers.html">Tickers</a>
+      </div>
+    </div>
+    <section class="hero">
+      <div class="doc-header-grid">
+        <div>
+          <div class="eyebrow">notes</div>
+          <h1>2026-06-21-portfolio-beta-and-ballast</h1>
+          <p>市场、公司或主题研究的阶段性结论。</p>
+          <div class="meta-row">
+            <span class="pill">notes/2026-06-21-portfolio-beta-and-ballast.md</span>
+            <span class="pill">378 words</span>
+            <span class="pill">6 sections</span>
+          </div>
+        </div>
+        <div class="doc-stat-stack">
+          <div class="doc-stat">
+            <div class="doc-stat-label">Document Type</div>
+            <div class="doc-stat-value">Notes</div>
+          </div>
+          <div class="doc-stat">
+            <div class="doc-stat-label">Reading Mode</div>
+            <div class="doc-stat-value">Research Memo</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="doc-layout">
+      <article class="doc doc-main">
+<hr />
+<p>date: 2026-06-21 type: portfolio-risk status: draft data_source: yfinance 1y 日线（2025-06-23 → 2026-06-18，250 交易日），SPY 基准</p>
+<hr />
+<h1 id="组合-beta-实测-压舱石搜寻gap-audit-2-如果只补一件事">组合 beta 实测 + 压舱石搜寻（gap audit §2 &quot;如果只补一件事&quot;）</h1>
+<blockquote>三轮个股深挖后落到组合层。结论：选股已经不是瓶颈，<strong>beta 2.30 才是</strong>。</blockquote>
+<h2 id="一实测v2-组合加权-beta-230比-audit-怕的还高">一、实测：v2 组合加权 beta = 2.30（比 audit 怕的还高）</h2>
+<p>gap audit §2 猜&quot;几乎肯定 &gt;1.5&quot;。实测 <strong>2.30</strong>。</p>
+<table><thead><tr><th>持仓</th><th>权重</th><th>beta(SPY)</th><th>corrSOXX</th></tr></thead><tbody><tr><td>MU</td><td>7%</td><td>3.03</td><td>0.78</td></tr><tr><td>IONQ</td><td>2%</td><td>3.36</td><td>0.40</td></tr><tr><td>COHR</td><td>8%</td><td>2.97</td><td>0.61</td></tr><tr><td>PLAB</td><td>2%</td><td>2.96</td><td>0.54</td></tr><tr><td>MRVL</td><td>12%</td><td>2.71</td><td>0.66</td></tr><tr><td>CAMT</td><td>3%</td><td>2.44</td><td>0.73</td></tr><tr><td>VRT</td><td>18%</td><td>2.43</td><td>0.63</td></tr><tr><td>GLW</td><td>12%</td><td>2.39</td><td>0.66</td></tr><tr><td>GEV</td><td>8%</td><td>1.95</td><td>0.50</td></tr><tr><td>MP</td><td>5%</td><td>1.81</td><td>0.30</td></tr><tr><td>NET</td><td>7%</td><td>1.63</td><td>0.22</td></tr><tr><td><strong>IBM</strong></td><td>10%</td><td><strong>1.04</strong></td><td><strong>0.11</strong></td></tr></tbody></table>
+<ul>
+<li><strong>加权 beta 2.30</strong>，平均两两相关 0.31。</li>
+<li><strong>压力测试</strong>：SPY −15%(capex blink) → 持仓部分 ≈ <strong>−34.5%</strong>，全组合(含 6% 现金) ≈ <strong>−32%</strong>。</li>
+<li><strong>6% 现金缓冲是化妆品</strong>——扛不住结构性 beta。</li>
+</ul>
+<h2 id="二加-pltranet-帮忙但只是边际">二、加 PLTR/ANET 帮忙但只是边际</h2>
+<table><thead><tr><th>新增</th><th>beta</th><th>corrSOXX</th><th>corr 现组合(avg)</th></tr></thead><tbody><tr><td>PLTR</td><td>1.79</td><td>0.25</td><td>0.24</td></tr><tr><td>ANET</td><td>2.04</td><td>0.42</td><td>0.28</td></tr></tbody></table>
+<p>样本调仓（砍 MU 7→3、COHR 8→4、CAMT 3→1，加 PLTR 6 + ANET 4）： <strong>加权 beta 2.30 → 2.20</strong>，只降 0.10。</p>
+<p>→ <strong>在 AI 复合体内部腾挪治标不治本</strong>：PLTR/ANET 本身 beta 也 1.8–2.0。</p>
+<h2 id="三压舱石搜寻生物制药-ai-半对半错">三、压舱石搜寻：生物制药 AI —— 半对半错</h2>
+<p>候选验证（找&quot;与 AI capex 低相关&quot;的腿）：</p>
+<table><thead><tr><th></th><th>beta</th><th>1y 回报</th><th>corrSOXX</th></tr></thead><tbody><tr><td>RXRX</td><td>2.96</td><td>−36%</td><td>0.40</td></tr><tr><td>ABCL</td><td>2.68</td><td>+62%</td><td>0.38</td></tr><tr><td>TEM</td><td>2.57</td><td>−26%</td><td>0.36</td></tr><tr><td>SDGR</td><td>1.79</td><td>−23%</td><td>0.27</td></tr><tr><td><strong>XBI(ETF)</strong></td><td><strong>1.10</strong></td><td>+71%</td><td>0.41</td></tr></tbody></table>
+<ul>
+<li><strong>✅ 对的一半</strong>：生物 AI 跟半导体真低相关（corrSOXX 0.27–0.41）——因子分散成立。</li>
+<li><strong>❌ 错的一半</strong>：<strong>单只生物 AI 股不是低 beta</strong>（RXRX 2.96 ≈ MU 3.03），且回报惨烈。加它们治不了 beta，只换了个高 beta 赌注。</li>
+</ul>
+<h2 id="四关键洞察对系统性-capex-崩盘要的是低-spy-beta不是低-soxx-相关">四、关键洞察：对系统性 capex 崩盘，要的是低 SPY beta，不是低 SOXX 相关</h2>
+<p>capex blink 会拖垮整个 SPY。届时<strong>高 SPY beta 的股全跌</strong>，无论它跟半导体相不相关。 RXRX corrSOXX 0.40 救不了它 beta 2.96——SPY −15% 它照样 ≈ −44%。</p>
+<p>→ <strong>真正的压舱石 = 低 SPY beta + 低半导体相关</strong>。全市场只两个达标，其中一个你已持有：</p>
+<table><thead><tr><th>压舱石</th><th>beta</th><th>corrSOXX</th><th>状态</th></tr></thead><tbody><tr><td><strong>IBM</strong></td><td><strong>1.04</strong></td><td><strong>0.11</strong></td><td><strong>已持有 10%，全组合相关性最低</strong></td></tr><tr><td>XBI(ETF)</td><td>1.10</td><td>0.41</td><td>未持有，ETF 摊掉单只生物股临床二元风险</td></tr></tbody></table>
+<h2 id="五可操作结论">五、可操作结论</h2>
+<ol>
+<li><strong>降 beta 2.30 最干净的一步：加 IBM</strong>（已在 audit 的加仓窗口，Fwd PE 16.78）。它是组合里唯一的真压舱石。</li>
+<li><strong>PLTR + ANET 仍该加</strong>——分散 + 低相关，但它们的作用是&quot;换掉高 beta 半导体&quot;，不是&quot;降总 beta&quot;。资金来源：砍 corrSOXX/beta 最高的 MU / COHR / CAMT / PLAB。</li>
+<li><strong>生物 AI 单股（RXRX/SDGR/TEM）归赔率仓</strong>（像 IONQ，接受 50% 回撤），<strong>不是压舱石</strong>。要压舱石买 XBI。</li>
+<li><strong>真要把 beta 拉到 &lt;1.8，只有三条路</strong>：① 现金 6%→15%；② 加 IBM/XBI 这类低 SPY beta 腿；③ SPY put / VIX call 对冲（成本可用 −32% 这个数估值）。</li>
+<li><strong>方法论</strong>：beta 和相关性是<strong>测</strong>出来的。&quot;生物 AI = 压舱石&quot; 听着对，数据说单股是高 beta 赔率，只有 ETF 才是压舱石。</li>
+</ol>
+<h2 id="六待补">六、待补</h2>
+<ul>
+<li>把 IBM 加仓 + 砍高 beta 半导体的具体方案做成 v3 组合，重算 beta（目标 &lt;1.8）。</li>
+<li>XBI 单独建档（若要正式纳入压舱石位）。</li>
+<li>算 SPY put 对冲成本 vs −32% 尾部，看对冲划不划算。</li>
+</ul>
+      </article>
+      <aside class="doc-sidebar">
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">文档导航</h3>
+          <ul class="toc-list"><li><a href="#一实测v2-组合加权-beta-230比-audit-怕的还高">一、实测：v2 组合加权 beta = 2.30（比 audit 怕的还高）</a></li><li><a href="#二加-pltranet-帮忙但只是边际">二、加 PLTR/ANET 帮忙但只是边际</a></li><li><a href="#三压舱石搜寻生物制药-ai-半对半错">三、压舱石搜寻：生物制药 AI —— 半对半错</a></li><li><a href="#四关键洞察对系统性-capex-崩盘要的是低-spy-beta不是低-soxx-相关">四、关键洞察：对系统性 capex 崩盘，要的是低 SPY beta，不是低 SOXX 相关</a></li><li><a href="#五可操作结论">五、可操作结论</a></li><li><a href="#六待补">六、待补</a></li></ul>
+        </section>
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">阅读提示</h3>
+          <ul class="summary-list">
+            <li><span class="summary-label">先看什么</span><span class="summary-value">先读一段话结论，再看表格和风险点。</span></li>
+            <li><span class="summary-label">适合用途</span><span class="summary-value">复盘、比较、回查研究底稿。</span></li>
+            <li><span class="summary-label">建议动作</span><span class="summary-value">如果文档内容改变了 thesis，再回到候选池或组合页更新判断。</span></li>
+          </ul>
+        </section>
+      </aside>
+    </div>
+    <div class="footer">该页面由 Markdown 自动生成。原始文件：notes/2026-06-21-portfolio-beta-and-ballast.md</div>
+  </div>
+  </div>
+</body>
+</html>

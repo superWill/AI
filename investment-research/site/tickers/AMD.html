@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AMD</title>
+  <link rel="stylesheet" href="../_assets/style.css" />
+</head>
+<body>
+  <div class="site-shell">
+  <div class="page">
+    <div class="topbar">
+      <div class="nav-cluster">
+        <a class="back" href="../index.html">← 返回投研首页</a>
+        <a class="nav-link secondary" href="../all-docs.html">全部文档</a>
+      </div>
+      <div class="nav-cluster">
+        <a class="home-link" href="../notes.html">Notes</a>
+        <a class="home-link" href="../candidates.html">Candidates</a>
+        <a class="home-link" href="../tickers.html">Tickers</a>
+      </div>
+    </div>
+    <section class="hero">
+      <div class="doc-header-grid">
+        <div>
+          <div class="eyebrow">tickers</div>
+          <h1>AMD</h1>
+          <p>单只股票的研究卡、跟踪信号和估值框架。</p>
+          <div class="meta-row">
+            <span class="pill">tickers/AMD.md</span>
+            <span class="pill">356 words</span>
+            <span class="pill">13 sections</span>
+          </div>
+        </div>
+        <div class="doc-stat-stack">
+          <div class="doc-stat">
+            <div class="doc-stat-label">Document Type</div>
+            <div class="doc-stat-value">Tickers</div>
+          </div>
+          <div class="doc-stat">
+            <div class="doc-stat-label">Reading Mode</div>
+            <div class="doc-stat-value">Research Memo</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="doc-layout">
+      <article class="doc doc-main">
+<hr />
+<p>ticker: AMD name: Advanced Micro Devices sector: Semiconductors / AI 加速计算（GPU + CPU） layer: Layer 3 — AI 加速计算平台（<a href="NVDA.html">NVDA</a> 的唯一可信第二供应商） position_type: thematic status: watching last_updated: 2026-06-21 data_source: 网络调研 2026-06-21</p>
+<hr />
+<h1 id="advanced-micro-devices-amd">Advanced Micro Devices (AMD)</h1>
+<h2 id="一句话定位">一句话定位</h2>
+<p>唯一对 <a href="NVDA.html">NVDA</a> 构成可信威胁的 AI 加速器第二供应商。MI450/Helios 机柜级方案 2026 H2 出货，是市场上第一个&quot;机柜级对标 Nvidia&quot;的产品。超大厂为了<strong>避免单一供应商绑死</strong>，主动扶持 AMD 当第二货源——这是 AMD 最大的非技术性顺风。配卡逻辑：不是赌它打败 Nvidia，是赌它从&quot;第二货源&quot;拿到 15–20% 加速器份额。</p>
+<h2 id="关键数据基准-2026-06-21网络调研">关键数据（基准 2026-06-21，网络调研）</h2>
+<table><thead><tr><th>指标</th><th>数据</th></tr></thead><tbody><tr><td>股价</td><td>~$510（历史新高）</td></tr><tr><td>市值</td><td><strong>~$834B</strong></td></tr><tr><td>2026 年内涨幅</td><td>+133%（12 个月 ~+300%）</td></tr><tr><td>分析师均值目标</td><td>~$472（<strong>略低于现价</strong>）；高目标 $665（Barclays 6/1）</td></tr></tbody></table>
+<h2 id="财务q1-fy2026">财务（Q1 FY2026）</h2>
+<table><thead><tr><th>指标</th><th>数据</th></tr></thead><tbody><tr><td>数据中心营收</td><td><strong>$58 亿，YoY +57%</strong>（已是最大、最赚钱分部）</td></tr><tr><td>Q2 FY26 营收指引</td><td><strong>~$112 亿</strong></td></tr><tr><td>旗舰 MI455X</td><td>40 PFLOPS FP4 / 432GB HBM4 / 19.6 TB/s</td></tr><tr><td>Helios 机柜</td><td>单柜 3 AI exaflops，<strong>2026 Q3 出货</strong></td></tr></tbody></table>
+<h2 id="护城河类型">护城河类型</h2>
+<p><strong>第二货源刚需 + x86 双寡头 + 机柜级追赶</strong>：</p>
+<ul>
+<li><strong>CPU 端真护城河</strong>：与 Intel 的 x86 双寡头，EPYC 数据中心份额持续抢占——这块是稳的现金牛。</li>
+<li><strong>GPU 端是&quot;被需要&quot;而非&quot;护城河&quot;</strong>：超大厂<strong>主动要第二货源</strong>压 Nvidia 议价权，这是 AMD GPU 的结构性顺风，但不是壁垒。</li>
+<li><strong>软件是命门</strong>：ROCm 生态仍落后 CUDA 一截——这是 thesis 的最大缺口（见下）。</li>
+</ul>
+<h2 id="市场隐含假设-vs-我的分歧">市场隐含假设 vs 我的分歧 ⭐</h2>
+<blockquote><strong>市场在 price in 什么</strong>：~$834B、远期高估值，隐含 MI450/Helios H2&#x27;26 顺利放量 + AMD 在加速器拿到<strong>有意义且可持续</strong>的份额。OpenAI 6GW、Meta 最高 6GW(~$600 亿)、Oracle 5 万卡 Helios 已被当作收入兑现。</blockquote>
+<p><strong>我可能与市场不同的地方</strong>：</p>
+<ol>
+<li><strong>&quot;GW 承诺&quot;≠&quot;收入&quot;</strong>——OpenAI 那笔是<strong>带认股权证结构</strong>的产能承诺，本质是 AMD 用股权补贴换装机量。市场把 GW 数字当订单，但兑现节奏、毛利、补贴成本都没充分折价。真实读数要看 <strong>H2&#x27;26 数据中心 GPU 毛利率</strong>会不会被&quot;抢份额定价&quot;摊薄。</li>
+<li><strong>真正的分歧点是节奏，不是方向</strong>：所有人都同意 AMD 会拿份额。问题是——<strong>Helios(机柜级对标)是一次&quot;阶跃式追平&quot;，还是又一次被 Nvidia 下一代(Rubin)反超的半步？</strong> 这决定 AMD 是&quot;结构性第二&quot;还是&quot;永远差一代&quot;。</li>
+</ol>
+<p><strong>我哪里可能错（证伪条件）</strong>：</p>
+<ul>
+<li><strong>ROCm 始终追不上 CUDA</strong>：推理/训练迁移成本太高，超大厂&quot;扶第二货源&quot;流于象征，份额卡在个位数。</li>
+<li><strong>毛利率陷阱</strong>：为抢份额激进定价 + 股权补贴，营收涨但盈利质量恶化。</li>
+<li><strong>Rubin 反超</strong>：Nvidia 2026–2027 路线把机柜级优势重新拉开，Helios 沦为半步追赶。</li>
+<li><strong>估值</strong>：$834B 已 price in 大量乐观；均值目标已低于现价。</li>
+</ul>
+<h2 id="短期增量35-年">短期增量（3–5 年）</h2>
+<ul>
+<li>MI450 + Helios 机柜 2026 H2 放量（OpenAI/Meta/Oracle 三大催化）。</li>
+<li>EPYC 数据中心 CPU 份额继续抢 Intel。</li>
+<li>推理市场扩张——AMD 在推理（对成本敏感、对 CUDA 依赖较低）比训练更有机会。</li>
+</ul>
+<h2 id="长期增量1020-年">长期增量（10–20 年）</h2>
+<ul>
+<li>若坐稳&quot;加速器结构性第二货源&quot;，对应万亿级 TAM 的 15–20% = 巨大空间。</li>
+<li>AI PC / 边缘端 APU 第二增长极。</li>
+</ul>
+<h2 id="风险">风险</h2>
+<ul>
+<li><strong>⚠️ ROCm 软件差距（首要、技术性）</strong>：CUDA 护城河是 AMD GPU 兑现的最大拦路虎。</li>
+<li><strong>GW 承诺含股权补贴</strong>：OpenAI 交易的认股权证 = 隐性稀释/补贴成本。</li>
+<li><strong>Nvidia Rubin 反超</strong>：路线图竞速，半步落后就重定价。</li>
+<li><strong>毛利率被抢份额定价摊薄</strong>。</li>
+<li><strong>估值</strong>：均值目标已低于现价，安全垫薄。</li>
+</ul>
+<h2 id="估值锚">估值锚</h2>
+<ul>
+<li>类比：<a href="NVDA.html">NVDA</a>（毛利 75%、CUDA 垄断；AMD 是折价的&quot;挑战者&quot;，但折价是因为份额与软件不确定）。</li>
+<li>现价隐含&quot;AMD 顺利拿到结构性份额&quot;——若只拿到个位数份额，重定价空间大。</li>
+<li>配卡定位：<strong>主题仓而非核心</strong>，赌&quot;第二货源刚需&quot;，接受高波动。</li>
+</ul>
+<h2 id="退出条件">退出条件</h2>
+<ul>
+<li>触发卖出：H2&#x27;26 Helios 放量低于预期 + 数据中心 GPU 毛利率明显恶化。</li>
+<li>触发减仓：ROCm 迁移持续受阻、份额卡在个位数。</li>
+<li>再加码：Helios 实测对标 Nvidia 机柜兑现 + AI 板块恐慌拉回估值。</li>
+</ul>
+<h2 id="跟踪信号">跟踪信号</h2>
+<ul>
+<li><strong>MI450/Helios H2&#x27;26 收入 + 数据中心 GPU 毛利率</strong>（份额 vs 盈利质量的核心读数）</li>
+<li>ROCm 开发者采用 / 推理迁移案例</li>
+<li>加速器市场份额（vs Nvidia）</li>
+<li>OpenAI/Meta/Oracle 承诺的实际装机兑现节奏</li>
+<li>Nvidia Rubin 路线图（反超风险）</li>
+</ul>
+<h2 id="仓位与历史">仓位与历史</h2>
+<table><thead><tr><th>日期</th><th>操作</th><th>价格</th><th>仓位</th><th>备注</th></tr></thead><tbody><tr><td>2026-06-21</td><td>建档观察</td><td>~$510</td><td>—</td><td>第二货源刚需 + Helios 机柜级追赶；命门在 ROCm 与毛利率；主题仓</td></tr></tbody></table>
+<h2 id="参考">参考</h2>
+<ul>
+<li>对照：<a href="NVDA.html">NVDA</a>（龙头） · <a href="AVGO.html">AVGO</a>/<a href="MRVL.html">MRVL</a>（定制 ASIC 是另一种&quot;去 Nvidia 化&quot;路径） · <a href="ARM.html">ARM</a></li>
+<li><a href="https://ir.amd.com/news-events/press-releases/detail/1284/amd-reports-first-quarter-2026-financial-results">AMD Q1 2026 财报（IR）</a></li>
+<li><a href="https://www.tikr.com/blog/amd-stock-forecast-2026-a-57-data-center-revenue-jump-and-a-120-billion-cpu-market">TIKR — AMD 数据中心 +57%、$120B CPU TAM</a></li>
+<p>&lt;/content&gt;</p>
+</ul>
+      </article>
+      <aside class="doc-sidebar">
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">文档导航</h3>
+          <ul class="toc-list"><li><a href="#一句话定位">一句话定位</a></li><li><a href="#关键数据基准-2026-06-21网络调研">关键数据（基准 2026-06-21，网络调研）</a></li><li><a href="#财务q1-fy2026">财务（Q1 FY2026）</a></li><li><a href="#护城河类型">护城河类型</a></li><li><a href="#市场隐含假设-vs-我的分歧">市场隐含假设 vs 我的分歧 ⭐</a></li><li><a href="#短期增量35-年">短期增量（3–5 年）</a></li><li><a href="#长期增量1020-年">长期增量（10–20 年）</a></li><li><a href="#风险">风险</a></li><li><a href="#估值锚">估值锚</a></li><li><a href="#退出条件">退出条件</a></li><li><a href="#跟踪信号">跟踪信号</a></li><li><a href="#仓位与历史">仓位与历史</a></li><li><a href="#参考">参考</a></li></ul>
+        </section>
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">阅读提示</h3>
+          <ul class="summary-list">
+            <li><span class="summary-label">先看什么</span><span class="summary-value">先读一段话结论，再看表格和风险点。</span></li>
+            <li><span class="summary-label">适合用途</span><span class="summary-value">复盘、比较、回查研究底稿。</span></li>
+            <li><span class="summary-label">建议动作</span><span class="summary-value">如果文档内容改变了 thesis，再回到候选池或组合页更新判断。</span></li>
+          </ul>
+        </section>
+      </aside>
+    </div>
+    <div class="footer">该页面由 Markdown 自动生成。原始文件：tickers/AMD.md</div>
+  </div>
+  </div>
+</body>
+</html>

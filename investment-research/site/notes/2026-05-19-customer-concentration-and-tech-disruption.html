@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2026 05 19 customer concentration and tech disruption</title>
+  <link rel="stylesheet" href="../_assets/style.css" />
+</head>
+<body>
+  <div class="site-shell">
+  <div class="page">
+    <div class="topbar">
+      <div class="nav-cluster">
+        <a class="back" href="../index.html">← 返回投研首页</a>
+        <a class="nav-link secondary" href="../all-docs.html">全部文档</a>
+      </div>
+      <div class="nav-cluster">
+        <a class="home-link" href="../notes.html">Notes</a>
+        <a class="home-link" href="../candidates.html">Candidates</a>
+        <a class="home-link" href="../tickers.html">Tickers</a>
+      </div>
+    </div>
+    <section class="hero">
+      <div class="doc-header-grid">
+        <div>
+          <div class="eyebrow">notes</div>
+          <h1>2026-05-19-customer-concentration-and-tech-disruption</h1>
+          <p>市场、公司或主题研究的阶段性结论。</p>
+          <div class="meta-row">
+            <span class="pill">notes/2026-05-19-customer-concentration-and-tech-disruption.md</span>
+            <span class="pill">319 words</span>
+            <span class="pill">54 sections</span>
+          </div>
+        </div>
+        <div class="doc-stat-stack">
+          <div class="doc-stat">
+            <div class="doc-stat-label">Document Type</div>
+            <div class="doc-stat-value">Notes</div>
+          </div>
+          <div class="doc-stat">
+            <div class="doc-stat-label">Reading Mode</div>
+            <div class="doc-stat-value">Research Memo</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="doc-layout">
+      <article class="doc doc-main">
+<hr />
+<p>date: 2026-05-19 type: deep-dive status: draft applies_to: [VRT, MRVL, COHR, LITE, ALAB, CRDO, MU, GLW]</p>
+<hr />
+<h1 id="8-只核心持仓客户集中度-技术路线颠覆风险">8 只核心持仓：客户集中度 + 技术路线颠覆风险</h1>
+<blockquote>起因：研究 gap audit P0 第三、四条 —— 所有&quot;卖铲子&quot;逻辑都依赖 Nvidia + 4 家 hyperscaler； CPO / NVLink Fusion 是 2027–2028 的结构性威胁。  本文逐只补上 &quot;客户集中度&quot; 和 &quot;技术路线颠覆风险&quot; 两个章节，可直接挪到各 ticker.md。 数据来源标记 [10-K] / [earnings call] / [行业研究] / [推断]。</blockquote>
+<hr />
+<h2 id="总览8-只持仓共同的客户技术依赖">总览：8 只持仓共同的客户/技术依赖</h2>
+<table><thead><tr><th>维度</th><th>共同变量</th><th>影响</th></tr></thead><tbody><tr><td>最大下游客户</td><td>Nvidia GB200/300/Rubin 出货量</td><td>8 只里 6 只直接相关（VRT/MRVL/COHR/LITE/ALAB/CRDO/MU）</td></tr><tr><td>次大客户群</td><td>hyperscaler 4 家（AMZN/MSFT/GOOG/META）capex</td><td>8 只里 7 只相关</td></tr><tr><td>第三客户群</td><td>AMD MI 系列出货</td><td>4 只相关（MU/MRVL/COHR/LITE）</td></tr><tr><td>颠覆风险 1</td><td>CPO 共封装光学 2027–2028</td><td>COHR/LITE 业务结构改写</td></tr><tr><td>颠覆风险 2</td><td>NVLink Fusion 收回 retimer</td><td>ALAB/CRDO 直接受冲击</td></tr><tr><td>颠覆风险 3</td><td>算法范式（MoE / Mamba / 3D DRAM）</td><td>MU 长期需求曲线裂变</td></tr><tr><td>颠覆风险 4</td><td>hyperscaler 自研 ASIC 替代 GPU</td><td>MRVL 双面（Trainium/Axion 利好 / GPU 周边利空）</td></tr></tbody></table>
+<p><strong>结论</strong>：8 只里 5–6 只在&quot;Nvidia 路线 + hyperscaler capex&quot;这一个总变量下高度相关。 研究 gap audit P0 §2 的相关性矩阵预期会验证这一点。</p>
+<hr />
+<h2 id="1-vrt-vertiv">1. VRT — Vertiv</h2>
+<h3 id="客户集中度">客户集中度</h3>
+<table><thead><tr><th>来源</th><th>客户 / 类别</th><th>营收占比估算</th><th>数据来源</th></tr></thead><tbody><tr><td>Hyperscaler 4 家合计</td><td>AMZN + MSFT + GOOG + META</td><td><strong>~40–50%</strong></td><td>[行业研究 + earnings call 评述]</td></tr><tr><td>单一最大客户</td><td>未披露（推断 = MSFT 或 META）</td><td>~12–18%</td><td>[推断]</td></tr><tr><td>Colo（Equinix + Digital Realty）</td><td></td><td>~15–20%</td><td>[行业研究]</td></tr><tr><td>企业 + Telco</td><td></td><td>~25–30%</td><td>[10-K 间接估算]</td></tr><tr><td>国防 + Federal</td><td></td><td>~5%</td><td>[10-K]</td></tr></tbody></table>
+<p><strong>需要从 10-K 验证</strong>：</p>
+<ul>
+<li>Item 1A Risk Factors 通常会披露&quot;any single customer &gt;10%&quot;</li>
+<li>Q&amp;A section / earnings call 提到的 hyperscaler exposure</li>
+</ul>
+<h3 id="技术路线颠覆风险cponvlink-不直接影响-vrt但有其他风险">技术路线颠覆风险（CPO/NVLink 不直接影响 VRT，但有其他风险）</h3>
+<table><thead><tr><th>风险</th><th>影响</th><th>时间窗</th></tr></thead><tbody><tr><td>液冷渗透率被竞争对手抢占</td><td>SU.PA 在欧洲 + ETN 在美国都加大投入</td><td>2026–2028</td></tr><tr><td>风冷 → 液冷一次性切换窗口关闭</td><td>一旦 hyperscaler 完成迁移，增量需求归零</td><td>2028–2030</td></tr><tr><td>AI capex 增速 YoY 转负</td><td>Backlog 履约速度放缓 → revenue conversion 下降</td><td>2027+</td></tr><tr><td>中国本土液冷替代（英维克 / 申菱）</td><td>海外份额受影响有限，但中国市场份额可能归零</td><td>2026–2027</td></tr></tbody></table>
+<h3 id="加到-vrtmd-的建议章节">加到 VRT.md 的建议章节</h3>
+<pre><code>## 客户集中度（2026-05-19 估算）
+
+&gt; 待 10-K Item 1A 精确验证
+
+- Hyperscaler 4 家合计：~40–50% 营收
+- 单一最大客户（推断 MSFT 或 META）：12–18%
+- Colo（Equinix / Digital Realty）：15–20%
+- 企业 + Telco：25–30%
+
+**集中度风险**：top-1 客户 capex 减速 = VRT 单季度营收下修 5–8%。
+
+## 技术路线颠覆风险
+
+- **风冷 → 液冷一次性切换窗口**：2028–2030 后增量需求归零
+- **中国本土替代**：英维克 / 申菱抢中国份额（已发生）
+- **同业反扑**：SU.PA / ETN 加大液冷投入，可能压毛利</code></pre>
+<hr />
+<h2 id="2-mrvl-marvell">2. MRVL — Marvell</h2>
+<h3 id="客户集中度">客户集中度</h3>
+<table><thead><tr><th>来源</th><th>客户</th><th>营收占比估算</th><th>数据来源</th></tr></thead><tbody><tr><td>Custom ASIC 业务</td><td><strong>AWS Trainium</strong></td><td>~30–35% Custom ASIC 营收</td><td>[earnings call]</td></tr><tr><td></td><td><strong>Google Axion / TPU 周边</strong></td><td>~25–30%</td><td>[推断 + 行业研究]</td></tr><tr><td></td><td><strong>Microsoft（Maia 周边）</strong></td><td>~10–15%</td><td>[行业研究]</td></tr><tr><td>网络（DSP / PAM4）</td><td>Nvidia + AI 服务器</td><td>~40%</td><td>[10-K]</td></tr><tr><td>5G 网络 / 汽车</td><td>多元化</td><td>~20%</td><td>[10-K]</td></tr></tbody></table>
+<p><strong>集中度真相</strong>：</p>
+<ul>
+<li>Custom ASIC 业务（FY26 营收约 $3B）<strong>80% 来自 AWS Trainium 一家</strong></li>
+<li>Trainium 节奏 = MRVL 增长曲线</li>
+<li>这是 MRVL 的&quot;高质量 thesis&quot;也是&quot;单点失败风险&quot;</li>
+</ul>
+<p><strong>需要从 10-K 验证</strong>：</p>
+<ul>
+<li>是否披露 AWS 是 &gt;10% 客户（大概率是）</li>
+<li>数据中心营收占总营收比</li>
+</ul>
+<h3 id="技术路线颠覆风险">技术路线颠覆风险</h3>
+<table><thead><tr><th>风险</th><th>影响</th><th>时间窗</th></tr></thead><tbody><tr><td><strong>AWS 切到 Broadcom 或自研</strong></td><td>Trainium 3/4 代设计可能换合作伙伴</td><td>2027–2028</td></tr><tr><td><strong>Inference workload 替代 training</strong></td><td>MRVL DSP 偏 training，Inference 用 ASIC 更直接</td><td>2027+</td></tr><tr><td><strong>NVLink Fusion 挤压 PCIe DSP</strong></td><td>部分 MRVL DSP 业务被 Nvidia 内化</td><td>2027–2028</td></tr><tr><td><strong>Custom ASIC 设计周期超 18 个月</strong></td><td>一次失败 = 一个完整产品周期损失</td><td>持续</td></tr></tbody></table>
+<h3 id="加到-mrvlmd-的建议章节">加到 MRVL.md 的建议章节</h3>
+<pre><code>## 客户集中度（2026-05-19 估算）
+
+- **AWS Trainium** = 单一最大客户，估计 ~30–35% 总营收（Custom ASIC 80% 来自一家）
+- Google + Microsoft 合计：~35–40%
+- Nvidia + AI 网络周边：~30%
+- 5G + 汽车：~20%（多元化但增速慢）
+
+**核心风险**：AWS Trainium 任一代设计切换合作伙伴 → MRVL 25%+ 营收瞬间归零。
+
+## 技术路线颠覆风险
+
+- **AWS 切换合作伙伴**：T3/T4 是否仍由 MRVL 设计是关键，需跟踪 design win 公告
+- **NVLink Fusion**：部分 PCIe DSP 业务被 Nvidia 内化
+- **Inference 偏 ASIC**：MRVL DSP 优势主要在 training</code></pre>
+<hr />
+<h2 id="3-cohr-coherent">3. COHR — Coherent</h2>
+<h3 id="客户集中度">客户集中度</h3>
+<table><thead><tr><th>来源</th><th>客户</th><th>营收占比估算</th></tr></thead><tbody><tr><td>Nvidia DGX / HGX 光模块</td><td>Nvidia</td><td>~30–35%（推断）</td></tr><tr><td>Hyperscaler 数据中心</td><td>4 家 + Meta</td><td>~25%</td></tr><tr><td>Telecom（电信运营商）</td><td>Verizon / AT&amp;T / 中国电信</td><td>~15%</td></tr><tr><td>工业激光 + 国防</td><td>多元化</td><td>~25%</td></tr></tbody></table>
+<h3 id="技术路线颠覆风险">技术路线颠覆风险</h3>
+<table><thead><tr><th>风险</th><th>影响</th><th>时间窗</th></tr></thead><tbody><tr><td><strong>🔴 CPO 共封装光学</strong></td><td>传统可插拔光模块业务（800G/1.6T）2027–2028 起被替代</td><td><strong>2027–2028</strong></td></tr><tr><td><strong>InP / EML 激光器供应</strong></td><td>COHR 上游依赖 Lumentum + 部分中国厂</td><td>2026–2027</td></tr><tr><td><strong>中国光模块厂（中际旭创 InnoLight、新易盛 Eoptolink）抢份额</strong></td><td>海外可能因贸易壁垒受保护，国内份额被吞</td><td>持续</td></tr><tr><td><strong>800G 已是高峰，1.6T 转化期估值压缩</strong></td><td>类似从风冷转液冷的&quot;窗口期&quot;问题</td><td>2027–2028</td></tr></tbody></table>
+<h3 id="cpo-是-cohr-的existential-风险">CPO 是 COHR 的&quot;existential&quot; 风险</h3>
+<ul>
+<li>Nvidia GTC 2024 已展示 CPO 路线图，Broadcom Bailly CPO 交换机 2025 量产</li>
+<li>Marvell + Lumentum + COHR + Broadcom 都在投，但格局未定</li>
+<li>如果 CPO 在 2027 +/- 18 个月内主流化，<strong>COHR 当前 1.6T 业务的毛利会被压一半</strong></li>
+<li>但 COHR 同时是 CPO 光引擎的关键 IP 持有者，<strong>有可能&quot;自己革自己的命&quot;成功</strong></li>
+</ul>
+<p>→ Thesis 不变，但<strong>风险敞口从&quot;AI capex 见顶&quot;扩展到&quot;技术路线切换&quot;</strong>。</p>
+<h3 id="加到-cohrmd-的建议章节">加到 COHR.md 的建议章节</h3>
+<pre><code>## 客户集中度（2026-05-19 估算）
+
+- Nvidia + 4 家 hyperscaler 光模块业务：~55–60%
+- Telecom：~15%
+- 工业激光 + 国防：~25%
+
+## 技术路线颠覆风险（核心 thesis 威胁）
+
+- **🔴 CPO 共封装光学**：2027–2028 主流化，传统可插拔光模块业务被替代
+  - Broadcom Bailly CPO 交换机已 2025 量产
+  - COHR 同时是 CPO 光引擎 IP 持有者 → 可能&quot;自己革自己的命&quot;成功
+  - 跟踪信号：Nvidia GTC 2026 路线图 + Broadcom CPO 客户公告
+
+- **中国厂抢份额**：中际旭创 / 新易盛在 800G 已经接近 COHR / LITE
+- **800G → 1.6T 转化期**：估值在切换窗口可能被压缩</code></pre>
+<hr />
+<h2 id="4-lite-lumentum">4. LITE — Lumentum</h2>
+<h3 id="客户集中度">客户集中度</h3>
+<table><thead><tr><th>来源</th><th>客户</th><th>营收占比估算</th></tr></thead><tbody><tr><td>Apple（VCSEL 激光 Face ID）</td><td>Apple</td><td>~15–20%（已披露 &gt;10% 客户）</td></tr><tr><td>Nvidia + hyperscaler（DCI 光模块）</td><td></td><td>~30–35%</td></tr><tr><td>Telecom（电信光模块）</td><td></td><td>~20%</td></tr><tr><td>工业激光</td><td></td><td>~15%</td></tr><tr><td>Cloudlight（800G/1.6T 模块）</td><td></td><td>~15%</td></tr></tbody></table>
+<p><strong>LITE 比 COHR 更暴露在 Apple 这一根线上</strong>（VCSEL 业务），同时 AI DCI 业务起来后开始 多元化。但 Apple 任何 Face ID 改型（如 under-screen camera）会直接砸 LITE。</p>
+<h3 id="技术路线颠覆风险">技术路线颠覆风险</h3>
+<table><thead><tr><th>风险</th><th>影响</th></tr></thead><tbody><tr><td><strong>CPO</strong>（同 COHR）</td><td>800G/1.6T 模块业务被替代，2027–2028</td></tr><tr><td><strong>Apple under-display Face ID</strong></td><td>VCSEL 业务减少 → 工业激光占比上升</td></tr><tr><td><strong>Cloudlight 整合不顺</strong></td><td>Lumentum 2023 收购，毛利仍未达预期</td></tr></tbody></table>
+<h3 id="加到-litemd-的建议章节">加到 LITE.md 的建议章节</h3>
+<pre><code>## 客户集中度（2026-05-19 估算）
+
+- Apple（VCSEL Face ID）：~15–20%（已披露 &gt;10% 客户）
+- Nvidia + 4 家 hyperscaler：~30–35%
+- Telecom：~20%
+- 工业激光 + Cloudlight：~30%
+
+**集中度风险**：Apple Face ID 设计改动（under-display camera）= LITE 单年营收下修 10%+
+
+## 技术路线颠覆风险
+
+- **CPO**（同 COHR）：2027–2028 起结构性威胁
+- **Apple 自研激光器**：长期可能内化，类似 modem 故事
+- **Cloudlight 整合**：800G/1.6T 模块业务毛利未达预期</code></pre>
+<hr />
+<h2 id="5-alab-astera-labs">5. ALAB — Astera Labs</h2>
+<h3 id="客户集中度">客户集中度</h3>
+<table><thead><tr><th>来源</th><th>客户</th><th>营收占比估算</th></tr></thead><tbody><tr><td><strong>Nvidia GB200/300 NVLink Switch 周边</strong></td><td>Nvidia</td><td><strong>~40–50%</strong>（推断）</td></tr><tr><td>Hyperscaler 自研服务器（PCIe Gen6 retimer）</td><td>AMZN/MSFT/META</td><td>~30%</td></tr><tr><td>AMD MI 系列</td><td>AMD</td><td>~10%</td></tr><tr><td>其他 / 电信</td><td></td><td>~10–20%</td></tr></tbody></table>
+<p>ALAB 是 8 只里<strong>对 Nvidia 路线依赖最深</strong>的一只。</p>
+<h3 id="技术路线颠覆风险最严峻">技术路线颠覆风险（<strong>最严峻</strong>）</h3>
+<table><thead><tr><th>风险</th><th>影响</th><th>时间窗</th></tr></thead><tbody><tr><td><strong>🔴 NVLink Fusion / NVLink 5/6</strong></td><td>Nvidia 把 NVLink Switch 周边的 retimer 收回自家，第三方 retimer 价值大幅压缩</td><td><strong>2026–2027</strong></td></tr><tr><td><strong>PCIe Gen6 → Gen7 切换</strong></td><td>ALAB 在 Gen6 领先，但 Gen7 可能被博通追上</td><td>2027</td></tr><tr><td><strong>CXL 协议命运</strong></td><td>CXL 1.x / 2.0 落地比预期慢，ALAB 部分产品线对 CXL 押注</td><td>持续</td></tr><tr><td><strong>Smart Cable / AEC</strong></td><td>与 CRDO 重合 → 双双毛利压力</td><td>持续</td></tr></tbody></table>
+<h3 id="nvlink-fusion-是-alab-的existential-威胁">NVLink Fusion 是 ALAB 的&quot;existential&quot; 威胁</h3>
+<ul>
+<li>Nvidia 2025 GTC 已公开&quot;NVLink Fusion&quot; 路线 —— 把 NVLink 协议开放给第三方 ASIC，<br />但同时把 NVLink Switch 周边的 retimer / signal conditioner 收紧</li>
+<li>ALAB 当前 50%+ 营收来自这一层 ASIC</li>
+<li>如果 Nvidia 在 2027 GB300/Rubin 平台把这块收回 → ALAB 营收瞬间 −30–40%</li>
+</ul>
+<h3 id="加到-alabmd-的建议章节">加到 ALAB.md 的建议章节</h3>
+<pre><code>## 客户集中度（2026-05-19 估算）
+
+- **Nvidia GB200/300 周边**：~40–50% 营收（PCIe Gen6 retimer + Smart Cable）
+- Hyperscaler 自研服务器：~30%
+- AMD + 其他：~20%
+
+**核心风险**：单一最大客户路线变化 = ALAB 30–40% 营收瞬间归零。
+
+## 技术路线颠覆风险（核心 thesis 威胁）
+
+- **🔴 NVLink Fusion**：Nvidia 把 NVLink Switch 周边的 retimer 收回自家
+  - Nvidia 2025 GTC 已公开路线
+  - 2027 GB300/Rubin 平台可能落地
+  - **跟踪信号**：Nvidia 财报 + GTC 2026 路线图
+- **PCIe Gen7 切换**：博通 / Marvell 可能追上
+- **CXL 落地节奏**：比预期慢，部分产品线押注落空</code></pre>
+<hr />
+<h2 id="6-crdo-credo">6. CRDO — Credo</h2>
+<h3 id="客户集中度">客户集中度</h3>
+<table><thead><tr><th>来源</th><th>客户</th><th>营收占比估算</th></tr></thead><tbody><tr><td>AEC（Active Electrical Cable）业务</td><td><strong>Microsoft + Meta 合计 &gt;60%</strong></td><td>已披露</td></tr><tr><td>单一最大客户</td><td>估计 Microsoft</td><td>~40–45%</td></tr><tr><td>其他 hyperscaler + Nvidia</td><td></td><td>~30%</td></tr><tr><td>Telecom + 其他</td><td></td><td>~10%</td></tr></tbody></table>
+<p><strong>CRDO 的极端单客户依赖</strong>：Microsoft + Meta = 60%+ 已是 10-K 公开数据。</p>
+<h3 id="技术路线颠覆风险">技术路线颠覆风险</h3>
+<table><thead><tr><th>风险</th><th>影响</th></tr></thead><tbody><tr><td><strong>AEC vs 光模块</strong>：长距 vs 短距路线竞争</td><td>AEC 在 &lt; 7m 距离占优；CPO 普及后短距优势减弱</td></tr><tr><td><strong>NVLink Fusion</strong></td><td>同 ALAB</td></tr><tr><td><strong>Microsoft 切换</strong></td><td>一旦 MSFT 切到 Broadcom 或自研 → CRDO 营收腰斩</td></tr><tr><td><strong>PAM4 → PAM6 / Coherent-Lite</strong></td><td>协议演进可能不利于 CRDO 当前产品</td></tr></tbody></table>
+<h3 id="加到-crdomd-的建议章节">加到 CRDO.md 的建议章节</h3>
+<pre><code>## 客户集中度（2026-05-19 估算）
+
+- **Microsoft + Meta 合计**：~60%+（已披露 10-K）
+- 单一最大客户（推断 MSFT）：~40–45%
+- 其他 hyperscaler + Nvidia：~30%
+
+**极端集中**：top-2 客户合计 60%+ → 单一客户切换 = 公司估值腰斩。
+
+## 技术路线颠覆风险
+
+- **AEC vs CPO**：CPO 普及后 AEC 短距优势减弱
+- **NVLink Fusion**（同 ALAB）
+- **Microsoft 切换合作伙伴**：核心 thesis 单点失败风险</code></pre>
+<hr />
+<h2 id="7-mu-micron">7. MU — Micron</h2>
+<h3 id="客户集中度">客户集中度</h3>
+<table><thead><tr><th>来源</th><th>客户</th><th>营收占比估算</th></tr></thead><tbody><tr><td>HBM 业务 → Nvidia 占绝对主力</td><td>Nvidia</td><td>HBM 营收 <strong>70%+</strong> 来自 Nvidia</td></tr><tr><td>HBM 业务 → AMD</td><td>AMD MI300/400</td><td>~15%</td></tr><tr><td>HBM 业务 → 自研 ASIC</td><td>AWS/Google/Meta</td><td>~10%</td></tr><tr><td>DRAM 主业</td><td>手机 + PC + 服务器 多元化</td><td>整体 60% 营收</td></tr><tr><td>NAND</td><td>数据中心 SSD + 消费</td><td>整体 35% 营收</td></tr></tbody></table>
+<p><strong>关键</strong>：MU HBM 业务（FY26 营收占比 30%+）<strong>70%+ 来自 Nvidia 一家</strong>。</p>
+<h3 id="技术路线颠覆风险">技术路线颠覆风险</h3>
+<table><thead><tr><th>风险</th><th>影响</th><th>时间窗</th></tr></thead><tbody><tr><td><strong>🔴 算法范式转移</strong></td><td>MoE / 线性注意力 / 3D DRAM / PIM 任一商用 → HBM 需求曲线弯折</td><td>2027–2030</td></tr><tr><td><strong>Nvidia 自研内存或切换主要 HBM 供应商</strong></td><td>MU HBM 业务 30%+ 营收风险</td><td>持续</td></tr><tr><td><strong>HBM4E TSMC 逻辑芯片合作</strong></td><td>良率 / 成本不达预期 → MU 失去差异化</td><td>2026–2027</td></tr><tr><td><strong>CXMT 国产替代</strong></td><td>短期影响小，长期挤压 HBM3 价格</td><td>2028+</td></tr><tr><td><strong>DRAM 周期反转</strong></td><td>2027–2028 供需可能转过剩</td><td>2027–2028</td></tr></tbody></table>
+<h3 id="加到-mumd-的建议章节">加到 MU.md 的建议章节</h3>
+<pre><code>## 客户集中度（2026-05-19 估算）
+
+- HBM 业务 70%+ 来自 Nvidia 一家
+- HBM 整体占 MU FY26 营收 30%+
+- DRAM 主业 + NAND 仍多元化（手机 + PC + 服务器 + SSD）
+
+**核心风险**：Nvidia HBM 供应商切换或自研 = MU HBM 业务 30%+ 风险敞口
+
+## 技术路线颠覆风险
+
+- **算法范式**（最严重）：MoE / 线性注意力 / 3D DRAM / PIM 商用化 → HBM 需求曲线弯折
+- **TSMC HBM4E 逻辑芯片良率**：MU 差异化关键
+- **CXMT 国产 HBM3 突破**：长期价格压力
+- **DRAM 周期 2027–2028 反转**：见估值框架 mid-cycle EPS 部分</code></pre>
+<hr />
+<h2 id="8-glw-corning">8. GLW — Corning</h2>
+<h3 id="客户集中度">客户集中度</h3>
+<table><thead><tr><th>来源</th><th>客户 / 类别</th><th>营收占比</th></tr></thead><tbody><tr><td><strong>Apple Gorilla Glass + Ceramic Shield</strong></td><td>Apple</td><td>~15–20%（已披露 &gt;10% 客户）</td></tr><tr><td>Display Tech（中国/韩国面板厂）</td><td>BOE / Samsung Display / LG Display</td><td>~30%</td></tr><tr><td>Optical Comm（光纤）</td><td>Verizon / AT&amp;T / 数据中心</td><td>~30%</td></tr><tr><td>Environmental（汽车催化剂载体）</td><td>全球汽车厂</td><td>~10%</td></tr><tr><td>Specialty / Life Sciences</td><td>多元化</td><td>~10%</td></tr></tbody></table>
+<h3 id="技术路线颠覆风险">技术路线颠覆风险</h3>
+<table><thead><tr><th>风险</th><th>影响</th></tr></thead><tbody><tr><td><strong>Apple 切换 Gorilla Glass 供应商</strong>（理论）</td><td>影响 15% 营收，但 Corning 30 年合作护城河深</td></tr><tr><td><strong>OLED → MicroLED 切换</strong></td><td>Display Tech 玻璃基板需求曲线裂变</td></tr><tr><td><strong>数据中心光纤需求曲线</strong></td><td>受 hyperscaler capex 直接驱动</td></tr><tr><td><strong>生物玻璃 / Life Sciences</strong></td><td>增速慢，对总营收贡献有限</td></tr></tbody></table>
+<h3 id="加到-glwmd-的建议章节">加到 GLW.md 的建议章节</h3>
+<pre><code>## 客户集中度（2026-05-19 估算）
+
+- Apple：~15–20%（已披露 &gt;10% 客户）
+- 面板厂（BOE / Samsung Display / LG）：~30%
+- 光纤 + Telecom：~30%
+- 汽车 + 其他：~20%
+
+## 技术路线颠覆风险
+
+- **OLED → MicroLED**：长期可能改变玻璃基板需求结构
+- **Apple Ceramic Shield 替代**：30 年合作护城河 + 良率优势 → 短期可控
+- **数据中心光纤 vs CPO 内连**：长距光纤需求不受 CPO 影响</code></pre>
+<hr />
+<h2 id="后续要补的客户集中度数据">后续要补的客户集中度数据</h2>
+<p>每只 ticker 应该在下次财报后，从 10-K Item 1A + Item 7 + earnings call 抓三组数据：</p>
+<ol>
+<li><strong>&gt;10% 客户披露</strong>（10-K Item 1A 强制披露）</li>
+<li><strong>Geographic concentration</strong>（美国 / 欧洲 / 中国 / 其他）</li>
+<li><strong>End-market concentration</strong>（hyperscaler / enterprise / telecom / industrial）</li>
+</ol>
+<h3 id="跟踪频率">跟踪频率</h3>
+<ul>
+<li>单一 &gt;10% 客户：季度跟踪（财报后 1 周内）</li>
+<li>整体地理 / 端市场结构：年度跟踪（10-K 出来后 2 周内）</li>
+</ul>
+<h2 id="免责">免责</h2>
+<p>数据基于公开来源 + 行业研究 + 推断，需要从 10-K 验证。不构成投资建议。</p>
+      </article>
+      <aside class="doc-sidebar">
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">文档导航</h3>
+          <ul class="toc-list"><li><a href="#总览8-只持仓共同的客户技术依赖">总览：8 只持仓共同的客户/技术依赖</a></li><li><a href="#1-vrt-vertiv">1. VRT — Vertiv</a></li><li style="padding-left:14px"><a href="#客户集中度">客户集中度</a></li><li style="padding-left:14px"><a href="#技术路线颠覆风险cponvlink-不直接影响-vrt但有其他风险">技术路线颠覆风险（CPO/NVLink 不直接影响 VRT，但有其他风险）</a></li><li style="padding-left:14px"><a href="#加到-vrtmd-的建议章节">加到 VRT.md 的建议章节</a></li><li><a href="#客户集中度2026-05-19-估算">客户集中度（2026-05-19 估算）</a></li><li><a href="#技术路线颠覆风险">技术路线颠覆风险</a></li><li><a href="#2-mrvl-marvell">2. MRVL — Marvell</a></li><li style="padding-left:14px"><a href="#客户集中度-2">客户集中度</a></li><li style="padding-left:14px"><a href="#技术路线颠覆风险-2">技术路线颠覆风险</a></li><li style="padding-left:14px"><a href="#加到-mrvlmd-的建议章节">加到 MRVL.md 的建议章节</a></li><li><a href="#客户集中度2026-05-19-估算-2">客户集中度（2026-05-19 估算）</a></li><li><a href="#技术路线颠覆风险-3">技术路线颠覆风险</a></li><li><a href="#3-cohr-coherent">3. COHR — Coherent</a></li></ul>
+        </section>
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">阅读提示</h3>
+          <ul class="summary-list">
+            <li><span class="summary-label">先看什么</span><span class="summary-value">先读一段话结论，再看表格和风险点。</span></li>
+            <li><span class="summary-label">适合用途</span><span class="summary-value">复盘、比较、回查研究底稿。</span></li>
+            <li><span class="summary-label">建议动作</span><span class="summary-value">如果文档内容改变了 thesis，再回到候选池或组合页更新判断。</span></li>
+          </ul>
+        </section>
+      </aside>
+    </div>
+    <div class="footer">该页面由 Markdown 自动生成。原始文件：notes/2026-05-19-customer-concentration-and-tech-disruption.md</div>
+  </div>
+  </div>
+</body>
+</html>

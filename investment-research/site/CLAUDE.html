@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CLAUDE</title>
+  <link rel="stylesheet" href="_assets/style.css" />
+</head>
+<body>
+  <div class="site-shell">
+  <div class="page">
+    <div class="topbar">
+      <div class="nav-cluster">
+        <a class="back" href="index.html">← 返回投研首页</a>
+        <a class="nav-link secondary" href="all-docs.html">全部文档</a>
+      </div>
+      <div class="nav-cluster">
+        <a class="home-link" href="notes.html">Notes</a>
+        <a class="home-link" href="candidates.html">Candidates</a>
+        <a class="home-link" href="tickers.html">Tickers</a>
+      </div>
+    </div>
+    <section class="hero">
+      <div class="doc-header-grid">
+        <div>
+          <div class="eyebrow">root</div>
+          <h1>CLAUDE</h1>
+          <p>仓库入口与使用说明。</p>
+          <div class="meta-row">
+            <span class="pill">CLAUDE.md</span>
+            <span class="pill">84 words</span>
+            <span class="pill">5 sections</span>
+          </div>
+        </div>
+        <div class="doc-stat-stack">
+          <div class="doc-stat">
+            <div class="doc-stat-label">Document Type</div>
+            <div class="doc-stat-value">Root</div>
+          </div>
+          <div class="doc-stat">
+            <div class="doc-stat-label">Reading Mode</div>
+            <div class="doc-stat-value">Research Memo</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="doc-layout">
+      <article class="doc doc-main">
+<h1 id="investment-research-工作纪律">investment-research · 工作纪律</h1>
+<blockquote>跨项目纪律见 <a href="CLAUDE.html"><code>../CLAUDE.md</code></a>。本文件只补<strong>投研特有</strong>的。 目录结构 / 日更流程见 <a href="README.html"><code>README.md</code></a>；agent 提示词见 <a href="agents"><code>agents/</code></a>。 姊妹版 <code>../investment-research-2007-apple/</code> 是互补不替代，重叠 ticker 两边都要更新、互不覆盖。</blockquote>
+<h2 id="数据不臆造知识截止-2026-01">数据：不臆造，知识截止 2026-01</h2>
+<ul>
+<li>价格、市值、财务数据——<strong>不凭空造</strong>。2026-02 之后的事实必须 WebSearch 拉 + 引用来源（URL / 季报页码）。</li>
+<li>估值不确定 → 标「(待核实)」，不要装确信。</li>
+<li>改了 <code>tickers/&lt;T&gt;.md</code> 的估值/市值 → 跑 <code>scripts/audit_notes.py</code> 查陈旧；改了导航/生成页 → 跑 <code>scripts/build_html_site.py</code>。</li>
+</ul>
+<h2 id="账户硬约束来自-memory">账户硬约束（来自 memory）</h2>
+<ul>
+<li><strong>不能做期权</strong>。任何对冲方案排除 put / call，只能用成分管理 + 现金（见 <code>no-options-trading</code>）。</li>
+<li>组合真实风险对象是<strong>半导体周期不是大盘</strong>：betaSOXX 0.89 / betaSPY 2.31。风险讨论锚定 SOXX（见 <code>portfolio-soxx-factor-risk</code>）。</li>
+</ul>
+<h2 id="表达纪律">表达纪律</h2>
+<ul>
+<li>不给「目标价」「建议买入/卖出」——给的是<strong>论点变化 + 可选动作 + 三档情景（悲观/基准/乐观）IRR</strong>。</li>
+<li>持仓状态只在 <code>portfolios/</code> 记，研究记录不等于持仓记录，避免双源真相。</li>
+</ul>
+<h2 id="环境">环境</h2>
+<pre><code>python3 -m venv .venv
+.venv/bin/pip install -r scripts/requirements.txt
+.venv/bin/python scripts/fetch_quotes.py</code></pre>
+<h2 id="提交-scope">提交 scope</h2>
+<ul>
+<li>用 <code>docs(investment): ...</code>，<strong>不要</strong>和嵌入式 / iOS 改动混进同一个 commit 或 branch。</li>
+</ul>
+      </article>
+      <aside class="doc-sidebar">
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">文档导航</h3>
+          <ul class="toc-list"><li><a href="#数据不臆造知识截止-2026-01">数据：不臆造，知识截止 2026-01</a></li><li><a href="#账户硬约束来自-memory">账户硬约束（来自 memory）</a></li><li><a href="#表达纪律">表达纪律</a></li><li><a href="#环境">环境</a></li><li><a href="#提交-scope">提交 scope</a></li></ul>
+        </section>
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">阅读提示</h3>
+          <ul class="summary-list">
+            <li><span class="summary-label">先看什么</span><span class="summary-value">先读一段话结论，再看表格和风险点。</span></li>
+            <li><span class="summary-label">适合用途</span><span class="summary-value">复盘、比较、回查研究底稿。</span></li>
+            <li><span class="summary-label">建议动作</span><span class="summary-value">如果文档内容改变了 thesis，再回到候选池或组合页更新判断。</span></li>
+          </ul>
+        </section>
+      </aside>
+    </div>
+    <div class="footer">该页面由 Markdown 自动生成。原始文件：CLAUDE.md</div>
+  </div>
+  </div>
+</body>
+</html>

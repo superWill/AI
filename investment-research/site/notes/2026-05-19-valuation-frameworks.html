@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2026 05 19 valuation frameworks</title>
+  <link rel="stylesheet" href="../_assets/style.css" />
+</head>
+<body>
+  <div class="site-shell">
+  <div class="page">
+    <div class="topbar">
+      <div class="nav-cluster">
+        <a class="back" href="../index.html">← 返回投研首页</a>
+        <a class="nav-link secondary" href="../all-docs.html">全部文档</a>
+      </div>
+      <div class="nav-cluster">
+        <a class="home-link" href="../notes.html">Notes</a>
+        <a class="home-link" href="../candidates.html">Candidates</a>
+        <a class="home-link" href="../tickers.html">Tickers</a>
+      </div>
+    </div>
+    <section class="hero">
+      <div class="doc-header-grid">
+        <div>
+          <div class="eyebrow">notes</div>
+          <h1>2026-05-19-valuation-frameworks</h1>
+          <p>市场、公司或主题研究的阶段性结论。</p>
+          <div class="meta-row">
+            <span class="pill">notes/2026-05-19-valuation-frameworks.md</span>
+            <span class="pill">271 words</span>
+            <span class="pill">27 sections</span>
+          </div>
+        </div>
+        <div class="doc-stat-stack">
+          <div class="doc-stat">
+            <div class="doc-stat-label">Document Type</div>
+            <div class="doc-stat-value">Notes</div>
+          </div>
+          <div class="doc-stat">
+            <div class="doc-stat-label">Reading Mode</div>
+            <div class="doc-stat-value">Research Memo</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="doc-layout">
+      <article class="doc doc-main">
+<hr />
+<p>date: 2026-05-19 type: valuation-methodology status: draft applies_to: [IBM, MU, VRT, GEV, GLW]</p>
+<hr />
+<h1 id="估值方法多元化-跳出单一-pe-视角">估值方法多元化 —— 跳出单一 PE 视角</h1>
+<blockquote>起因：研究 gap audit P0 第一条 —— 整组合都用 TTM / Forward PE / P/S， 对周期股（MU/SNDK）、平台型转型公司（IBM）、高 capex 增长股（VRT/GEV）都会失灵。  本文为 IBM / MU / VRT / GEV / GLW 五只核心持仓建立可重复的估值框架。 同时输出可直接挪到 <code>tickers/&lt;TICKER&gt;.md</code> &quot;估值锚&quot;章节的更新内容。</blockquote>
+<hr />
+<h2 id="一ibm-sum-of-the-partssotp">一、IBM —— Sum-of-the-Parts（SOTP）</h2>
+<h3 id="为什么必须-sotp">为什么必须 SOTP</h3>
+<p>IBM 是异质业务组合，混合 PE 无意义：</p>
+<ul>
+<li><strong>咨询（Consulting）</strong>：低增速、低毛利、人月密集 → 给 IT 服务 multiple</li>
+<li><strong>软件（Software）含 Red Hat</strong>：高毛利、订阅经常性收入 → 给 SaaS multiple</li>
+<li><strong>基础设施（Infrastructure）含大型机</strong>：周期性现金牛 → 给硬件 / 价值股 multiple</li>
+<li><strong>量子（Quantum）</strong>：option value，不在当前 EPS 中</li>
+</ul>
+<p>直接对 IBM 用 Forward PE 16.78 是把这四块&quot;按等权混合&quot;，不反映真实价值。</p>
+<h3 id="分部数据2025-fy-口径">分部数据（2025 FY 口径）</h3>
+<blockquote>⚠️ 数据需要从 IBM 2025 10-K Segment Information 章节精确填入；下表是模型骨架。</blockquote>
+<table><thead><tr><th>分部</th><th>营收 (2025E)</th><th>Op Income</th><th>Op Margin</th><th>EBITDA 估算</th><th>YoY 增长</th></tr></thead><tbody><tr><td>Software (含 Red Hat)</td><td>~$27B</td><td>~$8.5B</td><td>~31%</td><td>~$10B</td><td>9–11%</td></tr><tr><td>Consulting</td><td>~$22B</td><td>~$2.4B</td><td>~11%</td><td>~$2.8B</td><td>3–4%</td></tr><tr><td>Infrastructure</td><td>~$13B</td><td>~$2.5B</td><td>~19%</td><td>~$3.5B</td><td>0–5%（周期）</td></tr><tr><td>Financing + Other</td><td>~$2B</td><td>~$0.3B</td><td>—</td><td>~$0.4B</td><td>持平</td></tr><tr><td><strong>合计</strong></td><td><strong>~$64B</strong></td><td><strong>~$13.7B</strong></td><td><strong>~21%</strong></td><td><strong>~$16.7B</strong></td><td>—</td></tr></tbody></table>
+<h3 id="sotp-估值">SOTP 估值</h3>
+<table><thead><tr><th>分部</th><th>应用 multiple</th><th>估值方法</th><th>EV</th></tr></thead><tbody><tr><td>Software (Red Hat)</td><td>18–22x EBITDA</td><td>类比 Microsoft、SAP、ADBE 软件分部</td><td>$180–220B</td></tr><tr><td>Consulting</td><td>6–8x EBITDA</td><td>类比 ACN、INFY</td><td>$17–22B</td></tr><tr><td>Infrastructure</td><td>4–6x EBITDA</td><td>类比 HPE、DELL</td><td>$14–21B</td></tr><tr><td>Financing</td><td>净资产 / 1.0x book</td><td>—</td><td>$5B</td></tr><tr><td><strong>EV 合计（业务）</strong></td><td>—</td><td>—</td><td><strong>$216–268B</strong></td></tr><tr><td>减：净债务（含养老金）</td><td></td><td>~$50B</td><td></td></tr><tr><td><strong>股权价值（不含量子）</strong></td><td></td><td></td><td><strong>$166–218B</strong></td></tr><tr><td>加：<strong>量子 Option Value</strong></td><td>见下</td><td></td><td>$20–80B</td></tr><tr><td><strong>股权价值（含量子）</strong></td><td></td><td></td><td><strong>$186–298B</strong></td></tr></tbody></table>
+<p>当前市值 <strong>$212B</strong> 落在区间 $186–298B 的 <strong>下沿偏中</strong> — 软件分部以下基本被 price in， <strong>量子完全没 price in</strong>。</p>
+<h3 id="量子-option-value-测算">量子 Option Value 测算</h3>
+<p>不能用 NPV，应该用期权框架（Black-Scholes-like 思路）：</p>
+<ul>
+<li><strong>底层资产</strong>：2030 容错量子计算市场（TAM 估 $50–150B）</li>
+<li><strong>行权概率</strong>：IBM 在超导路线上保持 1/3 市占 = 30–40%</li>
+<li><strong>行权价</strong>：技术成熟 + 商业化 → 时间窗 2028–2032</li>
+<li><strong>波动率</strong>：极高 → 期权时间价值大</li>
+</ul>
+<p>简化测算：</p>
+<pre><code>量子 Option Value ≈ P(技术成功) × P(IBM 胜出) × 折现后市值贡献
+                ≈ 50% × 30% × $300B（10 年后量子业务市值假设）/ 折现因子 1.5
+                ≈ $30B</code></pre>
+<p>合理区间 <strong>$20–80B</strong>，取中位数 <strong>$45B</strong>。</p>
+<h3 id="单股估值结论替代当前-tickermd-估值锚章节">单股估值结论（替代当前 ticker.md &quot;估值锚&quot;章节）</h3>
+<pre><code>SOTP 公允股权价值：$186B（看跌）/ $250B（中性）/ $298B（看涨）
+对应每股价格：$200 / $265 / $315
+当前价 $225.74：定价在看跌中位数附近
+量子 option value $45B = 每股 $48 = 21% 上行空间未被 price in</code></pre>
+<p>如果你信&quot;量子真的会在 2030 成熟 + IBM 不会输给 Google/Microsoft&quot;， SOTP 公允 = <strong>$265+</strong>，当前价格隐含的概率约 30%。</p>
+<h3 id="反向证伪">反向证伪</h3>
+<ul>
+<li>如果量子优势演示在 2026 Q4 失败 → option value 砍到 $10B → 公允 $230</li>
+<li>如果 Red Hat 增速跌到 5% 以下 → Software 估值砍 20% → 公允 $190</li>
+<li>如果 Consulting 进入衰退（GenAI 替代）→ Consulting 估值砍 30% → 公允 $215</li>
+</ul>
+<p>→ 安全边际 = $215（最坏情况下的&quot;地板&quot;）vs 当前价 $225 ≈ −4.5%</p>
+<p><strong>这就是为什么 IBM 现在是&quot;看跌情境内的安全边际&quot;买入</strong> — 但安全边际不大。</p>
+<hr />
+<h2 id="二mu-mid-cycle-eps-supply-demand">二、MU —— Mid-Cycle EPS + Supply-Demand</h2>
+<h3 id="为什么必须用-mid-cycle-而非-forward-eps">为什么必须用 mid-cycle 而非 Forward EPS</h3>
+<p>MU Forward PE 7.13 看起来便宜，但<strong>前提是 FY26 EPS 兑现</strong>。 内存周期 30 年来 5 次崩盘，每次峰值 EPS 在 12–24 个月内被腰斩。</p>
+<p>正确估值框架：</p>
+<pre><code>Fair Value = Mid-Cycle EPS × Cycle-Adjusted Multiple</code></pre>
+<h3 id="mid-cycle-eps-测算">Mid-Cycle EPS 测算</h3>
+<p>取过去 3 个完整周期峰值 EPS 平均的 50–60%：</p>
+<table><thead><tr><th>周期</th><th>峰值年</th><th>峰值 EPS</th><th>谷底年</th><th>谷底 EPS</th></tr></thead><tbody><tr><td>2014 周期</td><td>FY15</td><td>$2.47</td><td>FY16</td><td>$0.06</td></tr><tr><td>2017 周期</td><td>FY18</td><td>$11.95</td><td>FY19</td><td>$6.35</td></tr><tr><td>2021 周期</td><td>FY22</td><td>$8.35</td><td>FY23</td><td>$(4.45)</td></tr><tr><td>2024 AI 周期</td><td>FY26E</td><td>~$15-22</td><td>—</td><td>—</td></tr></tbody></table>
+<p><strong>Mid-cycle EPS 估算</strong>：</p>
+<pre><code>平均峰值 EPS（2018/22/26）= ($11.95 + $8.35 + $18) / 3 = ~$13
+平均周期低点 EPS = ~$1.5（含一年大幅亏损）
+真实 mid-cycle = (Peak + Trough) / 2 = ~$7
+                                       或
+真实 mid-cycle = Peak × 0.5 = ~$6.5</code></pre>
+<p><strong>但 AI 周期&quot;半超级周期&quot;假设</strong>：</p>
+<ul>
+<li>如果 HBM TAM 从 $35B → $100B（2028）且寡头格局维持</li>
+<li>三家分（SK 50% / Samsung 25% / MU 25%）→ MU HBM 营收 $25B（vs FY26 ~$10B）</li>
+<li>即使 DRAM 主业回到 mid-cycle，HBM 增量带来 +$2–3 EPS 的&quot;floor lift&quot;</li>
+</ul>
+<p><strong>调整后 mid-cycle EPS = $9–10</strong></p>
+<h3 id="cycle-adjusted-multiple">Cycle-Adjusted Multiple</h3>
+<p>存储股历史 mid-cycle PE 通常 10–14x：</p>
+<table><thead><tr><th>情境</th><th>EPS</th><th>Multiple</th><th>公允股价</th></tr></thead><tbody><tr><td>周期回到 2018/22 历史路径</td><td>$7</td><td>10x</td><td><strong>$70</strong></td></tr><tr><td>AI 半超级周期成立</td><td>$9–10</td><td>12x</td><td><strong>$108–120</strong></td></tr><tr><td>完整科技股重估</td><td>$10</td><td>18x</td><td><strong>$180</strong></td></tr><tr><td>Forward EPS 兑现且无回调</td><td>$20</td><td>8x</td><td>$160</td></tr></tbody></table>
+<p>当前价 <strong>$666</strong>？？？数据有偏差，参考 MU.md 的 $666.59 应该是 split-adjusted 错误， 按官方 2025 财报 actual EPS 推算合理范围应该是百元数量级。 <strong>TODO</strong>：在本地用 yfinance 验证 MU 当前股价，更新此模型。</p>
+<h3 id="supply-demand-平衡表hbm-专项">Supply-Demand 平衡表（HBM 专项）</h3>
+<table><thead><tr><th>年份</th><th>全球 HBM 产能 (Gb wafer/m)</th><th>需求估算</th><th>缺口</th></tr></thead><tbody><tr><td>2024</td><td>~280K</td><td>~280K</td><td>平衡</td></tr><tr><td>2025</td><td>~480K</td><td>~520K</td><td>短缺 7%</td></tr><tr><td>2026</td><td>~720K</td><td>~780K</td><td>短缺 7%</td></tr><tr><td>2027</td><td>~1,000K</td><td>~1,000K</td><td>平衡</td></tr><tr><td>2028</td><td>~1,300K</td><td>~1,150K</td><td><strong>过剩 11%</strong></td></tr></tbody></table>
+<blockquote>数据是行业研究机构（TrendForce / DRAMeXchange）口径粗略估算。 需要在你的 dashboards 里加这张表的活数据 pipeline。</blockquote>
+<p><strong>关键判断</strong>：2027–2028 供应可能赶上需求 → ASP 见顶 → MU EPS 见顶。 现在 7x Forward PE 看似便宜，但市场可能已预期 FY27 EPS 同比转负。</p>
+<h3 id="单股估值结论替代当前-tickermd-估值锚章节">单股估值结论（替代当前 ticker.md &quot;估值锚&quot;章节）</h3>
+<pre><code>Mid-cycle EPS：$9–10
+公允 PE：12–14x
+公允股价：$110–140（如按拆股后均价）
+                  vs
+完整科技股重估（PE 18x）：$180
+
+仓位逻辑：
+- 当前已涨过 mid-cycle 公允的中位数 → 不是&quot;便宜&quot;，是&quot;市场已开始定价半超级周期&quot;
+- 安全边际取决于&quot;半超级周期是否真的成立&quot; = 取决于 HBM TAM 2028 是否破 $100B
+- 一旦 2027 供需平衡反转 → ASP 下行 → 股价快速回到 mid-cycle 公允</code></pre>
+<h3 id="反向证伪信号">反向证伪信号</h3>
+<ul>
+<li>HBM3E 现货价 YoY 转负 → 第一警报</li>
+<li>TSMC HBM4E 逻辑芯片量产推迟到 2028+ → 良率问题暴露</li>
+<li>CXMT 在 HBM3 突破（国产替代提速）→ 长期格局裂变</li>
+<li>出现&quot;算法范式转移&quot;信号（MoE / 线性注意力 / 3D DRAM 商用化）</li>
+</ul>
+<hr />
+<h2 id="三reverse-dcf-vrt-gev-glw">三、Reverse DCF —— VRT / GEV / GLW</h2>
+<h3 id="为什么用-reverse-dcf-而非-forward-dcf">为什么用 Reverse DCF 而非 Forward DCF</h3>
+<p>Forward DCF 需要你预测 5–10 年增长率、margin、capex —— 输入误差 ±20% 会让估值 ±100%。 <strong>Reverse DCF 反过来</strong>：给定当前股价，市场隐含的 5/10 年增长率是多少？ 如果隐含数字过于乐观或悲观，就有 alpha。</p>
+<h3 id="模型框架通用">模型框架（通用）</h3>
+<pre><code>Current Price = Σ [FCFt / (1+r)^t] + Terminal Value / (1+r)^N
+
+简化：
+FCFt = FCF0 × (1+g)^t
+Terminal Value = FCF_N × (1+g_terminal) / (r - g_terminal)
+
+输入：
+- r = WACC = 9% (高 beta 股可上调到 11–12%)
+- g_terminal = 3% (永续增长 = 名义 GDP)
+- N = 10 年显式预测期
+- FCF0 = TTM FCF</code></pre>
+<h3 id="vrt-reverse-dcf">VRT — Reverse DCF</h3>
+<p><strong>输入</strong>：</p>
+<ul>
+<li>FCF0 (TTM) = ~$1.2B（待用 IR 数据精确填）</li>
+<li>当前市值 = ~$137.9B</li>
+<li>WACC = 11%（beta 1.7 + 高估值）</li>
+<li>永续增长 = 3%</li>
+</ul>
+<p><strong>反推</strong>：需要多大的 10 年 FCF CAGR 才能匹配当前估值？</p>
+<pre><code>$137.9B = $1.2B × Σ (1.X)^t / (1.11)^t [for t=1..10]
+        + $1.2B × (1.X)^10 × 1.03 / (0.11 - 0.03) / 1.11^10
+
+解出 X ≈ 27%/年</code></pre>
+<p><strong>市场隐含</strong>：VRT 未来 10 年 FCF CAGR <strong>~27%</strong>。</p>
+<p><strong>对照管理层指引</strong>：VRT 2025 营收增长 30%+，但增长率不可能保持 10 年。 合理增长曲线：</p>
+<ul>
+<li>Y1–3：30% × 3 = +120% accumulated</li>
+<li>Y4–6：20% × 3 = +73%</li>
+<li>Y7–10：10% × 4 = +46%</li>
+<li><strong>混合 CAGR ≈ 19%</strong></li>
+</ul>
+<p>市场隐含 27% vs 合理建模 19% → <strong>VRT 已 price in 比合理乐观情景更激进的增长</strong>。</p>
+<p><strong>结论</strong>：估值已透支 ~30%（即如果 thesis 完美兑现，公允估值 ~$96B）。</p>
+<h3 id="gev-reverse-dcf">GEV — Reverse DCF</h3>
+<p><strong>输入</strong>：</p>
+<ul>
+<li>FCF0 (TTM) = ~$2B</li>
+<li>当前市值 = $300.7B（v1 笔记勘误后）</li>
+<li>但 backlog $300B+ 锁到 2030+</li>
+</ul>
+<p><strong>反推</strong>：</p>
+<pre><code>GEV 隐含 10 年 FCF CAGR ≈ 22–25%（粗略）</code></pre>
+<p><strong>对照</strong>：</p>
+<ul>
+<li>backlog 显示未来 5 年营收锁定，但 backlog → FCF 转化率取决于：</li>
+<li>合同结构（fixed-price 还是 cost-plus）</li>
+<li>Services &amp; TSI 业务的高毛利占比</li>
+<li>capex 投入（新工厂、电网设备扩产）</li>
+</ul>
+<p><strong>关键缺数据</strong>：GEV backlog 的 fixed-price / cost-plus 拆分。需要从最近一份 10-Q segment notes 抓。</p>
+<h3 id="glw-reverse-dcf">GLW — Reverse DCF</h3>
+<p><strong>输入</strong>：</p>
+<ul>
+<li>FCF0 (TTM) = ~$1.5B（估算）</li>
+<li>当前市值 = $156.3B</li>
+<li>业务异质（display / optical / specialty / environmental / life sciences）</li>
+</ul>
+<p><strong>SOTP 比 Reverse DCF 更合适</strong>：</p>
+<table><thead><tr><th>分部</th><th>营收占比</th><th>应用 multiple</th><th>估值</th></tr></thead><tbody><tr><td>Display Tech</td><td>~30%</td><td>EV/EBITDA 6x（成熟）</td><td>~$25B</td></tr><tr><td>Optical Comm</td><td>~30%</td><td>EV/EBITDA 15x（AI 受益）</td><td>~$60B</td></tr><tr><td>Specialty Materials（Gorilla Glass）</td><td>~20%</td><td>EV/EBITDA 10x</td><td>~$25B</td></tr><tr><td>Environmental</td><td>~10%</td><td>EV/EBITDA 8x</td><td>~$10B</td></tr><tr><td>Life Sciences</td><td>~10%</td><td>EV/EBITDA 12x</td><td>~$15B</td></tr><tr><td><strong>合计 EV</strong></td><td></td><td></td><td><strong>~$135B</strong></td></tr><tr><td>减：净债务</td><td></td><td></td><td>~$5B</td></tr><tr><td><strong>股权价值</strong></td><td></td><td></td><td><strong>~$130B</strong></td></tr></tbody></table>
+<p>当前市值 $156B vs SOTP $130B → <strong>溢价 20%</strong> = 市场为&quot;光纤本土化 + AI DC 拉动&quot;叙事支付。</p>
+<p>如果回到 SOTP 公允 $130B → 股价回调 ~17%。</p>
+<p>这与 v2 portfolio 文档判断的 &quot;GLW 安全边际明显压缩&quot; 吻合。</p>
+<h3 id="单股估值更新建议">单股估值更新建议</h3>
+<p>把每只 ticker.md 的&quot;估值锚&quot;章节扩展为：</p>
+<pre><code>## 估值锚
+
+### 单一指标快照
+- TTM PE / Forward PE / P/S
+
+### 多元化估值（每季度刷新）
+- **EV/EBITDA**：X.X（同业中位数 Y.Y，溢价/折价 Z%）
+- **FCF Yield**：X.X%（10Y 实际利率 Y.Y%，spread W%）
+- **Reverse DCF 隐含 10y FCF CAGR**：X%（合理建模 Y%，差距 Z%）
+- **SOTP（如适用）**：$XXX–YYY → 当前 vs SOTP 中位数 +/− Z%
+- **Mid-cycle EPS（周期股）**：$X × PE Y = $Z 公允股价
+
+### 估值得分
+- 安全边际：最差情境地板 vs 当前价
+- 期权价值：未 price in 的可选权（如 IBM 量子）
+- 估值情绪：超买 / 中性 / 超卖</code></pre>
+<hr />
+<h2 id="四可执行-todo">四、可执行 TODO</h2>
+<ul>
+<li>[ ] <strong>本周内</strong>：把这份框架挪进 <code>tickers/IBM.md</code>、<code>tickers/MU.md</code>、<code>tickers/VRT.md</code>、<br /><code>tickers/GEV.md</code>、<code>tickers/GLW.md</code> 的估值锚章节</li>
+<li>[ ] <strong>下周</strong>：从 10-K segment information 抓真实分部数据，更新 IBM SOTP / GLW SOTP</li>
+<li>[ ] <strong>每月</strong>：跑一次 reverse DCF，把市场隐含的增长率写入跟踪</li>
+<li>[ ] <strong>数据 pipeline</strong>：scripts 加一个 <code>fetch_fundamentals.py</code>，抓 yfinance <code>info</code> 里的<br />EV、EBITDA、净债务、FCF，用于多元化估值</li>
+</ul>
+<h2 id="免责">免责</h2>
+<p>估值模型基于公开数据 + 简化假设，不构成投资建议。</p>
+      </article>
+      <aside class="doc-sidebar">
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">文档导航</h3>
+          <ul class="toc-list"><li><a href="#一ibm-sum-of-the-partssotp">一、IBM —— Sum-of-the-Parts（SOTP）</a></li><li style="padding-left:14px"><a href="#为什么必须-sotp">为什么必须 SOTP</a></li><li style="padding-left:14px"><a href="#分部数据2025-fy-口径">分部数据（2025 FY 口径）</a></li><li style="padding-left:14px"><a href="#sotp-估值">SOTP 估值</a></li><li style="padding-left:14px"><a href="#量子-option-value-测算">量子 Option Value 测算</a></li><li style="padding-left:14px"><a href="#单股估值结论替代当前-tickermd-估值锚章节">单股估值结论（替代当前 ticker.md &quot;估值锚&quot;章节）</a></li><li style="padding-left:14px"><a href="#反向证伪">反向证伪</a></li><li><a href="#二mu-mid-cycle-eps-supply-demand">二、MU —— Mid-Cycle EPS + Supply-Demand</a></li><li style="padding-left:14px"><a href="#为什么必须用-mid-cycle-而非-forward-eps">为什么必须用 mid-cycle 而非 Forward EPS</a></li><li style="padding-left:14px"><a href="#mid-cycle-eps-测算">Mid-Cycle EPS 测算</a></li><li style="padding-left:14px"><a href="#cycle-adjusted-multiple">Cycle-Adjusted Multiple</a></li><li style="padding-left:14px"><a href="#supply-demand-平衡表hbm-专项">Supply-Demand 平衡表（HBM 专项）</a></li><li style="padding-left:14px"><a href="#单股估值结论替代当前-tickermd-估值锚章节-2">单股估值结论（替代当前 ticker.md &quot;估值锚&quot;章节）</a></li><li style="padding-left:14px"><a href="#反向证伪信号">反向证伪信号</a></li></ul>
+        </section>
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">阅读提示</h3>
+          <ul class="summary-list">
+            <li><span class="summary-label">先看什么</span><span class="summary-value">先读一段话结论，再看表格和风险点。</span></li>
+            <li><span class="summary-label">适合用途</span><span class="summary-value">复盘、比较、回查研究底稿。</span></li>
+            <li><span class="summary-label">建议动作</span><span class="summary-value">如果文档内容改变了 thesis，再回到候选池或组合页更新判断。</span></li>
+          </ul>
+        </section>
+      </aside>
+    </div>
+    <div class="footer">该页面由 Markdown 自动生成。原始文件：notes/2026-05-19-valuation-frameworks.md</div>
+  </div>
+  </div>
+</body>
+</html>

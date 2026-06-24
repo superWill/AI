@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>peer comps</title>
+  <link rel="stylesheet" href="../_assets/style.css" />
+</head>
+<body>
+  <div class="site-shell">
+  <div class="page">
+    <div class="topbar">
+      <div class="nav-cluster">
+        <a class="back" href="../index.html">← 返回投研首页</a>
+        <a class="nav-link secondary" href="../all-docs.html">全部文档</a>
+      </div>
+      <div class="nav-cluster">
+        <a class="home-link" href="../notes.html">Notes</a>
+        <a class="home-link" href="../candidates.html">Candidates</a>
+        <a class="home-link" href="../tickers.html">Tickers</a>
+      </div>
+    </div>
+    <section class="hero">
+      <div class="doc-header-grid">
+        <div>
+          <div class="eyebrow">dashboards</div>
+          <h1>peer-comps</h1>
+          <p>持续跟踪的候选池、评分规则和日更日志。</p>
+          <div class="meta-row">
+            <span class="pill">dashboards/peer-comps.md</span>
+            <span class="pill">1057 words</span>
+            <span class="pill">15 sections</span>
+          </div>
+        </div>
+        <div class="doc-stat-stack">
+          <div class="doc-stat">
+            <div class="doc-stat-label">Document Type</div>
+            <div class="doc-stat-value">Dashboards</div>
+          </div>
+          <div class="doc-stat">
+            <div class="doc-stat-label">Reading Mode</div>
+            <div class="doc-stat-value">Research Memo</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="doc-layout">
+      <article class="doc doc-main">
+<hr />
+<p>date: 2026-05-19 type: peer-comparison status: draft-awaiting-validation window: 数据待用 scripts/fetch_quotes.py 校准至最新</p>
+<hr />
+<h1 id="同业横向对标表peer-comparison">同业横向对标表（Peer Comparison）</h1>
+<blockquote>起因：研究 gap audit P1 §7 —— 同主题股没做横向对比的 detailed peer comp。 资深 PM 看任何一个标的的第一动作就是建 5–7 家同业的可比表。  三张核心表：① AI 电力链 ② 光模块 ③ 存储 / HBM。 数据基准日 2026-05-07（与 portfolio v2 一致），后续用脚本周度刷新。</blockquote>
+<h2 id="数据列说明">数据列说明</h2>
+<p>每张表横向比较：</p>
+<table><thead><tr><th>列</th><th>含义</th><th>信号</th></tr></thead><tbody><tr><td>Mkt Cap</td><td>市值（USD eq）</td><td>规模</td></tr><tr><td>Rev (TTM)</td><td>过去 12 月营收</td><td>体量</td></tr><tr><td>Rev YoY</td><td>营收同比增速</td><td>加速度</td></tr><tr><td>Gross Margin</td><td>毛利率</td><td>定价权</td></tr><tr><td>Op Margin</td><td>经营利润率</td><td>运营效率</td></tr><tr><td>FCF Margin</td><td>自由现金流 / 营收</td><td>现金转化</td></tr><tr><td>Fwd PE</td><td>前瞻 PE</td><td>估值（盈利端）</td></tr><tr><td>EV/Sales</td><td>企业价值 / 营收</td><td>估值（营收端）</td></tr><tr><td>EV/EBITDA</td><td>企业价值 / EBITDA</td><td>估值（最常用对比）</td></tr><tr><td>Net Debt/EBITDA</td><td>净债务 / EBITDA</td><td>杠杆</td></tr><tr><td>ROIC</td><td>投入资本回报率</td><td>资本效率</td></tr><tr><td>Buyback Yield</td><td>年化回购占市值</td><td>资本回报</td></tr><tr><td>1y Return</td><td>一年股价回报</td><td>动量</td></tr></tbody></table>
+<hr />
+<h2 id="一ai-数据中心电力-冷却卖铲子主线">一、AI 数据中心电力 / 冷却（&quot;卖铲子&quot;主线）</h2>
+<table><thead><tr><th>公司</th><th>Ticker</th><th>Mkt Cap</th><th>Rev TTM</th><th>Rev YoY</th><th>Gross M</th><th>Op M</th><th>FCF M</th><th>Fwd PE</th><th>EV/Sales</th><th>EV/EBITDA</th><th>Net Debt/EBITDA</th><th>ROIC</th><th>Buyback Y</th><th>1y Ret</th></tr></thead><tbody><tr><td><strong>Vertiv</strong></td><td>VRT</td><td>$137.9B</td><td>~$10B</td><td>+30%</td><td>35%</td><td>18%</td><td>~10%</td><td><strong>41.67</strong></td><td>~14x</td><td>~32x</td><td>1.2x</td><td>22%</td><td>0.5%</td><td><strong>+281%</strong></td></tr><tr><td>Schneider Electric</td><td>SU.PA</td><td>€170B</td><td>€38B</td><td>+9%</td><td>40%</td><td>17%</td><td>~9%</td><td>~26</td><td>~5x</td><td>~18x</td><td>0.8x</td><td>17%</td><td>1.0%</td><td>+52%</td></tr><tr><td>Eaton</td><td>ETN</td><td>$163.6B</td><td>~$25B</td><td>+12%</td><td>38%</td><td>21%</td><td>~14%</td><td>~32</td><td>~7x</td><td>~22x</td><td>1.0x</td><td>17%</td><td>1.2%</td><td>+60%</td></tr><tr><td><strong>GE Vernova</strong></td><td>GEV</td><td>$300.7B</td><td>~$35B</td><td>+15%</td><td>22%</td><td>8%(↑)</td><td>~6%(↑)</td><td><strong>45.70</strong></td><td>~9x</td><td>~50x</td><td>0.3x</td><td>~10%</td><td>0.3%</td><td><strong>+200%+</strong></td></tr><tr><td>Bloom Energy</td><td>BE</td><td>$4–5B</td><td>~$1.5B</td><td>+20%</td><td>25%</td><td>−5%</td><td>−10%</td><td>n/a</td><td>~3x</td><td>n/m</td><td>1.5x</td><td>n/m</td><td>0%</td><td>+55%</td></tr><tr><td>Generac</td><td>GNRC</td><td>$8B</td><td>~$4B</td><td>+5%</td><td>32%</td><td>11%</td><td>8%</td><td>~22</td><td>~2x</td><td>~12x</td><td>2.0x</td><td>11%</td><td>1.5%</td><td>−10%</td></tr></tbody></table>
+<blockquote>数据混合公开报道 + 估算，需要用 fetch_quotes.py 和 IR 数据校准</blockquote>
+<h3 id="资深-pm-的观察">资深 PM 的观察</h3>
+<ol>
+<li><strong>VRT 估值显著高于 ETN / SU.PA</strong>（Fwd PE 42 vs 26–32）—— 反映纯 AI DC 暴露的溢价。<br />但 ROIC 22% vs ETN 17%、SU.PA 17% <strong>不足以解释 50%+ 的估值溢价</strong>。<br />→ <strong>风险</strong>：一旦 AI capex 减速，VRT 比 ETN/SU.PA 多出来的估值会先压回去。</li>
+</ol>
+<ol>
+<li><strong>GEV 是&quot;大象起跑&quot;</strong>：Op margin 从 5% → 8%+，每提升 1pp = $350M EBITDA。<br />Backlog $300B 锁未来 5 年。但 <strong>PE 45 是给完美执行打分</strong>，任何 backlog 履约延误就破。</li>
+</ol>
+<ol>
+<li><strong>配置建议</strong>：</li>
+</ol>
+<ul>
+<li>如果你已经持有 VRT 18%，再持 GEV 8% 是同主题加码 → 见相关性矩阵</li>
+<li><strong>ETN 是&quot;被忽略的同业&quot;</strong>：估值最便宜、margin 最高、ROIC 接近 VRT</li>
+<li>建议把 VRT 18% 砍到 12%，加 8% ETN 作为同主题分散</li>
+</ul>
+<h3 id="关键观察标的etn">关键观察标的：ETN</h3>
+<p>ETN 当前没在 portfolio v2 推荐里，但同业对比看可能比 VRT 更值得：</p>
+<ul>
+<li>Fwd PE 32 vs VRT 42（25% 折价）</li>
+<li>FCF Margin 14% vs VRT 10%（现金转化更强）</li>
+<li>Buyback Yield 1.2% vs VRT 0.5%（股东回报更直接）</li>
+<li>Beta 更低（防御性更好）</li>
+</ul>
+<p><strong>TODO</strong>：建议建一个 <code>tickers/ETN.md</code>，作为 VRT 的&quot;defensive sibling&quot;候选。</p>
+<hr />
+<h2 id="二光模块-光通信">二、光模块 / 光通信</h2>
+<table><thead><tr><th>公司</th><th>Ticker</th><th>Mkt Cap</th><th>Rev TTM</th><th>Rev YoY</th><th>Gross M</th><th>Op M</th><th>FCF M</th><th>Fwd PE</th><th>EV/Sales</th><th>EV/EBITDA</th><th>Net Debt/EBITDA</th><th>ROIC</th><th>Buyback Y</th><th>1y Ret</th></tr></thead><tbody><tr><td><strong>Coherent</strong></td><td>COHR</td><td>$64B</td><td>~$5.5B</td><td>+35%</td><td>34%</td><td>12%</td><td>~7%</td><td>_待填_</td><td>~12x</td><td>~30x</td><td>1.5x</td><td>8%</td><td>0%</td><td>+180%</td></tr><tr><td><strong>Lumentum</strong></td><td>LITE</td><td>$73.5B</td><td>~$2B</td><td>+120%</td><td>30%</td><td>8%</td><td>5%</td><td>_待填_</td><td>~36x</td><td>~80x</td><td>0.5x</td><td>5%</td><td>0%</td><td><strong>+1326%</strong></td></tr><tr><td>Fabrinet</td><td>FN</td><td>$20B</td><td>~$3B</td><td>+20%</td><td>14%</td><td>11%</td><td>8%</td><td>~30</td><td>~6x</td><td>~22x</td><td>net cash</td><td>18%</td><td>0%</td><td>+100%</td></tr><tr><td>Innolight</td><td>300308.SZ</td><td>_CN_</td><td>_CN_</td><td>+60%</td><td>35%</td><td>25%</td><td>18%</td><td>_待填_</td><td>_待填_</td><td>_待填_</td><td>net cash</td><td>30%+</td><td>0%</td><td>+250%</td></tr><tr><td>New H3C</td><td>002308.SZ</td><td>_CN_</td><td>_CN_</td><td>+50%</td><td>28%</td><td>18%</td><td>12%</td><td>_待填_</td><td>_待填_</td><td>_待填_</td><td>0</td><td>25%</td><td>1%</td><td>+200%</td></tr><tr><td><strong>Corning</strong></td><td>GLW</td><td>$156.3B</td><td>~$13B</td><td>+12%</td><td>32%</td><td>17%</td><td>12%</td><td><strong>44.92</strong></td><td>~12x</td><td>~25x</td><td>1.5x</td><td>13%</td><td>1.5%</td><td>+85%</td></tr></tbody></table>
+<h3 id="资深-pm-的观察">资深 PM 的观察</h3>
+<ol>
+<li><strong>LITE 一年涨 1326%</strong> —— v1 笔记勘误后已确认这是真涨幅。但 Fwd P/S <strong>~36x</strong> 是<br />&quot;完全没回过头&quot; 的 narrative 估值，<strong>任何利空都会带来 30–50% 回撤</strong>。</li>
+</ol>
+<ol>
+<li><strong>FN（Fabrinet）是被忽略的代工</strong>：毛利低（14%）但 ROIC 18%、净现金 0 杠杆、估值<br />仅 Fwd PE 30。是 COHR/LITE 上游&quot;无品牌但赚钱&quot;的隐性玩家。</li>
+</ol>
+<ol>
+<li><strong>中国厂（中际旭创 Innolight / 新易盛）毛利 + ROIC 显著高于美国厂</strong>：</li>
+</ol>
+<ul>
+<li>Innolight Gross 35% / ROIC 30%+</li>
+<li>COHR Gross 34% / ROIC 8%</li>
+<li><strong>结构性问题</strong>：中国厂的客户结构（Nvidia 国内分销 + 阿里腾讯）+ 成本结构（中国人工 + 设备折旧）让他们有&quot;先天&quot;利润优势</li>
+<li><strong>风险</strong>：但美国可能 2027–2028 对中国光模块加征关税或出口管制</li>
+</ul>
+<ol>
+<li><strong>COHR vs LITE 的核心区别</strong>：</li>
+</ol>
+<ul>
+<li>COHR 更分散（工业激光 + 国防 + 电信占 45%）</li>
+<li>LITE 90% 依赖光通信 + Apple VCSEL</li>
+<li>→ 周期下行时 COHR 更抗跌，但上涨速度也慢</li>
+</ul>
+<h3 id="配置建议光模块">配置建议（光模块）</h3>
+<ul>
+<li>当前 portfolio v2 持 COHR 8% — <strong>合理</strong></li>
+<li>LITE 已涨过头 ↓ 暂不加（v2 已 demote 到 watching ✓）</li>
+<li><strong>建议加 FN (Fabrinet) 3–4%</strong> 作为&quot;光模块代工&quot;暴露 — 估值便宜、净现金、ROIC 高</li>
+</ul>
+<hr />
+<h2 id="三存储-hbm">三、存储 / HBM</h2>
+<table><thead><tr><th>公司</th><th>Ticker</th><th>Mkt Cap</th><th>Rev TTM</th><th>Rev YoY</th><th>Gross M</th><th>Op M</th><th>FCF M</th><th>Fwd PE</th><th>EV/Sales</th><th>EV/EBITDA</th><th>Net Debt/EBITDA</th><th>ROIC</th><th>Buyback Y</th><th>1y Ret</th></tr></thead><tbody><tr><td><strong>Micron</strong></td><td>MU</td><td>$751.7B</td><td>~$85B(TTM)</td><td>+50%+</td><td>58%(↑)</td><td>35%(↑)</td><td>12%</td><td><strong>7.13</strong></td><td>~9x</td><td>~14x</td><td>0.5x</td><td>25%(peak)</td><td>0.3%</td><td><strong>+614%</strong></td></tr><tr><td><strong>SK Hynix</strong></td><td>000660.KS</td><td>$730B (USD eq)</td><td>~$120B</td><td>+60%+</td><td>70%(↑)</td><td>71%</td><td>30%</td><td><strong>4.78</strong></td><td>~6x</td><td>~7x</td><td>0.3x</td><td>35%(peak)</td><td>0.5%</td><td><strong>+794%</strong></td></tr><tr><td><strong>Samsung</strong></td><td>005930.KS</td><td>~$450B</td><td>~$370B</td><td>+12%</td><td>38%</td><td>28%</td><td>14%</td><td>~12</td><td>~1.2x</td><td>~5x</td><td>net cash</td><td>12%</td><td>1.2%</td><td>+30%</td></tr><tr><td><strong>SanDisk</strong></td><td>SNDK</td><td>$208.8B</td><td>~$35B</td><td>+90%</td><td>55%</td><td>30%</td><td>15%</td><td><strong>8.39</strong></td><td>~6x</td><td>~12x</td><td>1.0x</td><td>22%</td><td>0%</td><td><strong>+550%</strong></td></tr><tr><td><strong>Kioxia</strong></td><td>285A.T</td><td>~$30B</td><td>~$15B</td><td>+80%</td><td>35%</td><td>18%</td><td>5%</td><td>_待填_</td><td>~2x</td><td>~8x</td><td>1.5x</td><td>12%</td><td>0%</td><td>+120%</td></tr></tbody></table>
+<h3 id="资深-pm-的观察">资深 PM 的观察</h3>
+<ol>
+<li><strong>SK Hynix 是基本面绝对老大</strong>：71% Op margin、Fwd PE 4.78、HBM 50%+ 市占。<br />但<strong>估值最便宜</strong>！这是<strong>韩国折价</strong>（财阀治理 + 朝鲜风险）的结构性问题。</li>
+</ol>
+<ol>
+<li><strong>MU vs SK Hynix 估值差距 50%+</strong>（PE 7.13 vs 4.78），原因：</li>
+</ol>
+<ul>
+<li>美国上市流动性 + 标普 500 被动资金</li>
+<li>美国地缘政治溢价（HBM 国产化）</li>
+<li><strong>不是基本面优势</strong> —— SK Hynix HBM 份额 2x MU、margin 也更高</li>
+</ul>
+<ol>
+<li><strong>Samsung &quot;估值陷阱&quot;</strong>：Mkt Cap $450B、Rev $370B、Op Margin 28% → 看起来便宜，<br />但 <strong>存储业务 + 手机业务 + 代工业务 + 显示业务 + 消费电子混在一起</strong>。</li>
+</ol>
+<ul>
+<li>Samsung 半导体业务（存储 + 代工）单独估值约 $250B</li>
+<li>显示 + 手机 + 消费电子约 $150B</li>
+<li><strong>Sum-of-the-Parts 显著高于当前市值</strong> → 但治理结构让市场长期不给溢价</li>
+</ul>
+<ol>
+<li><strong>SNDK 与 MU 的 Fwd PE 已 parity</strong>（8.4 vs 7.1）—— 笔记勘误已识别，&quot;NAND 应低于<br />HBM 30–40%&quot;假设不成立。这意味着市场把五家当一档周期成长股。</li>
+</ol>
+<h3 id="配置建议存储">配置建议（存储）</h3>
+<table><thead><tr><th>选择</th><th>推荐</th><th>理由</th></tr></thead><tbody><tr><td><strong>MU 7%</strong></td><td>✓（v2 已选）</td><td>美国地缘溢价 + 标普流动性</td></tr><tr><td><strong>SK Hynix 加 4–5%</strong></td><td>推荐</td><td>基本面老大 + 估值最便宜，韩国折价反而创造 alpha 机会</td></tr><tr><td>Samsung</td><td>中性</td><td>SOTP 便宜但治理拉胯</td></tr><tr><td>SNDK</td><td>已 demote ✓</td><td>与 MU 估值平价，MU 优先</td></tr></tbody></table>
+<p><strong>建议</strong>：把 v2 的 &quot;美股至上&quot; 倾向松动 5%，加 SK Hynix（000660.KS）作为&quot;基本面纯 HBM 暴露&quot;。如果担心韩股流动性，可以用 EWY (iShares MSCI Korea ETF) 间接持仓 —— 但 EWY 含 Samsung + 其他 → 不够纯。</p>
+<hr />
+<h2 id="四跨表横向观察">四、跨表横向观察</h2>
+<p>把三张表合起来看：</p>
+<h3 id="估值情绪图谱">估值情绪图谱</h3>
+<pre><code>                    Fwd PE
+                       │
+              60       │       LITE ●（光模块 narrative）
+                       │  GEV ●
+              50       │
+                       │  GLW ●  VRT ●
+              40       │
+                       │       COHR ●  FN ●  ETN ●
+              30       │             SU.PA ●
+                       │  Samsung ●
+              20       │
+                       │  Generac ●
+              10       │       SNDK ●  MU ●
+                       │             SK Hynix ●
+              5        │
+                       └─────────────────────────────
+                       0%       20%       40%      60%   Rev YoY</code></pre>
+<p>观察：</p>
+<ul>
+<li><strong>Rev YoY 与 PE 显著正相关</strong>（市场为增速付溢价）</li>
+<li><strong>存储板块整体严重 underpriced</strong>：60%+ YoY 增速、Fwd PE &lt; 10</li>
+<li><strong>光模块板块严重 overpriced</strong>：与电力链同样的增速但 PE 高 50%</li>
+<li><strong>VRT / GEV / GLW 介于两者之间</strong></li>
+</ul>
+<h3 id="cross-theme-配置建议">Cross-Theme 配置建议</h3>
+<p>当前 portfolio v2 暴露：</p>
+<table><thead><tr><th>主题</th><th>当前权重</th><th>建议调整</th></tr></thead><tbody><tr><td>AI 电力（VRT + GEV）</td><td>26%</td><td>拆出 5% 给 ETN（同主题分散）</td></tr><tr><td>光模块（COHR）</td><td>8%</td><td>加 3–4% FN 作为代工补充</td></tr><tr><td>存储（MU）</td><td>7%</td><td>加 4–5% SK Hynix（000660.KS）</td></tr><tr><td><strong>AI 算力链合计</strong></td><td><strong>41%</strong></td><td><strong>目标 ≤ 50% 硬上限</strong></td></tr></tbody></table>
+<hr />
+<h2 id="五可执行-todo">五、可执行 TODO</h2>
+<ul>
+<li>[ ] 用 fetch_quotes.py + 手动从 IR 拉数据填充本表的所有&quot;_待填_&quot;</li>
+<li>[ ] 周度刷新：每周一开盘前重跑一次</li>
+<li>[ ] 加第四张表 &quot;<strong>半导体设备</strong>&quot;（KLAC / LRCX / AMAT / 6857.T Advantest / 7735.T Screen / 8035.T TEL / 6146.T Disco）</li>
+<li>[ ] 加第五张表 &quot;<strong>量子</strong>&quot;（IBM 量子分部 / IONQ / RGTI / QBTS / Quantinuum 私）</li>
+<li>[ ] 加第六张表 &quot;<strong>机器人执行器</strong>&quot;（6324.T Harmonic / 6268.T Nabtesco / 6481.T THK / Hiwin 2049.TW / NSK 6471.T）</li>
+</ul>
+<h2 id="免责">免责</h2>
+<p>数据基于公开来源 + 估算，需要 IR 数据校准。不构成投资建议。</p>
+      </article>
+      <aside class="doc-sidebar">
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">文档导航</h3>
+          <ul class="toc-list"><li><a href="#数据列说明">数据列说明</a></li><li><a href="#一ai-数据中心电力-冷却卖铲子主线">一、AI 数据中心电力 / 冷却（&quot;卖铲子&quot;主线）</a></li><li style="padding-left:14px"><a href="#资深-pm-的观察">资深 PM 的观察</a></li><li style="padding-left:14px"><a href="#关键观察标的etn">关键观察标的：ETN</a></li><li><a href="#二光模块-光通信">二、光模块 / 光通信</a></li><li style="padding-left:14px"><a href="#资深-pm-的观察-2">资深 PM 的观察</a></li><li style="padding-left:14px"><a href="#配置建议光模块">配置建议（光模块）</a></li><li><a href="#三存储-hbm">三、存储 / HBM</a></li><li style="padding-left:14px"><a href="#资深-pm-的观察-3">资深 PM 的观察</a></li><li style="padding-left:14px"><a href="#配置建议存储">配置建议（存储）</a></li><li><a href="#四跨表横向观察">四、跨表横向观察</a></li><li style="padding-left:14px"><a href="#估值情绪图谱">估值情绪图谱</a></li><li style="padding-left:14px"><a href="#cross-theme-配置建议">Cross-Theme 配置建议</a></li><li><a href="#五可执行-todo">五、可执行 TODO</a></li></ul>
+        </section>
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">阅读提示</h3>
+          <ul class="summary-list">
+            <li><span class="summary-label">先看什么</span><span class="summary-value">先读一段话结论，再看表格和风险点。</span></li>
+            <li><span class="summary-label">适合用途</span><span class="summary-value">复盘、比较、回查研究底稿。</span></li>
+            <li><span class="summary-label">建议动作</span><span class="summary-value">如果文档内容改变了 thesis，再回到候选池或组合页更新判断。</span></li>
+          </ul>
+        </section>
+      </aside>
+    </div>
+    <div class="footer">该页面由 Markdown 自动生成。原始文件：dashboards/peer-comps.md</div>
+  </div>
+  </div>
+</body>
+</html>

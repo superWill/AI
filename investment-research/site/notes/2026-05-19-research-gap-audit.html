@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2026 05 19 research gap audit</title>
+  <link rel="stylesheet" href="../_assets/style.css" />
+</head>
+<body>
+  <div class="site-shell">
+  <div class="page">
+    <div class="topbar">
+      <div class="nav-cluster">
+        <a class="back" href="../index.html">← 返回投研首页</a>
+        <a class="nav-link secondary" href="../all-docs.html">全部文档</a>
+      </div>
+      <div class="nav-cluster">
+        <a class="home-link" href="../notes.html">Notes</a>
+        <a class="home-link" href="../candidates.html">Candidates</a>
+        <a class="home-link" href="../tickers.html">Tickers</a>
+      </div>
+    </div>
+    <section class="hero">
+      <div class="doc-header-grid">
+        <div>
+          <div class="eyebrow">notes</div>
+          <h1>2026-05-19-research-gap-audit</h1>
+          <p>市场、公司或主题研究的阶段性结论。</p>
+          <div class="meta-row">
+            <span class="pill">notes/2026-05-19-research-gap-audit.md</span>
+            <span class="pill">1227 words</span>
+            <span class="pill">24 sections</span>
+          </div>
+        </div>
+        <div class="doc-stat-stack">
+          <div class="doc-stat">
+            <div class="doc-stat-label">Document Type</div>
+            <div class="doc-stat-value">Notes</div>
+          </div>
+          <div class="doc-stat">
+            <div class="doc-stat-label">Reading Mode</div>
+            <div class="doc-stat-value">Research Memo</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="doc-layout">
+      <article class="doc doc-main">
+<hr />
+<p>date: 2026-05-19 type: research-process-audit status: draft owner: self-review (acting as senior PM)</p>
+<hr />
+<h1 id="投研体系-gap-审计-资深投资人视角">投研体系 Gap 审计 —— 资深投资人视角</h1>
+<blockquote>目的：不评价单一标的对错，而是审计<strong>研究流程本身</strong>有哪些维度缺失或深度不足。 优先级：P0（立即补）&gt; P1（本季补）&gt; P2（半年内）&gt; P3（行有余力）。</blockquote>
+<hr />
+<h2 id="总评">总评</h2>
+<p>你已经做到的（超过大多数散户研究员）：</p>
+<ul>
+<li>主题驱动 → 标的拆解 → 组合落地 → 持续跟踪，闭环完整</li>
+<li>估值与基本面分离记录，并用脚本对账（audit_notes.py 防止 copy 老数据）</li>
+<li>仓位有量化阈值（加仓 / 减仓 / 卖出），不靠&quot;感觉&quot;</li>
+<li>主题笔记会做 v1/v2 勘误，承认错误而不是删除</li>
+</ul>
+<p>明显不够深的地方按重要性排序如下。</p>
+<hr />
+<h2 id="p0-立即补一周内">P0 ─ 立即补（一周内）</h2>
+<h3 id="1-估值方法学过于单一整组合都暴露在pe-重估单一逻辑上">1. 估值方法学过于单一，整组合都暴露在&quot;PE 重估&quot;单一逻辑上</h3>
+<p>当前几乎所有 ticker 文档只看 <strong>TTM PE / Forward PE / P/S</strong>。这三个指标在以下情况下会同时失灵：</p>
+<ul>
+<li>周期股顶部（MU/SNDK）—— EPS 已经过度膨胀，PE 看起来便宜其实是 normalized 后贵</li>
+<li>平台型转型公司（IBM）—— 业务分部异质，混合 PE 没意义，必须 SOTP</li>
+<li>高 capex / 低利润公司（VRT、GEV、AEHR）—— PE 不反映资本回报效率</li>
+</ul>
+<p>要补：</p>
+<ul>
+<li><strong>EV/EBITDA、EV/Sales、FCF Yield、Shareholder Yield</strong>（buyback + dividend + debt paydown）</li>
+<li><strong>Reverse DCF</strong>：把当前股价反推市场隐含的 5–10 年 revenue CAGR 和稳态 margin</li>
+<li>比如 GEV $1,118 隐含的稳态营收是多少？如果今天买的是&quot;AI 电力卖铲子&quot;故事，market 已经 price in 多少？</li>
+<li>VRT Forward PE 41.67 隐含的稳态增长率？跌到 25% 的时候 PE 会重定价到多少？</li>
+<li><strong>Normalized / Mid-cycle EPS</strong>：MU/SK 海力士必须用过去 3 个周期的平均 EPS，而不是 FY26 峰值</li>
+<li><strong>PEG</strong>（增长调整后 PE）：现在所有 ticker 看起来&quot;便宜&quot;的判断都缺这个调整</li>
+</ul>
+<p><strong>单股优先级</strong>：</p>
+<ul>
+<li>MU：今天测算 mid-cycle EPS（用 2018+2021+2024 三轮峰值平均的 60% 折算）</li>
+<li>IBM：必须做 SOTP（咨询 6–8x EBITDA + 软件 / Red Hat 18–22x + 大型机 4–6x + 量子 = option value）</li>
+<li>VRT：incremental margin 测算 + backlog → revenue conversion ratio</li>
+</ul>
+<h3 id="2-组合相关性-真实分散度">2. 组合相关性 / 真实分散度</h3>
+<p><code>portfolios/2026-05-core-thematic-payoff.md</code> 把仓位拆成&quot;核心 / 主题 / 赔率&quot;，但<strong>没算过相关性矩阵</strong>。</p>
+<p>实测时你会发现：</p>
+<ul>
+<li>VRT + GEV + COHR + GLW + MRVL + MU + CAMT —— 在&quot;AI capex 见顶&quot;这一个变量下，相关性可能 <strong>0.7–0.9</strong></li>
+<li>名义上 7 个赛道，<strong>实际 1 个赌注</strong></li>
+</ul>
+<p>要补：</p>
+<ul>
+<li>用 <code>scripts/fetch_history.py</code> 拉过去 1–2 年所有持仓的日收益率</li>
+<li>算 Pearson 相关性矩阵；把高度相关（&gt;0.7）的归一类</li>
+<li>算组合 beta 加权值（每只持仓 beta × 权重 求和）—— 目前没算过，但<strong>几乎肯定 &gt;1.5</strong></li>
+<li>做 stress test：假设 SOXX 跌 30% / AI hyperscaler capex YoY 转 0%，组合预期回撤是多少</li>
+</ul>
+<h3 id="3-客户集中度与供应链穿透">3. 客户集中度与供应链穿透</h3>
+<p>这是组合里最大的隐性风险之一，所有&quot;卖铲子&quot;逻辑都依赖某一两个客户：</p>
+<table><thead><tr><th>Ticker</th><th>真正卖给谁？</th><th>当前文档覆盖度</th></tr></thead><tbody><tr><td>ALAB</td><td>Nvidia / AMD / hyperscaler（PCIe retimer 在 NVLink 5 替代下需求？）</td><td>缺</td></tr><tr><td>CRDO</td><td>同上 + AEC 电缆主客户</td><td>缺</td></tr><tr><td>COHR / LITE</td><td>800G/1.6T 光模块给 Nvidia DGX、Arista、Cisco</td><td>缺</td></tr><tr><td>MRVL</td><td>定制 ASIC = AWS Trainium / Google Axion 占多少%？</td><td>缺</td></tr><tr><td>VRT</td><td>hyperscaler 4 家 + Equinix + Digital Realty 占多少%</td><td>缺</td></tr><tr><td>GLW</td><td>苹果（Gorilla Glass）+ Verizon（光纤）+ 显示玻璃 各自营收占比</td><td>缺</td></tr><tr><td>MP</td><td>唯一关键下游 = GM + 国防部 DPA 协议</td><td>部分</td></tr><tr><td>MU</td><td>HBM 客户 = Nvidia 占多少%？ AMD？ Broadcom？</td><td>缺</td></tr><tr><td>AEHR</td><td>单客户 80% 集中度已记录 ✓</td><td>已记</td></tr></tbody></table>
+<p><strong>TODO</strong>：在每只 ticker.md 加 &quot;客户结构&quot; 章节，从 10-K Item 1 / Item 7 / earnings call transcript 抓 top 3 客户营收占比。</p>
+<h3 id="4-nvlink-cpo-光电封装路线对-alab-crdo-mrvl-的颠覆风险">4. NVLink / CPO / 光电封装路线对 ALAB / CRDO / MRVL 的颠覆风险</h3>
+<p>PCIe retimer / DSP 业务面临两个<strong>结构性威胁</strong>，目前都没在文档里：</p>
+<ul>
+<li><strong>NVLink Fusion</strong>（Nvidia 2026 路线）—— 把 retimer 收回到自家 NVSwitch，第三方 retimer 单元价值 ↓</li>
+<li><strong>CPO（共封装光学）</strong>——Nvidia/Broadcom 都在推进，传统可插拔光模块 2027–2028 起被替代，COHR/LITE 业务结构受冲击</li>
+</ul>
+<p>文档里 COHR/LITE 的 thesis 还在&quot;1.6T 光模块放量&quot;上，但<strong>这是 2026–2027 的故事；2028+ 的 CPO 切换会重写产业链格局</strong>。</p>
+<p>要补：在 COHR.md / LITE.md / ALAB.md / CRDO.md 加 &quot;技术路线颠覆风险&quot; 章节。</p>
+<hr />
+<h2 id="p1-本季度补13-个月">P1 ─ 本季度补（1–3 个月）</h2>
+<h3 id="5-周期分析-supply-demand-平衡表">5. 周期分析 / Supply-Demand 平衡表</h3>
+<p>存储板块整组合都靠&quot;HBM 范式重估&quot;故事，但缺少最基本的供需测算：</p>
+<ul>
+<li>HBM 产能（SK / 三星 / MU 各自月产能 wpm，按 12-Hi / 16-Hi 拆分）</li>
+<li>HBM 需求（Nvidia GB200/300 出货预测 × HBM/GPU + AMD MI400 + 各家 ASIC × HBM/ASIC）</li>
+<li>ASP / cost spread 走势（DRAMeXchange / TrendForce 数据接入到 dashboard）</li>
+<li>Capex/Sales 比率历史（衡量是否过度扩产）</li>
+</ul>
+<p><strong>判断&quot;HBM 是否还能再涨&quot;必须靠这张表</strong>，目前你只有定性的&quot;长协价锁定&quot;叙述。</p>
+<h3 id="6-短期资金面-流动性数据">6. 短期资金面 / 流动性数据</h3>
+<p>完全缺失的维度：</p>
+<ul>
+<li>Short interest %、days to cover（IONQ/QBTS/RGTI 这种小盘量子股短期最相关）</li>
+<li>Insider transactions（管理层卖出 = 重大信号）</li>
+<li>13F 大资金动向（Tiger / Coatue / Citadel / Whale Wisdom）</li>
+<li>ETF 持仓变化（SMH / SOXX / DRIV / KQQQ / ROBO 增减持）</li>
+<li>Options 数据（put/call ratio、IV skew、unusual options activity）</li>
+</ul>
+<p><strong>建议</strong>：每周脚本拉一次主要持仓的 short interest（FINRA 数据）+ insider txn（OpenInsider）+ 13F（季度）。</p>
+<h3 id="7-同业横向对标peer-comp-sheets">7. 同业横向对标（Peer Comp Sheets）</h3>
+<p>主题笔记里点了竞争对手名字，但<strong>没做数字横向对比表</strong>。资深 PM 看任何一个标的的第一动作就是建 5–7 家同业的 comparable table：</p>
+<p>应该建立的 peer comp：</p>
+<ul>
+<li><strong>AI 电力</strong>：VRT vs SU.PA vs ETN vs Bloom Energy (BE) vs Watts Water (WTS) —— 营收增长、毛利、ROIC、backlog、book-to-bill</li>
+<li><strong>光模块</strong>：COHR vs LITE vs FN (Fabrinet) vs Bandwidth.io vs InnoLight（中港）</li>
+<li><strong>存储</strong>：MU vs 000660.KS (SK Hynix) vs 005930.KS (Samsung) vs 285A.T (Kioxia) vs SNDK</li>
+<li><strong>量子</strong>：IONQ vs RGTI vs QBTS vs IBM Quantum（分部）vs Quantinuum（私）</li>
+<li><strong>稀土</strong>：MP vs Lynas（澳）vs JL Mag（深 SZ）vs Iluka Resources</li>
+<li><strong>HBM 量测</strong>：CAMT vs ONTO vs KLAC vs FORM vs Advantest（日 6857）</li>
+</ul>
+<p>输出格式：Excel/CSV，列 = 营收、Revenue YoY、Gross Margin、Op Margin、ROIC、Net Debt/EBITDA、Forward PE、EV/EBITDA、3Y CAGR、Buyback Yield。</p>
+<h3 id="8-国际竞争与另一边的视角">8. 国际竞争与&quot;另一边&quot;的视角</h3>
+<p>目前组合 100% 美股优先，但产业链的关键节点<strong>不在美股</strong>：</p>
+<ul>
+<li>半导体设备：<strong>Tokyo Electron (8035)、Advantest (6857)、Disco (6146)、Screen (7735)</strong> —— Advantest 是 HBM 测试事实垄断</li>
+<li>机器人执行器：<strong>Harmonic Drive (6324)、Nabtesco (6268)、THK (6481)、Fanuc (6954)、Yaskawa (6506)</strong> —— 笔记说&quot;机器人最稀缺是减速器&quot;，但<strong>没一只这种股票在覆盖里</strong></li>
+<li>欧洲：<strong>ASML、ASMI、BESI、Soitec、Infineon、Schneider (SU.PA)</strong> —— 你 SU.PA 当 VRT 对照但没单独立档</li>
+<li>台股：<strong>TSMC (2330)、Hon Hai (2317)、Quanta (2382)、Wistron (3231)、Hiwin (2049)</strong></li>
+<li>加拿大：<strong>Celestica (CLS)、Lightspeed</strong></li>
+</ul>
+<p><strong>至少 Advantest + Harmonic Drive 应该立档</strong>——这是产业链 v1 笔记自己识别的瓶颈节点，但单股研究里完全是空白。</p>
+<h3 id="9-宏观因子量化暴露">9. 宏观因子量化暴露</h3>
+<p>笔记里宏观风险只在最末段简略提及。需要：</p>
+<ul>
+<li>组合对 <strong>10Y 实际利率</strong>（10Y - 10Y breakeven）的 beta —— 高 multiple 股的核心折现因子</li>
+<li>组合对 <strong>美元指数 (DXY)</strong> 的暴露 —— SK Hynix / Kioxia / Samsung 高度敏感</li>
+<li>组合对 <strong>油价 / 美元天然气</strong>的暴露 —— GEV / VRT 客户的电力成本传导</li>
+<li><strong>VIX 期权对冲成本</strong>测算：保护组合 10–15% 下行需要多少成本（VIX call 或 SPY put）</li>
+</ul>
+<h3 id="10-资本配置评分-管理层质量">10. 资本配置评分 / 管理层质量</h3>
+<p>完全缺失，但这是巴菲特/Druckenmiller/Loeb 看任何公司的第一性问题：</p>
+<ul>
+<li>IBM 历史是&quot;资本配置反面教材&quot;（08–18 大笔回购 + 错误并购），管理层换了 Krishna 后是否真的改善？</li>
+<li>VRT、GEV 高速增长期 capex 是不是用现金流而非债务支撑？</li>
+<li>MU 在周期顶部回购还是建厂？（历史上多次踩错节奏）</li>
+<li>IONQ / QBTS / RGTI 现金消耗率（cash runway 月数）+ 摊薄历史 + 增发节奏</li>
+</ul>
+<p>要补：在每只 ticker.md 加 &quot;Capital Allocation Track Record&quot; 章节。</p>
+<hr />
+<h2 id="p2-半年内补36-个月">P2 ─ 半年内补（3–6 个月）</h2>
+<h3 id="11-主题覆盖范围缺口">11. 主题覆盖范围缺口</h3>
+<p>笔记体系自称&quot;AI / 机器人 / HBM / 量子 / PQC&quot;，但<strong>有几个关键主题完全没研究</strong>：</p>
+<table><thead><tr><th>主题</th><th>关键标的（未覆盖）</th><th>为什么重要</th></tr></thead><tbody><tr><td><strong>核电 / SMR</strong></td><td>NuScale (SMR)、Oklo (OKLO)、Centrus (LEU)、BWXT、Cameco (CCJ)</td><td>&quot;AI 电力卖铲子&quot;的另一端 = 一次能源；CEG 已在覆盖但只算下游</td></tr><tr><td><strong>机器人 AI 模型层</strong></td><td>Tesla Optimus 间接 = TSLA、Figure AI 私募 → ARK 代理、Symbotic (SYM)、UiPath (PATH)</td><td>笔记主题之一但完全空白</td></tr><tr><td><strong>生物制药 AI</strong>（&quot;真正的 AI 应用&quot;）</td><td>Recursion (RXRX)、Schrödinger (SDGR)、AbCellera (ABCL)、Absci (ABSI)</td><td>唯一已 monetize 的 AI 垂直应用</td></tr><tr><td><strong>太空 / 国防 AI</strong></td><td>PLTR、ANDV (Anduril 未上市)、RTX、LMT、HII、Kratos</td><td>政府 AI 支出最稳定来源</td></tr><tr><td><strong>网络安全 PQC</strong>（不只 NET）</td><td>CRWD、PANW、ZS、OKTA、TENB、S</td><td>比 NET 体量大且 thesis 更直接</td></tr><tr><td><strong>CDN / Edge</strong>（不只 NET）</td><td>Fastly (FSLY)、Akamai (AKAM)</td><td>NET 估值贵，FSLY 是赔率仓</td></tr><tr><td><strong>数据基础设施</strong>（AI 训练数据 / 向量库）</td><td>MDB、SNOW、DDOG、ESTC、Confluent (CFLT)</td><td>笔记的&quot;AI Layer 5&quot;完全没单股</td></tr><tr><td><strong>AI 推理新一代芯片</strong></td><td>Groq (私)、Tenstorrent (私)、Cerebras (拟 IPO)、Lightmatter</td><td>5 年后看是否会替代 H/B100</td></tr></tbody></table>
+<h3 id="12-退出-再平衡机制-tax-优化">12. 退出 / 再平衡机制 / Tax 优化</h3>
+<p><code>watchlist.md</code> 有触发卖出条件但缺少：</p>
+<ul>
+<li><strong>时间止损</strong>（持有 X 个月未达指引 → 强制卖出，去情绪化）</li>
+<li><strong>阶梯式止盈</strong>（涨 30% 砍 1/3，涨 50% 再砍 1/3，剩 1/3 跑长线）</li>
+<li><strong>再平衡频率</strong>：季度还是阈值（任何单股权重偏离目标 ±30% 触发）</li>
+<li><strong>Tax-loss harvesting</strong>：年末扫一遍亏损仓位换同主题的&quot;30 天 wash sale&quot; 替代品</li>
+<li><strong>替代仓位池</strong>：卖出后立刻有&quot;轮换候选&quot;补上（watchlist 现在没明确这件事）</li>
+</ul>
+<h3 id="13-评分系统的回测-校准">13. 评分系统的回测 / 校准</h3>
+<p><code>next-apple-scoring.md</code> 的五维评分（产品定义权 / 商业化加速度 / 生态控制力 / 财务兑现 / 认知差）框架很好，但：</p>
+<ul>
+<li>从来没用历史样本验证过——比如 2007 Apple、2013 Tesla、2019 Nvidia、2020 Shopify 在那个时间点上你的评分会不会真的把它们识别出来？</li>
+<li>没有<strong>校准记录</strong>：什么样的分数对应什么样的预期回报？（比如 80+ 分历史样本平均 5 年回报多少）</li>
+<li>没有 <strong>base rate 锚</strong>：历史上多少家&quot;被认为是下一只 Apple&quot;真的成了？（10%？2%？）</li>
+</ul>
+<p>要补：选 5 个历史成功案例 + 5 个失败案例（被市场过度炒作但没起来的），回到当时时间点用你的评分系统打分，看准确率。</p>
+<h3 id="14-pre-mortem-反事实分析">14. Pre-mortem / 反事实分析</h3>
+<p>每个季度末问自己：</p>
+<blockquote>&quot;假设 12 个月后整个组合亏 30%，最可能的原因是什么？&quot;  &quot;假设 12 个月后 IBM 量子 thesis 彻底破灭，组合损失多少？现在的对冲够不够？&quot;</blockquote>
+<p>这个练习目前完全没做。</p>
+<h3 id="15-attribution归因">15. Attribution（归因）</h3>
+<p>调仓记录的表头是空的。<strong>每次买卖都应该记录</strong>：</p>
+<ul>
+<li>买入逻辑（一句话）+ 触发因素</li>
+<li>当时 thesis 的 3 个关键变量</li>
+<li>卖出时回看：哪个变量错了 / 对了 / 没起作用</li>
+</ul>
+<p>3–6 个月后做归因：哪些主题判断对 / 哪些标的选错 / 哪些时机踩错。<strong>这是从&quot;会研究&quot;进化到&quot;会赚钱&quot;的关键。</strong></p>
+<hr />
+<h2 id="p3-行有余力6-个月">P3 ─ 行有余力（&gt;6 个月）</h2>
+<ul>
+<li>法律风险跟踪（专利诉讼、SEC investigations、auditor changes）</li>
+<li>ESG / 碳成本传导（VRT/GEV 客户被碳关税影响）</li>
+<li>公司治理评分（韩股折价的部分原因）</li>
+<li>期权策略（covered call 卖出已重估部分仓位的上行 = 给现金仓&quot;打工&quot;）</li>
+<li>Kelly criterion / position sizing 数学模型</li>
+<li>自建数据 pipeline（不全靠 yfinance）：Alpha Vantage / Polygon / FRED / EDGAR 直接 pull</li>
+</ul>
+<hr />
+<h2 id="单股层面的具体深化方向">单股层面的具体深化方向</h2>
+<p>精挑 8 只<strong>最值得马上加深</strong>的：</p>
+<table><thead><tr><th>Ticker</th><th>缺什么</th><th>怎么补</th></tr></thead><tbody><tr><td><strong>MU</strong></td><td>mid-cycle EPS / supply-demand 表</td><td>取 2018 / 2021 周期数据建表</td></tr><tr><td><strong>IBM</strong></td><td>SOTP 拆分（咨询 / 软件 / 大型机 / Red Hat / 量子）</td><td>五块分别估值后求和</td></tr><tr><td><strong>VRT</strong></td><td>backlog → revenue 转化率、incremental margin、客户集中度</td><td>翻 10-K + 季度 transcript</td></tr><tr><td><strong>GEV</strong></td><td>Backlog $300B+ 的合同结构（fixed-price vs cost-plus）、TSI 服务利润率</td><td>翻 GE Vernova 上市以来 5 份 10-Q + investor day</td></tr><tr><td><strong>GLW</strong></td><td>分部估值（display / optical / specialty / environmental / life sciences）</td><td>一个 SOTP 模型替代当前混合 PE</td></tr><tr><td><strong>QCOM</strong></td><td>Apple modem 内化的量化建模（2024 → 2026 → 2028 流失节奏）+ 汽车增长可见度</td><td>翻 QCOM IR + Apple 供应链分析</td></tr><tr><td><strong>COHR / LITE</strong></td><td>CPO 切换的时间表 + 客户集中度 + InP / EML 上游缺口</td><td>看 Nvidia/Broadcom 2027 路线图</td></tr><tr><td><strong>ALAB / CRDO</strong></td><td>NVLink Fusion 对 PCIe retimer 的需求挤压量化</td><td>翻 Nvidia GTC 2026 路线图</td></tr></tbody></table>
+<hr />
+<h2 id="系统层面的如果只补一件事">系统层面的&quot;如果只补一件事&quot;</h2>
+<p>如果时间只够做一件事，做 <strong>#2 组合相关性矩阵 + 真实组合 beta</strong>。</p>
+<p>理由：你目前 100% 看多 AI / 半导体 / 算力 / 电力链，名义上 13 个标的、4 个细分赛道，但在&quot;hyperscaler capex YoY 转负&quot;这一个事件下，所有持仓会<strong>同向暴跌</strong>。在确认这个之前，所有&quot;3 阶段建仓 / 现金保留 6%&quot;的精细设计都可能在一个交易日内被冲垮。</p>
+<p>这是从&quot;会做股票研究&quot;到&quot;会做组合管理&quot;的分水岭。</p>
+<hr />
+<h2 id="流程改进建议">流程改进建议</h2>
+<ol>
+<li>把这份 audit 作为每季度 review checklist——下一次 v3 portfolio 修订前过一遍</li>
+<li><code>agents/investor-agent-prompt.md</code> 里加一条：&quot;每次写新 ticker.md 必须包含客户集中度、capital allocation track record、reverse DCF 隐含增长率&quot;</li>
+<li><code>dashboards/</code> 加一个 <code>peer-comps.md</code>，至少建 6 张同业对照表（见 §7）</li>
+<li>把 <code>scripts/</code> 扩展两条：</li>
+</ol>
+<ul>
+<li><code>scripts/fetch_short_interest.py</code> —— FINRA short interest 跟踪</li>
+<li><code>scripts/fetch_insider_txn.py</code> —— OpenInsider 抓取持仓异动</li>
+</ul>
+<hr />
+<h2 id="免责">免责</h2>
+<p>本审计仅针对<strong>研究流程深度</strong>，不评价个股判断对错。投资决策风险自负。</p>
+      </article>
+      <aside class="doc-sidebar">
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">文档导航</h3>
+          <ul class="toc-list"><li><a href="#总评">总评</a></li><li><a href="#p0-立即补一周内">P0 ─ 立即补（一周内）</a></li><li style="padding-left:14px"><a href="#1-估值方法学过于单一整组合都暴露在pe-重估单一逻辑上">1. 估值方法学过于单一，整组合都暴露在&quot;PE 重估&quot;单一逻辑上</a></li><li style="padding-left:14px"><a href="#2-组合相关性-真实分散度">2. 组合相关性 / 真实分散度</a></li><li style="padding-left:14px"><a href="#3-客户集中度与供应链穿透">3. 客户集中度与供应链穿透</a></li><li style="padding-left:14px"><a href="#4-nvlink-cpo-光电封装路线对-alab-crdo-mrvl-的颠覆风险">4. NVLink / CPO / 光电封装路线对 ALAB / CRDO / MRVL 的颠覆风险</a></li><li><a href="#p1-本季度补13-个月">P1 ─ 本季度补（1–3 个月）</a></li><li style="padding-left:14px"><a href="#5-周期分析-supply-demand-平衡表">5. 周期分析 / Supply-Demand 平衡表</a></li><li style="padding-left:14px"><a href="#6-短期资金面-流动性数据">6. 短期资金面 / 流动性数据</a></li><li style="padding-left:14px"><a href="#7-同业横向对标peer-comp-sheets">7. 同业横向对标（Peer Comp Sheets）</a></li><li style="padding-left:14px"><a href="#8-国际竞争与另一边的视角">8. 国际竞争与&quot;另一边&quot;的视角</a></li><li style="padding-left:14px"><a href="#9-宏观因子量化暴露">9. 宏观因子量化暴露</a></li><li style="padding-left:14px"><a href="#10-资本配置评分-管理层质量">10. 资本配置评分 / 管理层质量</a></li><li><a href="#p2-半年内补36-个月">P2 ─ 半年内补（3–6 个月）</a></li></ul>
+        </section>
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">阅读提示</h3>
+          <ul class="summary-list">
+            <li><span class="summary-label">先看什么</span><span class="summary-value">先读一段话结论，再看表格和风险点。</span></li>
+            <li><span class="summary-label">适合用途</span><span class="summary-value">复盘、比较、回查研究底稿。</span></li>
+            <li><span class="summary-label">建议动作</span><span class="summary-value">如果文档内容改变了 thesis，再回到候选池或组合页更新判断。</span></li>
+          </ul>
+        </section>
+      </aside>
+    </div>
+    <div class="footer">该页面由 Markdown 自动生成。原始文件：notes/2026-05-19-research-gap-audit.md</div>
+  </div>
+  </div>
+</body>
+</html>

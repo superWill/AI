@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>portfolio risk</title>
+  <link rel="stylesheet" href="../_assets/style.css" />
+</head>
+<body>
+  <div class="site-shell">
+  <div class="page">
+    <div class="topbar">
+      <div class="nav-cluster">
+        <a class="back" href="../index.html">← 返回投研首页</a>
+        <a class="nav-link secondary" href="../all-docs.html">全部文档</a>
+      </div>
+      <div class="nav-cluster">
+        <a class="home-link" href="../notes.html">Notes</a>
+        <a class="home-link" href="../candidates.html">Candidates</a>
+        <a class="home-link" href="../tickers.html">Tickers</a>
+      </div>
+    </div>
+    <section class="hero">
+      <div class="doc-header-grid">
+        <div>
+          <div class="eyebrow">dashboards</div>
+          <h1>portfolio-risk</h1>
+          <p>持续跟踪的候选池、评分规则和日更日志。</p>
+          <div class="meta-row">
+            <span class="pill">dashboards/portfolio-risk.md</span>
+            <span class="pill">454 words</span>
+            <span class="pill">10 sections</span>
+          </div>
+        </div>
+        <div class="doc-stat-stack">
+          <div class="doc-stat">
+            <div class="doc-stat-label">Document Type</div>
+            <div class="doc-stat-value">Dashboards</div>
+          </div>
+          <div class="doc-stat">
+            <div class="doc-stat-label">Reading Mode</div>
+            <div class="doc-stat-value">Research Memo</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="doc-layout">
+      <article class="doc doc-main">
+<hr />
+<p>date: 2026-05-19 type: portfolio-risk-snapshot status: template-awaiting-local-run benchmark: SPY</p>
+<hr />
+<h1 id="组合相关性-真实-beta-压力测试">组合相关性 + 真实 Beta + 压力测试</h1>
+<blockquote>来源：<code>scripts/portfolio_risk.py</code>（yfinance adjclose 1y 日线） 配合 <code>portfolios/2026-05-core-thematic-payoff.md</code> v2 仓位读 周度刷新建议：每周一开盘前跑一次</blockquote>
+<h2 id="如何刷新本表">如何刷新本表</h2>
+<pre><code>cd ~/Coding/AI/investment-research
+.venv/bin/python scripts/portfolio_risk.py
+# 或换窗口：
+.venv/bin/python scripts/portfolio_risk.py --period 2y</code></pre>
+<p>脚本会读 v2 组合仓位，拉 1 年（默认）日线 adjclose，把每只持仓的 beta、 1 年收益率、年化波动率、两两相关性矩阵、加权组合 beta、SPY −15% 情境下 预期回撤全部计算出来，并<strong>覆盖回写本文件</strong>。</p>
+<hr />
+<h2 id="预期输出格式沙箱无法访问-yahoo-finance本地运行后会自动填上真值">预期输出格式（沙箱无法访问 Yahoo Finance，本地运行后会自动填上真值）</h2>
+<h3 id="一每只持仓-vs-spy">一、每只持仓 vs SPY</h3>
+<table><thead><tr><th>Ticker</th><th>Weight</th><th>Beta(SPY)</th><th>1y Return</th><th>Ann. Vol</th></tr></thead><tbody><tr><td>VRT</td><td>18%</td><td>_待填_</td><td>_待填_</td><td>_待填_</td></tr><tr><td>GLW</td><td>12%</td><td>_待填_</td><td>_待填_</td><td>_待填_</td></tr><tr><td>MRVL</td><td>12%</td><td>_待填_</td><td>_待填_</td><td>_待填_</td></tr><tr><td>GEV</td><td>8%</td><td>_待填_</td><td>_待填_</td><td>_待填_</td></tr><tr><td>COHR</td><td>8%</td><td>_待填_</td><td>_待填_</td><td>_待填_</td></tr><tr><td>MU</td><td>7%</td><td>_待填_</td><td>_待填_</td><td>_待填_</td></tr><tr><td>IBM</td><td>10%</td><td>_待填_</td><td>_待填_</td><td>_待填_</td></tr><tr><td>NET</td><td>7%</td><td>_待填_</td><td>_待填_</td><td>_待填_</td></tr><tr><td>MP</td><td>5%</td><td>_待填_</td><td>_待填_</td><td>_待填_</td></tr><tr><td>CAMT</td><td>3%</td><td>_待填_</td><td>_待填_</td><td>_待填_</td></tr><tr><td>PLAB</td><td>2%</td><td>_待填_</td><td>_待填_</td><td>_待填_</td></tr><tr><td>IONQ</td><td>2%</td><td>_待填_</td><td>_待填_</td><td>_待填_</td></tr></tbody></table>
+<h3 id="二组合加权-beta">二、组合加权 Beta</h3>
+<p><strong>加权 beta = _待填_</strong>（held 权重 94%，现金 6% 不计入）</p>
+<p>判断标准：</p>
+<ul>
+<li>&lt; 1.0：组合比大盘稳，但 AI 主题暴露下不太可能</li>
+<li>1.0–1.3：与大盘等水平 beta，正常水平</li>
+<li>1.3–1.6：明显高 beta，组合放大市场涨跌 30–60%</li>
+<li>\&gt; 1.6：极高 beta，6% 现金缓冲完全不够</li>
+</ul>
+<h3 id="三先验判断运行前的预测">三、先验判断（运行前的预测）</h3>
+<p>基于已知的单股 beta 估计（v2 portfolio 文档里有零散数据 + 公开数据）：</p>
+<table><thead><tr><th>Ticker</th><th>Weight</th><th>Beta 估值</th><th>加权贡献</th></tr></thead><tbody><tr><td>VRT</td><td>18%</td><td>~1.8</td><td>0.32</td></tr><tr><td>GLW</td><td>12%</td><td>~1.0</td><td>0.12</td></tr><tr><td>MRVL</td><td>12%</td><td>~1.7</td><td>0.20</td></tr><tr><td>GEV</td><td>8%</td><td>~1.7</td><td>0.14</td></tr><tr><td>COHR</td><td>8%</td><td>~1.5</td><td>0.12</td></tr><tr><td>MU</td><td>7%</td><td>~1.4</td><td>0.10</td></tr><tr><td>IBM</td><td>10%</td><td>~0.58</td><td>0.06</td></tr><tr><td>NET</td><td>7%</td><td>~1.7</td><td>0.12</td></tr><tr><td>MP</td><td>5%</td><td>~1.5</td><td>0.08</td></tr><tr><td>CAMT</td><td>3%</td><td>~2.0</td><td>0.06</td></tr><tr><td>PLAB</td><td>2%</td><td>~1.4</td><td>0.03</td></tr><tr><td>IONQ</td><td>2%</td><td>~3.0</td><td>0.06</td></tr><tr><td><strong>合计</strong></td><td>94%</td><td>—</td><td><strong>~1.41</strong></td></tr></tbody></table>
+<blockquote><strong>先验判断：加权 beta 约 1.4</strong> — 显著高于大盘。SPY 跌 15% 预期组合跌 ~21%。 当前 6% 现金缓冲只能吸收 ~30% 的回撤，不够。</blockquote>
+<h3 id="四相关性预期">四、相关性预期</h3>
+<p>按主题分组的预期相关性：</p>
+<table><thead><tr><th>簇</th><th>成员</th><th>预期 ρ</th><th>共同因子</th></tr></thead><tbody><tr><td>AI 算力基础设施</td><td>VRT / GEV / COHR / MRVL / GLW</td><td>0.70–0.85</td><td>hyperscaler capex</td></tr><tr><td>HBM 存储</td><td>MU（单独）</td><td>n/a</td><td>DRAM 周期 + AI</td></tr><tr><td>量子 / 软件</td><td>IBM / NET / IONQ</td><td>0.40–0.60</td><td>折现率敏感</td></tr><tr><td>防御性</td><td>IBM</td><td>0.30–0.50</td><td>弱相关大盘</td></tr><tr><td>主题独立</td><td>MP（稀土）</td><td>0.20–0.40</td><td>地缘 + 国防</td></tr><tr><td>高 beta 赔率</td><td>IONQ / CAMT</td><td>0.50–0.70</td><td>风险偏好</td></tr></tbody></table>
+<p><strong>核心忧虑</strong>：5 个核心仓位（VRT / GEV / COHR / MRVL / GLW）合计权重 58%， 预期同 cluster 相关性 0.7+ → 名义&quot;分散&quot;实际&quot;集中赌一件事&quot;。</p>
+<h3 id="五压力测试预期运行前估算">五、压力测试预期（运行前估算）</h3>
+<table><thead><tr><th>情境</th><th>触发条件</th><th>组合预期回撤</th></tr></thead><tbody><tr><td>温和回调</td><td>SPY −5%</td><td>~−7%</td></tr><tr><td>AI capex 减速</td><td>SPY −10% / SOXX −20%</td><td>~−14%</td></tr><tr><td><strong>AI capex 见顶</strong></td><td><strong>SPY −15% / SOXX −30%</strong></td><td><strong>~−21%</strong></td></tr><tr><td>AI 泡沫破灭</td><td>SPY −25% / SOXX −50%</td><td>~−35%</td></tr><tr><td>系统性衰退</td><td>SPY −35% / SOXX −60%</td><td>~−49%</td></tr></tbody></table>
+<blockquote>假设：单因子模型 + AI 主题股相关性向 1.0 收敛（危机时常态）。</blockquote>
+<h3 id="六可操作结论运行后用真实数据校准">六、可操作结论（运行后用真实数据校准）</h3>
+<ol>
+<li><strong>如果加权 beta &gt; 1.4</strong>：把现金提到 12–15%，或加 SPY 1–3% OTM put（保护 −10% 以下回撤）</li>
+</ol>
+<ol>
+<li><strong>如果 AI 算力链相关性 &gt;0.75</strong>：给&quot;AI capex 合计权重&quot;设硬上限 50%。当前 VRT+GEV+COHR+MU+MRVL+GLW+CAMT = 68%，<strong>超限</strong>。</li>
+</ol>
+<ol>
+<li><strong>加 SPY put 成本估算</strong>：用脚本输出的预期回撤数 × put delta 反推合理 premium 预算。</li>
+</ol>
+<ol>
+<li><strong>周度刷新</strong>：相关性是动态的；危机时会冲向 1.0，平时计算的&quot;安全&quot;会失效。</li>
+</ol>
+<hr />
+<h2 id="后续要补的因子">后续要补的因子</h2>
+<ul>
+<li>[ ] 加 10Y 实际利率（10Y - 10Y breakeven）的回归 beta — 高 multiple 股的核心折现因子</li>
+<li>[ ] 加 DXY 美元指数 beta — SK Hynix / Samsung / Kioxia 的隐性敞口</li>
+<li>[ ] 加 VIX 同步 beta — 真正衡量&quot;危机时谁先崩&quot;</li>
+<li>[ ] 跑 rolling 60d 相关性 — 看相关性是否在变化（特别是危机期）</li>
+<li>[ ] 加期权 IV skew / put-call ratio — 市场对单只持仓的尾部预期</li>
+</ul>
+<h2 id="免责">免责</h2>
+<p>本表为研究流程数据，不构成投资建议。</p>
+      </article>
+      <aside class="doc-sidebar">
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">文档导航</h3>
+          <ul class="toc-list"><li><a href="#如何刷新本表">如何刷新本表</a></li><li><a href="#预期输出格式沙箱无法访问-yahoo-finance本地运行后会自动填上真值">预期输出格式（沙箱无法访问 Yahoo Finance，本地运行后会自动填上真值）</a></li><li style="padding-left:14px"><a href="#一每只持仓-vs-spy">一、每只持仓 vs SPY</a></li><li style="padding-left:14px"><a href="#二组合加权-beta">二、组合加权 Beta</a></li><li style="padding-left:14px"><a href="#三先验判断运行前的预测">三、先验判断（运行前的预测）</a></li><li style="padding-left:14px"><a href="#四相关性预期">四、相关性预期</a></li><li style="padding-left:14px"><a href="#五压力测试预期运行前估算">五、压力测试预期（运行前估算）</a></li><li style="padding-left:14px"><a href="#六可操作结论运行后用真实数据校准">六、可操作结论（运行后用真实数据校准）</a></li><li><a href="#后续要补的因子">后续要补的因子</a></li><li><a href="#免责">免责</a></li></ul>
+        </section>
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">阅读提示</h3>
+          <ul class="summary-list">
+            <li><span class="summary-label">先看什么</span><span class="summary-value">先读一段话结论，再看表格和风险点。</span></li>
+            <li><span class="summary-label">适合用途</span><span class="summary-value">复盘、比较、回查研究底稿。</span></li>
+            <li><span class="summary-label">建议动作</span><span class="summary-value">如果文档内容改变了 thesis，再回到候选池或组合页更新判断。</span></li>
+          </ul>
+        </section>
+      </aside>
+    </div>
+    <div class="footer">该页面由 Markdown 自动生成。原始文件：dashboards/portfolio-risk.md</div>
+  </div>
+  </div>
+</body>
+</html>
