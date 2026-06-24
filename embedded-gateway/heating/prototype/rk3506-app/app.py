@@ -750,7 +750,9 @@ def main():
     ap.add_argument("--serial", default=None)
     ap.add_argument("--port", type=int, default=None)
     ap.add_argument("--shadow-tap", action="store_true",
-                    help="把每轮原始采样旁路发到 _shadow/samples(轨B只读影子用,默认关)")
+                    help="把每轮原始采样旁路发到 MQTT _shadow/samples(轨B只读影子用,默认关)")
+    ap.add_argument("--shadow-sock", default=None,
+                    help="把每轮原始采样旁路发到 unix datagram 路径(板上无 broker 时的备用通道)")
     args = ap.parse_args()
 
     cfg = json.load(open(args.config))
@@ -791,13 +793,28 @@ def main():
                           username=mcfg.get("username"), password=mcfg.get("password"))
         mqtt.subscribe(f"{base}/property/set")
 
-    shadow_cb = None
+    # 只读旁路:可同时发 MQTT 与 unix socket(任一为空则跳过);默认两者都关。
+    shadow_sinks = []
     if (args.shadow_tap or cfg.get("shadow_tap")) and mqtt:
-        def shadow_cb(samples, _m=mqtt, _t=f"{base}/_shadow/samples"):
+        _topic = f"{base}/_shadow/samples"
+        shadow_sinks.append(lambda s: mqtt.publish(_topic, {"ts": time.time(), "samples": s}))
+    sock_path = args.shadow_sock or cfg.get("shadow_sock")
+    if sock_path:
+        _sk = socket.socket(socket.AF_UNIX, socket.SOCK_DGRAM)
+        def _sock_send(s, _sk=_sk, _p=sock_path):
             try:
-                _m.publish(_t, {"ts": time.time(), "samples": samples})
-            except Exception:
-                pass   # 旁路永不影响生产采集
+                _sk.sendto(json.dumps({"ts": time.time(), "samples": s}).encode(), _p)
+            except OSError:
+                pass   # 无监听者/超长即丢,绝不影响生产
+        shadow_sinks.append(_sock_send)
+    shadow_cb = None
+    if shadow_sinks:
+        def shadow_cb(samples, _sinks=shadow_sinks):
+            for _snk in _sinks:
+                try:
+                    _snk(samples)
+                except Exception:
+                    pass   # 旁路永不影响生产采集
 
     # safety_policy 来自 loader 生成配置(编译产物);旧 app_config 无此键则回退 SAFE_RANGES
     controller = Controller(runtime, source, cfg.get("control_map", {}), mqtt, base,

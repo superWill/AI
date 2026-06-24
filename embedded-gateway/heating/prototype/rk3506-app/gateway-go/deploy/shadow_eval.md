@@ -7,8 +7,9 @@
 ## 前提(脚本会预检,不满足即停)
 1. 板子已物理接上本机 USB 网卡,Mac 上先跑:`embedded-gateway/heating/scripts/setup_rk3506_macos_route.sh`(需 sudo)。
 2. `ssh root@192.168.1.10` 通(vendor 口令 `root`)。多次 ssh/scp 会反复要口令——建议先 `ssh-copy-id` 把公钥推上去免密。
-3. **板上有 MQTT broker**(`mosquitto` 监听 127.0.0.1:1883)。app.py 的 tap 与 Go 影子靠它互通。
-   - 预检发现没有 broker 会停并提示:要么板上装/起 mosquitto,要么改走 unix-socket 传输(需我再改 tap,另议)。
+3. **MQTT broker 可选**:
+   - 有 `mosquitto`(127.0.0.1:1883)→ 部署脚本走 **MQTT 全功能**:采样 + 命令对账(Go 决策 vs Python command_reply)+ 板外比对器。
+   - **无 broker → 自动退 unix-socket 模式**:app.py `--shadow-sock` 把采样经 unix datagram 喂 Go 影子(`--samples-sock`),仅做 **view/资源对比**(无命令流→无决策对账);观测靠 `ssh tail` 影子 stdout 的 30s 摘要。要决策对账就在板上起 mosquitto 后重跑脚本(自动转 MQTT)。
 4. 真实 RS485 设备已接好(`--source modbus` 才有现场数据;否则退化成 sim,失去 eval 意义)。
 
 ## 部署(Mac 侧,板子接好后)

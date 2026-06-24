@@ -18,8 +18,10 @@
 ## 2. 正面处理:RS485 单主总线冲突
 RS485 总线**只能有一个主站**。app.py(Python)正在轮询,Go **不得**同时主动轮询同一总线——双主必冲突。两条合规取数路径:
 
-- **2A 软件喂数(先行,零硬件改动)**:app.py 把每轮原始采样(`{addr: sample}`,寄存器原值 + 质量码)经本地 IPC(Unix socket / tmpfs 文件 / localhost MQTT 单独 topic)旁路出来;Go 影子消费,驱动自己的 **Runtime + Controller 决策 + MQTT 上送**做对比。
-  - 覆盖:Runtime/控制决策/告警/MQTT/资源占用。
+- **2A 软件喂数(先行,零硬件改动)**:app.py(`--shadow-tap` / `--shadow-sock`)把每轮原始采样(`{addr: sample}`,寄存器原值 + 质量码)经本地 IPC 旁路出来;Go 影子消费,驱动自己的 **Runtime + Controller 决策**做对比。两条传输已实现:
+  - **localhost MQTT**(`_shadow/samples`)——有 broker 时,且能同时订 `property/set` 做**决策对账**;
+  - **unix datagram**(`--shadow-sock`/`--samples-sock`)——板上无 broker 的兜底,best-effort 不阻塞生产;仅 view/资源对比(无命令流)。
+  - 覆盖:Runtime/控制决策(MQTT 模式)/告警/资源占用。
   - 不覆盖:Go 自己的 Modbus 主站采集(那段已在 pty + 板上验证,此处不重复冒险)。
 - **2B 被动嗅探(可选增强,需接线)**:第二路 UART **仅接 RX** 到 RS485 收发器,listen-only 抓 app.py 的请求帧 + 从站应答帧,用 Go 的 `ParseReadHolding` 重建采样。物理上无 TX,等价不变量天然成立。
   - 覆盖:额外验证 Go Modbus 解析对真实总线时序的鲁棒性。
