@@ -14,13 +14,13 @@ ssh -o ConnectTimeout=5 "$BOARD" 'true' 2>/dev/null || { echo "[停] ssh 不通,
 say "停 Go 影子 + app.py"
 ssh "$BOARD" "REMOTE=$REMOTE bash -s" <<'REMOTE_EOF'
 set -e
-for f in shadow app; do
+for f in shadow app broker; do
   if [ -f "$REMOTE/run/$f.pid" ]; then
     kill "$(cat "$REMOTE/run/$f.pid")" 2>/dev/null || true
     rm -f "$REMOTE/run/$f.pid"
   fi
 done
-for pid in $(ps 2>/dev/null | grep -E 'gatewayc-shadow|app\.py --source' | grep -v grep | awk '{print $1}'); do
+for pid in $(ps 2>/dev/null | grep -E 'gatewayc-shadow|app\.py --source|mqtt_broker\.py' | grep -v grep | awk '{print $1}'); do
   kill "$pid" 2>/dev/null || true
 done
 rm -f "$REMOTE/run/EVAL_ACTIVE"

@@ -795,9 +795,14 @@ def main():
 
     # 只读旁路:可同时发 MQTT 与 unix socket(任一为空则跳过);默认两者都关。
     shadow_sinks = []
-    if (args.shadow_tap or cfg.get("shadow_tap")) and mqtt:
+    if (args.shadow_tap or cfg.get("shadow_tap")) and mcfg:
+        # 专属客户端(独立 cid),只在 collector 线程发——不与 uploader 共用 mqtt
+        # 客户端,避免两线程并发懒连接互相置空 self.sock。
+        tap_mqtt = MqttClient(mcfg["host"], mcfg.get("port", 1883),
+                              cfg.get("device_id", "rk3506-gw-01") + "-tap",
+                              username=mcfg.get("username"), password=mcfg.get("password"))
         _topic = f"{base}/_shadow/samples"
-        shadow_sinks.append(lambda s: mqtt.publish(_topic, {"ts": time.time(), "samples": s}))
+        shadow_sinks.append(lambda s: tap_mqtt.publish(_topic, {"ts": time.time(), "samples": s}))
     sock_path = args.shadow_sock or cfg.get("shadow_sock")
     if sock_path:
         _sk = socket.socket(socket.AF_UNIX, socket.SOCK_DGRAM)
