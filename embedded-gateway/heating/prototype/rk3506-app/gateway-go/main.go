@@ -51,6 +51,8 @@ func main() {
 		runNodesTags(os.Args[2:])
 	case "ui":
 		runUI(os.Args[2:])
+	case "lcdtest":
+		runLCDTest(os.Args[2:])
 	default:
 		usage()
 	}
