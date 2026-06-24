@@ -590,6 +590,60 @@ class RemoteController:
         return remote_command(self.core_url, point_id, value)
 
 
+GW_PIDFILE = None   # remote 激活重启 gatewayc 用(supervisor 写的 pid 文件)
+
+
+def _restart_gatewayc():
+    """SIGTERM gatewayc;supervisor 据 gatewayc.pid 重启时会带新 active 配置。"""
+    try:
+        with open(GW_PIDFILE, encoding="utf-8") as f:
+            pid = int(f.read().strip())
+        os.kill(pid, 15)                 # SIGTERM(不引 signal 模块)
+        return True
+    except (OSError, ValueError, TypeError) as e:
+        print("[激活] 重启 gatewayc 失败(pidfile=%s): %s" % (GW_PIDFILE, e), flush=True)
+        return False
+
+
+def _wait_gatewayc_healthy(core_url, timeout=30, stale_ms=6000):
+    """轮询 gatewayc /api/health,采集新鲜(年龄≤stale_ms)即就绪。"""
+    import urllib.request
+    deadline = time.time() + timeout
+    while time.time() < deadline:
+        try:
+            with urllib.request.urlopen(core_url.rstrip("/") + "/api/health", timeout=2) as r:
+                age = json.load(r).get("collector_age_ms", 1e12)
+            if 0 <= age <= stale_ms:
+                return True
+        except Exception:
+            pass
+        time.sleep(1)
+    return False
+
+
+def remote_activate(version):
+    """remote 模式激活(D1 方案A):翻 active 指针 → 重启 gatewayc(supervisor 带新配置)→
+    启动健康门;不过则回退上一版重启。返回 (ok, errors, state)。"""
+    if version is None:
+        return False, ["无可激活版本(先 compile)"], "failed"
+    prev = read_active()
+    write_active(version)
+    if not _restart_gatewayc():
+        return False, ["无法重启 gatewayc(pidfile 不可用,supervisor 在跑吗?)"], "failed"
+    if _wait_gatewayc_healthy(CORE_URL):
+        return True, [], "active"
+    if prev is not None:                 # 健康门失败 → 回退上一版
+        write_active(prev)
+    else:
+        try:
+            os.remove(_active_file())
+        except OSError:
+            pass
+    _restart_gatewayc()
+    _wait_gatewayc_healthy(CORE_URL)
+    return False, ["新版本 %s 健康门失败,已回退到 %s" % (version, prev)], "rolled_back"
+
+
 def sys_metrics():
     cpu, mem = 5.0, 30.0
     try:
@@ -811,8 +865,15 @@ def make_handler(runtime, live_ctx, hub, dist_dir, endpoint, tokens):
             if path == "/api/config/activate":   # 运行中切 live(§8.2 方案B + §8.3 单飞)
                 if not self._authed():
                     return self._json({"error": "Unauthorized"}, 401)
-                if CORE_URL:                     # remote 模式:激活=翻 active 指针 + supervisor 重启 gatewayc(第4步)
-                    return self._json({"ok": False, "errors": ["remote 模式激活由 supervisor 重启实现(第4步未接)"]}, 501)
+                if CORE_URL:                     # remote 模式:翻指针 + 重启 gatewayc + 健康门 + 回退(D1方案A)
+                    version = body.get("version") or latest_version()
+                    prev = read_active()
+                    ok, errs, state = remote_activate(version)
+                    LAST_ACTIVATE.update({"version": version, "state": state,
+                                          "errors": ([] if ok else errs),
+                                          "previous_active": (prev if ok else LAST_ACTIVATE.get("previous_active"))})
+                    return self._json({"ok": ok, "version": version, "state": state,
+                                       "errors": errs, "status": config_status()})
                 version = body.get("version") or latest_version()
                 if version is None:
                     return self._json({"ok": False, "errors": ["无可激活版本(先 compile)"]}, 400)
@@ -831,8 +892,17 @@ def make_handler(runtime, live_ctx, hub, dist_dir, endpoint, tokens):
             if path == "/api/config/rollback":   # 回滚到上一激活版本(运行中切 live)
                 if not self._authed():
                     return self._json({"error": "Unauthorized"}, 401)
-                if CORE_URL:                     # remote 模式:回滚=翻 active 指针 + supervisor 重启(第4步)
-                    return self._json({"ok": False, "errors": ["remote 模式回滚由 supervisor 重启实现(第4步未接)"]}, 501)
+                if CORE_URL:                     # remote 模式:回滚=激活上一版(同样翻指针+重启+健康门)
+                    rprev = LAST_ACTIVATE.get("previous_active")
+                    if rprev is None:
+                        return self._json({"ok": False, "errors": ["无可回滚的上一版本"]}, 400)
+                    cur = read_active()
+                    ok, errs, state = remote_activate(rprev)
+                    if ok:
+                        LAST_ACTIVATE.update({"version": rprev, "state": state,
+                                              "errors": [], "previous_active": cur})
+                    return self._json({"ok": ok, "version": rprev, "state": state,
+                                       "errors": errs, "status": config_status()})
                 prev = LAST_ACTIVATE.get("previous_active")
                 if prev is None:
                     return self._json({"ok": False, "errors": ["无可回滚的上一版本"]}, 400)
@@ -891,6 +961,8 @@ def main():
     ap.add_argument("--port", type=int, default=None)
     ap.add_argument("--core-url", default=None,
                     help="给定则 remote 模式:从 gatewayc(如 http://127.0.0.1:8091)取数 + 转发控制,nexus 不开 source")
+    ap.add_argument("--gw-pidfile", default="/tmp/gwsup/gatewayc.pid",
+                    help="remote 激活重启 gatewayc 用的 pid 文件(supervisor 写)")
     ap.add_argument("--products", default=None,
                     help="编译产物目录;给定则从 point_registry 派生可控点与设备类型")
     args = ap.parse_args()
@@ -914,8 +986,9 @@ def main():
             print("[映射] %s 无 point_registry,跳过派生(回退硬编码映射)" % pdir, flush=True)
     runtime = Runtime(cfg)
     if args.core_url:                                 # remote 模式:消费 gatewayc,不开 source
-        global CORE_URL
+        global CORE_URL, GW_PIDFILE
         CORE_URL = args.core_url
+        GW_PIDFILE = args.gw_pidfile
         endpoint = "gatewayc"
         live_ctx = RuntimeContext(None, RemoteController(args.core_url),
                                   active_version=read_active(), source_factory=None)
