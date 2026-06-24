@@ -33,7 +33,7 @@ RS485 ──┤ 唯一总线主站:采集/控制/安全/Runtime/MQTT      │
 |---|---|---|
 | **快照/遥测**(北向读) | nexus collect 轮询 source → runtime.view() | nexus 消费 **gatewayc `/api/stream`(SSE 推送)** 或 poll `/api/snapshot`;把得到的 view 喂现成的 `build_nodes_tags(view)`(几乎不改) |
 | **控制**(北向写) | `/api/tags/write`·`/api/command` → controller.apply(内嵌) | → **POST gatewayc `/api/command`**(Go controller 做安全/决策/写);nexus 只转发 + 译错误 |
-| **配置 draft/compile** | nexus compile_draft 写 build/versions/N(纯文件) | **不变,仍 Python**(compiler.py/loader.py 已对拍一致;产物含 app_config.generated.json) |
+| **配置 draft/compile** | nexus compile_draft 用 compiler.py/loader.py(进程内) | **改用 `gatewayc compile/load`(D3 已定)**:nexus shell 调 `gatewayc compile <draft> --out versions/N` + `gatewayc load versions/N --emit-app-config`;`/api/config/validate` 改 `gatewayc compile --validate-only` 并解析其 stderr 错误列表。nexus 仍管 draft 落盘/版本目录/active 指针/UI |
 | **配置 activate/rollback** | try_activate 热切内嵌 live_ctx | **见 §4(关键决策)** |
 | **LCD** | 读 nexus:8092/api/snapshot | 读 **gatewayc:8091/api/snapshot**(本地直连) |
 | **登录/鉴权/edge-os UI** | nexus 自有 | **不变,仍 Python** |
@@ -66,8 +66,12 @@ RS485 ──┤ 唯一总线主站:采集/控制/安全/Runtime/MQTT      │
 5. LCD 指向 gatewayc:8091。
 6. S99 改为:supervisor 起 gatewayc(读 active 版本)+ nexus(:8092)+ LCD。
 
-## 7. 待你拍板
-- **D1**:激活机制 = 方案 A(指针+重启+健康门,推荐)还是 B(Go 热切零间隙)?
-- **D2**:端口 = gatewayc:8091 / nexus:8092(推荐,edge-os URL 不变)?还是别的分配?
-- **D3**:配置编译留 Python(compiler.py/loader.py,推荐)还是改用 `gatewayc compile/load`?
+## 7. 已拍板(2026-06)
+- **D1 = 方案 A**:active 指针翻转 + 受监督 gatewayc 重启 + 启动健康门 + 回退。几乎零新 Go 核心代码,复用监督/回退。
+- **D2 = gatewayc:8091 / nexus:8092**:edge-os URL 不变,LCD 直连 gatewayc:8091。
+- **D3 = 改用 `gatewayc compile/load`**:配置编译/校验统一到 Go;nexus shell 调用并解析 CLI 输出(见 §3 表),draft 落盘/版本目录/active 指针/UI 仍 Python。
+  - 连带:nexus 不再 import compiler.py/loader.py;`compile_draft`/`validate` 改为 subprocess 调 gatewayc + 解析 `[校验失败]`/产物;错误信息以 gatewayc 输出为准(已与 Python 逐字对拍一致)。
 - 注:本重构**不接真实设备、不替换控制器**——只是把 nexus 从内嵌核心改成 gatewayc 客户端;真正切生产仍走影子→灰度→验收。
+
+## 8. 实施就绪
+设计与决策已锁,可按 §6 六步增量实施(每步可验证、可并行对账)。第 1 步(gatewayc 固定 :8091 + 核对 snapshot/stream/command 字段满足 nexus)零风险、不动 nexus,可先做。
