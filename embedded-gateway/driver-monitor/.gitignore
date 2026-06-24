@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+# 模型二进制(rknn/onnx 大文件,另行管理)
+models/*.rknn
+models/*.onnx
+# 实机产物 / 报告输出 / 录像
+docs/p0-platform-*.txt
+out/
+*.mp4
+*.avi
+# 真实密码 / 私有配置
+.env
+config/thresholds.json
+config/camera.json
+config/*.secret.json
