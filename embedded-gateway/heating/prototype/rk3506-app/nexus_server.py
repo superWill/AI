@@ -553,6 +553,15 @@ def build_nodes_tags(view, endpoint):
     return nodes, tags
 
 
+def gatewayc_view(core_url, timeout=2):
+    """从 Go 核心(gatewayc:8091)取 /api/snapshot 作为 view。
+    边界重构:nexus 不再内嵌采集,改消费 gatewayc。第3步把 collect/make_handler 切到这里;
+    现仅供并行对账(nexus_reconcile.py)与 client 复用。默认 live 仍走内嵌,本函数不改变现有行为。"""
+    import urllib.request
+    with urllib.request.urlopen(core_url.rstrip("/") + "/api/snapshot", timeout=timeout) as r:
+        return json.load(r)
+
+
 def sys_metrics():
     cpu, mem = 5.0, 30.0
     try:
