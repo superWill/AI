@@ -53,6 +53,8 @@ func main() {
 		runUI(os.Args[2:])
 	case "lcdtest":
 		runLCDTest(os.Args[2:])
+	case "lcdrender":
+		runLCDRender(os.Args[2:])
 	default:
 		usage()
 	}

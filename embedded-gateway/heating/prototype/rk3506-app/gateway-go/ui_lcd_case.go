@@ -1,9 +1,42 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 )
+
+// lcdrender: 用一个场景 JSON 驱动整页渲染(对拍 Python dashboard.render 用),导出原始 RGB[+PNG]。
+//
+//	gatewayc lcdrender <scene.json> <out_raw.rgb> [out.png]
+//
+// scene.json = {"view":..,"clock":"14:32:07","targets":{..},"page":"overview","display_model":..}
+func runLCDRender(args []string) {
+	if len(args) < 2 {
+		fmt.Fprintln(os.Stderr, "用法: gatewayc lcdrender <scene.json> <out_raw.rgb> [out.png]")
+		os.Exit(2)
+	}
+	raw, err := os.ReadFile(args[0])
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "读取场景失败: %v\n", err)
+		os.Exit(2)
+	}
+	var sc obj
+	if err := json.Unmarshal(raw, &sc); err != nil {
+		fmt.Fprintf(os.Stderr, "解析场景失败: %v\n", err)
+		os.Exit(2)
+	}
+	configureDisplayUI(asObj(sc["display_model"]))
+	f, _ := lcdRender(asObj(sc["view"]), asStr(sc["clock"]), asObj(sc["targets"]), asStr(sc["page"]))
+	if err := os.WriteFile(args[1], f.buf, 0o644); err != nil {
+		fmt.Fprintf(os.Stderr, "写 raw 失败: %v\n", err)
+		os.Exit(2)
+	}
+	if len(args) >= 3 {
+		f.toPNG(args[2])
+	}
+	fmt.Printf("[lcdrender] %s 页渲染完成 → %s (%d 字节)\n", asStr(sc["page"]), args[1], len(f.buf))
+}
 
 // lcdtest: 渲染一个固定测试场景(对拍 Python dashboard.FB 用),导出原始 RGB 缓冲 + PNG。
 //

@@ -12,3 +12,7 @@ __pycache__/
 # 轨B影子 arm 构建产物(部署脚本现编)
 deploy/gatewayc-shadow-arm
 gatewayc-amd64
+# 主机/板上 gatewayc 构建产物(对拍/部署现编,不入库)
+gatewayc-host
+gatewayc-arm
+deploy/gatewayc-arm
