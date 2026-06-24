@@ -487,7 +487,7 @@ func pageControl(f *fb, view, targets obj, buttons *[]obj) {
 			tgt = toF(t)
 		} else if cur != nil {
 			cv, _ := pythonFloat(cur)
-			tgt = float64(int64(cv + 0.5))
+			tgt = pyRound(cv, 0)
 		} else {
 			tgt = c.lo
 		}
