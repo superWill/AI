@@ -6,10 +6,20 @@ APP=/userdata/rk3506-app
 
 echo "[revert] 停 gatewayc-核心拓扑"
 [ -x "$APP/S99zz-gateway-go" ] && "$APP/S99zz-gateway-go" stop 2>/dev/null
-for p in $(ps 2>/dev/null | grep -E 'supervisor\.sh|gatewayc run|nexus_server\.py|drm_hmi' | grep -v grep | awk '{print $1}'); do
-  kill "$p" 2>/dev/null
+# 先反复杀 supervisor(含 gatewayc_loop/nexus_loop 子 shell)直到没有,否则子 shell 会
+# 在杀 gatewayc 的窗口里把它 respawn 回来(实测残留过)。再反复杀 gatewayc/nexus/LCD。
+i=0; while [ $i -lt 6 ]; do
+  sup=$(ps 2>/dev/null | grep 'supervisor\.sh' | grep -v grep | awk '{print $1}')
+  [ -z "$sup" ] && break
+  for p in $sup; do kill -9 "$p" 2>/dev/null; done
+  sleep 1; i=$((i+1))
 done
-sleep 1
+i=0; while [ $i -lt 3 ]; do
+  for p in $(ps 2>/dev/null | grep -E 'gatewayc run|nexus_server\.py|drm_hmi' | grep -v grep | awk '{print $1}'); do
+    kill -9 "$p" 2>/dev/null
+  done
+  sleep 1; i=$((i+1))
+done
 
 echo "[revert] 恢复 Python init"
 if [ -f "$APP/S99zz-gateway.python.bak" ]; then
