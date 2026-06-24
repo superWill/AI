@@ -94,6 +94,7 @@ func runGateway(args []string) {
 	cfgPath := fs.String("config", "app_config.json", "运行配置")
 	srcKind := fs.String("source", "", "采集源 sim|modbus(空则用配置)")
 	seconds := fs.Int("seconds", 0, ">0 则跑 N 秒后 dump view 退出(冒烟用)")
+	portFlag := fs.Int("port", 0, "HTTP 端口(>0 覆盖配置 http_port;边界拓扑核心走 8091)")
 	fs.Parse(args)
 
 	raw, err := os.ReadFile(*cfgPath)
@@ -192,6 +193,9 @@ func runGateway(args []string) {
 
 	htmlDir := asStr(getOr(cfg, "html_dir", "html"))
 	port := int(toF(getOr(cfg, "http_port", float64(8092))))
+	if *portFlag > 0 {
+		port = *portFlag // 显式覆盖(边界拓扑:gatewayc 核心 8091)
+	}
 	srv := startHTTP(rt, ctrl, htmlDir, port)
 
 	if *seconds > 0 { // 冒烟:跑 N 秒 dump view 退出

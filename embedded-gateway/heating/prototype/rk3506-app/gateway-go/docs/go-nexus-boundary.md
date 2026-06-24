@@ -73,5 +73,14 @@ RS485 ──┤ 唯一总线主站:采集/控制/安全/Runtime/MQTT      │
   - 连带:nexus 不再 import compiler.py/loader.py;`compile_draft`/`validate` 改为 subprocess 调 gatewayc + 解析 `[校验失败]`/产物;错误信息以 gatewayc 输出为准(已与 Python 逐字对拍一致)。
 - 注:本重构**不接真实设备、不替换控制器**——只是把 nexus 从内嵌核心改成 gatewayc 客户端;真正切生产仍走影子→灰度→验收。
 
-## 8. 实施就绪
-设计与决策已锁,可按 §6 六步增量实施(每步可验证、可并行对账)。第 1 步(gatewayc 固定 :8091 + 核对 snapshot/stream/command 字段满足 nexus)零风险、不动 nexus,可先做。
+## 8. 实施进度
+设计与决策已锁,按 §6 六步增量实施(每步可验证、可并行对账)。
+
+- **第 1 步 ✅ 完成(2026-06,零风险,未动 nexus)**:
+  - `gatewayc run` 加 `--port`(>0 覆盖 cfg http_port),核心端口固定 8091。
+  - 实测 `gatewayc run` vs `app.py` 的 `/api/snapshot`:设备字段逐键一致
+    `[addr,fails,health,name,next_retry_s,offline,ok,points,ts,type]`,point 字段 `[q,u,v]` 一致;
+    `build_nodes_tags` 所需(dev:addr/name/type/ok;point:v/u)**无缺失**。
+  - `/api/command` 返 `{ok,reason}` —— 与 nexus 控制契约(`live_ctx.controller.apply→{ok,reason}`)一致。
+  - 结论:gatewayc 的 snapshot/command 是 nexus 现有内嵌取数/控制的**结构级 drop-in**,无需给 gatewayc 补字段。
+- 第 2 步(nexus 加 gatewayc 客户端取数 + 并行对账)待开。
