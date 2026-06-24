@@ -562,6 +562,34 @@ def gatewayc_view(core_url, timeout=2):
         return json.load(r)
 
 
+CORE_URL = None   # --core-url 给定则进 remote 模式:nexus 消费 gatewayc,不开 source、不当总线主站
+
+
+def remote_command(core_url, point_id, value, timeout=3):
+    """把控制下发转发到 gatewayc /api/command,返回 (ok, reason)。"""
+    import urllib.request
+    data = json.dumps({"point_id": point_id, "value": value}).encode()
+    req = urllib.request.Request(core_url.rstrip("/") + "/api/command", data=data,
+                                 headers={"Content-Type": "application/json"}, method="POST")
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as r:
+            d = json.load(r)
+        return bool(d.get("ok")), d.get("reason", "")
+    except Exception as e:
+        return False, "gatewayc 下发失败: %s" % e
+
+
+class RemoteController:
+    """remote 模式控制器:apply 转发到 gatewayc(Go controller 做安全/决策/写),nexus 不本地写。
+    接口对齐 app.Controller.apply(point_id, value, command_id, origin)。"""
+    def __init__(self, core_url):
+        self.core_url = core_url
+        self.source = None             # 占位:remote 模式无本地 source
+
+    def apply(self, point_id, value, command_id="", origin=""):
+        return remote_command(self.core_url, point_id, value)
+
+
 def sys_metrics():
     cpu, mem = 5.0, 30.0
     try:
@@ -783,6 +811,8 @@ def make_handler(runtime, live_ctx, hub, dist_dir, endpoint, tokens):
             if path == "/api/config/activate":   # 运行中切 live(§8.2 方案B + §8.3 单飞)
                 if not self._authed():
                     return self._json({"error": "Unauthorized"}, 401)
+                if CORE_URL:                     # remote 模式:激活=翻 active 指针 + supervisor 重启 gatewayc(第4步)
+                    return self._json({"ok": False, "errors": ["remote 模式激活由 supervisor 重启实现(第4步未接)"]}, 501)
                 version = body.get("version") or latest_version()
                 if version is None:
                     return self._json({"ok": False, "errors": ["无可激活版本(先 compile)"]}, 400)
@@ -801,6 +831,8 @@ def make_handler(runtime, live_ctx, hub, dist_dir, endpoint, tokens):
             if path == "/api/config/rollback":   # 回滚到上一激活版本(运行中切 live)
                 if not self._authed():
                     return self._json({"error": "Unauthorized"}, 401)
+                if CORE_URL:                     # remote 模式:回滚=翻 active 指针 + supervisor 重启(第4步)
+                    return self._json({"ok": False, "errors": ["remote 模式回滚由 supervisor 重启实现(第4步未接)"]}, 501)
                 prev = LAST_ACTIVATE.get("previous_active")
                 if prev is None:
                     return self._json({"ok": False, "errors": ["无可回滚的上一版本"]}, 400)
@@ -857,6 +889,8 @@ def main():
     ap.add_argument("--source", choices=["sim", "modbus"], default=None)
     ap.add_argument("--serial", default=None)
     ap.add_argument("--port", type=int, default=None)
+    ap.add_argument("--core-url", default=None,
+                    help="给定则 remote 模式:从 gatewayc(如 http://127.0.0.1:8091)取数 + 转发控制,nexus 不开 source")
     ap.add_argument("--products", default=None,
                     help="编译产物目录;给定则从 point_registry 派生可控点与设备类型")
     args = ap.parse_args()
@@ -878,36 +912,47 @@ def main():
                   % (pdir, "/展示排序" if display_model else ""), flush=True)
         else:                                             # 无 active 产物 → 不派生,回退硬编码
             print("[映射] %s 无 point_registry,跳过派生(回退硬编码映射)" % pdir, flush=True)
-    kind = args.source or cfg.get("source", "sim")
-    if kind == "modbus":
-        dev = args.serial or cfg.get("serial", "/dev/ttyS1")
-        source = ModbusSource(dev, cfg.get("baud", 9600), cfg["devices"])
-        endpoint = dev
-        print("[源] modbus %s" % dev, flush=True)
-    else:
-        source = SimSource(cfg["devices"])
-        endpoint = "sim"
-        print("[源] sim 内置仿真", flush=True)
-
     runtime = Runtime(cfg)
-    controller = Controller(runtime, source, cfg.get("control_map", {}),
-                            safety_policy=cfg.get("safety_policy"))
-    # live modbus 激活时要用真串口构造新 source(SimSource 默认不开串口)。
-    live_source_factory = ((lambda devices: ModbusSource(
-        args.serial or cfg.get("serial", "/dev/ttyS1"), cfg.get("baud", 9600), devices))
-        if kind == "modbus" else None)
-    # Step5.3:live RuntimeContext —— collector/handler/activate 都经它取数,activate 原子替换其内容。
-    live_ctx = RuntimeContext(source, controller, active_version=read_active(),
-                              source_factory=live_source_factory)
+    if args.core_url:                                 # remote 模式:消费 gatewayc,不开 source
+        global CORE_URL
+        CORE_URL = args.core_url
+        endpoint = "gatewayc"
+        live_ctx = RuntimeContext(None, RemoteController(args.core_url),
+                                  active_version=read_active(), source_factory=None)
+        print("[源] 远程 gatewayc %s(nexus 不开 source、不当 RS485 主站)" % args.core_url, flush=True)
+    else:
+        kind = args.source or cfg.get("source", "sim")
+        if kind == "modbus":
+            dev = args.serial or cfg.get("serial", "/dev/ttyS1")
+            source = ModbusSource(dev, cfg.get("baud", 9600), cfg["devices"])
+            endpoint = dev
+            print("[源] modbus %s" % dev, flush=True)
+        else:
+            source = SimSource(cfg["devices"])
+            endpoint = "sim"
+            print("[源] sim 内置仿真", flush=True)
+        controller = Controller(runtime, source, cfg.get("control_map", {}),
+                                safety_policy=cfg.get("safety_policy"))
+        # live modbus 激活时要用真串口构造新 source(SimSource 默认不开串口)。
+        live_source_factory = ((lambda devices: ModbusSource(
+            args.serial or cfg.get("serial", "/dev/ttyS1"), cfg.get("baud", 9600), devices))
+            if kind == "modbus" else None)
+        # Step5.3:live RuntimeContext —— collector/handler/activate 都经它取数,activate 原子替换其内容。
+        live_ctx = RuntimeContext(source, controller, active_version=read_active(),
+                                  source_factory=live_source_factory)
     hub = SocketHub()
     tokens = set()
     stop = threading.Event()
 
     def collect():
         while not stop.is_set():
-            src = live_ctx.current_source()           # 锁内取引用,poll 在锁外(§8.2)
             try:
-                runtime.update(src.poll())
+                if CORE_URL:                          # remote:取 gatewayc view,devices[] 重组回 {addr:dev}
+                    v = gatewayc_view(CORE_URL)        # 喂进同一个 runtime,handler/广播器读 runtime.view() 不变
+                    runtime.update({d["addr"]: d for d in v.get("devices", [])})
+                else:
+                    src = live_ctx.current_source()   # 锁内取引用,poll 在锁外(§8.2)
+                    runtime.update(src.poll())
             except Exception as exc:
                 print("[采集] 异常:", exc, flush=True)
             stop.wait(cfg.get("poll_interval_s", 2))
