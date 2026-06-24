@@ -39,6 +39,7 @@ func runUI(args []string) {
 	core := strings.TrimRight(*coreURL, "/")
 	client := &http.Client{Timeout: 3 * time.Second}
 	var tokens sync.Map
+	hub := newSocketHub()
 
 	coreView := func() (obj, error) {
 		resp, err := client.Get(core + "/api/snapshot")
@@ -140,6 +141,23 @@ func runUI(args []string) {
 	mux.HandleFunc("/api/scada", func(w http.ResponseWriter, r *http.Request) { writeJSON(w, arr{}, 200) })
 	mux.HandleFunc("/api/history", func(w http.ResponseWriter, r *http.Request) { writeJSON(w, arr{}, 200) })
 
+	// socket.io(EIO4/SIO5 polling):GET 握手/长轮询,POST 收客户端包。
+	mux.HandleFunc("/socket.io/", func(w http.ResponseWriter, r *http.Request) {
+		sid := r.URL.Query().Get("sid")
+		w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+		if r.Method == http.MethodPost {
+			b, _ := io.ReadAll(r.Body)
+			hub.handlePost(sid, string(b))
+			w.Write([]byte("ok"))
+			return
+		}
+		if sid == "" {
+			w.Write([]byte(eioOpen(hub.newSession()))) // 握手
+			return
+		}
+		w.Write([]byte(hub.poll(sid, 20*time.Second))) // 长轮询
+	})
+
 	// 静态 edge-os dist(SPA:未命中文件回退 index.html)。socket.io/config/api-config 见后续增量。
 	dist, _ := filepath.Abs(filepath.Clean(*distDir))
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
@@ -157,6 +175,19 @@ func runUI(args []string) {
 		}
 		http.ServeFile(w, r, full)
 	})
+
+	// 广播器:每 2s 取核心快照 → 推 tag-change/node-change/system-metrics(对照 nexus broadcaster)。
+	go func() {
+		for {
+			if v, err := coreView(); err == nil {
+				nodes, tags := buildNodesTagsUI(v, *endpoint, maps)
+				hub.broadcast(sioEvent("tag-change", tags))
+				hub.broadcast(sioEvent("node-change", nodes))
+				hub.broadcast(sioEvent("system-metrics", sysMetricsUI()))
+			}
+			time.Sleep(2 * time.Second)
+		}
+	}()
 
 	fmt.Printf("[ui] edge-os UI 在 :%d,核心 %s,产物 %s\n", *port, core, map[bool]string{true: *productsDir, false: "默认映射"}[*productsDir != ""])
 	if err := http.ListenAndServe(fmt.Sprintf("0.0.0.0:%d", *port), mux); err != nil {
