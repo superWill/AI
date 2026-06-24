@@ -36,11 +36,14 @@ Go 转正后 nexus **不能再内嵌 app.py**——必须改为经 `gatewayc` �
 - 灰度期日志 / 指标 / 现场验收报告。
 
 ## 4. 非迁移差异,但生产前应处理
-- HTTP `/api/command` 无真实鉴权。
-- gatewayc MQTT 无 TLS / 设备证书接入。
-- MQTT 遥测缓存仅内存,进程重启丢(需 FileStore 或落盘队列)。
-- `valid_until` 失联回退未落实。
-- OTA / 签名校验 / 失败回滚未做。
+- ✅ **HTTP `/api/command` 强鉴权**:控制 token(X-Control-Token,supervisor 生成下发,
+  nexus/LCD 转发)。配置则必须带匹配 token,否则 401——防绕过 nexus 直接控制。ECS 实测通过。
+- ✅ **`valid_until` 过期拒绝 + 失联安全**:命令带 valid_until(ms)过期即拒(HTTP + MQTT
+  property/set 都查),迟到/失联命令不动作。无该字段=不强制(向后兼容)。
+- ⏳ gatewayc MQTT 无 TLS / 设备证书接入(生产前补)。
+- ⏳ MQTT 遥测缓存仅内存,进程重启丢(需 FileStore 或落盘队列)——**单独评估**:若现场容忍
+  重启期间少量遥测缺口,不阻塞 SIM 上板演练。
+- ⏳ OTA / 签名校验 / 失败回滚未做。
 
 ## 5. 完成度判断(认同评审)
 - 目标=「替代 app.py 核心」:**~85–90%**(剩的多是生产装配/监督/回退脚本 + 真实影子,非核心代码)。
