@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-func startHTTP(rt *Runtime, ctrl *Controller, htmlDir string, port int) *http.Server {
+func startHTTP(rt *Runtime, ctrl *Controller, htmlDir string, port int, controlToken string) *http.Server {
 	htmlDir, _ = filepath.Abs(filepath.Clean(htmlDir))
 	mux := http.NewServeMux()
 
@@ -69,9 +69,18 @@ func startHTTP(rt *Runtime, ctrl *Controller, htmlDir string, port int) *http.Se
 			http.Error(w, "", 404)
 			return
 		}
+		// 强鉴权:配置了 control_token 则必须带匹配的 X-Control-Token,防绕过 nexus 直接控制设备。
+		if controlToken != "" && r.Header.Get("X-Control-Token") != controlToken {
+			writeJSON(w, obj{"ok": false, "reason": "unauthorized"}, 401)
+			return
+		}
 		var body obj
 		if json.NewDecoder(r.Body).Decode(&body) != nil {
 			writeJSON(w, obj{"error": "bad json"}, 400)
+			return
+		}
+		if ok, reason := cmdValid(body); !ok { // valid_until 过期即拒,不执行
+			writeJSON(w, obj{"ok": false, "reason": reason}, 200)
 			return
 		}
 		ok, reason := ctrl.Apply(asStr(body["point_id"]), body["value"], "", "hmi")

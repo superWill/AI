@@ -89,6 +89,24 @@ func uploaderLoop(rt *Runtime, pub *MqttPub, base string, tTele, tHb time.Durati
 	}
 }
 
+// cmdValid:命令带 valid_until(ms epoch)且已过期则拒绝。无该字段=不强制(向后兼容)。
+// 失联安全:平台下发命令时带短有效期,网关失联/延迟导致命令过期即不执行,避免迟到指令误动作。
+func cmdValid(body obj) (bool, string) {
+	vu, has := body["valid_until"]
+	if !has || vu == nil {
+		return true, ""
+	}
+	f, ok := pythonFloat(vu)
+	if !ok {
+		return false, "valid_until 非法"
+	}
+	now := float64(time.Now().UnixMilli())
+	if now > f {
+		return false, fmt.Sprintf("命令已过期(valid_until=%d < now=%d)", int64(f), int64(now))
+	}
+	return true, ""
+}
+
 func runGateway(args []string) {
 	fs := flag.NewFlagSet("run", flag.ExitOnError)
 	cfgPath := fs.String("config", "app_config.json", "运行配置")
@@ -171,6 +189,10 @@ func runGateway(args []string) {
 			if json.Unmarshal(payload, &cmd) != nil {
 				return
 			}
+			if ok, reason := cmdValid(cmd); !ok { // valid_until 过期即拒,不下发
+				rt.AddEvent(obj{"kind": "command", "action": "rejected_expired", "detail": reason})
+				return
+			}
 			pl := asObj(cmd["payload"])
 			if pl == nil {
 				pl = cmd
@@ -196,7 +218,11 @@ func runGateway(args []string) {
 	if *portFlag > 0 {
 		port = *portFlag // 显式覆盖(边界拓扑:gatewayc 核心 8091)
 	}
-	srv := startHTTP(rt, ctrl, htmlDir, port)
+	controlToken := asStr(getOr(cfg, "control_token", ""))
+	if env := os.Getenv("GATEWAYC_CONTROL_TOKEN"); env != "" {
+		controlToken = env // env 覆盖(supervisor 注入,不落配置文件)
+	}
+	srv := startHTTP(rt, ctrl, htmlDir, port, controlToken)
 
 	if *seconds > 0 { // 冒烟:跑 N 秒 dump view 退出
 		time.Sleep(time.Duration(*seconds) * time.Second)
