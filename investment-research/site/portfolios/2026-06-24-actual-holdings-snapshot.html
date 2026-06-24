@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2026 06 24 actual holdings snapshot</title>
+  <link rel="stylesheet" href="../_assets/style.css" />
+</head>
+<body>
+  <div class="site-shell">
+  <div class="page">
+    <div class="topbar">
+      <div class="nav-cluster">
+        <a class="back" href="../index.html">← 返回投研首页</a>
+        <a class="nav-link secondary" href="../all-docs.html">全部文档</a>
+      </div>
+      <div class="nav-cluster">
+        <a class="home-link" href="../notes.html">Notes</a>
+        <a class="home-link" href="../candidates.html">Candidates</a>
+        <a class="home-link" href="../tickers.html">Tickers</a>
+      </div>
+    </div>
+    <section class="hero">
+      <div class="doc-header-grid">
+        <div>
+          <div class="eyebrow">portfolios</div>
+          <h1>2026-06-24-actual-holdings-snapshot</h1>
+          <p>组合、仓位和执行层面的判断。</p>
+          <div class="meta-row">
+            <span class="pill">portfolios/2026-06-24-actual-holdings-snapshot.md</span>
+            <span class="pill">397 words</span>
+            <span class="pill">8 sections</span>
+          </div>
+        </div>
+        <div class="doc-stat-stack">
+          <div class="doc-stat">
+            <div class="doc-stat-label">Document Type</div>
+            <div class="doc-stat-value">Portfolios</div>
+          </div>
+          <div class="doc-stat">
+            <div class="doc-stat-label">Reading Mode</div>
+            <div class="doc-stat-value">Research Memo</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="doc-layout">
+      <article class="doc doc-main">
+<hr />
+<p>date: 2026-06-24 status: actual-holdings   # 真实持仓快照,非提案;持仓状态唯一真相源 base_currency: USD data_source: 用户自报持仓 2026-06-24 + yfinance 1y 日线实测 beta/协方差/风险归因 related: notes/2026-06-21-portfolio-beta-and-ballast.md · notes/2026-06-23-ai-capex-cycle-leading-indicators.md · notes/2026-06-24-memory-storage-cycle-mechanics.md memory: capital-preservation-first · portfolio-soxx-factor-risk · no-options-trading</p>
+<hr />
+<h1 id="真实持仓快照-2026-06-24">真实持仓快照 2026-06-24</h1>
+<blockquote>第一份<strong>实际持仓</strong>记录(此前 portfolios/ 全是提案)。持仓状态只在此记,研究记录不等于持仓记录。</blockquote>
+<h2 id="一句话">一句话</h2>
+<p><strong>比起点强很多(betaSOXX 0.89→0.32,30% 现金在干活),但成分是但斌式 AI 集中(NVDA 一只=41% 风险),只靠现金垫上段永平味。两个和&quot;宁愿错过不损失本金&quot;打架的点:CRCL(投机/归零尾部)、NVDA 23% 单票。</strong></p>
+<h2 id="二持仓">二、持仓</h2>
+<table><thead><tr><th>Ticker</th><th>权重</th><th>betaSPY</th><th>betaSOXX</th><th>1y</th><th>角色</th></tr></thead><tbody><tr><td>NVDA</td><td><strong>23.0%</strong></td><td>1.87</td><td>0.54</td><td>+35%</td><td>AI 大脑(核心,但过重)</td></tr><tr><td>GOOGL</td><td>15.9%</td><td>1.30</td><td>0.25</td><td>+108%</td><td>价值捕获(已涨完)</td></tr><tr><td>TSM</td><td>10.1%</td><td>2.08</td><td>0.73</td><td>+100%</td><td>代工垄断(重资产周期)</td></tr><tr><td>META</td><td>5.1%</td><td>1.47</td><td>0.26</td><td>-21%</td><td>有机广告(错杀,质量高)</td></tr><tr><td>AMZN</td><td>4.3%</td><td>1.46</td><td>0.27</td><td>+10%</td><td>云+零售</td></tr><tr><td>CRCL</td><td>3.5%</td><td><strong>3.17</strong></td><td>0.70</td><td><strong>-66%</strong></td><td>稳定币(投机/归零尾部)</td></tr><tr><td>MRVL</td><td>2.6%</td><td><strong>2.81</strong></td><td>1.23</td><td>+272%</td><td>高 beta 光/定制(动量)</td></tr><tr><td>NFLX</td><td>1.7%</td><td>0.38</td><td>-0.02</td><td>-43%</td><td><strong>唯一真分散腿(太小)</strong></td></tr><tr><td><strong>现金</strong></td><td><strong>30%</strong></td><td>0</td><td>0</td><td>—</td><td><strong>干火药/压舱(最对的一手)</strong></td></tr><tr><td>(未明)</td><td>~3.85%</td><td>—</td><td>—</td><td>—</td><td>差额待核</td></tr></tbody></table>
+<h2 id="三组合层面实测含现金-computed">三、组合层面(实测,含现金) <code>[COMPUTED]</code></h2>
+<table><thead><tr><th>指标</th><th>值</th><th>读法</th></tr></thead><tbody><tr><td><strong>betaSPY</strong></td><td><strong>1.17</strong></td><td>中等;现金压下来的(对比 memory 记的 v2 2.31)</td></tr><tr><td><strong>betaSOXX</strong></td><td><strong>0.32</strong></td><td>大幅改善(memory 记 0.89)</td></tr><tr><td>年化波动</td><td>17.1%</td><td>SPY 12.5 / SOXX 39.5 之间,偏稳</td></tr></tbody></table>
+<h2 id="四风险归因分散是假象-computed">四、风险归因——&quot;分散&quot;是假象 <code>[COMPUTED]</code></h2>
+<table><thead><tr><th>名字</th><th>权重</th><th><strong>占组合风险</strong></th></tr></thead><tbody><tr><td><strong>NVDA</strong></td><td>23.0%</td><td><strong>40.9%</strong></td></tr><tr><td>TSM</td><td>10.1%</td><td>17.7%</td></tr><tr><td>GOOGL</td><td>15.9%</td><td>16.3%</td></tr><tr><td><strong>CRCL</strong></td><td>3.5%</td><td><strong>9.2%</strong>(权重的 2.6 倍)</td></tr><tr><td>META</td><td>5.1%</td><td>5.6%</td></tr><tr><td>MRVL</td><td>2.6%</td><td>5.5%</td></tr><tr><td>AMZN</td><td>4.3%</td><td>4.3%</td></tr><tr><td>NFLX</td><td>1.7%</td><td>0.6%</td></tr></tbody></table>
+<ul>
+<li><strong>NVDA 一只 = 23% 仓位 / 41% 风险</strong>(第⑤雷:单一赌注过度集中)。</li>
+<li><strong>半导体桶(TSM+NVDA+MRVL)35.7% 仓位 → ~64% 风险</strong>。</li>
+<li><strong>股票 64.5% 是同一个 AI 赌注</strong>;GOOGL/META/AMZN 对你不是分散(AI beta 0.25-0.34、和 NVDA 同向),只 NFLX(1.7%)真不相关但太小。<strong>8 注实为 1 注 AI + 现金。</strong></li>
+</ul>
+<h2 id="五两个与原则打架的点">五、两个与原则打架的点</h2>
+<ol>
+<li><strong>CRCL(最该先处理)</strong>:波动 98%、1y -66%、风险贡献 9.2%(超配 2.6 倍),稳定币/加密 adjacent <strong>有归零尾部</strong> = 资本保全第③雷。最不像&quot;宁愿错过不损失本金&quot;的人会持有的一笔。</li>
+<li><strong>NVDA 23% 单票</strong>:不是看空 NVDA,是单只 23%(且 41% 风险、已涨完那一波)对资本保全过重。</li>
+</ol>
+<h2 id="六情景组合-as-is锚定-soxx-因子-computedinferred">六、情景(组合 as-is,锚定 SOXX 因子) <code>[COMPUTED/INFERRED]</code></h2>
+<table><thead><tr><th>情景</th><th>触发</th><th>组合估计</th><th>说明</th></tr></thead><tbody><tr><td><strong>悲观</strong></td><td>AI capex bust,SOXX -40%</td><td><strong>约 -13~-18%</strong></td><td>betaSOXX 0.32 × -40% + 个股尾部;30% 现金兜底,远好于 v2 的 -32%</td></tr><tr><td><strong>基准</strong></td><td>震荡轮动,SPY 横</td><td>个位数波动</td><td>现金拖一点、NVDA/GOOGL 主导方向</td></tr><tr><td><strong>乐观</strong></td><td>AI 续涨,SOXX +30%</td><td><strong>约 +12~+18%</strong></td><td>但 30% 现金会让你跑输纯 AI(这是压舱的代价,非缺点)</td></tr></tbody></table>
+<blockquote>CRCL 的尾部不在此线性模型内(可独立 -50%+),是非对称下行。</blockquote>
+<h2 id="七可选动作论点选项非买卖指令">七、可选动作(论点+选项,非买卖指令)</h2>
+<ol>
+<li><strong>砍 CRCL</strong>:去掉投机/归零尾部,几乎不损收益潜力。</li>
+<li><strong>NVDA 削一档(23%→~12-15%)</strong>:削最大单一风险源 = 最高性价比降险;削出的钱<strong>进现金,不换另一只 AI 大盘</strong>。</li>
+<li><strong>保护 30% 现金,别手痒</strong>:它是 betaSOXX 0.32 的功臣;部署进 corr 0.25-0.34 的大盘 = 把分散吐回去。</li>
+<li><strong>若降险部署</strong>:方向是 orthogonal 腿(BRK 负相关 / NFLX 型 corr 0.05 / 字面电力 VST/CEG),不是再加 AI 大盘。NFLX 才 1.7%,真分散腿严重不足。</li>
+</ol>
+<p><strong>做完 1+2 的估计</strong> <code>[COMPUTED 近似]</code>:betaSPY ≈ 1.17→<strong>0.89</strong>、betaSOXX ≈ 0.32→<strong>0.25</strong>、现金 ≈ 42%、NVDA 风险占比从 41% 降到 ~25%。= 明显更贴资本保全,代价是更少 AI 上行。</p>
+<h2 id="八复盘锚">八、复盘锚</h2>
+<ul>
+<li>这本书成分≈但斌 AI 书,<strong>靠现金而非成分</strong>带上段永平味(见 memory <code>capital-preservation-first</code> 的张力条)。</li>
+<li>减仓信号盯领先指标 note(capex/订单/价格二阶导),不盯股价。</li>
+<li>下次买入先过 <code>organic-growth-screen</code> + &quot;是否真降相关性 vs 只是再加一注 AI&quot;。</li>
+</ul>
+      </article>
+      <aside class="doc-sidebar">
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">文档导航</h3>
+          <ul class="toc-list"><li><a href="#一句话">一句话</a></li><li><a href="#二持仓">二、持仓</a></li><li><a href="#三组合层面实测含现金-computed">三、组合层面(实测,含现金) `[COMPUTED]`</a></li><li><a href="#四风险归因分散是假象-computed">四、风险归因——&quot;分散&quot;是假象 `[COMPUTED]`</a></li><li><a href="#五两个与原则打架的点">五、两个与原则打架的点</a></li><li><a href="#六情景组合-as-is锚定-soxx-因子-computedinferred">六、情景(组合 as-is,锚定 SOXX 因子) `[COMPUTED/INFERRED]`</a></li><li><a href="#七可选动作论点选项非买卖指令">七、可选动作(论点+选项,非买卖指令)</a></li><li><a href="#八复盘锚">八、复盘锚</a></li></ul>
+        </section>
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">阅读提示</h3>
+          <ul class="summary-list">
+            <li><span class="summary-label">先看什么</span><span class="summary-value">先读一段话结论，再看表格和风险点。</span></li>
+            <li><span class="summary-label">适合用途</span><span class="summary-value">复盘、比较、回查研究底稿。</span></li>
+            <li><span class="summary-label">建议动作</span><span class="summary-value">如果文档内容改变了 thesis，再回到候选池或组合页更新判断。</span></li>
+          </ul>
+        </section>
+      </aside>
+    </div>
+    <div class="footer">该页面由 Markdown 自动生成。原始文件：portfolios/2026-06-24-actual-holdings-snapshot.md</div>
+  </div>
+  </div>
+</body>
+</html>
