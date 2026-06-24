@@ -32,7 +32,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 # 配置发布后端(PRD §10 安全入口):草稿落盘 + 校验 + 编译,不热切运行时、不接 /api/nodes。
 CONFIG_DRAFT_PATH = os.path.join(HERE, "current_draft.json")
 CONFIG_BUILD_DIR = os.path.join(HERE, "build")
-GATEWAYC_BIN = "gatewayc"   # D3:配置编译/校验调 gatewayc compile/load;二进制不可用时回退 Python compiler
+GATEWAYC_BIN = "gatewayc"   # D3:配置编译/校验调 gatewayc compile/load;二进制不可用时(非严格)回退 Python compiler
+GATEWAYC_STRICT = False      # 严格模式(生产/remote):gatewayc 不可用即失败,不静默回退 Python
 
 
 def _read_json(path):
@@ -322,6 +323,8 @@ def _validate_draft(draft):
         _ok, errs = _gatewayc_compile_cli(draft, validate_only=True)
         return errs
     except FileNotFoundError:
+        if GATEWAYC_STRICT:
+            return ["gatewayc 不可用(%s),严格模式禁止回退 Python compiler" % GATEWAYC_BIN]
         return compiler.validate(draft)
 
 
@@ -348,7 +351,9 @@ def compile_draft(draft):
         if not ok:
             return False, cerrs, None
         _emit_generated(vd)                           # gatewayc load → app_config.generated.json
-    except FileNotFoundError:                         # 无 gatewayc 二进制 → 回退 Python
+    except FileNotFoundError:                         # 无 gatewayc 二进制
+        if GATEWAYC_STRICT:                           # 严格模式(生产):失败,不回退 Python
+            return False, ["gatewayc 不可用(%s),严格模式禁止回退 Python compiler/loader" % GATEWAYC_BIN], None
         products = compiler.compile(draft)
         for name, obj in products.items():
             json.dump(obj, open(os.path.join(vd, name), "w", encoding="utf-8"),
@@ -1019,11 +1024,14 @@ def main():
                     help="remote 激活重启 gatewayc 用的 pid 文件(supervisor 写)")
     ap.add_argument("--gatewayc-bin", default="gatewayc",
                     help="D3:配置编译/校验调用的 gatewayc 二进制路径(不可用时回退 Python compiler)")
+    ap.add_argument("--gatewayc-strict", action="store_true",
+                    help="严格模式:gatewayc 不可用即失败,不回退 Python(remote 模式自动开启)")
     ap.add_argument("--products", default=None,
                     help="编译产物目录;给定则从 point_registry 派生可控点与设备类型")
     args = ap.parse_args()
-    global GATEWAYC_BIN
+    global GATEWAYC_BIN, GATEWAYC_STRICT
     GATEWAYC_BIN = args.gatewayc_bin                   # D3:配置编译/校验用的 gatewayc 二进制
+    GATEWAYC_STRICT = args.gatewayc_strict or bool(args.core_url)  # remote(生产)模式默认严格,不回退 Python
 
     cfg_path = select_startup_config(args.config)     # 有 active 则从 versions/<active> 起 live
     cfg = json.load(open(cfg_path))
