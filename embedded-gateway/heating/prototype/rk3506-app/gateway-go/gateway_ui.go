@@ -25,6 +25,10 @@ func runUI(args []string) {
 	distDir := fs.String("dist", "nexus-dist", "edge-os 前端 dist 目录")
 	endpoint := fs.String("endpoint", "sim", "node.endpoint 标签")
 	controlToken := fs.String("control-token", "", "转发控制到核心的 X-Control-Token(默认 env GATEWAYC_CONTROL_TOKEN)")
+	buildDir := fs.String("build", "build", "配置版本化目录(versions/active)")
+	draftPath := fs.String("draft", "current_draft.json", "配置草稿路径")
+	gwPidfile := fs.String("gw-pidfile", "/tmp/gwsup/gatewayc.pid", "激活时重启核心 gatewayc 用的 pid 文件")
+	deviceID := fs.String("device-id", "rk3506-gw-01", "编译 app_config 用的 device_id")
 	fs.Parse(args)
 	if *controlToken == "" {
 		*controlToken = os.Getenv("GATEWAYC_CONTROL_TOKEN")
@@ -140,6 +144,12 @@ func runUI(args []string) {
 	})
 	mux.HandleFunc("/api/scada", func(w http.ResponseWriter, r *http.Request) { writeJSON(w, arr{}, 200) })
 	mux.HandleFunc("/api/history", func(w http.ResponseWriter, r *http.Request) { writeJSON(w, arr{}, 200) })
+
+	// 配置管理(/api/config/* + /config 页)——编译/校验进程内,激活=翻指针+重启核心。
+	cfgMgr := &uiConfig{build: *buildDir, draftPath: *draftPath, deviceID: *deviceID,
+		coreURL: core, gwPidfile: *gwPidfile, client: client,
+		lastActivate: obj{"version": nil, "state": nil, "errors": arr{}, "previous_active": nil}}
+	registerConfigEndpoints(mux, cfgMgr, authed, writeJSON)
 
 	// socket.io(EIO4/SIO5 polling):GET 握手/长轮询,POST 收客户端包。
 	mux.HandleFunc("/socket.io/", func(w http.ResponseWriter, r *http.Request) {
