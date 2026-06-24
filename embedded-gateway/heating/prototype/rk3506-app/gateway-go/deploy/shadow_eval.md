@@ -12,10 +12,10 @@
    - **无 mosquitto → 部署脚本自带 `mqtt_broker.py`(纯标准库,板载 python3 跑,零安装零依赖)**,同样 MQTT 全功能(采样 + 命令对账 + 板外比对器)。
    - (更深兜底:app.py `--shadow-sock` / 影子 `--samples-sock` 走 unix datagram,仅 view/资源对比;一般用不上。)
 
-### 已知:app.py 自写 MQTT 客户端偶发漏收命令(broker 无关)
-影子 eval 暴露的一个**生产 app.py 特性**:其手写 `MqttClient` 在并发/负载下会间歇漏收 `property/set` 命令(用 mosquitto / mochi-mqtt / 自带 broker 复现一致 → 与 broker 无关)。而 **Go 影子(paho)每次都收全**——这是迁移的加分项(Go 客户端更稳)。
-- 比对器据此区分:**`decision_diffs`**(两边都决策但结论不同)= 真正的逻辑分歧,**这才是判据**;**`pending_go`**(Go 决策但 Python 无对应)多为 app.py 漏收,非 Go 问题。
-- 现实 eval 命令稀疏(运维偶尔改设定值),影响有限;浸泡报告需把 pending 归因 app.py 漏收、只对 `decision_diffs` 把关。
+### 已修:app.py 自写 MQTT 客户端漏收命令(根因=socket 空闲误超时)
+影子 eval 曾暴露 app.py 手写 `MqttClient` 间歇漏收 `property/set`(mosquitto/mochi/自带 broker 复现一致→与 broker 无关)。**已定位并修复**:`socket.create_connection(timeout=5)` 给持久 socket 留了 5s 超时,`_rx_loop` 的 `recv` 在命令间隔/心跳 >5s 的空闲期会误抛 `timeout`→误判断连→重连窗口丢命令。修复:连上后 `settimeout(None)` 转阻塞(根因);并加连接锁 + rx_loop 绑定自身 socket(消除并发重连开多个 loop 抢字节)。
+- 验证:满载下 5 条命令(8s 间隔,都 >5s)全收,比对器 `decision_diffs=0`、`pending_go=0`。
+- 判据仍是 **`decision_diffs`**(逻辑分歧);`pending_go` 现应恒 0,若再非 0 需排查。
 4. 真实 RS485 设备已接好(`--source modbus` 才有现场数据;否则退化成 sim,失去 eval 意义)。
 
 ## 部署(Mac 侧,板子接好后)

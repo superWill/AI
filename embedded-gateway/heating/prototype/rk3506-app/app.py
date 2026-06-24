@@ -376,6 +376,7 @@ class MqttClient:
         self.subs = []
         self.buf = deque(maxlen=2000)
         self.lock = threading.Lock()
+        self.connect_lock = threading.Lock()   # 防多线程并发 _connect 开出多个 rx_loop
 
     def _connect(self):
         s = socket.create_connection((self.host, self.port), timeout=5)
@@ -393,10 +394,12 @@ class MqttClient:
         s.sendall(b"\x10" + _mqtt_len(len(body)) + body)
         if s.recv(4)[:1] != b"\x20":
             s.close(); raise OSError("CONNACK 失败")
+        s.settimeout(None)   # 连上后转阻塞:rx_loop 的 recv 不再因空闲>5s 误超时→误重连丢命令
         self.sock = s
         for topic in self.subs:
             self._subscribe(topic)
-        threading.Thread(target=self._rx_loop, daemon=True).start()
+        # rx_loop 绑定本次的 socket s,不读 self.sock——重连开新 loop 也不会和旧的抢字节。
+        threading.Thread(target=self._rx_loop, args=(s,), daemon=True).start()
 
     def subscribe(self, topic):
         self.subs.append(topic)
@@ -409,16 +412,16 @@ class MqttClient:
         with self.lock:
             self.sock.sendall(b"\x82" + _mqtt_len(len(body)) + body)
 
-    def _rx_loop(self):
+    def _rx_loop(self, sock):
         try:
-            while self.sock:
-                hdr = self.sock.recv(1)
+            while True:
+                hdr = sock.recv(1)
                 if not hdr:
                     break
-                length = _read_len(self.sock)
+                length = _read_len(sock)
                 data = b""
                 while len(data) < length:
-                    chunk = self.sock.recv(length - len(data))
+                    chunk = sock.recv(length - len(data))
                     if not chunk:
                         break
                     data += chunk
@@ -433,16 +436,20 @@ class MqttClient:
                             print("[mqtt] on_message error:", exc, flush=True)
         except OSError:
             pass
-        self.sock = None
+        finally:
+            if self.sock is sock:                     # 只在仍是自己这条连接时清空
+                self.sock = None
 
     def publish(self, topic, obj):
         try:
             if self.sock is None:
-                self._connect()
-                while self.buf:
-                    t, o = self.buf.popleft()
-                    o = dict(o); o["replay"] = True
-                    self._raw(t, o)
+                with self.connect_lock:               # 双检:只让一个线程真正重连
+                    if self.sock is None:
+                        self._connect()
+                        while self.buf:
+                            t, o = self.buf.popleft()
+                            o = dict(o); o["replay"] = True
+                            self._raw(t, o)
             self._raw(topic, obj)
             return True
         except OSError:

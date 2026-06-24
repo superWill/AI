@@ -80,7 +80,7 @@ cat <<EOF
       --device rk3506-gw-01 --http $BOARD_HTTP \\
       --tol 0.5 --summary-every 60 --out shadow_diff.jsonl
 
-  注:decision_diffs 是真正的判据(Go 与 Python 逻辑分歧);pending_go 多为 app.py
-  自写 MQTT 客户端偶发漏收命令(已知,broker 无关,Go/paho 不漏)——见 shadow_eval.md。
+  注:decision_diffs 是判据(Go 与 Python 逻辑分歧),应恒 0;pending_go 应恒 0
+  (app.py 漏收命令的 bug 已修,根因=socket 空闲误超时,见 shadow_eval.md)。
   还原(eval 结束):$HERE/shadow_eval_stop.sh
 EOF
