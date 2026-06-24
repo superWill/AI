@@ -29,7 +29,10 @@ func numStr(v interface{}) string {
 }
 
 // 默认(无编译产物时回退)映射 —— 对照 nexus_server.py 同名常量。
-var controllableDefault = map[string]bool{"valve_open": true, "pump_freq": true, "sec_supply_temp": true}
+// controllable: 可控点 pid → 实际写入的设定值点(成员资格=可控;值=写哪个 setpoint)。
+var controllableDefault = map[string]string{
+	"valve_open": "valve_open_sp", "pump_freq": "pump_freq_sp", "sec_supply_temp": "sec_supply_temp_sp",
+}
 
 var devTypeDefault = map[string]string{
 	"换热机组": "boiler", "循环泵": "pump_vfd", "电动调节阀": "valve_actuator",
@@ -51,7 +54,7 @@ var data2tagtype = map[string]string{
 
 // uiMaps 持有展示层映射(产物驱动或默认),取代 nexus 的可变全局。
 type uiMaps struct {
-	controllable    map[string]bool   // pid 是否可控(可写)
+	controllable    map[string]string // 可控点 pid -> 写入的设定值点(成员=可控)
 	devTypeByDevice map[string]string // device name -> edge-os type
 	pointTagType    map[string]string // pid -> Tag.type
 	pointLabel      map[string]string // pid -> 人类可读名
@@ -63,13 +66,13 @@ type uiMaps struct {
 // configureMapsUI:有 point_registry 则产物驱动,否则用默认(对照 configure_maps)。
 func configureMapsUI(pointRegistry, displayModel obj) *uiMaps {
 	m := &uiMaps{
-		controllable: map[string]bool{}, devTypeByDevice: map[string]string{},
+		controllable: map[string]string{}, devTypeByDevice: map[string]string{},
 		pointTagType: map[string]string{}, pointLabel: map[string]string{},
 		displayRank: map[string][3]int{}, displayGroup: map[string]string{},
 	}
 	if pointRegistry == nil {
-		for k := range controllableDefault { // 回退:默认可控点
-			m.controllable[k] = true
+		for k, v := range controllableDefault { // 回退:默认可控点 + 其设定值点
+			m.controllable[k] = v
 		}
 		return m
 	}
@@ -78,7 +81,7 @@ func configureMapsUI(pointRegistry, displayModel obj) *uiMaps {
 	for pid, ei := range pts {
 		e := asObj(ei)
 		if b, _ := e["writable"].(bool); b {
-			m.controllable[pid] = true // 可写点自映射为可控点
+			m.controllable[pid] = pid // 可写点自映射(setpoint 点本身被采集,直接写自己)
 		}
 		src := asObj(e["source"])
 		if did := asStr(src["device_id"]); did != "" {
@@ -150,7 +153,7 @@ func buildNodesTagsUI(view obj, endpoint string, m *uiMaps) (arr, arr) {
 		ts := getOr(d, "ts", nowMs)
 		for pid, pi := range asObj(d["points"]) {
 			p := asObj(pi)
-			ctrl := m.controllable[pid]
+			_, ctrl := m.controllable[pid]
 			access := "R"
 			if ctrl {
 				access = "RW"

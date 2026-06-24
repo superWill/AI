@@ -49,6 +49,8 @@ func main() {
 		runHealth(os.Args[2:])
 	case "nodestags":
 		runNodesTags(os.Args[2:])
+	case "ui":
+		runUI(os.Args[2:])
 	default:
 		usage()
 	}
