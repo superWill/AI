@@ -21,6 +21,15 @@ RUN="${RUN:-/tmp/gwsup}"
 HEALTH_TIMEOUT="${HEALTH_TIMEOUT:-30}"
 mkdir -p "$RUN"
 
+# 强鉴权 token:env 优先,否则从持久文件读,再否则生成一次并落盘(跨重启同一 token)。
+# 导出后 gatewayc(os.Getenv)/ nexus(os.environ)/ LCD 子进程都继承,无需逐个传参。
+if [ -z "${GATEWAYC_CONTROL_TOKEN:-}" ]; then
+  TF="$RUN/control_token"
+  [ -s "$TF" ] || (head -c 18 /dev/urandom | base64 | tr -d '\n/+=' > "$TF"; chmod 600 "$TF")
+  GATEWAYC_CONTROL_TOKEN=$(cat "$TF")
+fi
+export GATEWAYC_CONTROL_TOKEN
+
 log() { echo "$(date '+%H:%M:%S') [sup] $*" | tee -a "$RUN/sup.log"; }
 
 # active 指针 → versions/<active>/app_config.generated.json,否则回退 FALLBACK_CFG(对齐 select_startup_config)。

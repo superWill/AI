@@ -19,11 +19,15 @@ start() {
     kill "$p" 2>/dev/null
   done
   sleep 1
+  # 强鉴权 token:生成一次落盘,export 给 supervisor(→gatewayc/nexus)与 LCD 共享。
+  TF="$RUN/control_token"
+  [ -s "$TF" ] || (head -c 18 /dev/urandom | base64 | tr -d '\n/+=' > "$TF"; chmod 600 "$TF")
+  export GATEWAYC_CONTROL_TOKEN=$(cat "$TF")
   # supervisor:gatewayc 核心(读 build/active 版本)+ nexus 客户端(remote → gatewayc)
   GATEWAYC="$GATEWAYC" NEXUS="$APP/nexus_server.py" PY="$PY" BUILD="$APP/build" \
     FALLBACK_CFG="$APP/app_config.json" DIST="$APP/nexus-dist" CORE="$CORE" RUN="$RUN" \
     nohup "$APP/supervisor.sh" >>"$RUN/sup.out" 2>&1 &
-  # LCD → gatewayc:8091(drm_hmi_v4 取位置参数端口;不改代码)
+  # LCD → gatewayc:8091(drm_hmi_v4 取位置参数端口;继承 GATEWAYC_CONTROL_TOKEN 带鉴权)
   nohup "$PY" "$APP/drm_hmi_v4.py" 8091 >>"$RUN/lcd.log" 2>&1 &
   echo "[S99-go] gatewayc-核心拓扑已起(supervisor + LCD→8091)"
 }

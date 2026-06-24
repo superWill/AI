@@ -619,15 +619,19 @@ def gatewayc_view(core_url, timeout=2):
         return json.load(r)
 
 
-CORE_URL = None   # --core-url 给定则进 remote 模式:nexus 消费 gatewayc,不开 source、不当总线主站
+CORE_URL = None      # --core-url 给定则进 remote 模式:nexus 消费 gatewayc,不开 source、不当总线主站
+CONTROL_TOKEN = ""   # gatewayc /api/command 强鉴权 token(转发时带 X-Control-Token)
 
 
 def remote_command(core_url, point_id, value, timeout=3):
-    """把控制下发转发到 gatewayc /api/command,返回 (ok, reason)。"""
+    """把控制下发转发到 gatewayc /api/command(带强鉴权 token),返回 (ok, reason)。"""
     import urllib.request
     data = json.dumps({"point_id": point_id, "value": value}).encode()
+    headers = {"Content-Type": "application/json"}
+    if CONTROL_TOKEN:
+        headers["X-Control-Token"] = CONTROL_TOKEN
     req = urllib.request.Request(core_url.rstrip("/") + "/api/command", data=data,
-                                 headers={"Content-Type": "application/json"}, method="POST")
+                                 headers=headers, method="POST")
     try:
         with urllib.request.urlopen(req, timeout=timeout) as r:
             d = json.load(r)
@@ -1026,12 +1030,15 @@ def main():
                     help="D3:配置编译/校验调用的 gatewayc 二进制路径(不可用时回退 Python compiler)")
     ap.add_argument("--gatewayc-strict", action="store_true",
                     help="严格模式:gatewayc 不可用即失败,不回退 Python(remote 模式自动开启)")
+    ap.add_argument("--control-token", default=None,
+                    help="转发控制到 gatewayc 时带的 X-Control-Token(默认读 env GATEWAYC_CONTROL_TOKEN)")
     ap.add_argument("--products", default=None,
                     help="编译产物目录;给定则从 point_registry 派生可控点与设备类型")
     args = ap.parse_args()
-    global GATEWAYC_BIN, GATEWAYC_STRICT
+    global GATEWAYC_BIN, GATEWAYC_STRICT, CONTROL_TOKEN
     GATEWAYC_BIN = args.gatewayc_bin                   # D3:配置编译/校验用的 gatewayc 二进制
     GATEWAYC_STRICT = args.gatewayc_strict or bool(args.core_url)  # remote(生产)模式默认严格,不回退 Python
+    CONTROL_TOKEN = args.control_token or os.environ.get("GATEWAYC_CONTROL_TOKEN", "")  # 转发控制的强鉴权 token
 
     cfg_path = select_startup_config(args.config)     # 有 active 则从 versions/<active> 起 live
     cfg = json.load(open(cfg_path))
