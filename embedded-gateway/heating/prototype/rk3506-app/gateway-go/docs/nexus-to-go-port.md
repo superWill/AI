@@ -20,12 +20,15 @@
 | 配置管理 | `/api/config/{status,products,draft,validate,compile,devices,activate,rollback}` + `/config` 页 | 中(compile/load 已是 gatewayc;activate 已是指针+重启) |
 | 静态 | edge-os dist(nexus-dist) | 低 |
 
-## 增量步骤(每步对拍 Python nexus,同请求→同响应)
-1. **Go build_nodes_tags + 登录**:Go 版 view→nodes/tags(对拍 Python build_nodes_tags 结构)+ `/api/login`/`_authed`。
-2. **edge-os REST**:`gatewayc ui` 服务 /api/init·/api/me·/api/tags/write·/api/nodes·/api/snapshot(取数自 gatewayc,控制转发);curl 对拍 Python nexus 同端点。
-3. **socket.io 服务器**:Go 实现 EIO4/SIO5 polling(handshake/poll/post/broadcast)+ broadcaster 推三事件;用 socket.io 客户端对拍握手+收事件。
-4. **配置管理 UI**:/api/config/* 接 gatewayc compile/load + active 指针 + activate(指针+重启,复用 supervisor)+ /config 页 + 静态 dist。
-5. **切换**:supervisor/S99-go 把 `nexus_server.py` 换成 `gatewayc ui`;板上删 Python。edge-os 浏览器/LCD 指向 `gatewayc ui`。对拍整页可用后,nexus_server.py 退役。
+## 增量步骤(每步对拍 Python nexus)—— 全部完成 ✅
+1. **✅ Go build_nodes_tags + configure_maps**:对拍 Python(有/无产物 nodes/tags 全一致)。
+2. **✅ edge-os REST**:`gatewayc ui` /api/me·login·init·snapshot·command·tags/write·scada·history + 静态;10 项端点对拍 Python 一致。
+3. **✅ socket.io 服务器**:Go EIO4/SIO5 polling(握手/poll/post/broadcast)+ broadcaster 三事件;原始协议对拍一致。
+4. **✅ 配置管理 UI**:/api/config/*(进程内 Compile/LoadRuntimeCfg,不 shell)+ activate(翻指针+重启核心+健康门+回退)+ /config 页(//go:embed)+ 静态;ui 端点自测通过,编译产物 == Python(D3 证)。
+5. **✅ 切换(代码)**:supervisor `nexus_loop`→`ui_loop`(跑 `gatewayc ui`);本地端到端验证 supervisor 起 core+ui、edge-os 全功能、**运行态零 Python**。Python 文件保留供 revert 应急。
+
+**结论:gatewayc(core + ui)功能等价原 Python 栈(app.py + nexus_server.py),运行态零 Python。**
+余项:① 上板部署本切换(install_go + 切 S99-go,板上验证零 Python + edge-os 可用);② 整页 edge-os 浏览器实测(socket.io 实时);③ 真实设备影子/灰度(轨B)后才算生产替换。hmi_lvgl(C 原生屏)不在范围。
 
 ## 对拍方法
 每步:同一请求分别打 Python nexus 与 `gatewayc ui`,比响应(结构/值,数字按值、数组多重集——同编译器对拍标准)。socket.io 用真 socket.io 客户端验握手+事件流。CI 加 ui 对拍 job。
