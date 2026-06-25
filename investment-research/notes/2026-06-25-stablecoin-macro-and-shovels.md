@@ -45,17 +45,28 @@ memory: capital-preservation-first · market-adoption-leading-signal
 | 铲子 | 层 | 证据 | 对资本保全 |
 |---|---|---|---|
 | **Visa/Mastercard** | 结算轨道 | Visa 稳定币结算 **$70亿年化 +50%/季**、扩 9 链;Stripe/V/MA 还联手发新稳定币平台=**co-opt 非被颠覆** | ✅✅ 双寡头宽护城河、低 beta、高确定性复合股 |
-| **BlackRock** | 储备/美债 | 代币化美债 BUIDL 供稳定币储备;Circle Arc 发起方 | ✅✅ 管所有币背后的美债,AUM 随稳定币涨;高质量复合股 |
-| Coinbase | 链/交易所 | Base 进 Visa 试点、用 CCIP、50% USDC 息 | ⚠️ 能买,但 crypto 相关 -64%,同 CRCL 风险 |
+| **BlackRock** | 储备/美债 | 代币化美债 BUIDL 供稳定币储备;Circle Arc 发起方 | ⚠️**(订正)高 beta 弹性仓,非防御锚**——见下方实测 |
+| Coinbase | 链/交易所 | Base 进 Visa 试点、用 CCIP、50% USDC 息 | ⚠️ 能买,但 crypto 相关,同 CRCL 风险 |
 | Chainlink | 互操作/预言机 | CCIP=Coinbase 独家桥,被 Swift/Mastercard/UBS 采用 | ⚠️ token 非股票,高波动 |
+
+### ⭐ 实测 beta/相关性(2026-06-24) `[COMPUTED]`
+
+| | 估值 | **betaSPY** | betaSOXX | corr NVDA | corr SOXX | **corr BTC/COIN** | corr CRCL |
+|---|---|---|---|---|---|---|---|
+| **V** | fwd 22x / 67% 营利率 | **0.40** | -0.03 | -0.02 | -0.06 | **0.04 / 0.04** | 0.13 |
+| **MA** | fwd 22x / 61% 营利率 | **0.31** | -0.08 | -0.05 | -0.16 | **-0.00 / 0.04** | 0.12 |
+| **BLK** | fwd 16x / 增长 27% | **1.24** ⚠️ | 0.25 | 0.27 | 0.38 | **0.31 / 0.34** | 0.30 |
+
+- **✅ V/MA = 完美铲子**:超低 beta(0.31-0.40)、对 NVDA/SOXX ~0 甚至负、**对 BTC/COIN/CRCL ≈ 0** —— **给稳定币/支付增长敞口,却零 crypto + 零 AI 相关**,67/61% 营利率宽护城河。对你书的分散性堪比 BRK,但是支付增长股。**⚠️ V-MA 彼此 corr 0.84,二选一或拆开,别当两只。**
+- **⚠️ BLK 订正**:**betaSPY 1.24(高,非低)**、corr crypto 0.30-0.34。资管 AUM 随市场涨跌 = 高 beta;又在 crypto ETF(IBIT)里大 = 带 crypto 相关。**是好生意(便宜 16x/增长 27%)但是"押市场上行+代币化"的弹性仓,不是防御锚,不解决集中度。**
 
 ## 五、投资判断(对资本保全持有者)
 
 1. **真实、结构性、多万亿、美元绑定的增长**——但是"基础设施/商品"故事,不是"单一赢家"。币按场景+国界双碎片化 → **押单一发行人(CRCL)/单一币是高方差 venture**。
-2. **最确定的受益 = 美债需求**(万亿级新买盘)→ 利好 **BlackRock(储备层)+ 美国财政**。
+2. **最确定的受益 = 美债需求**(万亿级新买盘)→ 利好美国财政 + 储备/资管层(但 BLK 作为股票是高 beta,见下)。
 3. **ETH=承载地基/BTC=边缘数字黄金**,都 crypto-vol、非干净铲子。
-4. **正解 = 中立铲子:Visa/Mastercard(过路费)+ BlackRock(储备)** —— 吃整个万亿增长+美债需求,**不用赌哪个币/哪国赢,不吃 crypto 波动,且正好是资本保全要的低 beta 宽护城河质量锚**。
-5. **CRCL**:thesis 真(agent 支付轨道领跑者)但赢家高度不确定 → **右调到 1-2% 思路期权**,腾出的钱往 V/MA/BLK 挪(详见 [CRCL 卡](../tickers/CRCL.md))。
+4. **正解 = 低 beta 中立铲子:Visa 或 Mastercard(过路费)** —— 实测 betaSPY 0.31-0.40、对 AI/crypto ~0 相关、宽护城河,**吃整个万亿增长却不吃 crypto 波动,是资本保全要的质量锚**。**BLK 不算防御锚(beta 1.24),只作"高 beta 代币化弹性仓"放进取 sleeve。**
+5. **CRCL → V/MA 是巨大升级**:从"高 beta、corr 0.96 crypto、零地板"换成"beta 0.35、corr ~0、67% 营利率宽护城河",同押稳定币/agent 支付 thesis 但确定性/分散全面碾压。CRCL 右调 1-2% 思路期权(详见 [CRCL 卡](../tickers/CRCL.md))。
 
 > **核心**:金矿谁挖出来不知道(USDC?USDT?银行币?CBDC?),但**卖铲子(V/MA 结算)+ 收过路费 + 管储备(BLK)+ 美债需求**稳赚。段永平式打法:**别押币,买骑在所有币之上的基础设施。**
 
