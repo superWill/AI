@@ -28,8 +28,8 @@
           <p>组合、仓位和执行层面的判断。</p>
           <div class="meta-row">
             <span class="pill">portfolios/2026-06-24-actual-holdings-snapshot.md</span>
-            <span class="pill">555 words</span>
-            <span class="pill">9 sections</span>
+            <span class="pill">736 words</span>
+            <span class="pill">11 sections</span>
           </div>
         </div>
         <div class="doc-stat-stack">
@@ -47,10 +47,19 @@
     <div class="doc-layout">
       <article class="doc doc-main">
 <hr />
-<p>date: 2026-06-24 status: actual-holdings   # 真实持仓快照,非提案;持仓状态唯一真相源 base_currency: USD data_source: 用户自报持仓 2026-06-24 + yfinance 1y 日线实测 beta/协方差/风险归因 related: notes/2026-06-21-portfolio-beta-and-ballast.md · notes/2026-06-23-ai-capex-cycle-leading-indicators.md · notes/2026-06-24-memory-storage-cycle-mechanics.md memory: capital-preservation-first · portfolio-soxx-factor-risk · no-options-trading</p>
+<p>date: 2026-06-24 last_updated: 2026-06-25 status: actual-holdings   # 真实持仓快照,非提案;持仓状态唯一真相源 base_currency: USD data_source: 用户自报持仓 2026-06-24 + yfinance 实测;2026-06-25 更新(NVDA/TSM→BRK 减仓执行) related: notes/2026-06-21-portfolio-beta-and-ballast.md · notes/2026-06-23-ai-capex-cycle-leading-indicators.md · notes/2026-06-24-memory-storage-cycle-mechanics.md memory: capital-preservation-first · portfolio-soxx-factor-risk · no-options-trading</p>
 <hr />
-<h1 id="真实持仓快照-2026-06-24">真实持仓快照 2026-06-24</h1>
-<blockquote>第一份<strong>实际持仓</strong>记录(此前 portfolios/ 全是提案)。持仓状态只在此记,研究记录不等于持仓记录。</blockquote>
+<h1 id="真实持仓快照-2026-06-242026-06-25-更新当前态">真实持仓快照 2026-06-24（2026-06-25 更新当前态）</h1>
+<blockquote>第一份<strong>实际持仓</strong>记录(此前 portfolios/ 全是提案)。持仓状态只在此记,研究记录不等于持仓记录。 <strong>下方 §0 是 2026-06-25 执行减仓后的当前态;往下的原文是 06-24 的起始态(留作 before/after 对照)。</strong></blockquote>
+<h2 id="0-当前态2026-06-25执行-nvdatsmbrk-后computed">§0 当前态（2026-06-25,执行 NVDA/TSM→BRK 后)<code>[COMPUTED]</code></h2>
+<p><strong>今日动作</strong>:卖 <strong>3/5 的 NVDA(23%→9.2%)+ 3/5 的 TSM(10.1%→4.0%)→ 换 BRK-B ~19.9%</strong>(用减掉的高 beta 买锚,<strong>现金未动</strong>);CRCL <strong>决定持有为 5 年 conviction venture,维持 ~5%</strong>。</p>
+<p><strong>当前持仓</strong>:</p>
+<table><thead><tr><th>Ticker</th><th>权重</th><th>风险占比</th><th>角色</th></tr></thead><tbody><tr><td><strong>BRK-B</strong></td><td><strong>19.9%</strong></td><td>2.5%</td><td>⭐ 新增确定性锚(负相关,几乎不加风险)</td></tr><tr><td>GOOGL</td><td>15.9%</td><td>25.0%</td><td>质量成长(现第一大仓+第一风险源)</td></tr><tr><td>NVDA</td><td>9.2%</td><td>17.1%</td><td>AI 大脑(已从 23% 削到合理)</td></tr><tr><td>META</td><td>5.1%</td><td>8.3%</td><td>有机广告</td></tr><tr><td><strong>CRCL</strong></td><td><strong>5.0%</strong></td><td><strong>24.4%</strong></td><td>⚠️ <strong>5 年彩票;5% 权重=24% 风险(~5x),用户已决定持有</strong></td></tr><tr><td>AMZN</td><td>4.3%</td><td>6.7%</td><td>云+消费+Anthropic 敞口</td></tr><tr><td>TSM</td><td>4.0%</td><td>7.8%</td><td>代工(已削)</td></tr><tr><td>MRVL</td><td>2.6%</td><td>7.1%</td><td>光/定制</td></tr><tr><td>NFLX</td><td>1.7%</td><td>1.1%</td><td>娱乐分散腿(仍偏小)</td></tr><tr><td><strong>现金</strong></td><td><strong>~32%</strong></td><td>—</td><td>干火药/压舱</td></tr></tbody></table>
+<p><strong>当前组合指标 vs 06-24 起始</strong>:</p>
+<table><thead><tr><th></th><th>betaSPY</th><th>betaSOXX</th><th>年化波动</th><th>SOXX-40%(AI bust)</th><th>半导体桶</th></tr></thead><tbody><tr><td><strong>当前(06-25)</strong></td><td><strong>0.85</strong></td><td><strong>0.20</strong></td><td><strong>12.3%</strong></td><td><strong>-8.0%</strong></td><td><strong>15.8%</strong></td></tr><tr><td>起始(06-24)</td><td>1.17</td><td>0.32</td><td>17.1%</td><td>-12.8%</td><td>35.7%</td></tr></tbody></table>
+<p><strong>读数</strong>:一步把 betaSPY 1.17→0.85、半导体 35.7%→15.8%、AI 崩盘冲击砍掉 ~1/3,现金 32% 守住。<strong>剩余唯一不成比例的风险 = CRCL(5% 权重 / 24% 风险)</strong>——用户已决定当 5 年 venture 持有,<strong>硬测试:能否拿穿 -50% 不割</strong>(详见 §八下方原 NVDA 方案 + CRCL 卡)。NVDA 单票从 41% 风险降到 17%,书已从&quot;但斌满仓&quot;转为&quot;BRK 锚 + 现金 + 质量成长 + 一只彩票&quot;。</p>
+<hr />
+<h3 id="以下为-2026-06-24-起始态原文对照用">以下为 2026-06-24 起始态原文(对照用)</h3>
 <h2 id="一句话">一句话</h2>
 <p><strong>比起点强很多(betaSOXX 0.89→0.32,30% 现金在干活),但成分是但斌式 AI 集中(NVDA 一只=41% 风险),只靠现金垫上段永平味。两个和&quot;宁愿错过不损失本金&quot;打架的点:CRCL(投机/归零尾部)、NVDA 23% 单票。</strong></p>
 <h2 id="二持仓">二、持仓</h2>
@@ -112,7 +121,7 @@
       <aside class="doc-sidebar">
         <section class="sidebar-card">
           <h3 class="sidebar-title">文档导航</h3>
-          <ul class="toc-list"><li><a href="#一句话">一句话</a></li><li><a href="#二持仓">二、持仓</a></li><li><a href="#三组合层面实测含现金-computed">三、组合层面(实测,含现金) `[COMPUTED]`</a></li><li><a href="#四风险归因分散是假象-computed">四、风险归因——&quot;分散&quot;是假象 `[COMPUTED]`</a></li><li><a href="#五两个与原则打架的点">五、两个与原则打架的点</a></li><li><a href="#六情景组合-as-is锚定-soxx-因子-computedinferred">六、情景(组合 as-is,锚定 SOXX 因子) `[COMPUTED/INFERRED]`</a></li><li><a href="#七可选动作论点选项非买卖指令">七、可选动作(论点+选项,非买卖指令)</a></li><li><a href="#八nvda-减仓执行方案2026-06-24论点动作非买卖指令computed">八、NVDA 减仓执行方案（2026-06-24，论点+动作非买卖指令）`[COMPUTED]`</a></li><li><a href="#九复盘锚">九、复盘锚</a></li></ul>
+          <ul class="toc-list"><li><a href="#0-当前态2026-06-25执行-nvdatsmbrk-后computed">§0 当前态（2026-06-25,执行 NVDA/TSM→BRK 后)`[COMPUTED]`</a></li><li style="padding-left:14px"><a href="#以下为-2026-06-24-起始态原文对照用">以下为 2026-06-24 起始态原文(对照用)</a></li><li><a href="#一句话">一句话</a></li><li><a href="#二持仓">二、持仓</a></li><li><a href="#三组合层面实测含现金-computed">三、组合层面(实测,含现金) `[COMPUTED]`</a></li><li><a href="#四风险归因分散是假象-computed">四、风险归因——&quot;分散&quot;是假象 `[COMPUTED]`</a></li><li><a href="#五两个与原则打架的点">五、两个与原则打架的点</a></li><li><a href="#六情景组合-as-is锚定-soxx-因子-computedinferred">六、情景(组合 as-is,锚定 SOXX 因子) `[COMPUTED/INFERRED]`</a></li><li><a href="#七可选动作论点选项非买卖指令">七、可选动作(论点+选项,非买卖指令)</a></li><li><a href="#八nvda-减仓执行方案2026-06-24论点动作非买卖指令computed">八、NVDA 减仓执行方案（2026-06-24，论点+动作非买卖指令）`[COMPUTED]`</a></li><li><a href="#九复盘锚">九、复盘锚</a></li></ul>
         </section>
         <section class="sidebar-card">
           <h3 class="sidebar-title">阅读提示</h3>
