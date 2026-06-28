@@ -28,8 +28,8 @@
           <p>单只股票的研究卡、跟踪信号和估值框架。</p>
           <div class="meta-row">
             <span class="pill">tickers/QCOM.md</span>
-            <span class="pill">734 words</span>
-            <span class="pill">23 sections</span>
+            <span class="pill">1100 words</span>
+            <span class="pill">28 sections</span>
           </div>
         </div>
         <div class="doc-stat-stack">
@@ -47,7 +47,7 @@
     <div class="doc-layout">
       <article class="doc doc-main">
 <hr />
-<p>ticker: QCOM name: Qualcomm sector: Semiconductors / Connectivity / Edge AI layer: Layer 2 — 边缘 AI SoC / 基带 / 连接 position_type: thematic status: watching last_updated: 2026-06-23 data_source: official earnings + StockAnalysis 2026-05-08；2026-06-23 加 China 风险/自研/资本保全更新</p>
+<p>ticker: QCOM name: Qualcomm sector: Semiconductors / Connectivity / Edge AI layer: Layer 2 — 边缘 AI SoC / 基带 / 连接 position_type: thematic status: watching last_updated: 2026-06-28 data_source: official earnings + StockAnalysis 2026-05-08；2026-06-23 加 China 风险/自研/资本保全更新；2026-06-28 加 6/24 Investor Day 数据中心豪赌(Meta 签约/Dragonfly/LPDDR/触发器)</p>
 <hr />
 <h1 id="qualcomm-qcom">Qualcomm (QCOM)</h1>
 <h2 id="一句话定位">一句话定位</h2>
@@ -94,6 +94,46 @@
 <li><strong>但 China 抬高门槛</strong>:核心被 Apple+China 两端侵蚀,<strong>21x 是 cheap-for-a-reason(China 就是 reason)</strong>;价值陷阱风险更高,+ 一条地缘永久损失尾部(脱钩升级=踩资本保全第④条)。</li>
 <li><strong>裁决</strong>:它赌的是&quot;连接护城河 + 汽车/边缘替换引擎 <strong>&gt;</strong> Apple + China 双侵蚀&quot;。最坏是<strong>&quot;价值陷阱/dead money 几年&quot;而非永久损失</strong>(连接干不掉、现金牛在、股息垫着)——这符合&quot;宁愿错过不损失本金&quot;。<strong>值得当耐心价值仓,但前提是信替换引擎补得上 Apple+China 双洞、且地缘不升级——比单看 Apple 高的门槛。</strong></li>
 </ul>
+<h2 id="2026-06-24-investor-day数据中心从期权变签约豪赌两条腿known-2026-06">⭐ 2026-06-24 Investor Day：数据中心从&quot;期权&quot;变&quot;签约豪赌&quot;(两条腿)<code>[KNOWN 2026-06]</code></h2>
+<blockquote><strong>本节取代下方&quot;短期增量·#3 数据中心是最大新增期权&quot;的旧口径(那段写于 Investor Day 前,已严重低估)。</strong> 股票 Investor Day <strong>盘后 +12-15%</strong>(但身处弱芯片 tape);<strong>Morningstar fair value $155→$200</strong>。</blockquote>
+<p><strong>目标</strong>:数据中心收入 <strong>$0.3B(FY26)→ $5B(FY27)→ $15B(FY29)</strong>;<strong>非手机收入 $40B by 2029</strong>。</p>
+<p><strong>Dragonfly 路线图 = 两条腿(别混)</strong>:</p>
+<ol>
+<li><strong>服务器 CPU(Dragonfly C1000)</strong>:250 核 Oryon(Nuvia 内核)、&gt;5GHz、PCIe Gen7、CXL、<strong>H2 2028 量产</strong>。对标 Amazon Graviton / Ampere / x86。<strong>← Meta 锚在这条</strong>。</li>
+<li><strong>AI 加速器(AI200 2026 / AI250 2027 / AI300 2028)</strong>:Hexagon NPU 改;<strong>用 LPDDR 不用 HBM</strong>(见下)。<strong>← HUMAIN + 未具名 hyperscaler 锚在这条</strong>。</li>
+<li><strong>软件</strong>:<strong>收购 Modular $39 亿</strong>——直接补此前&quot;没 CUDA 软件护城河&quot;的洞(Modular 做 CUDA 替代栈)。</li>
+</ol>
+<p><strong>客户(已核,硬度分层)</strong>:</p>
+<ul>
+<li><strong>🟢 Meta(最硬)</strong>:<strong>签了绑定的、跨多代(multigenerational)协议</strong>(非 LOI),<strong>小扎本人视频站台</strong>,原话&quot;Qualcomm will become a data center CPU supplier for Meta&quot;。<strong>是 C1000 服务器 CPU,H2 2028。</strong></li>
+<li><strong>🟡 两个 hyperscaler 各 ≥$1B/年、2026 年底起出货</strong>(加速器侧,一个未具名,Morningstar 猜 MSFT/Google)。</li>
+<li><strong>🟡 HUMAIN(沙特)</strong>:200MW ≈ <strong>$2B</strong>,加速器,2026 起。<strong>主权战略采购,validation 弱于竞争性中标。</strong></li>
+</ul>
+<h3 id="lpddr-vs-hbm真差异化且挂上存储周期-thesisknown-2026">LPDDR vs HBM:真差异化(且挂上存储周期 thesis)<code>[KNOWN 2026]</code></h3>
+<ul>
+<li>AI200 <strong>768GB LPDDR5X = H100 的 10x / B200 的 4.8x 内存</strong>;<strong>单卡装下 400B 参数模型(FP16)</strong>,卡少=通信少=serving 简单。<strong>赌&quot;容量 &gt; 带宽&quot;对推理成立。</strong></li>
+<li><strong>代价</strong>:LPDDR 带宽远低于 HBM → token 更慢,<strong>同吞吐要 2-6x 机架</strong>(160kW/机架)。&quot;能效&quot;在占地口径要打问号。</li>
+<li><strong>存储 thesis 联动</strong>:用 LPDDR <strong>绕开 HBM 售罄(到 2028)+ 高价</strong> = 真供应链 edge;<strong>但这轮全 DRAM 涨价,&quot;便宜内存&quot;优势被部分侵蚀。</strong></li>
+<li><strong>结构短板</strong>:高通自框 <strong>$10B 机会/GW</strong>,<strong>对比 NVDA $50B/GW = 只捕获 1/5 $/GW</strong>(芯片便宜、单价低)。<strong>赢份额 ≠ 赢收入。</strong></li>
+</ul>
+<h3 id="base-ratenvda-杀手墓地-known">Base rate:&quot;NVDA 杀手&quot;墓地 <code>[KNOWN]</code></h3>
+<ul>
+<li><strong>Graphcore</strong>(2024 $6 亿贱卖软银,Bow IPU 跑不过 A100)、<strong>Habana</strong>(英特尔收,没起来)、<strong>Cerebras/SambaNova/Groq</strong>(niche)。教训:硬件性能 + CUDA 生态双杀。</li>
+<li><strong>但 QCOM ≠ 初创</strong>:$238B、Hexagon 十年 NPU、现成 hyperscaler 关系。<strong>在&quot;墓地&quot;与&quot;GPU 里的 AMD&quot;之间。关键 nuance:Meta 签的是 CPU(Arm 服务器仗,Graviton 已验证路径,相对好打);真正&quot;干翻 NVDA&quot;的加速器仗仍薄(HUMAIN + 一未具名)。</strong></li>
+</ul>
+<h3 id="裁决-对组合">裁决 + 对组合</h3>
+<ul>
+<li><strong>升级</strong>:从上轮&quot;防守 show-me、不看&quot;升到 <strong>&quot;真期权 + 已有 Meta 硬合同 + 软件补齐&quot;</strong>——比 6/23 卡里&quot;试水期权&quot;强得多。</li>
+<li><strong>但仍非买点</strong>:① 已部分 price-in(+13%、价 <strong>&gt;</strong> raised FV $200);② $15B 后端押 2028 Meta CPU,芯片还没出货;③ <strong>BofA 只 model FY27-28 每年 $2-5B</strong>(信公司还是信卖方差一倍);④ 对你仍加 betaSOXX 半导体,不补缺口。</li>
+</ul>
+<h3 id="5-个-upgrade-触发器预登记到点重估">5 个 upgrade 触发器(预登记,到点重估)</h3>
+<ol>
+<li><strong>加速器侧硬量产承诺 beyond Meta</strong>:MSFT/Google 出现<strong>具体 $ 订单/PO</strong>(非&quot;will use&quot;)。</li>
+<li><strong>FY27 实际数 vs $5B 指引</strong>:兑现还是滑(验证后端加载真伪)。</li>
+<li><strong>独立 benchmark</strong>:AI250 近内存 &gt;10x 带宽兑现?AI200 的&quot;2-6x 机架&quot;TCO 到底赢不赢?</li>
+<li><strong>C1000 服务器 CPU 2028 放量(Meta)</strong>:最大那块的真伪。</li>
+<li><strong>估值回到 raised FV($200)以下</strong>才谈安全边际。</li>
+</ol>
 <h2 id="短期增量35-年">短期增量（3–5 年）</h2>
 <h3 id="1-汽车业务进入更大体量阶段">1. 汽车业务进入更大体量阶段</h3>
 <ul>
@@ -118,17 +158,8 @@
 <li><code>XR &gt; $2B</code></li>
 </ul>
 <p>如果这些目标兑现，QCOM 的估值逻辑会从“手机周期股”继续转向“边缘计算平台公司”。</p>
-<h3 id="3-数据中心定制硅是最大新增期权">3. 数据中心定制硅是最大新增期权</h3>
-<p>FY26 Q2 官方口径明确提到：</p>
-<ul>
-<li>与一家领先 hyperscaler 的定制硅项目预计将在<code>本日历年晚些时候</code>开始初始出货</li>
-</ul>
-<p>这很重要，因为：</p>
-<ul>
-<li>这意味着 Qualcomm 不只想做手机和边缘终端</li>
-<li>还要切入<code>数据中心定制 AI / compute silicon</code></li>
-<li>如果做成，市场对它的可比公司会从 <code>手机/射频</code> 逐步切到 <code>MRVL / AVGO / 定制 ASIC</code></li>
-</ul>
+<h3 id="3-数据中心-已被上方-2026-06-24-investor-day-节取代">3. 数据中心(⚠️ 已被上方 &quot;2026-06-24 Investor Day&quot; 节取代)</h3>
+<blockquote>此处原写于 Investor Day 前(口径仅&quot;一家 hyperscaler 本年晚些初始出货&quot;)。<strong>6/24 已大幅升级为签约豪赌——以上方 ⭐ 节为准</strong>(Meta 绑定 CPU 合同 / Dragonfly 两条腿 / $15B-2029 目标 / LPDDR 差异化 / 5 触发器)。可比公司确已从&quot;手机/射频&quot;开始切向 <code>MRVL / AVGO / 定制 ASIC</code> 一档。</blockquote>
 <h2 id="长期增量1020-年">长期增量（10–20 年）</h2>
 <h3 id="1-智能终端-everywhere-平台化">1. “智能终端 everywhere” 平台化</h3>
 <p>QCOM 最长期的逻辑不是再赢一代手机芯片，而是：</p>
@@ -222,7 +253,7 @@
       <aside class="doc-sidebar">
         <section class="sidebar-card">
           <h3 class="sidebar-title">文档导航</h3>
-          <ul class="toc-list"><li><a href="#一句话定位">一句话定位</a></li><li><a href="#关键数据基准日-2026-05-08">关键数据（基准日 2026-05-08）</a></li><li style="padding-left:14px"><a href="#最新财报口径fy26-q2截止-2026-03-29">最新财报口径（FY26 Q2，截止 2026-03-29）</a></li><li><a href="#护城河类型">护城河类型</a></li><li><a href="#2026-06-23-更新自研浪潮-china-风险-资本保全契合度">⭐ 2026-06-23 更新：自研浪潮 + China 风险 + 资本保全契合度</a></li><li style="padding-left:14px"><a href="#a-核心结构性风险核心从两端被侵蚀">A. 核心结构性风险:核心从两端被侵蚀</a></li><li style="padding-left:14px"><a href="#b-但自研浪潮下qcom-的护城河在自研最做不动的地方">B. 但自研浪潮下,QCOM 的护城河在自研最做不动的地方</a></li><li style="padding-left:14px"><a href="#c-资本保全契合度2026-06-23">C. 资本保全契合度(2026-06-23)</a></li><li><a href="#短期增量35-年">短期增量（3–5 年）</a></li><li style="padding-left:14px"><a href="#1-汽车业务进入更大体量阶段">1. 汽车业务进入更大体量阶段</a></li><li style="padding-left:14px"><a href="#2-iot-pc-继续拉动非手机收入">2. IoT + PC 继续拉动非手机收入</a></li><li style="padding-left:14px"><a href="#3-数据中心定制硅是最大新增期权">3. 数据中心定制硅是最大新增期权</a></li><li><a href="#长期增量1020-年">长期增量（10–20 年）</a></li><li style="padding-left:14px"><a href="#1-智能终端-everywhere-平台化">1. “智能终端 everywhere” 平台化</a></li></ul>
+          <ul class="toc-list"><li><a href="#一句话定位">一句话定位</a></li><li><a href="#关键数据基准日-2026-05-08">关键数据（基准日 2026-05-08）</a></li><li style="padding-left:14px"><a href="#最新财报口径fy26-q2截止-2026-03-29">最新财报口径（FY26 Q2，截止 2026-03-29）</a></li><li><a href="#护城河类型">护城河类型</a></li><li><a href="#2026-06-23-更新自研浪潮-china-风险-资本保全契合度">⭐ 2026-06-23 更新：自研浪潮 + China 风险 + 资本保全契合度</a></li><li style="padding-left:14px"><a href="#a-核心结构性风险核心从两端被侵蚀">A. 核心结构性风险:核心从两端被侵蚀</a></li><li style="padding-left:14px"><a href="#b-但自研浪潮下qcom-的护城河在自研最做不动的地方">B. 但自研浪潮下,QCOM 的护城河在自研最做不动的地方</a></li><li style="padding-left:14px"><a href="#c-资本保全契合度2026-06-23">C. 资本保全契合度(2026-06-23)</a></li><li><a href="#2026-06-24-investor-day数据中心从期权变签约豪赌两条腿known-2026-06">⭐ 2026-06-24 Investor Day：数据中心从&quot;期权&quot;变&quot;签约豪赌&quot;(两条腿)`[KNOWN 2026-06]`</a></li><li style="padding-left:14px"><a href="#lpddr-vs-hbm真差异化且挂上存储周期-thesisknown-2026">LPDDR vs HBM:真差异化(且挂上存储周期 thesis)`[KNOWN 2026]`</a></li><li style="padding-left:14px"><a href="#base-ratenvda-杀手墓地-known">Base rate:&quot;NVDA 杀手&quot;墓地 `[KNOWN]`</a></li><li style="padding-left:14px"><a href="#裁决-对组合">裁决 + 对组合</a></li><li style="padding-left:14px"><a href="#5-个-upgrade-触发器预登记到点重估">5 个 upgrade 触发器(预登记,到点重估)</a></li><li><a href="#短期增量35-年">短期增量（3–5 年）</a></li></ul>
         </section>
         <section class="sidebar-card">
           <h3 class="sidebar-title">阅读提示</h3>

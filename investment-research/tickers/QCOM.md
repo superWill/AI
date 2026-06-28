@@ -5,8 +5,8 @@ sector: Semiconductors / Connectivity / Edge AI
 layer: Layer 2 — 边缘 AI SoC / 基带 / 连接
 position_type: thematic
 status: watching
-last_updated: 2026-06-23
-data_source: official earnings + StockAnalysis 2026-05-08；2026-06-23 加 China 风险/自研/资本保全更新
+last_updated: 2026-06-28
+data_source: official earnings + StockAnalysis 2026-05-08；2026-06-23 加 China 风险/自研/资本保全更新；2026-06-28 加 6/24 Investor Day 数据中心豪赌(Meta 签约/Dragonfly/LPDDR/触发器)
 ---
 
 # Qualcomm (QCOM)
@@ -89,6 +89,43 @@ data_source: official earnings + StockAnalysis 2026-05-08；2026-06-23 加 China
 - **但 China 抬高门槛**:核心被 Apple+China 两端侵蚀,**21x 是 cheap-for-a-reason(China 就是 reason)**;价值陷阱风险更高,+ 一条地缘永久损失尾部(脱钩升级=踩资本保全第④条)。
 - **裁决**:它赌的是"连接护城河 + 汽车/边缘替换引擎 **>** Apple + China 双侵蚀"。最坏是**"价值陷阱/dead money 几年"而非永久损失**(连接干不掉、现金牛在、股息垫着)——这符合"宁愿错过不损失本金"。**值得当耐心价值仓,但前提是信替换引擎补得上 Apple+China 双洞、且地缘不升级——比单看 Apple 高的门槛。**
 
+## ⭐ 2026-06-24 Investor Day：数据中心从"期权"变"签约豪赌"(两条腿)`[KNOWN 2026-06]`
+
+> **本节取代下方"短期增量·#3 数据中心是最大新增期权"的旧口径(那段写于 Investor Day 前,已严重低估)。** 股票 Investor Day **盘后 +12-15%**(但身处弱芯片 tape);**Morningstar fair value $155→$200**。
+
+**目标**:数据中心收入 **$0.3B(FY26)→ $5B(FY27)→ $15B(FY29)**;**非手机收入 $40B by 2029**。
+
+**Dragonfly 路线图 = 两条腿(别混)**:
+1. **服务器 CPU(Dragonfly C1000)**:250 核 Oryon(Nuvia 内核)、>5GHz、PCIe Gen7、CXL、**H2 2028 量产**。对标 Amazon Graviton / Ampere / x86。**← Meta 锚在这条**。
+2. **AI 加速器(AI200 2026 / AI250 2027 / AI300 2028)**:Hexagon NPU 改;**用 LPDDR 不用 HBM**(见下)。**← HUMAIN + 未具名 hyperscaler 锚在这条**。
+3. **软件**:**收购 Modular $39 亿**——直接补此前"没 CUDA 软件护城河"的洞(Modular 做 CUDA 替代栈)。
+
+**客户(已核,硬度分层)**:
+- **🟢 Meta(最硬)**:**签了绑定的、跨多代(multigenerational)协议**(非 LOI),**小扎本人视频站台**,原话"Qualcomm will become a data center CPU supplier for Meta"。**是 C1000 服务器 CPU,H2 2028。**
+- **🟡 两个 hyperscaler 各 ≥$1B/年、2026 年底起出货**(加速器侧,一个未具名,Morningstar 猜 MSFT/Google)。
+- **🟡 HUMAIN(沙特)**:200MW ≈ **$2B**,加速器,2026 起。**主权战略采购,validation 弱于竞争性中标。**
+
+### LPDDR vs HBM:真差异化(且挂上存储周期 thesis)`[KNOWN 2026]`
+- AI200 **768GB LPDDR5X = H100 的 10x / B200 的 4.8x 内存**;**单卡装下 400B 参数模型(FP16)**,卡少=通信少=serving 简单。**赌"容量 > 带宽"对推理成立。**
+- **代价**:LPDDR 带宽远低于 HBM → token 更慢,**同吞吐要 2-6x 机架**(160kW/机架)。"能效"在占地口径要打问号。
+- **存储 thesis 联动**:用 LPDDR **绕开 HBM 售罄(到 2028)+ 高价** = 真供应链 edge;**但这轮全 DRAM 涨价,"便宜内存"优势被部分侵蚀。**
+- **结构短板**:高通自框 **$10B 机会/GW**,**对比 NVDA $50B/GW = 只捕获 1/5 $/GW**(芯片便宜、单价低)。**赢份额 ≠ 赢收入。**
+
+### Base rate:"NVDA 杀手"墓地 `[KNOWN]`
+- **Graphcore**(2024 $6 亿贱卖软银,Bow IPU 跑不过 A100)、**Habana**(英特尔收,没起来)、**Cerebras/SambaNova/Groq**(niche)。教训:硬件性能 + CUDA 生态双杀。
+- **但 QCOM ≠ 初创**:$238B、Hexagon 十年 NPU、现成 hyperscaler 关系。**在"墓地"与"GPU 里的 AMD"之间。关键 nuance:Meta 签的是 CPU(Arm 服务器仗,Graviton 已验证路径,相对好打);真正"干翻 NVDA"的加速器仗仍薄(HUMAIN + 一未具名)。**
+
+### 裁决 + 对组合
+- **升级**:从上轮"防守 show-me、不看"升到 **"真期权 + 已有 Meta 硬合同 + 软件补齐"**——比 6/23 卡里"试水期权"强得多。
+- **但仍非买点**:① 已部分 price-in(+13%、价 **>** raised FV $200);② $15B 后端押 2028 Meta CPU,芯片还没出货;③ **BofA 只 model FY27-28 每年 $2-5B**(信公司还是信卖方差一倍);④ 对你仍加 betaSOXX 半导体,不补缺口。
+
+### 5 个 upgrade 触发器(预登记,到点重估)
+1. **加速器侧硬量产承诺 beyond Meta**:MSFT/Google 出现**具体 $ 订单/PO**(非"will use")。
+2. **FY27 实际数 vs $5B 指引**:兑现还是滑(验证后端加载真伪)。
+3. **独立 benchmark**:AI250 近内存 >10x 带宽兑现?AI200 的"2-6x 机架"TCO 到底赢不赢?
+4. **C1000 服务器 CPU 2028 放量(Meta)**:最大那块的真伪。
+5. **估值回到 raised FV($200)以下**才谈安全边际。
+
 ## 短期增量（3–5 年）
 
 ### 1. 汽车业务进入更大体量阶段
@@ -116,17 +153,9 @@ data_source: official earnings + StockAnalysis 2026-05-08；2026-06-23 加 China
 
 如果这些目标兑现，QCOM 的估值逻辑会从“手机周期股”继续转向“边缘计算平台公司”。
 
-### 3. 数据中心定制硅是最大新增期权
+### 3. 数据中心(⚠️ 已被上方 "2026-06-24 Investor Day" 节取代)
 
-FY26 Q2 官方口径明确提到：
-
-- 与一家领先 hyperscaler 的定制硅项目预计将在`本日历年晚些时候`开始初始出货
-
-这很重要，因为：
-
-- 这意味着 Qualcomm 不只想做手机和边缘终端
-- 还要切入`数据中心定制 AI / compute silicon`
-- 如果做成，市场对它的可比公司会从 `手机/射频` 逐步切到 `MRVL / AVGO / 定制 ASIC`
+> 此处原写于 Investor Day 前(口径仅"一家 hyperscaler 本年晚些初始出货")。**6/24 已大幅升级为签约豪赌——以上方 ⭐ 节为准**(Meta 绑定 CPU 合同 / Dragonfly 两条腿 / $15B-2029 目标 / LPDDR 差异化 / 5 触发器)。可比公司确已从"手机/射频"开始切向 `MRVL / AVGO / 定制 ASIC` 一档。
 
 ## 长期增量（10–20 年）
 
