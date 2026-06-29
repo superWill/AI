@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2026 06 29 ai bottleneck profit pool migration</title>
+  <link rel="stylesheet" href="../_assets/style.css" />
+</head>
+<body>
+  <div class="site-shell">
+  <div class="page">
+    <div class="topbar">
+      <div class="nav-cluster">
+        <a class="back" href="../index.html">← 返回投研首页</a>
+        <a class="nav-link secondary" href="../all-docs.html">全部文档</a>
+      </div>
+      <div class="nav-cluster">
+        <a class="home-link" href="../notes.html">Notes</a>
+        <a class="home-link" href="../candidates.html">Candidates</a>
+        <a class="home-link" href="../tickers.html">Tickers</a>
+      </div>
+    </div>
+    <section class="hero">
+      <div class="doc-header-grid">
+        <div>
+          <div class="eyebrow">notes</div>
+          <h1>2026-06-29-ai-bottleneck-profit-pool-migration</h1>
+          <p>市场、公司或主题研究的阶段性结论。</p>
+          <div class="meta-row">
+            <span class="pill">notes/2026-06-29-ai-bottleneck-profit-pool-migration.md</span>
+            <span class="pill">604 words</span>
+            <span class="pill">9 sections</span>
+          </div>
+        </div>
+        <div class="doc-stat-stack">
+          <div class="doc-stat">
+            <div class="doc-stat-label">Document Type</div>
+            <div class="doc-stat-value">Notes</div>
+          </div>
+          <div class="doc-stat">
+            <div class="doc-stat-label">Reading Mode</div>
+            <div class="doc-stat-value">Research Memo</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="doc-layout">
+      <article class="doc doc-main">
+<hr />
+<p>date: 2026-06-29 type: bottleneck-map + profit-pool-migration status: active purpose: AI 利润池沿物理栈下移(GPU→内存→电力);用&quot;抽水机四要素&quot;给除存储外的瓶颈排序;已涨情况下怎么选 holder_context: 用户问&quot;除存储 AI 还缺什么 / 下一个 memory 级抽水机 / 已涨买哪家&quot;;有 GEV/CEG/ETN 研究卡但持仓快照里一股没有(识别了没建仓) related: notes/2026-06-24-memory-storage-cycle-mechanics.md · notes/2026-06-25-top-signals-and-panic-discipline.md · tickers/GEV.md · tickers/CEG.md · tickers/ETN.md memory: capital-preservation-first(含「重押原则」) · organic-growth-screen</p>
+<hr />
+<h1 id="ai-瓶颈地图-利润池迁移2026-06">AI 瓶颈地图 + 利润池迁移（2026-06）</h1>
+<h2 id="一句话">一句话</h2>
+<p><strong>AI 的利润池沿物理栈往下迁移:GPU(NVDA)→ 内存/HBM(美光 81% 毛利)→ 现在卡在电力。&quot;AI 还缺什么&quot;= 找下一个被绑死的物理瓶颈。用抽水机四要素(短缺+寡头+定价权+产能纪律)排完:发电(尤其燃气轮机三寡头)是结构上最像 memory 的下一个抽水机。但它已是拥挤共识、已大涨、且埋着自己 2029-30 的周期顶——所以是&quot;识别对了、等回调用纪律分批&quot;的题,不是现在追的题。</strong></p>
+<h2 id="一利润池迁移序列-inferred">一、利润池迁移序列 <code>[INFERRED]</code></h2>
+<p>每当最新、最稀缺的<strong>物理</strong>约束绑死,利润池就迁过去:</p>
+<p><code>GPU 算力(NVDA/CUDA)</code> → <code>内存/HBM(三星/SK/美光,81% 毛利)</code> → <strong><code>电力(发电+电网+配电)</code></strong> ← 现在这里</p>
+<ul>
+<li>机制:钱永远囤在<strong>当下最稀缺 + 护城河最高</strong>的瓶颈。</li>
+<li>当前第一约束<strong>不是芯片,是电</strong>:美国 2026 计划 12GW 里 ~7GW 被取消/推迟、全球 ~50% 项目因电力延期、高压变压器交期 36-48 个月。</li>
+</ul>
+<h2 id="二五瓶颈-pump-排序像不像-memory-抽水机known-2026-06">二、五瓶颈 pump 排序(像不像 memory 抽水机)<code>[KNOWN 2026-06]</code></h2>
+<table><thead><tr><th>瓶颈</th><th>短缺</th><th>寡头?</th><th>定价权</th><th>好玩法?</th></tr></thead><tbody><tr><td><strong>🥇 燃气轮机</strong></td><td>卖到 2028-2030</td><td><strong>3 家占 2/3</strong></td><td>强(新订单价 &gt; 在手)</td><td><strong>最像 memory 2.0</strong></td></tr><tr><td><strong>🥈 发电(核/IPP)</strong></td><td>现有机组稀缺,新建数年</td><td>区域寡头</td><td>强(PPA 涨)</td><td>好,但已大涨</td></tr><tr><td><strong>🥉 变压器/电气</strong></td><td>交期 3-5 年(160+周)</td><td>⚠️ 中国占 60%</td><td>中(被稀释)</td><td>较好但不纯</td></tr><tr><td>CoWoS 封装</td><td>2026 售罄,52-156 周</td><td>TSMC 近垄断</td><td>强</td><td>❌ TSMC <strong>内部</strong>捕获,非独立玩法</td></tr><tr><td>液冷/散热</td><td>真缺(机架 5→130kW)</td><td>分散</td><td>弱</td><td>❌ 太分散非 pump</td></tr></tbody></table>
+<h2 id="三最强-pump燃气轮机-内存的镜像-known-2026-06">三、最强 pump:燃气轮机 = 内存的镜像 <code>[KNOWN 2026-06]</code></h2>
+<ul>
+<li><strong>3 寡头</strong>:GE Vernova(~$162B)、Siemens Energy(~$91B)、Mitsubishi Heavy(~$84B)合占全球 ~2/3——与 DRAM 三家同构。</li>
+<li><strong>卖到 2030</strong>:Mitsubishi 售罄到 2028;GEV <strong>80GW 在手排到 2029</strong>;今天下单 2028-2030 交货。</li>
+<li><strong>定价权 + 产能纪律</strong>:&quot;新预订价高于在手订单&quot;;GEV 只把产能 55→70-80 台/年(克制)= 三星/SK&quot;不激进扩产&quot;同款维持紧平衡。</li>
+<li><strong>BYOP(自带电)</strong>:电网接入要 4 年 → 数据中心自上发电 → 直拉燃气轮机。</li>
+</ul>
+<h2 id="四为什么其余不是好-pump-inferred">四、为什么其余不是好 pump <code>[INFERRED]</code></h2>
+<ul>
+<li><strong>CoWoS</strong>:真售罄(NVDA 锁 60%)但利润在 TSMC 自己报表 → 想吃就买 TSMC(已有),非独立标的。</li>
+<li><strong>变压器/电气</strong>:缺得最狠(占数据中心预算 40-50%)<strong>但中国占全球产能 60%</strong> → 西方玩家(Hitachi Energy/Eaton/Vertiv)没 DRAM 那种干净定价权。</li>
+<li><strong>液冷/光互连</strong>:真需求但分散、无寡头定价权 → 好赛道非好抽水机。</li>
+</ul>
+<h2 id="五资本保全口径已涨-拥挤-自带周期顶-inferred">五、资本保全口径:已涨 + 拥挤 + 自带周期顶 <code>[INFERRED]</code></h2>
+<ol>
+<li><strong>用户已识别没建仓</strong>:有 GEV/CEG/ETN 研究卡,但持仓快照一股没有——对的瓶颈研究了却没用纪律建仓。</li>
+<li><strong>已是共识、已大涨</strong>:GEV/CEG/VST 一年涨幅巨大,是 2026 最拥挤的&quot;非 AI 的 AI 交易&quot;。<strong>逻辑成立 ≠ 此价该买</strong>(GOOGL 拥挤共识 + &quot;等证明再梭哈=买顶&quot;教训)。</li>
+<li><strong>电力也有自己的 blowoff</strong>:今天下单的 90GW 产能 + 一堆 BYOP 在 <strong>2029-30 集中到位</strong> → 可能像内存从&quot;售罄&quot;转&quot;过剩&quot;。<strong>&quot;电力是新内存&quot;两头都成立:现在抽水机,几年后也有周期顶。</strong></li>
+</ol>
+<h2 id="六已涨了买哪家按能不能拿穿回撤分层-inferred">六、已涨了,买哪家?——按&quot;能不能拿穿回撤&quot;分层 <code>[INFERRED]</code></h2>
+<blockquote>全涨过了,所以问题不是&quot;买哪个&quot;而是&quot;哪个有地板能让你拿穿 -30% 不割 + 在回调分批进&quot;。按结构(非动量)分层:</blockquote>
+<table><thead><tr><th>标的</th><th>类型</th><th>地板</th><th>周期性</th><th>资本保全契合</th></tr></thead><tbody><tr><td><strong>CEG / IPP(核)</strong></td><td>拥有稀缺现有核电,卖电(PPA)</td><td><strong>强(年金式现金流 + 不可复制核资产)</strong></td><td>中</td><td><strong>最能拿穿回撤</strong></td></tr><tr><td><strong>ETN(伊顿)</strong></td><td>多元化电气,质量股</td><td>中(分散+分红+低 beta)</td><td>中低</td><td><strong>&quot;睡得着&quot;的电气化敞口</strong></td></tr><tr><td><strong>GEV(燃气轮机)</strong></td><td>最纯寡头 pump</td><td>弱(设备商,靠在手订单)</td><td><strong>高(2029-30 glut 风险最大)</strong></td><td>上行最大,<strong>最不抗回撤</strong></td></tr><tr><td>VRT(Vertiv)</td><td>液冷+电源,最高动量</td><td>弱</td><td>高</td><td>最该避免追顶</td></tr></tbody></table>
+<p><strong>关键反直觉</strong>:<strong>&quot;最纯的 pump&quot;(GEV/燃气轮机)对你恰恰不是最好的买点</strong>——因为它最周期、最 priced、glut 风险最大。<strong>最贴资本保全的表达是有&quot;地板&quot;能拿穿回撤的那个:发电资产(CEG 式核电年金)或多元化质量(ETN)</strong>;设备商(GEV)上行大但转向时 de-rate 最狠。</p>
+<p><strong>入场纪律(按「重押原则」)</strong>:</p>
+<ul>
+<li><strong>不在此追顶</strong>;选定结构后<strong>回调分批</strong>(发电资产有现金流地板可越跌越买;设备商更周期,只在明确回调段)。</li>
+<li><strong>不必赌唯一赢家</strong>:小篮子(一个发电 + 一个电气)分散&quot;哪个具体赢&quot;的不确定 = positioning 非 prediction。</li>
+<li><strong>也可整条判太贵而等</strong>:&quot;宁愿错过不损失本金&quot;——若全 priced,空仓等回调是合法选择。</li>
+</ul>
+<h2 id="七回调触发器2026-06-29-实测yfinancecomputed">七、回调触发器(2026-06-29 实测,yfinance)<code>[COMPUTED]</code></h2>
+<table><thead><tr><th>标的</th><th>价</th><th>fwd PE</th><th>距 52w 高</th><th>vs 200DMA</th><th>读数 + 触发器</th></tr></thead><tbody><tr><td><strong>GEV</strong></td><td>$1,045</td><td><strong>42.6</strong></td><td>-12%</td><td><strong>+33%</strong>($785)</td><td>最贵最伸展。<strong>现在不碰</strong>。① first look ~$850 ② real value ~$785(200DMA)或 fwd→~30</td></tr><tr><td><strong>CEG</strong></td><td>$264</td><td><strong>19.5</strong></td><td><strong>-36%</strong></td><td><strong>-17%</strong>($318)</td><td><strong>已回调最多、最便宜、最 actionable</strong>。⚠️<strong>先查为何 -36%</strong>(板块 de-rate vs 公司坏);thesis 完好→起始区 $240-265、跌破 $240($240 是 52w 低=地板)再加</td></tr><tr><td><strong>ETN</strong></td><td>$402</td><td>25.6</td><td>-8%</td><td>+9%($370)</td><td>质量但近高、不便宜。① ~$370(200DMA)② ~$345 更好。不急</td></tr><tr><td>(VST)</td><td>$163</td><td><strong>14.9</strong></td><td>-26%</td><td>-4%</td><td>IPP 里最便宜的 fwd;核+气混合、merchant 敞口更大(比 CEG 周期)</td></tr><tr><td>(VRT)</td><td>$304</td><td>34.3</td><td>-20%</td><td><strong>+33%</strong></td><td>最伸展动量,trailing PE 76;<strong>最该避免追,等深调</strong></td></tr></tbody></table>
+<p><strong>核心发现</strong>:<strong>CEG 已经替你做了回调</strong>(-36% off 高、跌破 200DMA、fwd 19.5)——你&quot;等回调用纪律建仓&quot;的窗口在 CEG 上<strong>大半已经打开</strong>;而 GEV 还在 200 线上 +33%、fwd 42.6,仍是&quot;等&quot;的名字。<strong>最纯 pump(GEV)最贵最该等;有地板的 CEG 反而最先进入区</strong>——和§六&quot;别用最周期的表达最对的瓶颈&quot;一致。 <strong>但纪律</strong>:CEG -36% 必须先回答&quot;为什么跌这么多&quot;——<strong>跌 36% 的票要先有&quot;why&quot;再谈抄,否则是接刀</strong>。</p>
+<p><strong>✅ 2026-06-29 已深挖归因:主要 A,不是 B(详见 [[tickers/CEG]])</strong>:① 电价跌(混)② 机构 $281 折价配售 1100 万股(A,技术)③ 指引&quot;miss&quot;但 Q1 已 beat+重申(轻 A)④ TMI 重启延迟非取消(轻 B 时点)⑤ 整条电力交易 de-rate(A,板块)。<strong>thesis 在 beat</strong>(Q1 adj EPS $2.74 vs $2.59、营收 $11.12B vs $8.81B、5,650MW PPA、Calpine 成全美最大电力商 55GW)。<strong>是回调不是陷阱,fwd 19.5 合理</strong>。<strong>唯一真 B 风险=电价</strong>(Calpine 加了 merchant 周期性,&quot;纯年金&quot;说法已修正)。挂 4 个 thesis-break 信号在 CEG 卡。</p>
+<ul>
+<li><strong>AI-capex 回调带崩这一篮时</strong>,才是&quot;识别对了的瓶颈&quot;用纪律建仓的更好窗口。</li>
+<li><strong>周期顶预警</strong>(2028-29):燃气轮机在手订单增速见顶、BYOP 产能集中并网、电力 PPA 价见顶 → 电力 blowoff 的领先指标(对照存储 note 的&quot;价格二阶导&quot;)。</li>
+<li><strong>基本面</strong>:数据中心电力缺口、变压器/轮机交期(缩短=供给追上=顶临近)、核电 PPA 签约节奏。</li>
+</ul>
+<h2 id="八来源">八、来源</h2>
+<ul>
+<li>电力是首要约束 / 7GW 被砍 / BYOP — Spheron, techinvestments.io</li>
+<li>燃气轮机三寡头 / 卖到 2030 / 新订单价更高 — Bloomberg《2025 bottlenecks: gas turbines》</li>
+<li>GEV 80GW 在手排到 2029 — Utility Dive</li>
+<li>变压器交期 5 年 / 中国占 60% / 电气市场 $20B→$65B(2030)— pv-magazine USA, DataCenterKnowledge</li>
+<li>CoWoS 2026 售罄 / NVDA 锁 60% / 交期 52-156 周 — Silicon Analysts, TrendForce</li>
+</ul>
+      </article>
+      <aside class="doc-sidebar">
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">文档导航</h3>
+          <ul class="toc-list"><li><a href="#一句话">一句话</a></li><li><a href="#一利润池迁移序列-inferred">一、利润池迁移序列 `[INFERRED]`</a></li><li><a href="#二五瓶颈-pump-排序像不像-memory-抽水机known-2026-06">二、五瓶颈 pump 排序(像不像 memory 抽水机)`[KNOWN 2026-06]`</a></li><li><a href="#三最强-pump燃气轮机-内存的镜像-known-2026-06">三、最强 pump:燃气轮机 = 内存的镜像 `[KNOWN 2026-06]`</a></li><li><a href="#四为什么其余不是好-pump-inferred">四、为什么其余不是好 pump `[INFERRED]`</a></li><li><a href="#五资本保全口径已涨-拥挤-自带周期顶-inferred">五、资本保全口径:已涨 + 拥挤 + 自带周期顶 `[INFERRED]`</a></li><li><a href="#六已涨了买哪家按能不能拿穿回撤分层-inferred">六、已涨了,买哪家?——按&quot;能不能拿穿回撤&quot;分层 `[INFERRED]`</a></li><li><a href="#七回调触发器2026-06-29-实测yfinancecomputed">七、回调触发器(2026-06-29 实测,yfinance)`[COMPUTED]`</a></li><li><a href="#八来源">八、来源</a></li></ul>
+        </section>
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">阅读提示</h3>
+          <ul class="summary-list">
+            <li><span class="summary-label">先看什么</span><span class="summary-value">先读一段话结论，再看表格和风险点。</span></li>
+            <li><span class="summary-label">适合用途</span><span class="summary-value">复盘、比较、回查研究底稿。</span></li>
+            <li><span class="summary-label">建议动作</span><span class="summary-value">如果文档内容改变了 thesis，再回到候选池或组合页更新判断。</span></li>
+          </ul>
+        </section>
+      </aside>
+    </div>
+    <div class="footer">该页面由 Markdown 自动生成。原始文件：notes/2026-06-29-ai-bottleneck-profit-pool-migration.md</div>
+  </div>
+  </div>
+</body>
+</html>
