@@ -4,7 +4,7 @@ type: bottleneck-map + profit-pool-migration
 status: active
 purpose: AI 利润池沿物理栈下移(GPU→内存→电力);用"抽水机四要素"给除存储外的瓶颈排序;已涨情况下怎么选
 holder_context: 用户问"除存储 AI 还缺什么 / 下一个 memory 级抽水机 / 已涨买哪家";有 GEV/CEG/ETN 研究卡但持仓快照里一股没有(识别了没建仓)
-related: notes/2026-06-24-memory-storage-cycle-mechanics.md · notes/2026-06-25-top-signals-and-panic-discipline.md · tickers/GEV.md · tickers/CEG.md · tickers/ETN.md
+related: notes/2026-06-24-memory-storage-cycle-mechanics.md · notes/2026-06-25-top-signals-and-panic-discipline.md · tickers/GEV.md · tickers/CEG.md · tickers/ETN.md · tickers/AMAT.md · tickers/LRCX.md
 memory: capital-preservation-first(含「重押原则」) · organic-growth-screen
 ---
 
@@ -89,6 +89,26 @@ memory: capital-preservation-first(含「重押原则」) · organic-growth-scre
 - **周期顶预警**(2028-29):燃气轮机在手订单增速见顶、BYOP 产能集中并网、电力 PPA 价见顶 → 电力 blowoff 的领先指标(对照存储 note 的"价格二阶导")。
 - **基本面**:数据中心电力缺口、变压器/轮机交期(缩短=供给追上=顶临近)、核电 PPA 签约节奏。
 
+## 七b、另一条线:设备层 = 内存抽水机的"卖铲子"表达(2026-06-30 补)`[KNOWN 2026]`
+
+> §一 的迁移是**横向**(GPU→内存→电力,利润池换瓶颈)。这里补**纵向**:同一个内存瓶颈,**往下一层就是造内存的设备**——不买美光这种内存厂,买给所有内存厂卖机器的人。
+
+**逻辑**:内存=当前抽水机(美光 81% 毛利)。但内存厂自己承担**现货价商品风险**(blowoff 后跌最狠)。**设备层(WFE)吃的是 capex 不是现货价**:不管三星/SK/美光谁赢,造 HBM/DRAM 都得买刻蚀+沉积。**这是"卖铲子"比"挖金"干净的地方**。
+
+**WFE 五大占全球 ~70%**:ASML(EUV 垄断 ~21%)、**AMAT(最全 ~24%)**、**LRCX(内存最纯)**、TEL、KLA。
+
+| 标的 | 类型 | 内存弹性 | 抗回撤 | 卡 |
+|---|---|---|---|---|
+| **LRCX** | 刻蚀+沉积,**一半收入吃内存**(DRAM 26%+NAND 24%) | **最大**(YTD+110%/年+250%) | **最差**(最周期) | [[tickers/LRCX]] |
+| **AMAT** | 最全,逻辑/代工/内存/显示分散 | 中 | 较好(分散) | [[tickers/AMAT]] |
+
+**⚠️ 三个反直觉(和电力篮同构)**:
+1. **LRCX 不是内存顶的对冲,是内存 capex 的杠杆**——2028-30 内存 glut 来时,WFE 订单砍最狠,设备股 de-rate 最猛。**最纯铲子=最周期**(同 §六 GEV)。
+2. **有机绿灯但已贵 late-cycle**:两家都是几十年 R&D 真护城河、寡头+定价权(过 organic-growth-screen,比 AVGO 干净)——**但已涨 180-250%、fwd 38-52x**(中周期常态仅 15-20x)。**右层、识别对、已 priced**。
+3. **中国是结构性 B 不是情绪**:AMAT 中国 35-40%→mid-20%(FY2026 损失 $6-7.1 亿);**LRCX 43% 收入受威胁**;中国"50% 国产化"新规威胁 AMAT/LRCX/KLA 合计 $180 亿 → **TAM 结构性缩**。这是设备股区别于电力篮的额外下行变量。
+
+**结论**:和电力篮**同一句话**——对的层、研究对、但已涨+late-cycle+中国 overhang → **挂触发器等回调用纪律,不追**。要这层敞口组合已通过 SMH ETF 间接持有。触发器+thesis-break 信号见两张卡。
+
 ## 八、来源
 
 - 电力是首要约束 / 7GW 被砍 / BYOP — Spheron, techinvestments.io
@@ -96,3 +116,6 @@ memory: capital-preservation-first(含「重押原则」) · organic-growth-scre
 - GEV 80GW 在手排到 2029 — Utility Dive
 - 变压器交期 5 年 / 中国占 60% / 电气市场 $20B→$65B(2030)— pv-magazine USA, DataCenterKnowledge
 - CoWoS 2026 售罄 / NVDA 锁 60% / 交期 52-156 周 — Silicon Analysts, TrendForce
+- WFE Big5 ~70% / AMAT ~24% / ASML ~21% / 市场 $92B(2026)— Yole, Research&Markets
+- AMAT Q2 2026 $79.1 亿/49.9% 毛利/指引>30% — Applied IR;LRCX Q3 2026 $58.4 亿/+24%/DRAM26%+NAND24%/先进封装+40% — MEXC
+- AMAT 中国 35-40%→mid-20%/$6-7.1 亿损失 — TrendForce;LRCX 43% 受威胁/中国 50% 国产化威胁 $180 亿 — Fintool, ElectronicsForYou

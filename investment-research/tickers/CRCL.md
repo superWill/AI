@@ -5,10 +5,29 @@ sector: Fintech / Stablecoin Infrastructure
 layer: N/A             # 不属于半导体 9 层产业链；本质是"稳定币储备净息差"宏观利率敞口
 position_type: thematic / payoff   # 监管落地 + 利率路径双驱动
 status: watching
-last_updated: 2026-06-25
+last_updated: 2026-07-01
 ---
 
 # Circle Internet Group (CRCL)
+
+## ⭐ 2026-07-01:Open USD = 护城河 B 类损伤(论点断了一条腿)`[KNOWN 2026-07]`
+
+> **判定:这次 -17% 不是加密 beta 噪音(≠"BTC 砸盘可拿穿"),是真正的 B 类基本面事件——且正是本卡 6/25 点名的"venue 截息"风险升级成行业级。买入时的资产和现在手里的,不是同一个东西了。**
+
+**新炸弹 OUSD**:6/30–7/1 **CRCL -17% 到 4 个月低 ~$74.7**。**140+ 家 Open Standard 联盟发竞品稳定币 OUSD,创始伙伴含 Stripe/Mastercard/Visa/BlackRock——以及 Coinbase**。**卖点=让合作伙伴留存储备收益**,精准打击 Circle 独吞 float 息的命根子。
+- **比 Hyperliquid 严重一个数量级**:① **Coinbase(你 50%+ 分润方 + 最大分发渠道)在给对手站台**,而 **8 月分润续约在即 = 谈判被架枪**;② 不是单 venue,是 Visa/MC/BlackRock/Stripe 分发帝国的"分息标准"。
+- 本卡 6/25 原话"这是趋势开端,后面大 venue 会照做"——**应验,且比预期快/大。这条研究对了。**
+
+**双腿论点断了一条** `[INFERRED]`:
+| 腿 | 状态 |
+|---|---|
+| ① 利率(高息吃储备息) | ✅ 完好甚至改善(Fed higher-for-longer) |
+| ② 护城河(牌照稀缺+网络+交易所分发) | 🔴 **被自己的分发伙伴正面攻击(OUSD)** |
+→ 剩下的那条腿(利率)**不是 franchise,是利率交易 + crypto-beta**。当"稀缺护城河"这个持有理由被它自己的分发伙伴证伪,**继续持有的理由只剩利率交易——而利率你不需要通过一只 -65%、98% 波动、内部人 94:0 清仓的加密股表达**。
+
+**balanced(空头可能过度)**:OUSD 是宣布非采用;Paxos USDG 同类联盟币基本没抢到份额;140 家联盟有协调/激励难题;Coindesk 直言"采用面临陡峭上坡"、抛售"或过度"。**但联盟不需赢,只需存在,就把 take-rate + float 增长预期永久压低、把 8 月续约筹码转给 Coinbase → 估值锚($130-152 目标)大概率被下修。**
+
+**资本保全口径**:CRCL 本就判"第一顺位该砍"(见下)。**现在叠加护城河 B 类损伤 = 坏风险画像 + 基本面恶化 + 内部人信号三重共振**。不是"跌了可摊低"的 A 类回撤,是"论点一条腿断了"的 B 类。**不给买卖建议(纪律),但逻辑摆明。** 详见 [[capital-preservation-first]]。
 
 ## 一句话定位
 
@@ -30,18 +49,21 @@ USDC 发行方。商业模式本质 = **拿用户的稳定币储备去买短债�
 - 两面读:① IPO(2025/6 $31 发行→首日 +168%)后内部人解禁卖股分散,**部分正常**;② 但 **94:0 + CEO 都卖 = 缺"自己人在此价位有信心"的证据**。
 - **对持仓的含义**:不改"5% venture 持有"的决定(基本面是利率不是 BTC),但**强化"别加仓"**——连管理层在 $75 都不买,别在这追。经典"聪明钱(内部人卖)vs 傻钱(散户/分析师买)"分歧。
 
-**📌 基本面校准(重要)**：CRCL **基本面 = USDC float × 短端利率 × 留存,不是 BTC 价格**。股价跟 BTC 动(corr 0.55)是"情绪 + float 间接链",非基本面绑定。→ **真正的基本面风险是利率(Fed 降息)、USDC 采用、venue 截息——不是 BTC**。BTC 情绪砸盘时 CRCL 跟跌是噪音(可拿穿);Fed 降息才是 5 年持有的真对手盘。
+**📌 基本面校准(2026-07-01 升级为三层)**：CRCL **基本面 = USDC float × 短端利率 × 留存,不是 BTC 价格**。三层风险按咬 franchise 的程度排:
+1. **BTC = 噪音**:股价跟 BTC 动(corr 0.55)是情绪 + float 间接链,非基本面绑定,情绪砸盘可拿穿。
+2. **利率 = 顺风**:Fed higher-for-longer 是储备息利好;降息才是对手盘,但当前环境有利。
+3. **⭐ take-rate 竞争性去中介化 = 真 B(最大,2026-07 兑现)**:venue 截息(Hyperliquid)→ **OUSD 140 家联盟分息标准**。"谁都能发合规稳定币、谁持币谁想吃息"这个结构才是真正咬 franchise 的——**既不是 BTC 也不是利率**。本卡 6/25 把 venue 截息标"最重要"是对的,只是兑现得比预期快/大(见顶部 ⭐ 段)。
 
 ## 关键数据
 
 | 指标 | 数据 | 备注 |
 |---|---|---|
-| 股价 | ~$80.59 | 2026-06-18，低于共识目标价 |
-| 分析师共识目标 | ~$130–143 | 区间 $65（低）～$243（高），22 位分析师 |
-| 评级 | Buy | 约 13 买 / 2 卖 |
-| 52 周区间 | 待补 | — |
-| 一年涨幅 | 待补 | 已从高位明显回调 |
-| Beta | 待补 | 预计高 Beta |
+| 股价 | **~$74.7** | 2026-07-01,OUSD 后 4 个月低,近月 -29%,距顶 **-65%** |
+| 市值 | **~$18.9B** | — |
+| 分析师共识目标 | ~$130–152 | 区间 $77（低）～$280（高）;**OUSD 后大概率下修** |
+| Q1'26 净利 | **$55.3M,YoY -15%** | **净利率 11%→8%**——营收+20% 净利却降 = 分润已吃 margin |
+| USDC 流通 | $77B(+28% YoY,**QoQ 走平**) | float 增长已停滞(OUSD 前就裂) |
+| 内部人 | **94:0 全卖**(6 个月) | CEO/总裁都卖,$75 无人买 |
 
 ## 护城河类型
 
@@ -84,6 +106,10 @@ USDC 发行方。商业模式本质 = **拿用户的稳定币储备去买短债�
 - 触发卖出：USDC 流通量连续 2 个季度环比下滑；或监管对储备/利息分配出台实质性不利规则。
 - 触发减仓：明确进入快速降息周期（利率敞口反向）；或 ARC 投入大幅拖累指引而无对应回报。
 - 持有阈值：流通量重回环比增长 + 利率维持高位/上行。
+- **⭐ OUSD 硬跟踪项(2026-07 新增,论点第二条腿的证伪线)**:
+  - **采用曲线**:OUSD 上线后 6–12 个月抢到的 float / 支付集成(参照 Paxos USDG 失败基准——若 OUSD 明显跑赢 USDG = 联盟币这次真起来了 = 护城河实质破);
+  - **8 月 Coinbase 分润续约结果**:分润比恶化 / Coinbase 明确倾斜 OUSD = 分发伙伴反水坐实;
+  - **USDC 份额 vs OUSD + USDT**:USDC 绝对流通掉头向下 = 从"停滞"变"萎缩",触发卖出。
 
 ## 跟踪信号
 
@@ -105,6 +131,7 @@ USDC 发行方。商业模式本质 = **拿用户的稳定币储备去买短债�
 |---|---|---|---|---|
 | 2026-06-19 | 建档观察 | ~$80.59 | — | 便宜但缺催化；押"利率维持高位 + 流通量回增"双确认 |
 | 2026-06-25 | 更新观察 | ~$70.98（距顶 -70%）| — | 加密复合体血洗(BTC-51%/MSTR-79%/COIN-64%);corr COIN 0.71/BTC 0.55,BTC-S&P 0.96=杠杆风险非对冲；资本保全口径第一顺位砍 |
+| 2026-07-01 | 更新观察 | ~$74.7（距顶 -65%）| — | **OUSD 联盟(Coinbase/Visa/MC/BlackRock/Stripe+140家)= 护城河 B 类损伤**;论点断护城河腿,只剩利率交易;take-rate 去中介化确认为真 B(非BTC非利率) |
 
 ## 参考
 
@@ -113,3 +140,6 @@ USDC 发行方。商业模式本质 = **拿用户的稳定币储备去买短债�
 - StockTitan 8-K（Q1'26 + ARC $222M 预售）— https://www.stocktitan.net/sec-filings/CRCL/8-k-circle-internet-group-inc-reports-material-event-a080242d188f.html
 - Benzinga 分析师评级 — https://www.benzinga.com/quote/CRCL/analyst-ratings
 - MarketBeat 目标价 — https://www.marketbeat.com/stocks/NYSE/CRCL/forecast
+- **OUSD 联盟(Stripe/Coinbase/MC/Visa/BlackRock+140家)分享储备收益,CRCL -17%** — https://www.coindesk.com/business/2026/06/30/circle-slides-8-as-stripe-coinbase-and-blackrock-back-rival-stablecoin-network
+- OUSD 采用面临陡峭上坡 / Paxos USDG 前车之鉴 — https://www.coindesk.com/business/2026/06/30/why-the-openusd-s-real-threat-that-tanked-circle-stock-still-faces-a-steep-uphill-battle-for-adoption
+- Q1'26 净利 $55.3M -15% / 净利率 11%→8% — https://www.businesswire.com/news/home/20260511188445/en/Circle-Reports-First-Quarter-2026-Results
