@@ -106,6 +106,8 @@ class Yolov8nPersonDetector(PersonDetector):
     def __init__(self, model_path: str, model_size: int = 640,
                  conf_thresh: float = 0.25, nms_thresh: float = 0.45, core_mask=None):
         from rknnlite.api import RKNNLite   # 懒加载:只在真用板子后端时才需要 rknnlite(板专属包)
+        if core_mask is None:
+            core_mask = RKNNLite.NPU_CORE_AUTO   # 传 None 会被当成"显式设置",rk3568 单核不支持 core_mask,报错;NPU_CORE_AUTO 是唯一验证过能用的值(retinaface.py 同款)
         self.model_size = (model_size, model_size)
         self.conf_thresh = conf_thresh
         self.nms_thresh = nms_thresh
