@@ -17,8 +17,12 @@
 > - **P2c-a**(`src/uplink/`,离线已落地):事件上行纯逻辑——自足事件包、durable outbox
 >   两阶段托管(custody≠delivery,幂等/优先级/存储转发)、四级运营分类(缓存工单窗,不确定→
 >   unverified、永不 confirmed)、通知升级(只升通知等级)。设计见 [`docs/design/p2c-uplink.md`](docs/design/p2c-uplink.md)。
-> - **待做**:P1b(yolov5n/8n 量化 rknn 接入 `PersonDetector`、IR 夜间召回实测,ADR F3);
->   P2b(splitmuxsink 实机录像接入 `SegmentSource`);P2c-b(paho-mqtt 接 `UplinkTransport`);
+> - **P1b 进行中**(`src/vision/yolov8_person.py`):yolov8n 后处理(DFL box 解码 + person-only
+>   过滤 + NMS)照 rknn_model_zoo 写完,纯 numpy 离线可测(4 tests,不需要 rknnlite/板子)。
+>   **卡点:还没有量化好的 `.rknn` 模型文件**——rknn_model_zoo 只发 onnx,`.rknn` 要本地跑
+>   `rknn-toolkit2` 转换(x86_64 Linux only,RetinaFace/PFLD 那两个模型是怎么转出来的这个仓库里
+>   没有留痕,需要另外的环境),转换完之前这条后端在板子上跑不起来。IR 夜间召回实测(ADR F3)待模型到位后再做。
+> - **待做**:P2b(splitmuxsink 实机录像接入 `SegmentSource`);P2c-b(paho-mqtt 接 `UplinkTransport`);
 >   P2c-c(platform 契约对接:topic/QoS/ack 语义/工单缓存下发,见设计文档 §11)。
 >
 > 视觉**只到 `person_observation`(事实)**,永不产 intrusion/confirmed;不确定只升优先级不改分类。
@@ -50,7 +54,8 @@ IVG-G4H RTSP H.264/265
 | `scripts/replay.py` | 离线回放/联调(特征轨迹 → 整链 → 状态时间线+事件) | ✅ 跑通(合成剧本触发 alarm 并恢复) |
 | `scripts/replay_motion.py` | **视觉安防 P0** — 合成帧回放(空场→白块横穿→空场,验 OPEN/CLOSE) | ✅ 跑通(需 numpy) |
 | `scripts/run_motion_live.py` | **视觉安防 P0** — 实机入口:单/多摄 RTSP→运动检测→episode→存证(无需模型/NPU) | ⏳ 待上板取证 |
-| `src/vision/person_detector.py` | **视觉安防 P1a** — 人体检测接口 + 离线 Mock(真 RKNN 留 P1b) | ✅ 实现 + **4 tests** |
+| `src/vision/person_detector.py` | **视觉安防 P1a** — 人体检测接口 + 离线 Mock | ✅ 实现 + **4 tests** |
+| `src/vision/yolov8_person.py` | **视觉安防 P1b** — yolov8n 真 RKNN 人体检测(DFL 解码+person-only 过滤+NMS,纯 numpy 离线可测) | ⏳ 后处理实现 + **4 tests**,**卡 `.rknn` 模型文件未转换**,板上未验证 |
 | `src/roi/mask.py` | **视觉安防 P1a** — 每摄多边形 ROI 掩膜(过滤区外框/运动) | ✅ 实现 + **6 tests** |
 | `src/vision/confirm.py` | **视觉安防 P1a** — 运动门控 + 人体确认(K/M 持久性)升级状态机 → person_observation | ✅ 实现 + **12 tests** |
 | `scripts/replay_confirm.py` | **视觉安防 P1a** — 两幕回放(蒸汽不产 person / 真人产 person_observation) | ✅ 跑通(+ 5 端到端 tests) |
@@ -62,13 +67,22 @@ IVG-G4H RTSP H.264/265
 | `src/uplink/outbox.py` | **视觉安防 P2c-a** — durable 上行 outbox:两阶段托管/幂等/优先级/存储转发/健康 | ✅ 实现 + **12 tests** |
 | `src/uplink/classify.py` · `workorder_cache.py` · `escalate.py` | **视觉安防 P2c-a** — 四级运营分类 + 工单缓存 + 通知升级 | ✅ 实现 + **16 tests** |
 | `scripts/replay_uplink.py` | **视觉安防 P2c-a** — 上行回放(分类/两阶段托管/断网存储转发/通知升级) | ✅ 跑通(+ 5 端到端 tests) |
-| `scripts/check_platform.sh` | **P0** 实机能力取证(RKNN/MPP/RGA 是否可用) | ✅ 可发板子跑 |
+| `scripts/check_platform.sh` | **P0** 实机能力取证(RKNN/MPP/RGA 是否可用) | ✅ 板上验证过(RKNN/MPP/RGA 库齐全) |
 | `scripts/rtsp_probe.py` | **P1** 摄像头 RTSP 探测(codec/分辨率/fps + soak) | ✅ 可发板子跑 |
+| `src/camera/gst_source.py` | **P1** GStreamer MPP 硬解 RTSP 取流封装 | ✅ 板上验证过(真机取流) |
+| `src/vision/retinaface.py` | **P3** RetinaFace(mobilenet)RKNPU 推理 + 后处理(人脸框+5 关键点) | ✅ 板上验证过(真机 90% 检出率) |
+| `src/vision/pfld.py` | **P3** PFLD98 稠密关键点(EAR/MAR 用,当前 Path A 未接入) | ✅ 实现,未接入 run_live.py |
+| `src/vision/pipeline.py` | **P3** FacePipeline(RetinaFace 整合) | ✅ 板上验证过 |
+| `scripts/run_live.py` | **P3** 整链实时入口:RTSP→MPP 硬解→RetinaFace→头姿→疲劳状态机→事件落地 | ✅ 板上端到端跑通(90% 检出率) |
+| `scripts/landmarks_test.py`·`decode_probe.py`·`capture_burst.py`·`snapshot.py` | 板上调试/标定工具 | ✅ 可发板子跑 |
 | `config/*.example.json` | 阈值 / 摄像头配置示例(无真实密码) | ✅ |
-| `src/vision/`(RKNN 推理) `src/camera/`(RTSP/MPP/RGA) | 需板子的 worker | ⏳ 待 P0/P1 取证后写(P3) |
-| `models/` | onnx 源 + rknn 产物 | ⏳ P3(rknn 大文件 gitignore) |
+| `models/RetinaFace_mobile320.rknn`·`pfld_landmark_rk3568.rknn` | RKNN 模型产物(gitignore,已手动部署到板子) | ✅ 板上已验证可推理 |
+| `models/yolov8n*.rknn` | P1b 人体检测模型 | ⏳ 待转换(见上方 P1b 卡点说明) |
 
-**已实现的是"不依赖板子的全部"**:疲劳(特征换算 + 状态机 + 事件落地 + 离线回放)+ 视觉安防 P0(运动检测 + episode 状态机 + 帧回放),共 **152 tests** 全绿(147 纯标准库 + 5 需 numpy)。需要板子的只剩 RTSP 取流 + RKNN/MPP/RGA 推理(P0/P1 取证后才写,避免盲猜)。
+**已验证的部分(2026-07-03 板上实机):** P0(RKNN/MPP/RGA 齐全)+ P0.5(RKNNLite load/init/inference 全通)
++ P1(RTSP 真机取流)+ P3(RetinaFace 端到端,摆正摄像头角度后 90% 检出率,124 帧稳定无崩溃)。
+离线部分:疲劳(特征换算 + 状态机 + 事件落地 + 离线回放)+ 视觉安防 P0/P1a/P1b(后处理)/P2a/P2c-a,
+共 **156 tests** 全绿(151 纯标准库 + 5 需 numpy)。P1b 卡模型转换(见上),P2/P4/P5 见下方阶段进度。
 
 ## 快速验证(Mac,无需板子)
 
@@ -131,13 +145,19 @@ python3 scripts/rtsp_probe.py --soak 1800     # 30 分钟连拉,记断流/重连
 
 ## 阶段进度(对照 handoff §4)
 
-- **P0** 实机能力取证 — 脚本就绪,待上板子跑出报告
-- **P0.5** NPU spike(model_zoo 样例)— 待板子(证明 NPU 链路活,再建管线)
-- **P1** 摄像头 + RTSP — 脚本就绪,待接线/上电/取证
-- **P2** CPU 基线 — 待 P0/P1
-- **P3** 迁移 RKNN(RetinaFace/SCRFD + PFLD,**非 MediaPipe**,后者不能干净转 RKNN)— 待
-- **P4** 疲劳状态机接入实时特征 — 核心引擎已就绪,待接 vision 输出
-- **P5** 可靠性(白天/夜间/遮挡 + 24h)— 待
+- **P0** 实机能力取证 — ✅ 板上验证(librknnrt.so/librockchip_mpp.so.1/librga.so.2 + /dev/mpp_service 齐全)
+- **P0.5** NPU spike — ✅ 2026-07-03 板上验证(RKNNLite load_rknn+init_runtime+inference 全通,
+  librknnrt 2.3.2/Driver 0.9.8/target rk3568)
+- **P1** 摄像头 + RTSP — ✅ 板上验证(IVG-G4H H.265 子码流真机取流,GStreamer MPP 硬解)
+- **P2** CPU 基线 — 跳过(直接上 P3 NPU 推理,未单独测 CPU 基线性能)
+- **P3** 迁移 RKNN(RetinaFace,**非 MediaPipe**) — ✅ 2026-07-03 板上端到端跑通,摆正摄像头俯角后
+  检出率 90%(112/124 帧),状态机全程稳定无异常转移。PFLD 稠密关键点已实现但未接入 run_live.py
+  (当前 Path A 只用 RetinaFace 5 点做头姿,EAR/MAR 待后续接稠密关键点)
+- **P4** 疲劳状态机接入实时特征 — ✅ run_live.py 里已接(Path A:仅头姿信号驱动状态机)
+- **P5** 可靠性(白天/夜间/遮挡 + 24h)— 待(IR 夜间召回见 P1b ADR F3)
+
+**P1b(人体检测,安防复用轨道)单独进度**:yolov8n 后处理代码 + 单测已完成,**卡在 `.rknn` 模型
+文件未转换**(需要 x86_64 Linux 环境跑 rknn-toolkit2 量化,见上方文件清单里的卡点说明)。
 
 ## 红线
 
