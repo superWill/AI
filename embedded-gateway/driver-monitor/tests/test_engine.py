@@ -127,6 +127,25 @@ def test_frame_stale_via_tick():
     assert r is not None and r.state == State.CAMERA_FAULT and "frame_stale" in r.reason
 
 
+def test_missing_ear_is_feature_unavailable_not_normal():
+    """有脸 + 推理OK,但 EAR 缺失(如 5 点模型)→ FEATURE_UNAVAILABLE,绝不判 normal。
+    这是安全不变量:不能在无法判定眼闭合时高置信度报正常。"""
+    eng = _eng()
+    r = _run(eng, [_frame(t * 0.1, ear=None) for t in range(30)])
+    assert r.state == State.FEATURE_UNAVAILABLE, r.state
+    assert r.state != State.NORMAL
+    assert r.confidence == 0.0
+    assert any("feature_unavailable" in x for x in r.reason), r.reason
+
+
+def test_missing_feature_does_not_mask_later_closure():
+    """缺 EAR 期间不得污染 PERCLOS;EAR 恢复后真闭眼仍能触发微睡。"""
+    eng = _eng(eye_closed_alarm_s=2.0)
+    _run(eng, [_frame(t * 0.1, ear=None) for t in range(20)])     # 2s 缺特征
+    r = _run(eng, [_frame(2.0 + t * 0.1, ear=0.10) for t in range(25)])  # 恢复后连续闭眼 2.5s
+    assert r.state == State.ALARM and "microsleep_eyes_closed" in r.reason, (r.state, r.reason)
+
+
 def test_event_json_shape():
     eng = _eng()
     r = eng.update(_frame(1.0, ear=0.30))

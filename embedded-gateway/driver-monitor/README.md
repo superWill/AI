@@ -14,8 +14,12 @@
 > - **P2a**(`src/record/`,离线已落地):录像段环形存储 + 事件→片段映射。证据不静默覆盖
 >   (淘汰序:未 pin→已 delivery→未确认 pin 段永不删)、pre-roll 地板、两阶段确认(custody≠delivery)、
 >   evidence_status(core 段丢=unavailable / 缺口=partial)。person_observation 事件挂回证据引用。
+> - **P2c-a**(`src/uplink/`,离线已落地):事件上行纯逻辑——自足事件包、durable outbox
+>   两阶段托管(custody≠delivery,幂等/优先级/存储转发)、四级运营分类(缓存工单窗,不确定→
+>   unverified、永不 confirmed)、通知升级(只升通知等级)。设计见 [`docs/design/p2c-uplink.md`](docs/design/p2c-uplink.md)。
 > - **待做**:P1b(yolov5n/8n 量化 rknn 接入 `PersonDetector`、IR 夜间召回实测,ADR F3);
->   P2b(splitmuxsink 实机录像接入 `SegmentSource`);P2c(四级分类上行,依赖 RK3506 缓存与 MQTT)。
+>   P2b(splitmuxsink 实机录像接入 `SegmentSource`);P2c-b(paho-mqtt 接 `UplinkTransport`);
+>   P2c-c(platform 契约对接:topic/QoS/ack 语义/工单缓存下发,见设计文档 §11)。
 >
 > 视觉**只到 `person_observation`(事实)**,永不产 intrusion/confirmed;不确定只升优先级不改分类。
 
@@ -54,13 +58,17 @@ IVG-G4H RTSP H.264/265
 | `src/record/ring.py` | **视觉安防 P2a** — 段环形存储:淘汰序/pre-roll 地板/两阶段确认/健康告警 | ✅ 实现 + **9 tests** |
 | `src/record/clip.py` | **视觉安防 P2a** — 事件→段区间映射 + ClipManifest(evidence_status) | ✅ 实现 + **8 tests** |
 | `scripts/replay_record.py` | **视觉安防 P2a** — 录制回放(真人产 clip / 缺口=partial / 蒸汽不产 clip) | ✅ 跑通(+ 5 端到端 tests) |
+| `src/uplink/envelope.py` · `transport.py` | **视觉安防 P2c-a** — 自足事件包 + 上行传输接口 + 离线 Fake | ✅ 实现 + **10 tests** |
+| `src/uplink/outbox.py` | **视觉安防 P2c-a** — durable 上行 outbox:两阶段托管/幂等/优先级/存储转发/健康 | ✅ 实现 + **12 tests** |
+| `src/uplink/classify.py` · `workorder_cache.py` · `escalate.py` | **视觉安防 P2c-a** — 四级运营分类 + 工单缓存 + 通知升级 | ✅ 实现 + **16 tests** |
+| `scripts/replay_uplink.py` | **视觉安防 P2c-a** — 上行回放(分类/两阶段托管/断网存储转发/通知升级) | ✅ 跑通(+ 5 端到端 tests) |
 | `scripts/check_platform.sh` | **P0** 实机能力取证(RKNN/MPP/RGA 是否可用) | ✅ 可发板子跑 |
 | `scripts/rtsp_probe.py` | **P1** 摄像头 RTSP 探测(codec/分辨率/fps + soak) | ✅ 可发板子跑 |
 | `config/*.example.json` | 阈值 / 摄像头配置示例(无真实密码) | ✅ |
 | `src/vision/`(RKNN 推理) `src/camera/`(RTSP/MPP/RGA) | 需板子的 worker | ⏳ 待 P0/P1 取证后写(P3) |
 | `models/` | onnx 源 + rknn 产物 | ⏳ P3(rknn 大文件 gitignore) |
 
-**已实现的是"不依赖板子的全部"**:疲劳(特征换算 + 状态机 + 事件落地 + 离线回放)+ 视觉安防 P0(运动检测 + episode 状态机 + 帧回放),共 **109 tests** 全绿(104 纯标准库 + 5 需 numpy)。需要板子的只剩 RTSP 取流 + RKNN/MPP/RGA 推理(P0/P1 取证后才写,避免盲猜)。
+**已实现的是"不依赖板子的全部"**:疲劳(特征换算 + 状态机 + 事件落地 + 离线回放)+ 视觉安防 P0(运动检测 + episode 状态机 + 帧回放),共 **152 tests** 全绿(147 纯标准库 + 5 需 numpy)。需要板子的只剩 RTSP 取流 + RKNN/MPP/RGA 推理(P0/P1 取证后才写,避免盲猜)。
 
 ## 快速验证(Mac,无需板子)
 
@@ -69,12 +77,15 @@ IVG-G4H RTSP H.264/265
 for t in test_engine test_features test_event_adapter \
          test_motion_episode test_motion_pipeline \
          test_roi_mask test_person_detector test_confirm test_confirm_pipeline \
-         test_segment_source test_segment_ring test_clip_manager test_record_pipeline; do
+         test_segment_source test_segment_ring test_clip_manager test_record_pipeline \
+         test_envelope test_workorder_cache test_classify test_escalate \
+         test_uplink_transport test_outbox test_uplink_pipeline; do
   python3 tests/$t.py
 done
 python3 scripts/replay.py --events      # 合成疲劳剧本走一遍整链(清醒→困倦→微睡→恢复)
 python3 scripts/replay_confirm.py       # P1a 两幕:蒸汽不产 person / 真人产 person_observation
 python3 scripts/replay_record.py        # P2a 录制:真人产 clip / 缺口=partial / 蒸汽不产 clip
+python3 scripts/replay_uplink.py        # P2c-a 上行:分类/两阶段托管/断网存储转发/通知升级
 
 # 视觉安防 P0 中依赖 numpy 的部分(运动检测 + 帧回放)——用带 numpy 的解释器
 python3.10 tests/test_motion_detector.py

@@ -16,8 +16,9 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass
+from typing import Tuple
 
-Point = tuple[float, float]
+Point = Tuple[float, float]      # 运行时类型别名,用 typing.Tuple 兼容 Python 3.8(板子)
 
 
 def dist(a: Point, b: Point) -> float:

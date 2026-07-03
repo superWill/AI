@@ -28,11 +28,13 @@ class State:
     NO_FACE = "no_face"            # 持续丢脸(驾驶员离位/严重遮挡)——不是 normal
     CAMERA_FAULT = "camera_fault"  # 摄像头离线/帧停滞
     MODEL_FAULT = "model_fault"    # 推理失败/时间戳倒退
+    FEATURE_UNAVAILABLE = "feature_unavailable"  # 有脸+推理OK,但判疲劳必需的特征(如EAR)缺失
+    #   → 绝不能当 normal:监控能力受损,必须告知,而不是粉饰为"驾驶员正常"
 
 
 # 故障态优先级高于一切疲劳判定;数值越大越优先
 _FAULT_RANK = {State.MODEL_FAULT: 3, State.CAMERA_FAULT: 3,
-               State.NO_FACE: 2}
+               State.NO_FACE: 2, State.FEATURE_UNAVAILABLE: 2}
 
 
 @dataclass
@@ -66,6 +68,11 @@ class DrowsinessConfig:
     face_lost_grace_s: float = 2.0         # 丢脸超过此值 → NO_FACE
     stale_frame_s: float = 2.0             # 无新帧超过此值 → CAMERA_FAULT
 
+    # 判疲劳必需的特征:有脸但缺其一 → FEATURE_UNAVAILABLE(绝不当 normal)。
+    # 眼闭合(ear)是疲劳的核心信号,默认必需;mar/头姿按配置可加。
+    # 用 RetinaFace 5 点(给不了 ear)时,本机制让系统老实说"无法判定眼闭合"。
+    required_features: tuple = ("ear",)
+
     @classmethod
     def from_dict(cls, d: dict) -> "DrowsinessConfig":
         known = {f for f in cls.__dataclass_fields__}          # type: ignore[attr-defined]
@@ -97,7 +104,9 @@ class StateResult:
     ts: float = 0.0
 
     def to_event(self) -> dict:
-        """handoff §4 的事件 JSON。"""
+        """handoff §4 的事件 JSON。
+        timestamp 用**墙钟**(事件产生时刻);self.ts 是单调时钟(开机相对秒,供状态机时间窗/
+        重放),直接当 Unix 秒会得到 1970,故另存 monotonic_ts 供关联,不混用。"""
         return {
             "type": "driver_monitor_event",
             "state": self.state,
@@ -107,7 +116,8 @@ class StateResult:
             "model_version": self.model_version,
             "perclos": (None if self.perclos is None else round(self.perclos, 3)),
             "eye_closed_s": round(self.eye_closed_s, 2),
-            "timestamp": datetime.fromtimestamp(self.ts, tz=timezone.utc).isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "monotonic_ts": round(self.ts, 3),
         }
 
 
@@ -158,6 +168,14 @@ class DrowsinessEngine:
                                "online", self._perclos(obs.ts), self._eye_closed_dur(obs.ts),
                                cfg.model_version, obs.ts)
         self._face_lost_since = None
+
+        # 3.5) 有脸+推理OK,但判疲劳必需的特征缺失 → FEATURE_UNAVAILABLE。
+        #   关键:绝不把缺失当"睁眼/没打哈欠"塞进时间窗(那会把闭眼粉饰成 normal)。
+        missing = [f for f in cfg.required_features if getattr(obs, f, None) is None]
+        if missing:
+            self._eye_closed_since = None        # 不累计 transient 闭眼
+            self._head_off_since = None
+            return self._feature_unavailable(missing, obs.ts)
 
         # 4) 有脸:更新时间窗特征
         eyes_closed = obs.ear is not None and obs.ear < cfg.ear_closed_thresh
@@ -290,6 +308,13 @@ class DrowsinessEngine:
         self._state = state
         cam = "offline" if state == State.CAMERA_FAULT else "online"
         return StateResult(state, reasons, 0.0, cam, None, 0.0, self.cfg.model_version, now)
+
+    def _feature_unavailable(self, missing: list, ts: float) -> StateResult:
+        """必需疲劳特征缺失:监控受损态,confidence=0,绝不进 normal。"""
+        self._state = State.FEATURE_UNAVAILABLE
+        return StateResult(State.FEATURE_UNAVAILABLE,
+                           ["feature_unavailable:" + ",".join(missing)], 0.0,
+                           "online", None, 0.0, self.cfg.model_version, ts)
 
     def tick_no_frame(self, now: float, *, camera_online: bool = True) -> StateResult | None:
         """无新帧时由上层定时调用:帧停滞超过 stale_frame_s → CAMERA_FAULT。"""
