@@ -19,9 +19,9 @@
 >   unverified、永不 confirmed)、通知升级(只升通知等级)。设计见 [`docs/design/p2c-uplink.md`](docs/design/p2c-uplink.md)。
 > - **P1b 进行中**(`src/vision/yolov8_person.py`):yolov8n 后处理(DFL box 解码 + person-only
 >   过滤 + NMS)照 rknn_model_zoo 写完,纯 numpy 离线可测(4 tests,不需要 rknnlite/板子)。
->   **卡点:还没有量化好的 `.rknn` 模型文件**——rknn_model_zoo 只发 onnx,`.rknn` 要本地跑
->   `rknn-toolkit2` 转换(x86_64 Linux only,RetinaFace/PFLD 那两个模型是怎么转出来的这个仓库里
->   没有留痕,需要另外的环境),转换完之前这条后端在板子上跑不起来。IR 夜间召回实测(ADR F3)待模型到位后再做。
+>   `.rknn` 模型已转换(Docker x86_64 + rknn-toolkit2 2.3.2,COCO 官方 20 图 INT8 校准)并部署上板,
+>   `RKNNLite` load/init/inference 板上验证通过(2026-07-03)。**待做:真实摄像头检出效果 + 吞吐基准
+>   (测时摄像头断电,恢复供电后测)**;IR 夜间召回实测(ADR F3)在此之后。
 > - **待做**:P2b(splitmuxsink 实机录像接入 `SegmentSource`);P2c-b(paho-mqtt 接 `UplinkTransport`);
 >   P2c-c(platform 契约对接:topic/QoS/ack 语义/工单缓存下发,见设计文档 §11)。
 >
@@ -55,7 +55,7 @@ IVG-G4H RTSP H.264/265
 | `scripts/replay_motion.py` | **视觉安防 P0** — 合成帧回放(空场→白块横穿→空场,验 OPEN/CLOSE) | ✅ 跑通(需 numpy) |
 | `scripts/run_motion_live.py` | **视觉安防 P0** — 实机入口:单/多摄 RTSP→运动检测→episode→存证(无需模型/NPU) | ⏳ 待上板取证 |
 | `src/vision/person_detector.py` | **视觉安防 P1a** — 人体检测接口 + 离线 Mock | ✅ 实现 + **4 tests** |
-| `src/vision/yolov8_person.py` | **视觉安防 P1b** — yolov8n 真 RKNN 人体检测(DFL 解码+person-only 过滤+NMS,纯 numpy 离线可测) | ⏳ 后处理实现 + **4 tests**,**卡 `.rknn` 模型文件未转换**,板上未验证 |
+| `src/vision/yolov8_person.py` | **视觉安防 P1b** — yolov8n 真 RKNN 人体检测(DFL 解码+person-only 过滤+NMS,纯 numpy 离线可测) | ⏳ 实现 + **4 tests**,模型已上板 load/init/inference 通,**真机检出+吞吐待测**(摄像头断电) |
 | `src/roi/mask.py` | **视觉安防 P1a** — 每摄多边形 ROI 掩膜(过滤区外框/运动) | ✅ 实现 + **6 tests** |
 | `src/vision/confirm.py` | **视觉安防 P1a** — 运动门控 + 人体确认(K/M 持久性)升级状态机 → person_observation | ✅ 实现 + **12 tests** |
 | `scripts/replay_confirm.py` | **视觉安防 P1a** — 两幕回放(蒸汽不产 person / 真人产 person_observation) | ✅ 跑通(+ 5 端到端 tests) |
@@ -77,7 +77,7 @@ IVG-G4H RTSP H.264/265
 | `scripts/landmarks_test.py`·`decode_probe.py`·`capture_burst.py`·`snapshot.py` | 板上调试/标定工具 | ✅ 可发板子跑 |
 | `config/*.example.json` | 阈值 / 摄像头配置示例(无真实密码) | ✅ |
 | `models/RetinaFace_mobile320.rknn`·`pfld_landmark_rk3568.rknn` | RKNN 模型产物(gitignore,已手动部署到板子) | ✅ 板上已验证可推理 |
-| `models/yolov8n*.rknn` | P1b 人体检测模型 | ⏳ 待转换(见上方 P1b 卡点说明) |
+| `models/yolov8n.rknn` | P1b 人体检测模型(rk3568 INT8,4.8MB) | ✅ 已转换 + 已部署上板,推理链路验证通过 |
 
 **已验证的部分(2026-07-03 板上实机):** P0(RKNN/MPP/RGA 齐全)+ P0.5(RKNNLite load/init/inference 全通)
 + P1(RTSP 真机取流)+ P3(RetinaFace 端到端,摆正摄像头角度后 90% 检出率,124 帧稳定无崩溃)。
@@ -156,8 +156,19 @@ python3 scripts/rtsp_probe.py --soak 1800     # 30 分钟连拉,记断流/重连
 - **P4** 疲劳状态机接入实时特征 — ✅ run_live.py 里已接(Path A:仅头姿信号驱动状态机)
 - **P5** 可靠性(白天/夜间/遮挡 + 24h)— 待(IR 夜间召回见 P1b ADR F3)
 
-**P1b(人体检测,安防复用轨道)单独进度**:yolov8n 后处理代码 + 单测已完成,**卡在 `.rknn` 模型
-文件未转换**(需要 x86_64 Linux 环境跑 rknn-toolkit2 量化,见上方文件清单里的卡点说明)。
+**P1b(人体检测,安防复用轨道)单独进度**:后处理代码 + 单测 + 模型转换/上板推理验证全部完成,
+待真机检出效果与吞吐基准(摄像头恢复供电后测)。
+
+## 能力现状与性能门禁(2026-07-03 与外部评审对齐的共识)
+
+已实现:ROI(`src/roi/mask.py`,7 tests)· RetinaFace 320 单模型链路(实测 ~8.3 fps)。
+未实现:RGA 硬件预处理(两条路径都是 CPU 缩放:run_live 走 GStreamer videoscale,
+yolov8_person 走 numpy)· 目标跟踪 · 越线方向 · 停留时长 · 人数统计。
+UNKNOWN:YOLOv8n 640 真机吞吐(像素量是 320 的 4 倍,8.3 fps 不能外推)· 双模型并发性能
+· 与正常业务共存时的隔离能力。
+
+**门禁:先完成 YOLOv8n 单模型板端基准(检出+fps+CPU/内存/温度),再决定是否接双模型和 RGA;
+在此之前不新增分析算法模块(跟踪/越线/停留/人数)。**
 
 ## 红线
 
