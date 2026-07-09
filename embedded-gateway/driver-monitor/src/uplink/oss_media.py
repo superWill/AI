@@ -36,6 +36,12 @@ def event_media_key(prefix: str, event_id: str, name: str, ext: str = "png") -> 
     return f"{prefix}/events/{event_id}/{name}.{ext}"
 
 
+def oss_object_url(endpoint: str, bucket: str, key: str, secure: bool = True) -> str:
+    """由 endpoint+bucket 算对象最终 URL(非秘密;板子无凭证也能预算,用于回填 thumbnail_ref)。"""
+    scheme = "https" if secure else "http"
+    return f"{scheme}://{bucket}.{endpoint}/{key}"
+
+
 class MediaUploadError(Exception):
     """非暂时性上传失败(HTTP 4xx)。带状态码,**不含**密钥。"""
 

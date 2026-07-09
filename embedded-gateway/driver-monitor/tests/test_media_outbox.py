@@ -132,6 +132,28 @@ def test_backlog_health_emitted_once():
     assert not any(h["status"] == "media_backlog" for h in h2)
 
 
+# ---- sink 协议:put_media 优先(带 kind/occurred_at/ref) ----
+
+class _MediaSink:
+    """实现 put_media 的 sink(如 RelayUploader);验证 MediaOutbox 传全上下文。"""
+
+    def __init__(self):
+        self.calls = []
+
+    def put_media(self, key, data, content_type, kind, occurred_at, ref):
+        self.calls.append((key, kind, occurred_at, ref))
+        return "url://" + key
+
+
+def test_put_media_sink_used_with_full_context():
+    s = _MediaSink()
+    ob = MediaOutbox(s)
+    ob.enqueue("k1", b"x", "first_frame", occurred_at=3.0, now=0.0, ref="po-1")
+    ob.pump(now=0.0)
+    assert s.calls == [("k1", "first_frame", 3.0, "po-1")]     # 全上下文透传
+    assert ob.state_of("k1") == MediaOutboxState.UPLOADED
+
+
 if __name__ == "__main__":
     n = 0
     for name, fn in sorted(globals().items()):

@@ -11,6 +11,8 @@
 - 幂等:按 OSS key 去重;已上传/在队/已失败的 key 重复 enqueue 忽略。
 - 禁止静默丢失:first_frame 永不淘汰;非 first_frame 超容量**淘旧但发 media_dropped**,非静默。
 - 隔离:本模块零 I/O、零网络,靠注入的 uploader(鸭子类型 put/object_url);可完全离线单测。
+- sink 二态:OSS 上传器实现 put(key,data,ct);relay sink 实现 put_media(...带 kind/occurred_at/ref),
+  故同一个 MediaOutbox 既能"传 OSS"(代理侧),也能"推代理"(板子侧 spool),两级存储转发同构。
 
 注意:`_entries` 为**内存态**,重启即失;跨重启 durable 需配持久化(本地证据环 pin + 落盘队列),
 非本模块职责。大 clip 目前按字节入队;未来应改惰性引用(路径+按需读),避免内存驻留 MB 级数据。
@@ -105,7 +107,7 @@ class MediaOutbox:
         due.sort(key=lambda e: (-e.priority_rank, e.occurred_at))
         for e in due:
             try:
-                url = self.uploader.put(e.key, e.data, e.content_type)
+                url = self._sink(e)
             except MediaUploadError as ex:
                 self._entries.pop(e.key, None)          # 4xx 永久错:移出队,不重试
                 self._failed_keys.add(e.key)
@@ -121,6 +123,14 @@ class MediaOutbox:
             if self._on_uploaded is not None:
                 self._on_uploaded(MediaUpload(e.key, url, e.kind, e.ref))
         return health
+
+    def _sink(self, e: _MediaEntry) -> str | None:
+        """把一条 entry 交给底层。优先 put_media(带 kind/occurred_at/ref,供 relay 组包),
+        否则回落 put(key,data,content_type)(OSS 上传器)。成功返回 URL,离线/失败返回 None。"""
+        put_media = getattr(self.uploader, "put_media", None)
+        if put_media is not None:
+            return put_media(e.key, e.data, e.content_type, e.kind, e.occurred_at, e.ref)
+        return self.uploader.put(e.key, e.data, e.content_type)
 
     # ---- 容量:非 first_frame 超限淘汰(发告警,非静默) ----
     def _cap_cappable(self, now: float) -> list[dict]:
