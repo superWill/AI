@@ -92,9 +92,24 @@
 
 本方案是 **NVR-ready** 的：哪天嫌 SD-only 不稳/保留期短，**加一台 NVR 收所有主码流即可**，视觉盒 + 代理 + OSS 那套照旧——NVR 只补"连续录像"这一层，其余不动。
 
-## 10. 待确认 / 下一步
+## 10. 视觉盒确认：BL410 = RK3568，直接可用（2026-07-10 上板实测）
 
-- **BL410 是否有 RKNN NPU + MPP VPU**：有就直接当视觉盒省一台设备（上板查 `/proc`、rknn 库、mpp 库即可）。
+**BL410（hostname BL410-bliiot，实为 TL3568-EVM 模组）= RK3568，视觉盒能力全就绪，无需另购设备：**
+
+| 能力 | 证据 |
+|---|---|
+| SoC RK3568 | `/proc/device-tree/compatible` = `rockchip,rk3568`；4 核 A55 + 3.8G RAM |
+| NPU（0.8 TOPS） | `fde40000.npu` + **RKNPU 驱动 v0.9.8** + `/dev/dri/renderD129` |
+| RKNN 运行时 | `/usr/lib/librknnrt.so`(v2.3.2) + **rknnlite python3.8 API**（板上直接跑模型） |
+| VPU 硬解 | `/dev/mpp_service` + `librockchip_mpp.so.1`（H.264/H.265） |
+| RGA 预处理 | `/dev/rga` + `librga.so.2` |
+| 取流 | `gst-launch-1.0`（无 ffmpeg） |
+
+同时 python3.8.10 已验证跑我们纯标准库管线 14 测试全绿。**故视觉盒直接用 BL410**，检测（YOLO 人体 + RetinaFace 人脸，RKNN+MPP+RGA）与上传管线（KeyframeThrottle + 板子侧 spool）同板跑。容量：单 RetinaFace 320 ~8.3fps，3–4 路较从容、6–8 路需 2 块或降帧率。
+
+## 11. 待确认 / 下一步
+
 - 视觉盒检测管线接 live RTSP（需真摄像头 + gst）与真帧编码（`write_png`）——上板阶段做。
 - 代理侧 OSS 凭证下发方式（环境变量 / 文件）与 systemd 自启。
 - 摄像头选型确认支持子码流 + 本地录像 + RTSP 标准。
+- 网络：板子段（enp3s0 192.168.1.x）与 WiFi LAN 子网重叠，回程路由脆（Mac DHCP 变即失效）；长期宜把板子段挪出 192.168.1.x（需改板子 IP，谨慎）。
