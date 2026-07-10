@@ -142,6 +142,23 @@ def test_r2_sigv4_pinned_vector():
     assert sig == "af271bc6f97bd3dd39d1563f4cbf4d7917ee5a4db9973b887a7ef679e95ea4b5"
 
 
+# ---- 签名 URL(presign GET) ----
+
+def test_presign_get_structure_and_signature():
+    up = AliyunOSSUploader(OSSCredentials(
+        endpoint="oss-cn-hangzhou.aliyuncs.com", bucket="b",
+        access_key_id="ak", access_key_secret="sk"))
+    key = "dm/events/po-1/first_frame.png"
+    url = up.presign_get(key, expires_s=3600, now=1000000000.0)
+    assert url.startswith("https://b.oss-cn-hangzhou.aliyuncs.com/" + key + "?")
+    assert "OSSAccessKeyId=ak" in url and "Expires=1000003600" in url and "Signature=" in url
+    # 签名 = base64(hmac-sha1(GET\n\n\n{expires}\n/b/key));独立复算比对
+    import urllib.parse
+    expect = _sign("sk", _string_to_sign("GET", "", "", "1000003600", "/b/" + key))
+    got = urllib.parse.parse_qs(url.split("?", 1)[1])["Signature"][0]
+    assert got == expect
+
+
 if __name__ == "__main__":
     n = 0
     for name, fn in sorted(globals().items()):

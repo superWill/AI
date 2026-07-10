@@ -135,6 +135,21 @@ class AliyunOSSUploader(MediaUploader):
         scheme = "https" if self.c.secure else "http"
         return f"{scheme}://{self._host()}/{key}"
 
+    def presign_get(self, key: str, expires_s: int = 3600, now: float | None = None) -> str:
+        """私有桶对象的临时可访问 URL(OSS V1 签名):给人看/前端展示,免登控制台。
+        无需鉴权头即可 GET,Expires 后失效。now 可注入供确定性单测。"""
+        import time
+        import urllib.parse
+        expires = int((time.time() if now is None else now) + expires_s)
+        sts = _string_to_sign("GET", "", "", str(expires), f"/{self.c.bucket}/{key}")
+        sig = _sign(self.c.access_key_secret, sts)
+        q = urllib.parse.urlencode({
+            "OSSAccessKeyId": self.c.access_key_id,
+            "Expires": expires,
+            "Signature": sig,
+        })
+        return f"{self.object_url(key)}?{q}"
+
     def _build_headers(self, key: str, data: bytes, content_type: str,
                        date: str) -> dict:
         """构造 PutObject 请求头(含签名)。抽出来供签名单测,不发网络。"""
