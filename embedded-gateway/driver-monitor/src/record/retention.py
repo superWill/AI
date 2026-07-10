@@ -18,6 +18,8 @@
 """
 from __future__ import annotations
 
+import json
+import os
 from dataclasses import dataclass
 
 
@@ -37,12 +39,66 @@ class _Rec:
     delivered_at: float | None = None
 
 
+class RetentionStore:
+    """跟踪表落盘(JSON,原子写)。只存元数据(无字节),故一个小文件即可。"""
+
+    def __init__(self, path: str):
+        self.path = path
+        os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+
+    def load(self) -> dict:
+        try:
+            with open(self.path, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except (FileNotFoundError, ValueError):
+            return {}
+
+    def save(self, records: dict) -> None:
+        tmp = self.path + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(records, f, ensure_ascii=False)
+            f.flush()
+            os.fsync(f.fileno())
+        os.replace(tmp, self.path)
+
+
+class InMemoryRetentionStore:
+    """测试替身。"""
+
+    def __init__(self):
+        self._d: dict = {}
+
+    def load(self) -> dict:
+        return dict(self._d)
+
+    def save(self, records: dict) -> None:
+        self._d = dict(records)
+
+
 class RetentionGC:
-    def __init__(self, config: RetentionConfig | None = None):
+    def __init__(self, config: RetentionConfig | None = None, store=None):
+        """store:可选 RetentionStore —— 传入则跟踪表落盘,重启重建(丢=停止GC非丢证据,次要)。"""
         self.cfg = config or RetentionConfig()
+        self._store = store
         self._recs: dict[str, _Rec] = {}
         self._stuck_reported: set[str] = set()
         self._over_tracked_reported = False
+        if store is not None:
+            self._load()
+
+    def _load(self) -> None:
+        for key, r in self._store.load().items():
+            self._recs[key] = _Rec(
+                kind=r.get("kind", "frame"), created_at=r.get("created_at", 0.0),
+                uploaded_at=r.get("uploaded_at"), delivered_at=r.get("delivered_at"))
+
+    def checkpoint(self) -> None:
+        """把跟踪表落盘(collect/forget 末尾自动调;也可显式调)。"""
+        if self._store is None:
+            return
+        self._store.save({k: {"kind": r.kind, "created_at": r.created_at,
+                              "uploaded_at": r.uploaded_at, "delivered_at": r.delivered_at}
+                          for k, r in self._recs.items()})
 
     # ---- 生命周期事件 ----
     def note_created(self, key: str, kind: str, now: float) -> None:
@@ -79,6 +135,7 @@ class RetentionGC:
                     "evidence_stuck",
                     f"{key} 未上传已 {round(now - r.created_at, 1)}s", now))
         health += self._tracked_health(now)
+        self.checkpoint()                              # 落盘(捕获 note_* 更新)
         return evictable, health
 
     def forget(self, keys) -> None:
@@ -86,6 +143,7 @@ class RetentionGC:
         for k in keys:
             self._recs.pop(k, None)
             self._stuck_reported.discard(k)
+        self.checkpoint()                              # 落盘(捕获移除)
 
     # ---- 健康:跟踪量 ----
     def _tracked_health(self, now: float) -> list[dict]:

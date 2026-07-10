@@ -6,7 +6,8 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(os.path.dirname(HERE), "src"))
 
-from record.retention import RetentionGC, RetentionConfig       # noqa: E402
+from record.retention import (                                  # noqa: E402
+    RetentionGC, RetentionConfig, InMemoryRetentionStore)
 
 
 def _statuses(health):
@@ -74,6 +75,35 @@ def test_note_upload_without_create_is_noop():
     gc.note_uploaded("ghost", now=0.0)                          # 无 note_created → 无副作用
     gc.note_delivered("ghost", now=0.0)
     assert gc.tracked_count == 0
+
+
+# ---- 持久化:跨重启重建跟踪表 ----
+
+def test_persistence_reloads_tracking_across_restart():
+    store = InMemoryRetentionStore()
+    gc1 = RetentionGC(RetentionConfig(retention_after_upload_s=100.0), store=store)
+    gc1.note_created("k1", "first_frame", now=0.0)
+    gc1.note_uploaded("k1", now=10.0)
+    gc1.checkpoint()                                   # 落盘
+
+    # —— 重启:同 store 新建 ——
+    gc2 = RetentionGC(RetentionConfig(retention_after_upload_s=100.0), store=store)
+    assert gc2.tracked_count == 1
+    r = gc2.state_of("k1")
+    assert r is not None and r.uploaded_at == 10.0     # 上传状态挺过重启
+    assert gc2.collect(now=50.0)[0] == []              # 窗内不删
+    assert gc2.collect(now=200.0)[0] == ["k1"]         # 到期可删
+
+
+def test_forget_persists_removal():
+    store = InMemoryRetentionStore()
+    gc = RetentionGC(RetentionConfig(retention_after_upload_s=0.0), store=store)
+    gc.note_created("k1", "frame", now=0.0)
+    gc.note_uploaded("k1", now=0.0)
+    ev, _ = gc.collect(now=1.0)
+    gc.forget(ev)
+    # 重启后不应再出现
+    assert RetentionGC(store=store).tracked_count == 0
 
 
 if __name__ == "__main__":
