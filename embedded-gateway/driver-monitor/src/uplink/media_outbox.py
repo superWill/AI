@@ -14,8 +14,8 @@
 - sink 二态:OSS 上传器实现 put(key,data,ct);relay sink 实现 put_media(...带 kind/occurred_at/ref),
   故同一个 MediaOutbox 既能"传 OSS"(代理侧),也能"推代理"(板子侧 spool),两级存储转发同构。
 
-注意:`_entries` 为**内存态**,重启即失;跨重启 durable 需配持久化(本地证据环 pin + 落盘队列),
-非本模块职责。大 clip 目前按字节入队;未来应改惰性引用(路径+按需读),避免内存驻留 MB 级数据。
+跨重启:默认 `_entries` 内存态(store=None);传入 SpoolStore 则入队落盘、删除删盘、启动重建,
+未上传证据挺过重启。大 clip 目前按字节入队;未来应改惰性引用(路径+按需读),避免内存/落盘驻留 MB 级。
 """
 from __future__ import annotations
 
@@ -69,15 +69,45 @@ class MediaUpload:
 
 class MediaOutbox:
     def __init__(self, uploader, config: MediaOutboxConfig | None = None,
-                 on_uploaded=None):
-        """uploader:鸭子类型(put/object_url)。on_uploaded(MediaUpload):上传确认回调。"""
+                 on_uploaded=None, store=None):
+        """uploader:鸭子类型(put/object_url)。on_uploaded(MediaUpload):上传确认回调。
+        store:可选 SpoolStore —— 传入则入队落盘、删除即删盘、启动从盘重建(跨重启不丢)。"""
         self.uploader = uploader
         self.cfg = config or MediaOutboxConfig()
         self._on_uploaded = on_uploaded
+        self._store = store
         self._entries: dict[str, _MediaEntry] = {}   # key → entry(仅 QUEUED)
         self._uploaded_keys: set[str] = set()          # 已上传 key(幂等)
         self._failed_keys: set[str] = set()            # 4xx 永久失败 key(幂等,不重试)
         self._backlog_reported = False
+        if store is not None:
+            self._restore()
+
+    def _restore(self) -> None:
+        """启动时从 store 重建队列。attempts 归零、last_attempt 归 -inf → 重启后立即重试。"""
+        for header, data in self._store.load_all():
+            key = header.get("key")
+            if not key or key in self._entries:
+                continue
+            kind = header.get("kind", "frame")
+            self._entries[key] = _MediaEntry(
+                key=key, data=data,
+                content_type=header.get("content_type", "image/png"),
+                kind=kind, occurred_at=header.get("occurred_at", 0.0),
+                ref=header.get("ref"), state=MediaOutboxState.QUEUED,
+                enqueued_at=header.get("enqueued_at", 0.0),
+                priority_rank=_MEDIA_RANK.get(kind, 0))
+
+    def _header(self, e: _MediaEntry) -> dict:
+        ref = e.ref if isinstance(e.ref, (str, int, float, bool, type(None))) else str(e.ref)
+        return {"key": e.key, "kind": e.kind, "occurred_at": e.occurred_at,
+                "ref": ref, "content_type": e.content_type, "enqueued_at": e.enqueued_at}
+
+    def _drop_entry(self, key: str) -> None:
+        """从内存队列 + 落盘 store 同时移除(上传成功/淘汰/永久失败共用)。"""
+        self._entries.pop(key, None)
+        if self._store is not None:
+            self._store.remove(key)
 
     # ---- 入队(幂等) ----
     def enqueue(self, key: str, data: bytes, kind: str, occurred_at: float,
@@ -85,10 +115,13 @@ class MediaOutbox:
                 ref: object = None) -> list[dict]:
         if key in self._uploaded_keys or key in self._entries or key in self._failed_keys:
             return []                                   # 已上传/在队/已失败 → 幂等忽略
-        self._entries[key] = _MediaEntry(
+        entry = _MediaEntry(
             key=key, data=data, content_type=content_type, kind=kind,
             occurred_at=occurred_at, ref=ref, state=MediaOutboxState.QUEUED,
             enqueued_at=now, priority_rank=_MEDIA_RANK.get(kind, 0))
+        self._entries[key] = entry
+        if self._store is not None:
+            self._store.save(key, self._header(entry), data)   # 落盘:重启不丢
         return self._cap_cappable(now)
 
     # ---- 驱动:上传 due + 健康 ----
@@ -109,7 +142,7 @@ class MediaOutbox:
             try:
                 url = self._sink(e)
             except MediaUploadError as ex:
-                self._entries.pop(e.key, None)          # 4xx 永久错:移出队,不重试
+                self._drop_entry(e.key)                 # 4xx 永久错:移出队+删盘,不重试
                 self._failed_keys.add(e.key)
                 health.append(self._health(
                     "media_upload_failed", f"{e.key} status={ex.status}", now))
@@ -118,7 +151,7 @@ class MediaOutbox:
                 e.attempts += 1
                 e.last_attempt_ts = now
                 continue
-            self._entries.pop(e.key, None)              # 成功:移出队
+            self._drop_entry(e.key)                     # 成功:移出队+删盘
             self._uploaded_keys.add(e.key)
             if self._on_uploaded is not None:
                 self._on_uploaded(MediaUpload(e.key, url, e.kind, e.ref))
@@ -139,7 +172,7 @@ class MediaOutbox:
             return []
         cappable.sort(key=lambda e: (e.priority_rank, e.occurred_at))  # 最低优先+最旧先淘
         drop = cappable[0]
-        self._entries.pop(drop.key, None)
+        self._drop_entry(drop.key)                      # 移出队+删盘
         return [self._health(
             "media_dropped",
             f"cappable over cap {self.cfg.cappable_cap}, dropped {drop.key}", now)]

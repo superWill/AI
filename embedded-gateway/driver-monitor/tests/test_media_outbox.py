@@ -8,7 +8,8 @@ sys.path.insert(0, os.path.join(os.path.dirname(HERE), "src"))
 
 from uplink.media_outbox import (                               # noqa: E402
     MediaOutbox, MediaOutboxConfig, MediaOutboxState, MediaUpload)
-from uplink.oss_media import MediaUploadError                   # noqa: E402
+from uplink.oss_media import MediaUploadError, FakeMediaUploader  # noqa: E402
+from uplink.spool_store import InMemorySpoolStore                # noqa: E402
 
 
 class _FakeUp:
@@ -152,6 +153,43 @@ def test_put_media_sink_used_with_full_context():
     ob.pump(now=0.0)
     assert s.calls == [("k1", "first_frame", 3.0, "po-1")]     # 全上下文透传
     assert ob.state_of("k1") == MediaOutboxState.UPLOADED
+
+
+# ---- 跨重启持久化(store) ----
+
+def test_persistence_survives_restart_and_clears_after_upload():
+    store = InMemorySpoolStore()
+    key = _k("po-1", "first_frame")
+    # 板子离线入队 → 落盘
+    ob1 = MediaOutbox(FakeMediaUploader(online=False), store=store)
+    ob1.enqueue(key, b"png", "first_frame", occurred_at=0.0, now=0.0, ref="po-1")
+    ob1.pump(now=0.0)                                  # 离线 → 留队(仍在盘上)
+    assert ob1.pending_count == 1
+    assert len(store.load_all()) == 1                  # 已落盘
+
+    # —— 模拟重启:丢掉 ob1,用同一个 store 新建 ——
+    up = FakeMediaUploader(online=True)
+    ob2 = MediaOutbox(up, store=store)
+    assert ob2.pending_count == 1                      # 从盘重建了未上传的证据
+    assert ob2.pending_keys() == [key]
+    ob2.pump(now=100.0)                                # 联网 → 上传
+    assert up.get(key) == b"png"
+    assert ob2.pending_count == 0 and store.load_all() == []   # 上传后删盘
+
+    # —— 再次重启:上传过的不再加载 ——
+    ob3 = MediaOutbox(FakeMediaUploader(), store=store)
+    assert ob3.pending_count == 0
+
+
+def test_persistence_restored_entry_retries_immediately():
+    store = InMemorySpoolStore()
+    key = _k("po-1", "frame-001")
+    MediaOutbox(FakeMediaUploader(online=False), store=store).enqueue(
+        key, b"x", "frame", occurred_at=5.0, now=5.0, ref="po-1")
+    up = FakeMediaUploader(online=True)
+    ob = MediaOutbox(up, store=store)                  # 重启后
+    ob.pump(now=6.0)                                   # 无需等 resend_after_s,立即重试
+    assert up.get(key) == b"x"
 
 
 if __name__ == "__main__":
