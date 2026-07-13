@@ -11,15 +11,15 @@ data_source: scripts/fetch_quotes.py snapshot 2026-05-07 / 复核 2026-07-06
 
 # Cloudflare (NET)
 
-## ⭐ 2026-07-09:第二条叙事腿 Monetization Gateway(x402)——战略对,但作为投资论点三硬伤 `[INFERRED, MED-HIGH]`
+## ⭐ 2026-07-09:第二条叙事腿 Monetization Gateway(x402)——战略对,但作为投资论点三硬伤 `[INFERRED, MED — 三硬伤中「AWS 压制」一条已下修至 LOW-MED,见 #2;另两条(无独占协议/零收入)与「P/S 37 贵」独立成立]`
 
-> **一句话:方向漂亮的"卖铲子",但没有护城河、被 AWS 免费竞争、零已兑现收入——是叙事期权,不是已兑现的 franchise。在 P/S 37 顶部估值上,别为它再付溢价。**
+> **一句话:方向漂亮的"卖铲子",但无独占协议、零已兑现收入(+可能被 AWS 免费竞争,此条待核实)——是叙事期权,不是已兑现的 franchise。**即使 AWS 那条不成立,"P/S 37 顶部估值上别为一个零收入期权再付溢价"仍独立成立。**
 
 **是什么(先纠正常见误读)**:2026-07-01 上 waitlist 的 **Monetization Gateway**,底层 **x402 协议**(复活 HTTP 402 + USDC/Base 稳定币结算)。**不是 Cloudflare 向开发者按 agent 调用收费**(那是 Workers 用量计费),而是 Cloudflare 提供**收费闸口**,让客户(内容/API/MCP 方)向来访 AI agent 收过路费,自己当"收单行"抽成。战略=把自己从"被 AI 爬虫白嫖带宽的成本中心"变成"agentic web 收费公路"。坐拥约 20% 互联网流量,是天然收费点——**卖铲子逻辑的教科书延伸,方向认可。**
 
 **但作为 NET 投资论点,三个硬伤**:
 1. **无协议护城河**:x402 是**开放协议**(Linux Foundation,成员含 AWS/Anthropic/Circle/Coinbase),Cloudflare 无独占。
-2. **AWS 已免费做同样的事** `[KNOWN 2026-07, InfoQ]`:AWS CloudFront 的 x402 集成**已 GA、不额外收费**(只收标准 WAF 费);Cloudflare 的 Monetization Gateway 还只是 **waitlist、无定价、无时间表**。开放协议 + 头号云厂免费竞争 + 你还想收费 = 护城河红旗。
+2. **AWS 可能免费做同样的事** `[单一来源(InfoQ)未交叉核实 · LOW-MED · 从 07-09 的 MED-HIGH 下修]`:传闻 AWS CloudFront 的 x402 集成已 GA、不额外收费;Cloudflare 的 Monetization Gateway 还只是 waitlist。**⚠️ 待交叉核实**——仅一个来源、无第二源确认;且"免费 GA"≠"能压制 NET"(CDN 选型看整体体验/已有部署,非单一功能免费),我当初把负面因素线性放大成结论、跳了一步。验证:①AWS 官方文档 + 第三方两源核实 GA/免费;②看开发者付费墙实际部署在 Cloudflare 还是 CloudFront(用脚投票,见 [[market-adoption-leading-signal]])。**这条正是本卡最该被自己那套一致性/交叉核实纪律逮住的薄弱论据。**
 3. **零已兑现收入,纯双重条件期权**:waitlist 阶段。Coinbase 报 x402 一年 1.69 亿笔,但单笔"a fraction of a cent",年化金额可能微不足道。计入估值 = 买"agentic web 起来 **且** Cloudflare 收得到费"的双重赌。
 
 **对估值的含义**:NET 现 **P/S ~37 / fwd PE 154**(复核 2026-07-06 $242.41;上一轮批量同尺子隐含 5yr IRR 仅 **+3.8%**),已泡沫顶部。市场大概率已把这条叙事 price 进去。**现在 NET = 两条诱人叙事(PQC + agentic 收费)叠顶部估值 = 好方向坏价格**,和 [[PLTR]] 同病。入场看估值,不看叙事新增。
