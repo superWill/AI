@@ -14,6 +14,7 @@ MP      # MP Materials — 美国稀土
 ONTO    # Onto Innovation — 半导体量测
 NET     # Cloudflare — PQC 受益
 IBM     # IBM — AI+量子双引擎
+NVDA    # NVIDIA — AI 算力龙头（估值对照锚，2026-07 加入）
 
 # === 小盘赔率仓 (< $10B) ===
 CAMT    # Camtek — HBM 量测
