@@ -102,7 +102,9 @@ def fmt_b(v: float) -> str:
 
 def main() -> int:
     p = argparse.ArgumentParser()
-    p.add_argument("--threshold", type=float, default=20.0, help="标记偏差 > X%%")
+    p.add_argument("--threshold", type=float, default=20.0, help="市值漂移标记 > X%%")
+    p.add_argument("--rev-threshold", type=float, default=100.0,
+                   help="内部一致性：卡营收 vs 市值÷P/S 反推，偏差 > X%% 报警（默认 100，只抓数量级错误）")
     p.add_argument("--snapshot", type=Path, help="指定快照 CSV，默认最新")
     args = p.parse_args()
 
@@ -115,6 +117,8 @@ def main() -> int:
     aligned: list[str] = []
     drifts: list[tuple[str, float, float, float]] = []
     skipped: list[tuple[str, str]] = []
+    # 内部一致性：卡营收 vs 快照市值÷P/S 反推
+    inconsistencies: list[tuple[str, float, float, float]] = []
 
     for md_path in sorted(TICKERS_DIR.glob("*.md")):
         sym = md_path.stem
@@ -126,7 +130,25 @@ def main() -> int:
         if sym not in snap:
             skipped.append((sym, "无快照数据"))
             continue
-        snap_mcap = snap[sym]
+
+        rec = snap[sym]
+
+        # 内部一致性检查（独立于市值漂移；需 mcap + ps + 卡里可解析营收）
+        snap_mcap_for_rev = rec.get("mcap")
+        ps = rec.get("ps")
+        if snap_mcap_for_rev and ps and ps > 0:
+            _, doc_rev = extract_doc_revenue(md_path)
+            if doc_rev is not None:
+                implied_rev = snap_mcap_for_rev / ps
+                if implied_rev > 0:
+                    rev_diff = (doc_rev - implied_rev) / implied_rev * 100
+                    if abs(rev_diff) > args.rev_threshold:
+                        inconsistencies.append((sym, doc_rev, implied_rev, rev_diff))
+
+        snap_mcap = rec.get("mcap")
+        if snap_mcap is None:
+            skipped.append((sym, "快照无市值字段"))
+            continue
         raw, doc_mcap = extract_doc_mcap(md_path)
         if doc_mcap is None:
             skipped.append((sym, f"无法解析 '{raw[:40]}'"))
@@ -145,15 +167,24 @@ def main() -> int:
             print(f"  {sym:12s} {fmt_b(doc):>8s}  {fmt_b(snap_v):>8s}  {pct:>+7.1f}%")
         print()
 
+    if inconsistencies:
+        print(f"🔴 内部一致性存疑（{len(inconsistencies)} 只）——卡营收 vs 市值÷P/S 反推：\n")
+        print(f"  {'TICKER':12s} {'卡营收':>8s}  {'反推营收':>8s}  {'diff':>8s}")
+        print(f"  {'-'*12} {'-'*8}  {'-'*8}  {'-'*8}")
+        for sym, doc, imp, pct in sorted(inconsistencies, key=lambda x: abs(x[3]), reverse=True):
+            print(f"  {sym:12s} {fmt_b(doc):>8s}  {fmt_b(imp):>8s}  {pct:>+7.0f}%")
+        print("  （数量级不符=卡里营收多半写错，如历史上 NET 的 $20B vs 实际 $2.3B）\n")
+
     if skipped:
         print(f"⏭  跳过（{len(skipped)} 只）：")
         for sym, reason in skipped:
             print(f"  {sym:12s}  {reason}")
         print()
 
-    print(f"汇总: aligned={len(aligned)}, drift>{args.threshold:.0f}%={len(drifts)}, skipped={len(skipped)}")
+    print(f"汇总: aligned={len(aligned)}, drift>{args.threshold:.0f}%={len(drifts)}, "
+          f"一致性存疑={len(inconsistencies)}, skipped={len(skipped)}")
 
-    return 1 if drifts else 0
+    return 1 if (drifts or inconsistencies) else 0
 
 
 if __name__ == "__main__":

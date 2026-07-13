@@ -80,6 +80,7 @@ USDC 发行方。商业模式本质 = **拿用户的稳定币储备去买短债�
 - 链上交易量 Q1'26 YoY **+263%** 至 $21.5T——增长动能主要在这里。
 - **ARC Token 预售（$222M）+ Arc 网络**：新业务线，尚未计入指引，下次财报更新。
 - 非加密实用场景（noncrypto utility）被管理层列为 USDC 采用的核心驱动。
+- **⭐ x402 / agent 支付 = USDC 需求新向量（2026-07-09）** `[INFERRED, MED]`:Cloudflare Monetization Gateway + AWS CloudFront 用 **x402 协议**让 AI agent 按次付费,主结算走 **USDC on Base**;Circle 在 x402 Foundation(Linux Foundation)内,Coinbase 报一年 1.69 亿笔。**是稳定币真实机器对机器用例的早期落地——利好 USDC 交易量/float**。**但三条冷水,别当护城河修复**:① x402 **开放多币**,非 USDC/CRCL 独占,USDT/其他稳定币同样能接;② 单笔"a fraction of a cent",早期对 float 增量**微不足道**,waitlist 阶段零兑现;③ 完全**不改** OUSD/venue 截息对 take-rate 的核心损伤(见风险节)。**净判定:行业级利好、非 CRCL 专属,加分很轻,不翻转论点。** 详见 [[NET]] 的 Monetization Gateway 分析。
 
 ## 长期增量（10–20 年）
 

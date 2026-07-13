@@ -14,6 +14,7 @@ MP      # MP Materials — 美国稀土
 ONTO    # Onto Innovation — 半导体量测
 NET     # Cloudflare — PQC 受益
 IBM     # IBM — AI+量子双引擎
+NVDA    # NVIDIA — AI 算力龙头（估值对照锚，2026-07 加入）
 
 # === 小盘赔率仓 (< $10B) ===
 CAMT    # Camtek — HBM 量测
@@ -59,3 +60,21 @@ EWY     # iShares MSCI Korea ETF
 6268.T      # Nabtesco — RV 减速器（机器人重型关节）
 6481.T      # THK — 滚柱丝杠 / 直线导轨
 6954.T      # Fanuc — 工业机器人本体龙头
+
+# === 碳基娱乐 / 抗 AI 娱乐篮子（2026-07-03 加入）===
+NFLX    # Netflix — 规模化可信分发 + 定价权（Tier 3 抗 AI）
+LYV     # Live Nation — 现场演出近垄断（Tier 1 抗 AI）
+DIS     # Disney — IP×乐园（Tier 2 抗 AI）
+TKO     # TKO Group — UFC+WWE 真人竞技（Tier 1 抗 AI）
+
+# === AI 应用层观察名单（等估值）===
+PLTR    # Palantir — AIP 应用层真变现；好生意坏价格，等系统性回撤（2026-07-06 定调）
+
+# === HBM 双雄 ADR（2026-07-10 加入）===
+SKHY    # SK Hynix ADR — HBM 龙头 58% 的美股通道；vs MU 双雄；正式代号 7/13 起生效(7/10 为 SKHYV when-issued)
+
+# === AI 硬件"卖铲子/品牌溢价"篮子（2026-07-09 加入）===
+# 逻辑：AI 硬件整机方(Meta/Amazon)在硬件本体上补贴/亏钱，真赚钱的在上游+品牌+软件订阅
+ESLOY   # EssilorLuxottica — 唯一整机本体收溢价的品牌方(Ray-Ban)，但 AI 眼镜稀释毛利+被 Meta 压价
+SONY    # Sony — 最上游卖铲子(图像传感器 63.6% 份额)，三家里最便宜(PE~16)，但集团折价稀释敞口
+# QCOM 已在半导体列表；AR1=AI 眼镜事实标准 SoC，见 QCOM.md 2026-07-09 节
