@@ -17,7 +17,7 @@ if [ -e /etc/init.d/S99zzhmi ]; then
   echo "[install] 已禁用旧 LCD 自启: /etc/init.d/S99zzhmi"
 fi
 # 拷应用文件(保留 run/ 下的日志/pid)
-cp -f "$SRC/app.py" "$SRC/drm_hmi_v2.py" "$SRC/drm_hmi_v3.py" "$SRC/drm_hmi_v4.py" \
+cp -f "$SRC/app.py" "$SRC/drm_hmi_v4.py" \
       "$SRC/dashboard.py" "$SRC/cjk_font.py" "$SRC/compiler.py" "$SRC/loader.py" \
       "$SRC/nexus_server.py" "$SRC/app_config.json" "$APP/"
 cp -f "$SRC/sim_104.py" "$SRC/sim_104_config.json" "$APP/" 2>/dev/null || true
@@ -33,7 +33,7 @@ rm -rf "$APP/nexus-dist"; mkdir -p "$APP/nexus-dist"
 cp -Rf "$SRC/nexus-dist/." "$APP/nexus-dist/"
 mkdir -p "$APP/html"
 cp -Rf "$SRC/html/." "$APP/html/"
-chmod +x "$APP/app.py" "$APP/drm_hmi_v2.py" "$APP/nexus_server.py" 2>/dev/null || true
+chmod +x "$APP/app.py" "$APP/nexus_server.py" 2>/dev/null || true
 
 # 已存在 gatewayc 时保留正式 Go 核心拓扑(配置代理已退役,ui 直连 8092)。
 if [ -x "$APP/gatewayc" ]; then

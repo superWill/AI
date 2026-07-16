@@ -33,7 +33,6 @@
 | `dashboard.py` | 触摸屏渲染器:多页(总览/监控/设备/控制/设置)→ 800×480 RGB 帧 + 按钮命中区。`__main__` 可渲染 PNG 预览 |
 | `cjk_font.py` | GNU Unifont 点阵子集(中文显示,随 dashboard 文案重新生成) |
 | `drm_hmi_v4.py` | 本地触摸屏主程序:读 `/api/snapshot` → dashboard.render → blit DRM;读 `/dev/input/event0` 触摸 → 切页/下发控制 |
-| `drm_hmi_v2.py` `drm_hmi_v3.py` | 早期 LCD(v2 ASCII、v3 图形无触摸),已被 v4 取代,留作参考 |
 | `sim_104.py` `sim_104_config.json` | 104 现场陪练:扩展 Modbus 模拟器(8类设备 + 写寄存器 + 设定值收敛) |
 | `tools/serial_bridge.py` | 测试用 pty 虚拟串口对,本机把模拟器和网关接起来 |
 | `deploy/` | `S99gateway`(busybox 自启)、`install.sh`(板上安装)、`push.sh`(经 .104 跳板推送) |

@@ -902,7 +902,7 @@ def make_handler(runtime, live_ctx, hub, dist_dir, endpoint, tokens):
                 return self._json({"nodes": merge_ui_collection(nodes, "nodes"),
                                    "tags": merge_ui_collection(tags, "tags"),
                                    "apps": [], "rules": []})
-            if path == "/api/snapshot":          # 给本地 LCD(drm_hmi_v2)用
+            if path == "/api/snapshot":          # 给本地 LCD 用
                 return self._json(runtime.view())
             if path == "/api/config/status":     # 配置发布后端:只读状态
                 if not self._authed():

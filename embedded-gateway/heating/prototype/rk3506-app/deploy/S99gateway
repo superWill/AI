@@ -1,6 +1,6 @@
 #!/bin/sh
 # RK3506 网关应用开机自启(busybox init,放 /etc/init.d/S99gateway)。
-# 启动后端 app.py(采集+HTTP+MQTT+控制)与本地 LCD 第一屏 drm_hmi_v2.py。
+# 启动后端 nexus_server(采集+HTTP+控制)与本地 LCD 第一屏 drm_hmi_v4.py。
 # 根文件系统可能只读,运行产物一律放可写的 /userdata。
 
 APP=/userdata/rk3506-app
