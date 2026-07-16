@@ -7,7 +7,10 @@ mkdir -p "$RUN" "$APP/build"
 stop_legacy_hmi() {
   # The vendor panel watchdog restarts hmi_lvgl forever. Stop the watchdog first,
   # then its child, so the legacy screen cannot take DRM back after this service.
-  for p in $(ps 2>/dev/null | grep -E '/root/hmi_start\.sh|/root/hmi_lvgl' | grep -v grep | awk '{print $1}'); do
+  for p in $(ps w 2>/dev/null | awk '
+    $3 ~ /hmi_start\.sh/ || $3 ~ /hmi_lvgl$/ ||
+    $4 ~ /\/root\/hmi_start\.sh$/ || $4 ~ /\/root\/hmi_lvgl$/ {print $1}
+  '); do
     kill -9 "$p" 2>/dev/null
   done
   killall hmi_lvgl lv_demo rk3506_lvgl_test 2>/dev/null || true
@@ -18,7 +21,12 @@ stop_all() {
   i=0
   while [ $i -lt 6 ]; do
     found=0
-    for p in $(ps 2>/dev/null | grep -E 'supervisor-go\.sh|supervisor\.sh|gatewayc run|gatewayc ui|ui_config_proxy\.py|drm_hmi_v4\.py|hmic|nexus_server\.py' | grep -v grep | awk '{print $1}'); do
+    for p in $(ps w 2>/dev/null | awk '
+      $3 ~ /supervisor-go\.s/ || $3 ~ /supervisor\.sh/ ||
+      ($3 ~ /gatewayc$/ && ($4 == "run" || $4 == "ui")) ||
+      ($3 ~ /python3$/ && $4 ~ /(ui_config_proxy|drm_hmi_v4|nexus_server)\.py$/) ||
+      $3 ~ /hmic$/ {print $1}
+    '); do
       kill -9 "$p" 2>/dev/null; found=1
     done
     [ "$found" = 0 ] && break
@@ -45,7 +53,7 @@ start() {
   TF="$RUN/control_token"
   [ -s "$TF" ] || (head -c 18 /dev/urandom | base64 | tr -d '\n/+=' > "$TF"; chmod 600 "$TF")
   export GATEWAYC_CONTROL_TOKEN=$(cat "$TF")
-  GATEWAYC="$APP/gatewayc" PROXY="$APP/ui_config_proxy.py" PY="$PY" \
+  GATEWAYC="$APP/gatewayc" PY="$PY" \
     BUILD="$APP/build" FALLBACK_CFG="$APP/app_config.json" DIST="$APP/nexus-dist" \
     CORE=http://127.0.0.1:8091 RUN="$RUN" nohup "$APP/supervisor-go.sh" \
     >>"$RUN/sup.out" 2>&1 &

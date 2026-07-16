@@ -56,7 +56,11 @@ func runGolden(t *testing.T, name string) {
 		t.Fatalf("解码 view: %v", err)
 	}
 	ConfigureDisplay(in.DisplayModel)
-	defer ConfigureDisplay(nil)
+	ApplyTheme(view.LocalSettings.Theme)
+	defer func() {
+		ConfigureDisplay(nil)
+		ApplyTheme("light")
+	}()
 
 	fb, buttons := Render(view, in.Clock, in.Targets, in.Page)
 

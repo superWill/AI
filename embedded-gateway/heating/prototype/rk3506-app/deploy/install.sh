@@ -21,11 +21,12 @@ cp -f "$SRC/app.py" "$SRC/drm_hmi_v2.py" "$SRC/drm_hmi_v3.py" "$SRC/drm_hmi_v4.p
       "$SRC/dashboard.py" "$SRC/cjk_font.py" "$SRC/compiler.py" "$SRC/loader.py" \
       "$SRC/nexus_server.py" "$SRC/app_config.json" "$APP/"
 cp -f "$SRC/sim_104.py" "$SRC/sim_104_config.json" "$APP/" 2>/dev/null || true
-# Go 版 LCD HMI(hmi-go/build.sh 产物);缺席时 S99 脚本回退 Python drm_hmi_v4
-if [ -f "$SRC/hmic" ]; then
-  cp -f "$SRC/hmic" "$APP/hmic"
-  chmod +x "$APP/hmic"
-  echo "[install] 已安装 Go LCD HMI: $APP/hmic"
+# Go 版 LCD HMI 由 push.sh 放到 tmpfs，避免 NAND 暂存区同时保存新旧两个 5MB 二进制。
+HMIC_SRC=
+if [ -f /tmp/rk3506-hmic.new ]; then
+  HMIC_SRC=/tmp/rk3506-hmic.new
+elif [ -f "$SRC/hmic" ]; then
+  HMIC_SRC="$SRC/hmic"
 fi
 # nexus-edge-os 前端 dist + 轻量 HMI
 rm -rf "$APP/nexus-dist"; mkdir -p "$APP/nexus-dist"
@@ -34,13 +35,28 @@ mkdir -p "$APP/html"
 cp -Rf "$SRC/html/." "$APP/html/"
 chmod +x "$APP/app.py" "$APP/drm_hmi_v2.py" "$APP/nexus_server.py" 2>/dev/null || true
 
-# 已存在 gatewayc 时保留正式 Go 核心拓扑，并在其 UI 前增加设备配置代理。
+# 已存在 gatewayc 时保留正式 Go 核心拓扑(配置代理已退役,ui 直连 8092)。
 if [ -x "$APP/gatewayc" ]; then
   cp -f "$SRC/deploy/supervisor-go.sh" "$APP/supervisor-go.sh"
   cp -f "$SRC/deploy/S99gateway-go" "$APP/S99zz-gateway-go"
   chmod +x "$APP/supervisor-go.sh" "$APP/S99zz-gateway-go"
   cp -f "$APP/S99zz-gateway-go" /etc/init.d/S99zz-gateway
   chmod +x /etc/init.d/S99zz-gateway
+  if [ -n "$HMIC_SRC" ]; then
+    /etc/init.d/S99zz-gateway stop 2>/dev/null || true
+    [ ! -f "$APP/hmic" ] || cp -f "$APP/hmic" /tmp/rk3506-hmic.rollback
+    rm -f "$APP/hmic"
+    if ! cp -f "$HMIC_SRC" "$APP/hmic"; then
+      [ ! -f /tmp/rk3506-hmic.rollback ] || cp -f /tmp/rk3506-hmic.rollback "$APP/hmic"
+      chmod +x "$APP/hmic" 2>/dev/null || true
+      /etc/init.d/S99zz-gateway start 2>/dev/null || true
+      echo "[install] hmic 更新失败，已尝试回滚" >&2
+      exit 1
+    fi
+    chmod +x "$APP/hmic"
+    rm -f /tmp/rk3506-hmic.new /tmp/rk3506-hmic.rollback
+    echo "[install] 已安装 Go LCD HMI: $APP/hmic"
+  fi
   /etc/init.d/S99zz-gateway restart
   echo "[install] 已更新 Go 正式拓扑(core:8091 + ui:8092)"
   exit 0

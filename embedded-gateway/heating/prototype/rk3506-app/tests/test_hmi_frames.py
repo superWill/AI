@@ -2,6 +2,7 @@
 """Fast regression checks for cached RK3506 navigation frames."""
 import pathlib
 import sys
+import tempfile
 import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
@@ -36,6 +37,36 @@ class HmiFrameTests(unittest.TestCase):
         _, buttons = dashboard.render(dashboard._sample_view(), page="nodes")
         self.assertEqual([b.get("action") for b in buttons if "action" in b], [])
         self.assertEqual(len([b for b in buttons if "nav" in b]), 5)
+
+    def test_settings_page_exposes_brightness_and_theme_actions(self):
+        import dashboard
+        view = dashboard._sample_view()
+        view["local_settings"] = {"brightness": 70, "theme": "dark"}
+        dashboard.apply_theme("dark")
+        try:
+            _, buttons = dashboard.render(view, page="settings")
+        finally:
+            dashboard.apply_theme("light")
+        actions = [button.get("action") for button in buttons]
+        self.assertEqual(actions.count("brightness_change"), 2)
+        self.assertEqual(actions.count("theme_set"), 2)
+
+    def test_settings_round_trip_and_clamp(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = str(pathlib.Path(directory) / "hmi-settings.json")
+            saved = drm_hmi_v4.save_settings(
+                {"brightness": 0, "theme": "dark"}, path)
+            self.assertEqual(saved, {"brightness": 10, "theme": "dark"})
+            self.assertEqual(drm_hmi_v4.load_settings(path), saved)
+
+    def test_brightness_percent_maps_to_driver_range(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            (root / "max_brightness").write_text("255", encoding="ascii")
+            (root / "brightness").write_text("200", encoding="ascii")
+            raw = drm_hmi_v4.apply_brightness(50, directory)
+            self.assertEqual(raw, 128)
+            self.assertEqual((root / "brightness").read_text(encoding="ascii"), "128")
 
 
 if __name__ == "__main__":

@@ -22,25 +22,54 @@ type Deps struct {
 // State 对标 drm_hmi_v4.main 的 state dict + targets。
 // Python 靠 GIL 容忍触摸线程与主循环并发,Go 用互斥锁。
 type State struct {
-	mu      sync.Mutex
-	Page    string
-	Buttons []render.Button
-	View    *render.View
-	Targets map[string]int
+	mu            sync.Mutex
+	Page          string
+	Buttons       []render.Button
+	View          *render.View
+	Targets       map[string]int
+	Settings      render.LocalSettings
+	settingsDirty bool
 }
 
 func NewState() *State {
 	return &State{
-		Page:    "overview",
-		View:    &render.View{},
-		Targets: map[string]int{},
+		Page:     "overview",
+		View:     &render.View{},
+		Targets:  map[string]int{},
+		Settings: render.LocalSettings{Brightness: 80, Theme: "light"},
 	}
 }
 
 func (s *State) SetView(v *render.View) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
+	v.LocalSettings = s.Settings
 	s.View = v
+}
+
+func normalizeSettings(settings render.LocalSettings) render.LocalSettings {
+	settings.Brightness = max(10, min(100, settings.Brightness))
+	if settings.Theme != "dark" {
+		settings.Theme = "light"
+	}
+	return settings
+}
+
+func (s *State) SetSettings(settings render.LocalSettings) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	s.Settings = normalizeSettings(settings)
+	if s.View != nil {
+		s.View.LocalSettings = s.Settings
+	}
+}
+
+func (s *State) ConsumeSettings() (render.LocalSettings, bool) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	settings, dirty := s.Settings, s.settingsDirty
+	s.settingsDirty = false
+	return settings, dirty
 }
 
 // RenderInputs 返回渲染输入的一致快照(targets 浅拷贝,防触摸线程并发写)。
@@ -72,7 +101,8 @@ func (s *State) OnTap(x, y int, d Deps) {
 		if !b.Hit(x, y) {
 			continue
 		}
-		if b.Nav != "" {
+		switch {
+		case b.Nav != "":
 			s.Page = b.Nav
 			d.Logf("[nav] → %s", b.Nav)
 			if frame, btns, ok := d.Cache.Get(b.Nav); ok {
@@ -80,21 +110,29 @@ func (s *State) OnTap(x, y int, d Deps) {
 				d.Blit(frame)
 			}
 			d.Dirty()
-			return
-		}
-		// 控制键:{fb,sp,delta,lo,hi}
-		base, has := s.Targets[b.FBID]
-		if !has {
-			base = b.Lo
-			if f, ok := render.Pick(s.View, b.FBID).Float(); ok {
-				base = int(math.RoundToEven(f)) // Python round() 银行家舍入
+		case b.Action == "brightness_change":
+			s.Settings.Brightness = max(10, min(100, s.Settings.Brightness+b.Delta))
+			s.settingsDirty = true
+			d.Dirty()
+		case b.Action == "theme_set":
+			s.Settings.Theme = b.Theme
+			s.Settings = normalizeSettings(s.Settings)
+			s.settingsDirty = true
+			d.Dirty()
+		default: // 控制键:{fb,sp,delta,lo,hi}
+			base, has := s.Targets[b.FBID]
+			if !has {
+				base = b.Lo
+				if f, ok := render.Pick(s.View, b.FBID).Float(); ok {
+					base = int(math.RoundToEven(f)) // Python round() 银行家舍入
+				}
 			}
+			nv := max(b.Lo, min(b.Hi, base+b.Delta))
+			s.Targets[b.FBID] = nv
+			d.Logf("[ctl] tap → %s = %d", b.SP, nv)
+			d.PostCmd(b.SP, nv)
+			d.Dirty()
 		}
-		nv := max(b.Lo, min(b.Hi, base+b.Delta))
-		s.Targets[b.FBID] = nv
-		d.Logf("[ctl] tap → %s = %d", b.SP, nv)
-		d.PostCmd(b.SP, nv)
-		d.Dirty()
 		return
 	}
 }

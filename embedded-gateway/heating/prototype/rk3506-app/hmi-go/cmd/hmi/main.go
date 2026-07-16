@@ -1,12 +1,11 @@
 //go:build linux
 
 // hmic:RK3506 本地 LCD 触摸仪表盘,drm_hmi_v4.py 的 Go 移植。
-// 用法(与 Python 版参数兼容):
+// 用法(与 Python 版参数兼容,新增 --config-base 消除硬编码):
 //
-//	hmic [port] [--products <dir>] [--touch <dev>]
+//	hmic [port] [--products <dir>] [--config-base <url>] [--touch <dev>]
 //
 // port 为 gatewayc core 端口(部署态 8091,默认 8092 同 Python)。
-// 设备配置页已退役:设备接入走 Web /config 页(gatewayc ui)。
 package main
 
 import (
@@ -20,6 +19,7 @@ import (
 	"embedded-gateway/heating/rk3506-app/hmi-go/internal/api"
 	"embedded-gateway/heating/rk3506-app/hmi-go/internal/app"
 	"embedded-gateway/heating/rk3506-app/hmi-go/internal/drm"
+	"embedded-gateway/heating/rk3506-app/hmi-go/internal/localsettings"
 	"embedded-gateway/heating/rk3506-app/hmi-go/internal/render"
 	"embedded-gateway/heating/rk3506-app/hmi-go/internal/touch"
 )
@@ -58,6 +58,8 @@ func main() {
 	}
 	base := fmt.Sprintf("http://127.0.0.1:%d", port)
 	touchDev := optOr(opt, "touch", "/dev/input/event0")
+	settingsPath := optOr(opt, "settings", "/userdata/rk3506-app/data/hmi-settings.json")
+	backlightPath := optOr(opt, "backlight", "/sys/class/backlight/backlight")
 
 	if products := opt["products"]; products != "" {
 		dmPath := products + "/display_model.json"
@@ -71,6 +73,12 @@ func main() {
 		}
 	}
 
+	settings := localsettings.Load(settingsPath)
+	appliedTheme := render.ApplyTheme(settings.Theme)
+	if _, err := localsettings.ApplyBrightness(backlightPath, settings.Brightness); err != nil {
+		fmt.Printf("[settings] brightness err: %v\n", err)
+	}
+
 	scr, err := drm.NewScreen()
 	if err != nil {
 		fmt.Printf("[drm] 初始化失败: %v\n", err)
@@ -78,6 +86,7 @@ func main() {
 	}
 	client := api.New(base)
 	st := app.NewState()
+	st.SetSettings(settings)
 	cache := app.NewFrameCache()
 	dirty := make(chan struct{}, 1)
 	deps := app.Deps{
@@ -103,7 +112,36 @@ func main() {
 			warm = append(warm, nv.ID)
 		}
 	}
+	resetWarm := func(exclude string) {
+		warm = warm[:0]
+		for _, nv := range render.Nav {
+			if nv.ID != exclude {
+				warm = append(warm, nv.ID)
+			}
+		}
+	}
 	for {
+		if next, changed := st.ConsumeSettings(); changed {
+			themeChanged := next.Theme != appliedTheme
+			if themeChanged {
+				appliedTheme = render.ApplyTheme(next.Theme)
+				pages := []string{}
+				for _, nv := range render.Nav {
+					pages = append(pages, nv.ID)
+				}
+				cache.Invalidate(pages...)
+				_, page, _ := st.RenderInputs()
+				resetWarm(page)
+			} else {
+				cache.Invalidate("settings")
+			}
+			if _, err := localsettings.ApplyBrightness(backlightPath, next.Brightness); err != nil {
+				fmt.Printf("[settings] brightness err: %v\n", err)
+			}
+			if err := localsettings.Save(settingsPath, next); err != nil {
+				fmt.Printf("[settings] save err: %v\n", err)
+			}
+		}
 		view, err := client.FetchSnapshot()
 		if err != nil {
 			view = &render.View{Events: []render.Event{{Detail: "正在连接后端…"}}}
@@ -117,10 +155,10 @@ func main() {
 		fb, buttons := render.Render(vw, clock, targets, renderPage)
 		frame := drm.PrepareRGB(fb.Buf)
 		cache.Put(renderPage, frame, buttons)
-		// 渲染期间可能被 tap 切页:旧帧绝不覆盖新选中的页
+		// 渲染期间可能被 tap 切页:旧帧绝不覆盖新选中的页(对标 L329-333)
 		st.CommitIfCurrent(renderPage, buttons, func() { scr.BlitFrame(frame) })
 
-		// 后端有数据后每轮预热一页,尽快铺满 5 页缓存
+		// 后端有数据后每轮预热一页,尽快铺满 5 页缓存(对标 L335-350)
 		if len(warm) > 0 && len(vw.Devices) > 0 {
 			wp := warm[0]
 			warm = warm[1:]

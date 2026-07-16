@@ -35,6 +35,25 @@ PALE_GREEN = (232, 249, 241)
 PALE_AMBER = (255, 246, 230)
 SHADOW = (232, 238, 248)
 
+THEMES = {
+    "light": {
+        "BG": (244, 248, 255), "SIDEBAR": (255, 255, 255),
+        "CARD": (255, 255, 255), "CARD2": (247, 250, 255),
+        "LINE": (221, 230, 242), "INK": (22, 34, 56),
+        "MUTED": (112, 130, 157), "TRACK": (229, 236, 247),
+        "PALE_BLUE": (235, 244, 255), "PALE_GREEN": (232, 249, 241),
+        "PALE_AMBER": (255, 246, 230), "SHADOW": (232, 238, 248),
+    },
+    "dark": {
+        "BG": (15, 23, 42), "SIDEBAR": (17, 24, 39),
+        "CARD": (30, 41, 59), "CARD2": (37, 50, 70),
+        "LINE": (55, 65, 81), "INK": (241, 245, 249),
+        "MUTED": (156, 163, 175), "TRACK": (55, 65, 81),
+        "PALE_BLUE": (30, 58, 95), "PALE_GREEN": (26, 67, 55),
+        "PALE_AMBER": (78, 55, 25), "SHADOW": (12, 18, 32),
+    },
+}
+
 NAV = [("overview", "总览"), ("monitor", "监控"), ("nodes", "设备"),
        ("control", "控制"), ("settings", "设置")]
 PAGE_TITLE = {"overview": "总览", "monitor": "数据监控", "nodes": "设备管理",
@@ -50,6 +69,13 @@ CONTROLS = [
 # 由 configure_display() 从 display_model.json 派生;page/card 模型在本地 HMI 才真正发挥。
 DISPLAY_CARDS = []
 _GLYPH_RUNS = {}
+
+
+def apply_theme(theme):
+    """Apply a process-wide palette before rendering a frame."""
+    name = theme if theme in THEMES else "light"
+    globals().update(THEMES[name])
+    return name
 
 
 def configure_display(display_model):
@@ -487,20 +513,50 @@ def page_settings(fb, view, targets, buttons):
     devs = view.get("devices", [])
     online = sum(1 for d in devs if d.get("ok"))
     pts = sum(len(d.get("points") or {}) for d in devs)
+    settings = view.get("local_settings") or {}
+    brightness = max(10, min(100, int(settings.get("brightness", 80))))
+    theme = settings.get("theme", "light")
     panel(fb, 16, 66, 768, 364, r=14)
-    fb.text("系统信息", 34, 82, 1, MUTED)
-    rows = [("设备 ID", str(view.get("device_id", "rk3506-gw-01"))),
-            ("接入设备", "%d 台(在线 %d)" % (len(devs), online)),
-            ("采集点位", "%d 点" % pts),
-            ("本机监控", "离线运行"),
-            ("本机地址", "192.168.1.10 : 8092"),
-            ("应用版本", "nexus-edge gateway v1"),
-            ("运行平台", "RK3506 · Buildroot · DRM")]
-    for i, (k, v) in enumerate(rows):
-        ry = 116 + i * 42
-        fb.text(k, 44, ry, 1, MUTED)
-        fb.text(v, 294, ry, 1, INK)
-        fb.hline(34, W - 34, ry + 27, LINE)
+    fb.text("画面调节", 34, 82, 1, MUTED)
+
+    fb.round_rect(34, 108, 716, 76, CARD2, r=12, border=LINE)
+    fb.text("明度", 52, 126, 2, INK)
+    fb.text("10% - 100%", 52, 154, 1, MUTED)
+    minus = (466, 120, 68, 48)
+    plus = (664, 120, 68, 48)
+    fb.round_rect(*minus, CARD, r=10, border=LINE)
+    fb.text_center("-", minus[0] + minus[2] // 2, 128, 2, MUTED)
+    fb.text_center("%d%%" % brightness, 599, 128, 2, INK)
+    fb.round_rect(*plus, PALE_BLUE, r=10, border=BLUE)
+    fb.text_center("+", plus[0] + plus[2] // 2, 128, 2, BLUE)
+    buttons.append({"rect": minus, "action": "brightness_change", "delta": -10})
+    buttons.append({"rect": plus, "action": "brightness_change", "delta": 10})
+
+    fb.round_rect(34, 198, 716, 76, CARD2, r=12, border=LINE)
+    fb.text("风格", 52, 218, 2, INK)
+    fb.text("LIGHT / DARK", 52, 248, 1, MUTED)
+    light = (466, 212, 120, 48)
+    dark = (612, 212, 120, 48)
+    for rect, value, label in ((light, "light", "LIGHT"), (dark, "dark", "DARK")):
+        active = theme == value
+        fb.round_rect(*rect, PALE_BLUE if active else CARD, r=10,
+                      border=BLUE if active else LINE)
+        fb.text_center(label, rect[0] + rect[2] // 2, 228, 1,
+                       BLUE if active else MUTED)
+        buttons.append({"rect": rect, "action": "theme_set", "theme": value})
+
+    fb.text("系统信息", 34, 294, 1, MUTED)
+    rows = [
+        ("设备", "%d 台 · 在线 %d" % (len(devs), online)),
+        ("点位", "%d 点" % pts),
+        ("平台", "RK3506 · Buildroot · DRM"),
+    ]
+    for i, (key, value) in enumerate(rows):
+        ry = 320 + i * 32
+        fb.text(key, 52, ry, 1, MUTED)
+        fb.text(value, 220, ry, 1, INK)
+        if i < len(rows) - 1:
+            fb.hline(44, W - 44, ry + 22, LINE)
 
 
 PAGES = {"overview": page_overview, "monitor": page_monitor, "nodes": page_nodes,

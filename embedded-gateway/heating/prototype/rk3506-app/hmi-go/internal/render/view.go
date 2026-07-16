@@ -149,10 +149,16 @@ type Event struct {
 	Detail string `json:"detail"`
 }
 
+type LocalSettings struct {
+	Brightness int    `json:"brightness"`
+	Theme      string `json:"theme"`
+}
+
 type View struct {
-	DeviceID Value    `json:"device_id"`
-	Devices  []Device `json:"devices"`
-	Events   []Event  `json:"events"`
+	DeviceID      Value         `json:"device_id"`
+	Devices       []Device      `json:"devices"`
+	Events        []Event       `json:"events"`
+	LocalSettings LocalSettings `json:"local_settings"`
 }
 
 // DecodeView 从 JSON 解码;必须走这里保证 UseNumber + points 保序。

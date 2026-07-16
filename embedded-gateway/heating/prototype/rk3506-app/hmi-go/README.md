@@ -18,13 +18,17 @@ sh ../deploy/push.sh
 ```
 
 启动参数与 Python 版兼容:`hmic 8091 [--products <dir>]
-[--touch /dev/input/event0]`。LCD 设备配置页已退役(设备接入走 Web /config 页,
-ui_config_proxy 已删除),故无配置类参数。
+[--touch /dev/input/event0] [--settings <json>] [--backlight <sysfs目录>]`。
+LCD 设备配置页已退役(设备接入走 Web /config 页,ui_config_proxy 已删除)。
 init 链:`deploy/S99gateway-go` 有 `$APP/hmic` 则启 Go 版,缺席回退 Python。
+
+设置页支持10%～100%背光调节与 Light/Dark 配色，写入
+`/userdata/rk3506-app/data/hmi-settings.json`，由板端 backlight sysfs 即时生效，
+重启后自动恢复。最低亮度保留10%，避免全黑后无法触摸恢复。
 
 ## 金帧测试(核心验证机制)
 
-`tests/golden/` 13 个用例,由 Python 侧生成、Go 侧逐字节比对:
+`tests/golden/` 10 个用例,由 Python 侧生成、Go 侧逐字节比对:
 
 ```sh
 python3 tools/gen_golden_frames.py      # 重新生成基准(改 dashboard.py 后必跑)

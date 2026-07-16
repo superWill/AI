@@ -1,0 +1,181 @@
+{
+ "view": {
+  "device_id": "rk3506-gw-01",
+  "devices": [
+   {
+    "addr": 1,
+    "name": "1号换热机组",
+    "type": "换热机组",
+    "ok": true,
+    "health": "在线",
+    "points": {
+     "pri_supply_temp": {
+      "v": 72.3,
+      "u": "℃",
+      "q": "good"
+     },
+     "sec_supply_temp": {
+      "v": 52.3,
+      "u": "℃",
+      "q": "good"
+     },
+     "valve_open": {
+      "v": 68,
+      "u": "%",
+      "q": "good"
+     },
+     "sec_supply_pressure": {
+      "v": 0.31,
+      "u": "MPa",
+      "q": "good"
+     }
+    }
+   },
+   {
+    "addr": 2,
+    "name": "二次侧循环泵",
+    "type": "循环泵",
+    "ok": true,
+    "health": "在线",
+    "points": {
+     "pump_run": {
+      "v": 1,
+      "u": "",
+      "q": "good"
+     },
+     "pump_freq": {
+      "v": 38.5,
+      "u": "Hz",
+      "q": "good"
+     },
+     "pump_current": {
+      "v": 11.2,
+      "u": "A",
+      "q": "good"
+     }
+    }
+   },
+   {
+    "addr": 3,
+    "name": "一次侧电动调节阀",
+    "type": "电动调节阀",
+    "ok": true,
+    "health": "在线",
+    "points": {
+     "valve_open": {
+      "v": 67,
+      "u": "%",
+      "q": "good"
+     }
+    }
+   },
+   {
+    "addr": 4,
+    "name": "压力模块",
+    "type": "压力传感器",
+    "ok": true,
+    "health": "在线",
+    "points": {
+     "sec_supply_pressure": {
+      "v": 0.31,
+      "u": "MPa",
+      "q": "good"
+     },
+     "sec_return_pressure": {
+      "v": 0.22,
+      "u": "MPa",
+      "q": "good"
+     }
+    }
+   },
+   {
+    "addr": 5,
+    "name": "安全IO板",
+    "type": "安全IO",
+    "ok": true,
+    "health": "在线",
+    "points": {
+     "estop": {
+      "v": 0,
+      "u": "",
+      "q": "good"
+     },
+     "water_low": {
+      "v": 0,
+      "u": "",
+      "q": "good"
+     }
+    }
+   },
+   {
+    "addr": 6,
+    "name": "热表#6",
+    "type": "热表",
+    "ok": true,
+    "health": "在线",
+    "points": {
+     "supply_temp": {
+      "v": 71.2,
+      "u": "℃",
+      "q": "good"
+     },
+     "flow": {
+      "v": 35,
+      "u": "m³/h",
+      "q": "good"
+     },
+     "heat_power": {
+      "v": 820,
+      "u": "kW",
+      "q": "good"
+     }
+    }
+   },
+   {
+    "addr": 7,
+    "name": "电表#7",
+    "type": "电表",
+    "ok": true,
+    "health": "在线",
+    "points": {
+     "voltage": {
+      "v": 381,
+      "u": "V",
+      "q": "good"
+     },
+     "current": {
+      "v": 12.1,
+      "u": "A",
+      "q": "good"
+     }
+    }
+   },
+   {
+    "addr": 8,
+    "name": "坏表#8",
+    "type": "热表",
+    "ok": false,
+    "health": "在线",
+    "points": {
+     "supply_temp": {
+      "v": null,
+      "u": "℃",
+      "q": "good"
+     }
+    }
+   }
+  ],
+  "events": [],
+  "local_settings": {
+   "brightness": 60,
+   "theme": "dark"
+  }
+ },
+ "clock": "14:32:07",
+ "targets": {
+  "valve_open": 70,
+  "pump_freq": 40
+ },
+ "page": "settings",
+ "display_model": null
+}

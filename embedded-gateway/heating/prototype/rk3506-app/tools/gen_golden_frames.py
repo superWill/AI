@@ -96,17 +96,22 @@ def cases():
     case("control", sv, "control", targets)
     case("control_empty", empty, "control")
     case("settings", sv, "settings", targets)
+    dark = dict(sv)
+    dark["local_settings"] = {"brightness": 60, "theme": "dark"}
+    case("settings_dark", dark, "settings", targets)
     return out
 
 
 def render_case(c):
     i = c["inputs"]
     dashboard.configure_display(i["display_model"])
+    dashboard.apply_theme((i["view"].get("local_settings") or {}).get("theme", "light"))
     try:
         fb, buttons = dashboard.render(
             i["view"], clock=i["clock"], targets=i["targets"], page=i["page"])
     finally:
         dashboard.configure_display(None)  # 复位模块级 DISPLAY_CARDS
+        dashboard.apply_theme("light")
     return fb, buttons
 
 

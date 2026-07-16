@@ -30,6 +30,37 @@ var (
 	PaleRed   = RGB{255, 238, 238} // page_nodes 离线徽标底色(Python 里内联元组)
 )
 
+type palette struct {
+	BG, Sidebar, Card, Card2, Line, Ink, Muted    RGB
+	Track, PaleBlue, PaleGreen, PaleAmber, Shadow RGB
+}
+
+var palettes = map[string]palette{
+	"light": {
+		RGB{244, 248, 255}, RGB{255, 255, 255}, RGB{255, 255, 255},
+		RGB{247, 250, 255}, RGB{221, 230, 242}, RGB{22, 34, 56},
+		RGB{112, 130, 157}, RGB{229, 236, 247}, RGB{235, 244, 255},
+		RGB{232, 249, 241}, RGB{255, 246, 230}, RGB{232, 238, 248},
+	},
+	"dark": {
+		RGB{15, 23, 42}, RGB{17, 24, 39}, RGB{30, 41, 59},
+		RGB{37, 50, 70}, RGB{55, 65, 81}, RGB{241, 245, 249},
+		RGB{156, 163, 175}, RGB{55, 65, 81}, RGB{30, 58, 95},
+		RGB{26, 67, 55}, RGB{78, 55, 25}, RGB{12, 18, 32},
+	},
+}
+
+func ApplyTheme(name string) string {
+	p, ok := palettes[name]
+	if !ok {
+		name, p = "light", palettes["light"]
+	}
+	BG, Sidebar, Card, Card2 = p.BG, p.Sidebar, p.Card, p.Card2
+	Line, Ink, Muted, Track = p.Line, p.Ink, p.Muted, p.Track
+	PaleBlue, PaleGreen, PaleAmber, Shadow = p.PaleBlue, p.PaleGreen, p.PaleAmber, p.Shadow
+	return name
+}
+
 type NavItem struct{ ID, Label string }
 
 var Nav = []NavItem{

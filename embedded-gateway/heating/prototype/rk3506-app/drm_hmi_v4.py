@@ -32,6 +32,8 @@ PORT = int(_pos[0]) if _pos else 8092
 PRODUCTS = _arg("--products")
 BASE = "http://127.0.0.1:%d" % PORT
 TOUCH_DEV = "/dev/input/event0"
+SETTINGS_PATH = "/userdata/rk3506-app/data/hmi-settings.json"
+BACKLIGHT_PATH = "/sys/class/backlight/backlight"
 
 DRM_SET_MASTER = 0x641E
 DRM_CREATE_DUMB = 0xC02064B2
@@ -41,6 +43,54 @@ DRM_SETCRTC = 0xC06864A2
 W, H, CONN, CRTC = 800, 480, 75, 72
 MODE = struct.pack("<IHHHHHHHHHHIII32s", 30000, 800, 806, 811, 816, 0,
                    480, 485, 493, 503, 0, 73, 0x0A, 0x48, b"800x480")
+
+
+def normalize_settings(value):
+    value = value if isinstance(value, dict) else {}
+    try:
+        brightness = int(value.get("brightness", 80))
+    except (TypeError, ValueError):
+        brightness = 80
+    return {
+        "brightness": max(10, min(100, brightness)),
+        "theme": value.get("theme") if value.get("theme") in ("light", "dark") else "light",
+    }
+
+
+def load_settings(path=SETTINGS_PATH):
+    try:
+        with open(path, encoding="utf-8") as stream:
+            return normalize_settings(json.load(stream))
+    except (OSError, ValueError):
+        return normalize_settings({})
+
+
+def save_settings(settings, path=SETTINGS_PATH):
+    settings = normalize_settings(settings)
+    parent = os.path.dirname(path)
+    if parent:
+        os.makedirs(parent, exist_ok=True)
+    temp = path + ".tmp"
+    with open(temp, "w", encoding="utf-8") as stream:
+        json.dump(settings, stream, ensure_ascii=False, indent=2)
+        stream.flush()
+        os.fsync(stream.fileno())
+    os.replace(temp, path)
+    return settings
+
+
+def apply_brightness(percent, backlight_path=BACKLIGHT_PATH):
+    percent = normalize_settings({"brightness": percent})["brightness"]
+    try:
+        with open(os.path.join(backlight_path, "max_brightness"), encoding="ascii") as stream:
+            maximum = max(1, int(stream.read().strip()))
+        raw = max(1, min(maximum, round(maximum * percent / 100.0)))
+        with open(os.path.join(backlight_path, "brightness"), "w", encoding="ascii") as stream:
+            stream.write(str(raw))
+        return raw
+    except (OSError, ValueError) as exc:
+        print("[settings] brightness err:", exc, flush=True)
+        return None
 
 
 class Screen:
@@ -166,11 +216,17 @@ def main():
             dashboard.configure_display(json.load(open(dm_path, encoding="utf-8")))
             print("[显示] 监控页按 %s 分组(%d 卡片)" % (dm_path, len(dashboard.DISPLAY_CARDS)),
                   flush=True)
+    settings = load_settings()
+    dashboard.apply_theme(settings["theme"])
+    apply_brightness(settings["brightness"])
     scr = Screen()
     targets = {}
-    state = {"buttons": [], "view": {"devices": []}, "page": "overview"}
+    state = {"buttons": [], "view": {"devices": []}, "page": "overview",
+             "settings": settings, "settings_pending": False}
     dirty = threading.Event()
     frame_cache = FrameCache()
+    warm_pages = [pid for pid, _ in dashboard.NAV if pid != "overview"]
+    applied_theme = settings["theme"]
 
     def on_tap(x, y):
         for b in state["buttons"]:
@@ -186,6 +242,18 @@ def main():
                         scr.blit_frame(frame)
                     dirty.set()
                     return
+                action = b.get("action")
+                if action == "brightness_change":
+                    current = int(state["settings"].get("brightness", 80))
+                    state["settings"]["brightness"] = max(10, min(100, current + b["delta"]))
+                    state["settings_pending"] = True
+                    dirty.set()
+                    return
+                if action == "theme_set":
+                    state["settings"]["theme"] = b["theme"]
+                    state["settings_pending"] = True
+                    dirty.set()
+                    return
                 base = targets.get(b["fb"])
                 if base is None:
                     cur = dashboard.pick(state["view"], b["fb"])
@@ -199,12 +267,28 @@ def main():
 
     Touch(on_tap).start()
     print("LCD v4(触摸仪表盘)接管屏幕,读 %s/api/snapshot。" % BASE, flush=True)
-    warm_pages = [pid for pid, _ in dashboard.NAV if pid != "overview"]
     while True:
+        if state["settings_pending"]:
+            state["settings_pending"] = False
+            requested = normalize_settings(state["settings"])
+            theme_changed = requested["theme"] != applied_theme
+            if theme_changed:
+                applied_theme = dashboard.apply_theme(requested["theme"])
+                frame_cache.invalidate(*(pid for pid, _ in dashboard.NAV))
+                warm_pages[:] = [pid for pid, _ in dashboard.NAV
+                                 if pid != state["page"]]
+            else:
+                frame_cache.invalidate("settings")
+            apply_brightness(requested["brightness"])
+            try:
+                state["settings"] = save_settings(requested)
+            except OSError as exc:
+                print("[settings] save err:", exc, flush=True)
         try:
             state["view"] = fetch()
         except Exception:
             state["view"] = {"devices": [], "events": [{"detail": "正在连接后端…"}]}
+        state["view"]["local_settings"] = dict(state["settings"])
         clock = time.strftime("%H:%M:%S") if time.gmtime().tm_year >= 2020 else "--:--:--"
         render_page = state["page"]
         fb, buttons = dashboard.render(state["view"], clock=clock, targets=targets,
