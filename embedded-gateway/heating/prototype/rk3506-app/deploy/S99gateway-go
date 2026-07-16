@@ -18,7 +18,7 @@ stop_all() {
   i=0
   while [ $i -lt 6 ]; do
     found=0
-    for p in $(ps 2>/dev/null | grep -E 'supervisor-go\.sh|supervisor\.sh|gatewayc run|gatewayc ui|ui_config_proxy\.py|drm_hmi_v4\.py|nexus_server\.py' | grep -v grep | awk '{print $1}'); do
+    for p in $(ps 2>/dev/null | grep -E 'supervisor-go\.sh|supervisor\.sh|gatewayc run|gatewayc ui|ui_config_proxy\.py|drm_hmi_v4\.py|hmic|nexus_server\.py' | grep -v grep | awk '{print $1}'); do
       kill -9 "$p" 2>/dev/null; found=1
     done
     [ "$found" = 0 ] && break
@@ -49,8 +49,15 @@ start() {
     BUILD="$APP/build" FALLBACK_CFG="$APP/app_config.json" DIST="$APP/nexus-dist" \
     CORE=http://127.0.0.1:8091 RUN="$RUN" nohup "$APP/supervisor-go.sh" \
     >>"$RUN/sup.out" 2>&1 &
-  nohup "$PY" "$APP/drm_hmi_v4.py" 8091 >>"$RUN/lcd.log" 2>&1 &
-  echo "[S99-go] core:8091 + ui:8093 + proxy:8092 + LCD 已启动"
+  # LCD:优先 Go 版 hmic,二进制缺席才回退 Python(镜像 gatewayc 的回退模式)
+  if [ -x "$APP/hmic" ]; then
+    nohup "$APP/hmic" 8091 --config-base http://127.0.0.1:8092 >>"$RUN/lcd.log" 2>&1 &
+    LCD_IMPL=hmic
+  else
+    nohup "$PY" "$APP/drm_hmi_v4.py" 8091 >>"$RUN/lcd.log" 2>&1 &
+    LCD_IMPL=python
+  fi
+  echo "[S99-go] core:8091 + ui:8093 + proxy:8092 + LCD($LCD_IMPL) 已启动"
 }
 
 case "$1" in

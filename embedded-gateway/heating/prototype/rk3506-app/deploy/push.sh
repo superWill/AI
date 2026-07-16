@@ -35,6 +35,7 @@ fi
 echo "[push] 打包并推送 $NAME 经跳板 $JUMP_HOST 到板子 $BOARD_HOST ..."
 tar -C "$PARENT" --exclude="$NAME/data" --exclude="$NAME/run" \
     --exclude="$NAME/tests" --exclude="$NAME/gateway-go" \
+    --exclude="$NAME/hmi-go" \
     --exclude="$NAME/design-*.png" --exclude="$NAME/board-*.png" \
     --exclude="$NAME/design-qa.md" \
     --exclude="*/__pycache__" --exclude="*.pyc" -cf - "$NAME" \

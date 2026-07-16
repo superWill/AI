@@ -8,3 +8,5 @@ data/
 build/
 current_draft.json
 tests/_build_tmp*/
+# Go LCD HMI 交叉编译产物(hmi-go/build.sh 生成,push 前构建,不入库)
+hmic

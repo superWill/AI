@@ -22,6 +22,12 @@ cp -f "$SRC/app.py" "$SRC/drm_hmi_v2.py" "$SRC/drm_hmi_v3.py" "$SRC/drm_hmi_v4.p
       "$SRC/nexus_server.py" "$SRC/app_config.json" "$APP/"
 cp -f "$SRC/sim_104.py" "$SRC/sim_104_config.json" "$APP/" 2>/dev/null || true
 cp -f "$SRC/ui_config_proxy.py" "$APP/"
+# Go 版 LCD HMI(hmi-go/build.sh 产物);缺席时 S99 脚本回退 Python drm_hmi_v4
+if [ -f "$SRC/hmic" ]; then
+  cp -f "$SRC/hmic" "$APP/hmic"
+  chmod +x "$APP/hmic"
+  echo "[install] 已安装 Go LCD HMI: $APP/hmic"
+fi
 # nexus-edge-os 前端 dist + 轻量 HMI
 rm -rf "$APP/nexus-dist"; mkdir -p "$APP/nexus-dist"
 cp -Rf "$SRC/nexus-dist/." "$APP/nexus-dist/"
