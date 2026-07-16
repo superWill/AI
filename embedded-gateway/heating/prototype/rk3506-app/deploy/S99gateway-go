@@ -51,13 +51,13 @@ start() {
     >>"$RUN/sup.out" 2>&1 &
   # LCD:优先 Go 版 hmic,二进制缺席才回退 Python(镜像 gatewayc 的回退模式)
   if [ -x "$APP/hmic" ]; then
-    nohup "$APP/hmic" 8091 --config-base http://127.0.0.1:8092 >>"$RUN/lcd.log" 2>&1 &
+    nohup "$APP/hmic" 8091 >>"$RUN/lcd.log" 2>&1 &
     LCD_IMPL=hmic
   else
     nohup "$PY" "$APP/drm_hmi_v4.py" 8091 >>"$RUN/lcd.log" 2>&1 &
     LCD_IMPL=python
   fi
-  echo "[S99-go] core:8091 + ui:8093 + proxy:8092 + LCD($LCD_IMPL) 已启动"
+  echo "[S99-go] core:8091 + ui:8092 + LCD($LCD_IMPL) 已启动"
 }
 
 case "$1" in

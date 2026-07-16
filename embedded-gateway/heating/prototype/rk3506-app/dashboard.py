@@ -38,19 +38,13 @@ SHADOW = (232, 238, 248)
 NAV = [("overview", "总览"), ("monitor", "监控"), ("nodes", "设备"),
        ("control", "控制"), ("settings", "设置")]
 PAGE_TITLE = {"overview": "总览", "monitor": "数据监控", "nodes": "设备管理",
-              "control": "就地控制", "settings": "系统设置",
-              "device_config": "离线设备配置"}
+              "control": "就地控制", "settings": "系统设置"}
 
 CONTROLS = [
     ("二次供温", "sec_supply_temp", "sec_supply_temp_sp", 20, 75, 2, "℃", BLUE),
     ("阀位开度", "valve_open", "valve_open_sp", 0, 100, 5, "%", GREEN),
     ("循环泵频率", "pump_freq", "pump_freq_sp", 0, 50, 2, "Hz", AMBER),
 ]
-DEVICE_TYPE_LABELS = {
-    "other": "设备", "pump_vfd": "水泵", "temp_humidity_sensor": "温度传感器",
-    "pressure_sensor": "压力传感器", "heat_meter": "热量表",
-    "energy_meter": "电能表", "io_module": "IO 模块",
-}
 
 # 编译产物 display_model 驱动的卡片(监控页用)。空=回退到平铺点表。
 # 由 configure_display() 从 display_model.json 派生;page/card 模型在本地 HMI 才真正发挥。
@@ -257,7 +251,7 @@ def draw_nav(fb, page, buttons):
     x0 = (W - cell * len(NAV)) // 2
     for i, (pid, label) in enumerate(NAV):
         x = x0 + i * cell
-        active = pid == page or (page == "device_config" and pid == "nodes")
+        active = pid == page
         if active:
             fb.round_rect(x + 7, y + 5, cell - 14, 28, PALE_BLUE, r=14)
             fb.rect(x + 17, y + 16, 6, 6, BLUE)
@@ -443,78 +437,24 @@ def _page_monitor_cards(fb, view):
 
 def page_nodes(fb, view, targets, buttons):
     devs = view.get("devices", [])
-    drafts = view.get("configured_nodes", [])
-    fb.text("运行 %d 台 · 接入配置 %d 台" % (len(devs), len(drafts)), 24, 76, 1, MUTED)
-    add = (500, 66, 132, 34)
-    fb.round_rect(*add, BLUE, r=8)
-    fb.text_center("设备接入", add[0] + add[2] // 2, add[1] + 9, 1, (255, 255, 255))
-    buttons.append({"rect": add, "action": "open_device_add"})
-    cfg = (646, 66, 138, 34)
-    fb.round_rect(*cfg, BLUE, r=8)
-    fb.text_center("设备配置", cfg[0] + cfg[2] // 2, cfg[1] + 9, 1, (255, 255, 255))
-    buttons.append({"rect": cfg, "action": "open_device_config"})
+    fb.text("运行 %d 台" % len(devs), 24, 76, 1, MUTED)
     cw, chh, gap = 376, 72, 8
-    draft_count = min(2, len(drafts))
-    cards = [("runtime", d) for d in devs[:8 - draft_count]]
-    cards += [("draft", d) for d in drafts[:draft_count]]
-    for i, (kind, d) in enumerate(cards):
+    for i, d in enumerate(devs[:8]):
         col, row = i % 2, i // 2
         x = 16 + col * (cw + 16)
         y = 108 + row * (chh + gap)
-        is_draft = kind == "draft"
-        ok = d.get("ok") if not is_draft else None
+        ok = d.get("ok")
         panel(fb, x, y, cw, chh)
-        fb.rect(x + 16, y + 18, 10, 10, BLUE if is_draft else (GREEN if ok else RED))
+        fb.rect(x + 16, y + 18, 10, 10, GREEN if ok else RED)
         fb.text(d.get("name", "")[:12], x + 32, y + 12, 1, INK)
-        sc = BLUE if is_draft else (GREEN if ok else RED)
-        st = "配置" if is_draft else ("在线" if ok else "离线")
-        badge = PALE_BLUE if is_draft else (PALE_GREEN if ok else (255, 238, 238))
+        sc = GREEN if ok else RED
+        st = "在线" if ok else "离线"
+        badge = PALE_GREEN if ok else (255, 238, 238)
         fb.round_rect(x + cw - 64, y + 12, 50, 22, badge, r=11)
         fb.text_center(st, x + cw - 39, y + 15, 1, sc)
-        if is_draft:
-            dtype = d.get("deviceType", "other")
-            fb.text("类型 %s" % d.get("deviceTypeLabel", DEVICE_TYPE_LABELS.get(dtype, "设备")),
-                    x + 16, y + 36, 1, MUTED)
-            fb.text("串口 %s · 地址 %s" % (d.get("serialPort", d.get("endpoint", "-")),
-                                           d.get("slaveId", "-")), x + 16, y + 56, 1, MUTED)
-        else:
-            fb.text("类型 %s" % d.get("type", "-"), x + 16, y + 36, 1, MUTED)
-            fb.text("地址 %s · 点位 %d" % (d.get("addr", "-"), len(d.get("points") or {})),
-                    x + 16, y + 56, 1, MUTED)
-
-
-def page_device_config(fb, form, slot, count, message, buttons):
-    back = (16, 68, 86, 30)
-    fb.round_rect(*back, CARD2, r=8, border=LINE)
-    buttons.append({"rect": back, "action": "config_back"})
-    fb.text_center("返回", back[0] + back[2] // 2, back[1] + 7, 1, INK)
-    fb.text(("设备接入" if slot == 0 else "设备配置") + " · 离线配置", 120, 76, 1, BLUE)
-    rows = [
-        ("设备", "+ 设备" if slot == 0 else "设备 %d/%d" % (slot, count), "record"),
-        ("设备类型", form.get("deviceTypeLabel", "设备"), "deviceType"),
-        ("串口", form.get("serialPort", "/dev/ttyS1"), "serialPort"),
-        ("速率", str(form.get("baudRate", 9600)), "baudRate"),
-        ("校验", "8%s1" % {"none": "N", "even": "E", "odd": "O"}.get(form.get("parity"), "N"), "parity"),
-        ("地址", str(form.get("slaveId", 1)), "slaveId"),
-        ("采集", "%s ms" % form.get("pollInterval", 1000), "pollInterval"),
-    ]
-    for i, (label, value, field) in enumerate(rows):
-        y = 108 + i * 42
-        panel(fb, 16, y - 4, 768, 38, r=8)
-        fb.text(label, 34, y + 8, 1, MUTED)
-        fb.text_center(value, 430, y + 8, 1, INK)
-        minus, plus = (650, y, 48, 30), (718, y, 48, 30)
-        fb.round_rect(*minus, CARD2, r=7, border=LINE); fb.text_center("-", 674, y + 4, 2, MUTED)
-        fb.round_rect(*plus, CARD2, r=7, border=BLUE); fb.text_center("+", 742, y + 4, 2, BLUE)
-        buttons.append({"rect": minus, "action": "config_change", "field": field, "delta": -1})
-        buttons.append({"rect": plus, "action": "config_change", "field": field, "delta": 1})
-    save = (616, 406, 168, 30)
-    fb.round_rect(*save, BLUE, r=9)
-    fb.text_center("设备接入" if slot == 0 else "本机配置", 700, 413, 1, (255, 255, 255))
-    buttons.append({"rect": save, "action": "config_save"})
-    if message:
-        fb.text(message[:28], 24, 413, 1,
-                GREEN if message in ("配置正常", "设备已接入") else RED)
+        fb.text("类型 %s" % d.get("type", "-"), x + 16, y + 36, 1, MUTED)
+        fb.text("地址 %s · 点位 %d" % (d.get("addr", "-"), len(d.get("points") or {})),
+                x + 16, y + 56, 1, MUTED)
 
 
 def page_control(fb, view, targets, buttons):
@@ -567,20 +507,15 @@ PAGES = {"overview": page_overview, "monitor": page_monitor, "nodes": page_nodes
          "control": page_control, "settings": page_settings}
 
 
-def render(view, clock="--:--:--", targets=None, page="overview",
-           device_form=None, config_slot=0, config_message=""):
+def render(view, clock="--:--:--", targets=None, page="overview"):
     targets = targets or {}
     buttons = []
     fb = FB()
     fb.clear(BG)
-    if page not in PAGES and page != "device_config":
+    if page not in PAGES:
         page = "overview"
     draw_header(fb, view, clock, PAGE_TITLE[page])
-    if page == "device_config":
-        page_device_config(fb, device_form or {}, config_slot,
-                           len(view.get("configured_nodes", [])), config_message, buttons)
-    else:
-        PAGES[page](fb, view, targets, buttons)
+    PAGES[page](fb, view, targets, buttons)
     draw_nav(fb, page, buttons)
     return fb, buttons
 

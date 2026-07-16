@@ -150,10 +150,9 @@ type Event struct {
 }
 
 type View struct {
-	DeviceID        Value            `json:"device_id"`
-	Devices         []Device         `json:"devices"`
-	Events          []Event          `json:"events"`
-	ConfiguredNodes []map[string]any `json:"configured_nodes"`
+	DeviceID Value    `json:"device_id"`
+	Devices  []Device `json:"devices"`
+	Events   []Event  `json:"events"`
 }
 
 // DecodeView 从 JSON 解码;必须走这里保证 UseNumber + points 保序。

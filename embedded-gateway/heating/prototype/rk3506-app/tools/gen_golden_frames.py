@@ -25,17 +25,6 @@ sys.path.insert(0, str(APP))
 import dashboard  # noqa: E402
 
 
-def _drafts():
-    """两个草稿:一个字段齐全,一个走 deviceTypeLabel/serialPort 回退分支。"""
-    return [
-        {"id": "local-ttyS1-5", "name": "水泵 5", "deviceType": "pump_vfd",
-         "deviceTypeLabel": "水泵", "serialPort": "/dev/ttyS1", "baudRate": 9600,
-         "slaveId": 5, "pollInterval": 1000},
-        {"id": "local-ttyS3-9", "name": "表计 9", "deviceType": "weird_type",
-         "endpoint": "/dev/ttyS3", "slaveId": 9},
-    ]
-
-
 def _display_model():
     """监控页卡片 fixture:覆盖 >6 字段截断、缺 label 回退 card id、
     缺 field label 回退 point_id、未知点位、priority 排序、高度溢出跳卡。"""
@@ -87,54 +76,26 @@ def _display_model():
     ]}
 
 
-def _edit_form():
-    return {"id": "local-ttyS2-7", "name": "水泵 7", "deviceType": "pump_vfd",
-            "deviceTypeLabel": "水泵", "serialPort": "/dev/ttyS2", "baudRate": 19200,
-            "dataBits": 8, "stopBits": 1, "parity": "even", "slaveId": 7,
-            "pollInterval": 500}
-
-
-def _new_form():
-    # 与 drm_hmi_v4.new_device_form() 一致(不 import 它:避免拖入 DRM 依赖)
-    return {"deviceType": "other", "deviceTypeLabel": "设备",
-            "serialPort": "/dev/ttyS1", "baudRate": 9600, "dataBits": 8,
-            "stopBits": 1, "parity": "none", "slaveId": 1, "pollInterval": 1000}
-
-
-def _with_nodes(view, nodes):
-    view = dict(view)
-    view["configured_nodes"] = nodes  # 复刻 drm_hmi_v4 主循环 L320 的注入
-    return view
-
-
 def cases():
     sv = dashboard._sample_view()
     empty = {"devices": [], "events": [{"detail": "正在连接后端…"}]}
     targets = {"valve_open": 70, "pump_freq": 40}
     out = []
 
-    def case(name, view, page, targets=None, form=None, slot=0, msg="", dm=None):
+    def case(name, view, page, targets=None, dm=None):
         out.append({"name": name, "inputs": {
             "view": view, "clock": "14:32:07", "targets": targets or {},
-            "page": page, "device_form": form, "config_slot": slot,
-            "config_message": msg, "display_model": dm}})
+            "page": page, "display_model": dm}})
 
-    case("overview", _with_nodes(sv, []), "overview", targets)
-    case("overview_empty", _with_nodes(empty, []), "overview")
-    case("monitor_flat", _with_nodes(sv, []), "monitor", targets)
-    case("monitor_cards", _with_nodes(sv, []), "monitor", targets, dm=_display_model())
-    case("nodes_empty", _with_nodes(sv, []), "nodes", targets)
-    case("nodes_drafts", _with_nodes(sv, _drafts()), "nodes", targets)
-    case("control", _with_nodes(sv, []), "control", targets)
-    case("control_empty", _with_nodes(empty, []), "control")
-    case("settings", _with_nodes(sv, []), "settings", targets)
-    case("devcfg_new", _with_nodes(sv, []), "device_config", form=_new_form())
-    case("devcfg_edit", _with_nodes(sv, _drafts()), "device_config",
-         form=_edit_form(), slot=1)
-    case("devcfg_msg_ok", _with_nodes(sv, _drafts()), "device_config",
-         form=_new_form(), slot=0, msg="设备已接入")
-    case("devcfg_msg_err", _with_nodes(sv, _drafts()), "device_config",
-         form=_edit_form(), slot=2, msg="配置异常")
+    case("overview", sv, "overview", targets)
+    case("overview_empty", empty, "overview")
+    case("monitor_flat", sv, "monitor", targets)
+    case("monitor_cards", sv, "monitor", targets, dm=_display_model())
+    case("nodes", sv, "nodes", targets)
+    case("nodes_empty", empty, "nodes")
+    case("control", sv, "control", targets)
+    case("control_empty", empty, "control")
+    case("settings", sv, "settings", targets)
     return out
 
 
@@ -143,9 +104,7 @@ def render_case(c):
     dashboard.configure_display(i["display_model"])
     try:
         fb, buttons = dashboard.render(
-            i["view"], clock=i["clock"], targets=i["targets"], page=i["page"],
-            device_form=i["device_form"], config_slot=i["config_slot"],
-            config_message=i["config_message"])
+            i["view"], clock=i["clock"], targets=i["targets"], page=i["page"])
     finally:
         dashboard.configure_display(None)  # 复位模块级 DISPLAY_CARDS
     return fb, buttons

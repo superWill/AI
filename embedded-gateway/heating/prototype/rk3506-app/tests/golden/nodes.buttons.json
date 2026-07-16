@@ -1,23 +1,5 @@
 [
  {
-  "action": "open_device_add",
-  "rect": [
-   500,
-   66,
-   132,
-   34
-  ]
- },
- {
-  "action": "open_device_config",
-  "rect": [
-   646,
-   66,
-   138,
-   34
-  ]
- },
- {
   "nav": "overview",
   "rect": [
    140,

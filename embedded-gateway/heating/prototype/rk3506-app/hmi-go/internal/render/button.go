@@ -2,14 +2,12 @@ package render
 
 import "encoding/json"
 
-// Button 对标 dashboard buttons 元素(dict)。四类字段集:
-// 导航 {rect,nav} / 动作 {rect,action} / 表单 {rect,action,field,delta} /
-// 控制 {rect,fb,sp,delta,lo,hi}。序列化输出与 Python json.dumps(sort_keys) 同构。
+// Button 对标 dashboard buttons 元素(dict)。两类字段集:
+// 导航 {rect,nav} / 控制 {rect,fb,sp,delta,lo,hi}。
+// 序列化输出与 Python json.dumps(sort_keys) 同构。
 type Button struct {
 	Rect   [4]int
 	Nav    string
-	Action string
-	Field  string
 	Delta  int
 	FBID   string
 	SP     string
@@ -18,16 +16,9 @@ type Button struct {
 
 func (b Button) MarshalJSON() ([]byte, error) {
 	m := map[string]any{"rect": b.Rect}
-	switch {
-	case b.Nav != "":
+	if b.Nav != "" {
 		m["nav"] = b.Nav
-	case b.Action == "config_change":
-		m["action"] = b.Action
-		m["field"] = b.Field
-		m["delta"] = b.Delta
-	case b.Action != "":
-		m["action"] = b.Action
-	default:
+	} else {
 		m["fb"] = b.FBID
 		m["sp"] = b.SP
 		m["delta"] = b.Delta

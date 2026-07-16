@@ -10,24 +10,18 @@ var pages = map[string]func(*FB, *View, map[string]int, *[]Button){
 	"settings": pageSettings,
 }
 
-func Render(view *View, clock string, targets map[string]int, page string,
-	deviceForm map[string]any, configSlot int, configMessage string) (*FB, []Button) {
+func Render(view *View, clock string, targets map[string]int, page string) (*FB, []Button) {
 	if targets == nil {
 		targets = map[string]int{}
 	}
 	var buttons []Button
 	f := NewFB()
 	f.Clear(BG)
-	if _, ok := pages[page]; !ok && page != "device_config" {
+	if _, ok := pages[page]; !ok {
 		page = "overview"
 	}
 	drawHeader(f, view, clock, PageTitle[page])
-	if page == "device_config" {
-		pageDeviceConfig(f, deviceForm, configSlot, len(view.ConfiguredNodes),
-			configMessage, &buttons)
-	} else {
-		pages[page](f, view, targets, &buttons)
-	}
+	pages[page](f, view, targets, &buttons)
 	drawNav(f, page, &buttons)
 	return f, buttons
 }

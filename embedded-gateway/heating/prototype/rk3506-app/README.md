@@ -18,7 +18,7 @@
 | 界面 | 跑在哪 | 是什么 |
 |---|---|---|
 | **本地触摸屏** | 板子物理 LCD(800×480,Goodix 触摸) | `drm_hmi_v4` 直写 DRM；采用浅色 EdgeAgent 仪表盘风格，总览/监控/设备/控制/设置均可离线运行。“设备→设备接入”新建通信草稿，“设备→设备配置”编辑已有记录；可设置类型、串口、速率、校验、地址和采集周期并保存到本机。 |
-| **Web 管理界面** | 浏览器(PC/手机) `:8092` | 正式板端拓扑为 `gatewayc core:8091 + gatewayc ui:8093 + ui_config_proxy:8092`；代理补齐设备/标签草稿，其余请求转发给 Go UI。无 `gatewayc` 时才回退 Python `nexus_server` 单体。 |
+| **Web 管理界面** | 浏览器(PC/手机) `:8092` | 正式板端拓扑为 `gatewayc core:8091 + gatewayc ui:8092`(配置代理已退役,设备接入走 `/config` 页)。无 `gatewayc` 时才回退 Python `nexus_server` 单体。 |
 
 > 两个界面读同一份 `/api/snapshot`;`nexus_server` 既服务 Web 前端,也服务 `/api/snapshot` 给触摸屏。
 
@@ -29,7 +29,6 @@
 | `app.py` | 内核:数据源(sim/modbus)、统一快照+注册表、控制器(安全校验)、stdlib MQTT、stdlib HTTP/REST/SSE。可独立跑(轻量后端),也被 nexus_server 复用 |
 | `app_config.json` | 设备/点位/MQTT/控制映射。每点位同时带 sim(base/swing)和 modbus(reg/scale)字段 |
 | `nexus_server.py` | Python 回退 Web 后端；同时提供设备/标签草稿的共享校验和持久化函数 |
-| `ui_config_proxy.py` | 正式 Go UI 的前置代理；接管 `/api/nodes`、`/api/tags`、`/api/init`，其他请求原样转发到 8093 |
 | `nexus-dist/` | nexus-edge-os 已构建前端(来自 `Coding/apps/apps/edge-os/frontend/dist`) |
 | `dashboard.py` | 触摸屏渲染器:多页(总览/监控/设备/控制/设置)→ 800×480 RGB 帧 + 按钮命中区。`__main__` 可渲染 PNG 预览 |
 | `cjk_font.py` | GNU Unifont 点阵子集(中文显示,随 dashboard 文案重新生成) |
@@ -52,7 +51,7 @@
 再走校验、编译、激活流程；系统不会根据页面上的通用标签猜测寄存器并直接下发。
 
 板端存在 `gatewayc` 时，`deploy/install.sh` 会保持 Go 正式拓扑：采集核心监听 8091，
-原 Go UI 监听 8093，`ui_config_proxy.py` 对外监听 8092；本地 LCD 直接读取 8091。
+Go UI 直接监听 8092；本地 LCD 直接读取 8091。设备接入统一走 Web `/config` 页(LCD 配置页已退役:模板不带寄存器定义,屏上表单无法诚实构造完整设备配置)。
 
 ### 完全离线使用
 

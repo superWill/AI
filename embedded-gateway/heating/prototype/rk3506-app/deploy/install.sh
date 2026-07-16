@@ -21,7 +21,6 @@ cp -f "$SRC/app.py" "$SRC/drm_hmi_v2.py" "$SRC/drm_hmi_v3.py" "$SRC/drm_hmi_v4.p
       "$SRC/dashboard.py" "$SRC/cjk_font.py" "$SRC/compiler.py" "$SRC/loader.py" \
       "$SRC/nexus_server.py" "$SRC/app_config.json" "$APP/"
 cp -f "$SRC/sim_104.py" "$SRC/sim_104_config.json" "$APP/" 2>/dev/null || true
-cp -f "$SRC/ui_config_proxy.py" "$APP/"
 # Go 版 LCD HMI(hmi-go/build.sh 产物);缺席时 S99 脚本回退 Python drm_hmi_v4
 if [ -f "$SRC/hmic" ]; then
   cp -f "$SRC/hmic" "$APP/hmic"
@@ -39,11 +38,11 @@ chmod +x "$APP/app.py" "$APP/drm_hmi_v2.py" "$APP/nexus_server.py" 2>/dev/null |
 if [ -x "$APP/gatewayc" ]; then
   cp -f "$SRC/deploy/supervisor-go.sh" "$APP/supervisor-go.sh"
   cp -f "$SRC/deploy/S99gateway-go" "$APP/S99zz-gateway-go"
-  chmod +x "$APP/supervisor-go.sh" "$APP/S99zz-gateway-go" "$APP/ui_config_proxy.py"
+  chmod +x "$APP/supervisor-go.sh" "$APP/S99zz-gateway-go"
   cp -f "$APP/S99zz-gateway-go" /etc/init.d/S99zz-gateway
   chmod +x /etc/init.d/S99zz-gateway
   /etc/init.d/S99zz-gateway restart
-  echo "[install] 已更新 Go 正式拓扑(core:8091 + ui:8093 + proxy:8092)"
+  echo "[install] 已更新 Go 正式拓扑(core:8091 + ui:8092)"
   exit 0
 fi
 

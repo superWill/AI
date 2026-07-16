@@ -40,7 +40,6 @@ var Nav = []NavItem{
 var PageTitle = map[string]string{
 	"overview": "总览", "monitor": "数据监控", "nodes": "设备管理",
 	"control": "就地控制", "settings": "系统设置",
-	"device_config": "离线设备配置",
 }
 
 type Control struct {
@@ -56,10 +55,4 @@ var Controls = []Control{
 	{"二次供温", "sec_supply_temp", "sec_supply_temp_sp", 20, 75, 2, "℃", Blue},
 	{"阀位开度", "valve_open", "valve_open_sp", 0, 100, 5, "%", Green},
 	{"循环泵频率", "pump_freq", "pump_freq_sp", 0, 50, 2, "Hz", Amber},
-}
-
-var DeviceTypeLabels = map[string]string{
-	"other": "设备", "pump_vfd": "水泵", "temp_humidity_sensor": "温度传感器",
-	"pressure_sensor": "压力传感器", "heat_meter": "热量表",
-	"energy_meter": "电能表", "io_module": "IO 模块",
 }

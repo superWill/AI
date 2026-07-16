@@ -1,11 +1,12 @@
 //go:build linux
 
 // hmic:RK3506 本地 LCD 触摸仪表盘,drm_hmi_v4.py 的 Go 移植。
-// 用法(与 Python 版参数兼容,新增 --config-base 消除硬编码):
+// 用法(与 Python 版参数兼容):
 //
-//	hmic [port] [--products <dir>] [--config-base <url>] [--touch <dev>]
+//	hmic [port] [--products <dir>] [--touch <dev>]
 //
 // port 为 gatewayc core 端口(部署态 8091,默认 8092 同 Python)。
+// 设备配置页已退役:设备接入走 Web /config 页(gatewayc ui)。
 package main
 
 import (
@@ -56,7 +57,6 @@ func main() {
 		}
 	}
 	base := fmt.Sprintf("http://127.0.0.1:%d", port)
-	configBase := optOr(opt, "config-base", "http://127.0.0.1:8092")
 	touchDev := optOr(opt, "touch", "/dev/input/event0")
 
 	if products := opt["products"]; products != "" {
@@ -76,21 +76,14 @@ func main() {
 		fmt.Printf("[drm] 初始化失败: %v\n", err)
 		os.Exit(1)
 	}
-	client := api.New(base, configBase)
+	client := api.New(base)
 	st := app.NewState()
-	if nodes, err := client.FetchDeviceConfig(); err == nil {
-		st.SetConfiguredNodes(nodes)
-	} else {
-		fmt.Printf("[config] 初始读取失败: %v\n", err)
-	}
 	cache := app.NewFrameCache()
 	dirty := make(chan struct{}, 1)
 	deps := app.Deps{
-		Blit:        scr.BlitFrame,
-		PostCmd:     client.PostCmd,
-		FetchConfig: client.FetchDeviceConfig,
-		SaveConfig:  client.SaveDeviceConfig,
-		Cache:       cache,
+		Blit:    scr.BlitFrame,
+		PostCmd: client.PostCmd,
+		Cache:   cache,
 		Dirty: func() {
 			select {
 			case dirty <- struct{}{}:
@@ -120,18 +113,18 @@ func main() {
 		if time.Now().UTC().Year() >= 2020 {
 			clock = time.Now().Format("15:04:05")
 		}
-		vw, renderPage, form, slot, msg, targets := st.RenderInputs()
-		fb, buttons := render.Render(vw, clock, targets, renderPage, form, slot, msg)
+		vw, renderPage, targets := st.RenderInputs()
+		fb, buttons := render.Render(vw, clock, targets, renderPage)
 		frame := drm.PrepareRGB(fb.Buf)
 		cache.Put(renderPage, frame, buttons)
-		// 渲染期间可能被 tap 切页:旧帧绝不覆盖新选中的页(对标 L329-333)
+		// 渲染期间可能被 tap 切页:旧帧绝不覆盖新选中的页
 		st.CommitIfCurrent(renderPage, buttons, func() { scr.BlitFrame(frame) })
 
-		// 后端有数据后每轮预热一页,尽快铺满 5 页缓存(对标 L335-350)
+		// 后端有数据后每轮预热一页,尽快铺满 5 页缓存
 		if len(warm) > 0 && len(vw.Devices) > 0 {
 			wp := warm[0]
 			warm = warm[1:]
-			wfb, wbtns := render.Render(vw, clock, targets, wp, form, slot, msg)
+			wfb, wbtns := render.Render(vw, clock, targets, wp)
 			wframe := drm.PrepareRGB(wfb.Buf)
 			cache.Put(wp, wframe, wbtns)
 			st.CommitIfCurrent(wp, wbtns, func() { scr.BlitFrame(wframe) })

@@ -17,9 +17,9 @@ sh build.sh
 sh ../deploy/push.sh
 ```
 
-启动参数与 Python 版兼容:`hmic 8091 --config-base http://127.0.0.1:8092
-[--products <dir>] [--touch /dev/input/event0]`。`--config-base` 消除了
-Python 版 CONFIG_BASE 硬编码(默认仍指 ui_config_proxy :8092)。
+启动参数与 Python 版兼容:`hmic 8091 [--products <dir>]
+[--touch /dev/input/event0]`。LCD 设备配置页已退役(设备接入走 Web /config 页,
+ui_config_proxy 已删除),故无配置类参数。
 init 链:`deploy/S99gateway-go` 有 `$APP/hmic` 则启 Go 版,缺席回退 Python。
 
 ## 金帧测试(核心验证机制)

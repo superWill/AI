@@ -1,15 +1,13 @@
 #!/bin/sh
-# 生产拓扑监督：gatewayc core:8091 + gatewayc ui:8093 + 配置代理:8092。
+# 生产拓扑监督：gatewayc core:8091 + gatewayc ui:8092(直连,配置代理已退役)。
 set -u
 GATEWAYC="${GATEWAYC:-./gatewayc}"
-PROXY="${PROXY:-./ui_config_proxy.py}"
 PY="${PY:-$(command -v python3 || echo /usr/bin/python3)}"
 BUILD="${BUILD:-./build}"
 FALLBACK_CFG="${FALLBACK_CFG:-./app_config.json}"
 CORE="${CORE:-http://127.0.0.1:8091}"
 PORT="${PORT:-8091}"
-UI_PORT="${UI_PORT:-8093}"
-PROXY_PORT="${PROXY_PORT:-8092}"
+UI_PORT="${UI_PORT:-8092}"
 DIST="${DIST:-./nexus-dist}"
 RUN="${RUN:-/tmp/gwsup}"
 HEALTH_TIMEOUT="${HEALTH_TIMEOUT:-30}"
@@ -58,18 +56,8 @@ ui_loop() {
   done
 }
 
-proxy_loop() {
-  while [ "$STOP" = 0 ]; do
-    log "启动 UI 配置代理:$PROXY_PORT -> $UI_PORT"
-    "$PY" "$PROXY" --upstream-port "$UI_PORT" --port "$PROXY_PORT" >>"$RUN/ui-proxy.log" 2>&1
-    [ "$STOP" = 0 ] && { log "UI 配置代理退出，2s 后重启"; sleep 2; }
-  done
-}
-
-log "supervisor 起步:core=$PORT ui=$UI_PORT proxy=$PROXY_PORT"
+log "supervisor 起步:core=$PORT ui=$UI_PORT"
 gatewayc_loop &
 "$GATEWAYC" health --url "$CORE" --timeout "$HEALTH_TIMEOUT" || true
 ui_loop &
-sleep 1
-proxy_loop &
 wait

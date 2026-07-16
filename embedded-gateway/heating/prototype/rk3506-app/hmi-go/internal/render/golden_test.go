@@ -22,14 +22,11 @@ import (
 const goldenDir = "../../../tests/golden"
 
 type goldenInput struct {
-	View          json.RawMessage `json:"view"`
-	Clock         string          `json:"clock"`
-	Targets       map[string]int  `json:"targets"`
-	Page          string          `json:"page"`
-	DeviceForm    map[string]any  `json:"device_form"`
-	ConfigSlot    int             `json:"config_slot"`
-	ConfigMessage string          `json:"config_message"`
-	DisplayModel  map[string]any  `json:"display_model"`
+	View         json.RawMessage `json:"view"`
+	Clock        string          `json:"clock"`
+	Targets      map[string]int  `json:"targets"`
+	Page         string          `json:"page"`
+	DisplayModel map[string]any  `json:"display_model"`
 }
 
 func TestGolden(t *testing.T) {
@@ -61,8 +58,7 @@ func runGolden(t *testing.T, name string) {
 	ConfigureDisplay(in.DisplayModel)
 	defer ConfigureDisplay(nil)
 
-	fb, buttons := Render(view, in.Clock, in.Targets, in.Page,
-		in.DeviceForm, in.ConfigSlot, in.ConfigMessage)
+	fb, buttons := Render(view, in.Clock, in.Targets, in.Page)
 
 	want := readGz(t, filepath.Join(goldenDir, name+".rgb.gz"))
 	if !bytes.Equal(fb.Buf, want) {

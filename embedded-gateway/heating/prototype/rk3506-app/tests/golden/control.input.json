@@ -165,8 +165,7 @@
     }
    }
   ],
-  "events": [],
-  "configured_nodes": []
+  "events": []
  },
  "clock": "14:32:07",
  "targets": {
@@ -174,8 +173,5 @@
   "pump_freq": 40
  },
  "page": "control",
- "device_form": null,
- "config_slot": 0,
- "config_message": "",
  "display_model": null
 }

@@ -1,5 +1,5 @@
-// Package api:与 gatewayc core / ui_config_proxy 的 HTTP 客户端,
-// 超时逐一对标 drm_hmi_v4.py(snapshot/config 读 2s,command/保存 3s)。
+// Package api:与 gatewayc core 的 HTTP 客户端,
+// 超时对标 drm_hmi_v4.py(snapshot 读 2s,command 写 3s)。
 package api
 
 import (
@@ -15,8 +15,7 @@ import (
 )
 
 type Client struct {
-	Base       string // gatewayc core,如 http://127.0.0.1:8091
-	ConfigBase string // ui_config_proxy,如 http://127.0.0.1:8092
+	Base string // gatewayc core,如 http://127.0.0.1:8091
 	// gatewayc core /api/command 的控制鉴权 token(S99 start() export,
 	// 进程继承)。Python 版没带 → 在 Go 核心拓扑下控制一直 401,此处为
 	// 对 Python 的刻意修复,见 hmi-go/README.md 差异清单。
@@ -25,10 +24,9 @@ type Client struct {
 	write        *http.Client
 }
 
-func New(base, configBase string) *Client {
+func New(base string) *Client {
 	return &Client{
 		Base:         base,
-		ConfigBase:   configBase,
 		controlToken: os.Getenv("GATEWAYC_CONTROL_TOKEN"),
 		read:         &http.Client{Timeout: 2 * time.Second},
 		write:        &http.Client{Timeout: 3 * time.Second},
@@ -75,47 +73,4 @@ func (c *Client) PostCmd(pointID string, value int) {
 	if _, err := body(c.write.Do(req)); err != nil {
 		fmt.Printf("[ctl] post err: %v\n", err)
 	}
-}
-
-// FetchDeviceConfig 对标 fetch_device_config:取草稿 nodes。
-func (c *Client) FetchDeviceConfig() ([]map[string]any, error) {
-	b, err := body(c.read.Get(c.ConfigBase + "/api/local/device-config"))
-	if err != nil {
-		return nil, err
-	}
-	var out struct {
-		Nodes []map[string]any `json:"nodes"`
-	}
-	dec := json.NewDecoder(bytes.NewReader(b))
-	dec.UseNumber()
-	if err := dec.Decode(&out); err != nil {
-		return nil, err
-	}
-	return out.Nodes, nil
-}
-
-// SaveDeviceConfig 对标 save_device_config:返回 (ok, 回写 nodes, 是否携带)。
-func (c *Client) SaveDeviceConfig(nodes []map[string]any) (bool, []map[string]any, bool) {
-	payload, err := json.Marshal(nodes)
-	if err != nil {
-		fmt.Printf("[config] save err: %v\n", err)
-		return false, nil, false
-	}
-	b, err := body(c.write.Post(c.ConfigBase+"/api/local/device-config",
-		"application/json", bytes.NewReader(payload)))
-	if err != nil {
-		fmt.Printf("[config] save err: %v\n", err)
-		return false, nil, false
-	}
-	var out struct {
-		OK    bool             `json:"ok"`
-		Nodes []map[string]any `json:"nodes"`
-	}
-	dec := json.NewDecoder(bytes.NewReader(b))
-	dec.UseNumber()
-	if err := dec.Decode(&out); err != nil {
-		fmt.Printf("[config] save err: %v\n", err)
-		return false, nil, false
-	}
-	return out.OK, out.Nodes, out.Nodes != nil
 }

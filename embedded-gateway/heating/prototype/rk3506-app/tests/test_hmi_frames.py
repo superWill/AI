@@ -30,17 +30,12 @@ class HmiFrameTests(unittest.TestCase):
         cache.invalidate("overview")
         self.assertIsNone(cache.get("overview"))
 
-    def test_nodes_page_exposes_separate_add_and_edit_actions(self):
+    def test_nodes_page_is_readonly_after_devcfg_retirement(self):
+        """设备页只读:配置入口已退役(设备接入走 Web /config 页),只剩导航按钮。"""
         import dashboard
-        view = dashboard._sample_view()
-        view["configured_nodes"] = [{
-            "id": "local-ttyS1-9", "name": "水泵 9", "deviceType": "pump_vfd",
-            "serialPort": "/dev/ttyS1", "slaveId": 9,
-        }]
-        _, buttons = dashboard.render(view, page="nodes")
-        actions = {button.get("action") for button in buttons}
-        self.assertIn("open_device_add", actions)
-        self.assertIn("open_device_config", actions)
+        _, buttons = dashboard.render(dashboard._sample_view(), page="nodes")
+        self.assertEqual([b.get("action") for b in buttons if "action" in b], [])
+        self.assertEqual(len([b for b in buttons if "nav" in b]), 5)
 
 
 if __name__ == "__main__":

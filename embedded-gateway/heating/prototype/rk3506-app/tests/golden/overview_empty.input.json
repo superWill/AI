@@ -5,14 +5,10 @@
    {
     "detail": "正在连接后端…"
    }
-  ],
-  "configured_nodes": []
+  ]
  },
  "clock": "14:32:07",
  "targets": {},
  "page": "overview",
- "device_form": null,
- "config_slot": 0,
- "config_message": "",
  "display_model": null
 }
