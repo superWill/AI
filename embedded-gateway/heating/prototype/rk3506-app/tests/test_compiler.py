@@ -33,6 +33,9 @@ def test_valid_draft_compiles():
     assert ai["start"] == 0 and ai["count"] == 6
     # 同总线串行:只有一条 rs485_1 总线承载所有任务
     assert len(prod["poll_plan.json"]["buses"]) == 1
+    bus = prod["poll_plan.json"]["buses"][0]
+    assert {k: bus[k] for k in ("serial", "baud", "parity", "data_bits", "stop_bits")} == {
+        "serial": "/dev/ttyS1", "baud": 9600, "parity": "N", "data_bits": 8, "stop_bits": 1}
     # safety_policy 抽出可控点限值
     assert prod["safety_policy.json"]["commands"]["pump_freq_sp"]["hi"] == 50
 
@@ -52,6 +55,36 @@ def test_constraints_caught():
         d = copy.deepcopy(DRAFT)
         mutate(d)
         assert compiler.validate(d), f"{name} 应当报错却通过了"
+
+
+def test_bus_serial_parameters_validated():
+    """串口路径/格式/波特率非法或两个总线占同一物理串口时必须拒绝。"""
+    bad_cases = []
+    for key, value in (("serial", "ttyS1"), ("baud", 12345), ("parity", "X"),
+                       ("data_bits", 9), ("stop_bits", 3)):
+        d = copy.deepcopy(DRAFT); d["buses"][0][key] = value; bad_cases.append(d)
+    dup = copy.deepcopy(DRAFT)
+    dup["buses"].append({"bus_id": "rs485_2", "type": "rs485", "serial": "/dev/ttyS1",
+                         "baud": 19200, "parity": "E", "data_bits": 8, "stop_bits": 1})
+    bad_cases.append(dup)
+    for draft in bad_cases:
+        assert compiler.validate(draft), draft["buses"]
+
+
+def test_upsert_bus_to_draft_adds_and_modifies_without_mutating_input():
+    """页面后端可新增/修改总线；结果通过校验，原草稿不原地改变。"""
+    import nexus_server as nx
+    base = copy.deepcopy(DRAFT)
+    payload = {"bus": {"bus_id": "rs485_2", "type": "rs485", "serial": "/dev/ttyS2",
+                       "baud": 19200, "parity": "E", "data_bits": 8, "stop_bits": 1}}
+    ok, errs, added = nx.upsert_bus_in_draft(base, payload)
+    assert ok and not errs and len(added["buses"]) == 2
+    assert len(base["buses"]) == 1
+    payload["bus"]["baud"] = 38400
+    ok, errs, changed = nx.upsert_bus_in_draft(added, payload)
+    assert ok and not errs and len(changed["buses"]) == 2
+    assert next(b for b in changed["buses"] if b["bus_id"] == "rs485_2")["baud"] == 38400
+    assert "/api/config/buses" in nx.CONFIG_PAGE_HTML and "物理串口" in nx.CONFIG_PAGE_HTML
 
 
 def test_end_to_end_with_kernel():
@@ -661,7 +694,7 @@ def test_activate_http_endpoints():
 
 
 def test_config_devices_http_auth_and_persist():
-    """真起 HTTP handler:无 Bearer → 401;带 Bearer → 添加成功且只落草稿(build 不生成)。"""
+    """真起 HTTP handler:鉴权、设备添加、RS485 总线新增/修改均只落草稿。"""
     import shutil
     import threading
     import urllib.request
@@ -707,10 +740,232 @@ def test_config_devices_http_auth_and_persist():
         after = nx._read_json(nx.CONFIG_DRAFT_PATH)
         assert len(after["hardware_devices"]) == len(DRAFT["hardware_devices"]) + 1
         assert not os.path.exists(os.path.join(nx.CONFIG_BUILD_DIR, "poll_plan.json"))
+        # 新增第二条 RS485 总线，再修改其波特率；都不触发 compile。
+        bus_url = "http://127.0.0.1:%d/api/config/buses" % port
+        bus = {"bus": {"bus_id": "rs485_2", "type": "rs485", "serial": "/dev/ttyS2",
+                       "baud": 19200, "parity": "E", "data_bits": 8, "stop_bits": 1}}
+        headers = {"Content-Type": "application/json", "Authorization": "Bearer testtoken123"}
+        resp = json.load(urllib.request.urlopen(urllib.request.Request(
+            bus_url, data=json.dumps(bus).encode(), headers=headers), timeout=3))
+        assert resp["ok"] is True, resp
+        bus["bus"]["baud"] = 38400
+        resp = json.load(urllib.request.urlopen(urllib.request.Request(
+            bus_url, data=json.dumps(bus).encode(), headers=headers), timeout=3))
+        assert resp["ok"] is True, resp
+        after = nx._read_json(nx.CONFIG_DRAFT_PATH)
+        got = next(b for b in after["buses"] if b["bus_id"] == "rs485_2")
+        assert got["baud"] == 38400 and got["serial"] == "/dev/ttyS2"
+        assert not os.path.exists(nx.CONFIG_BUILD_DIR)
     finally:
         httpd.shutdown()
         nx.CONFIG_BUILD_DIR, nx.CONFIG_DRAFT_PATH = saved
         shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _ui_rtu_node(node_id="n-pump-1", slave=1, baud=9600):
+    return {"id": node_id, "name": "循环泵 1", "type": "Southbound",
+            "deviceType": "pump_vfd", "driver": "Modbus RTU", "transport": "RTU",
+            "endpoint": "/dev/ttyS1", "serialPort": "/dev/ttyS1", "baudRate": baud,
+            "dataBits": 8, "stopBits": 1, "parity": "none", "slaveId": slave,
+            "byteOrder": "ABCD", "pollInterval": 1000}
+
+
+def test_ui_device_draft_persists_and_rejects_bad_rs485_bus():
+    """主界面设备配置会持久化；同串口参数不一致或从站地址重复时拒绝且不污染文件。"""
+    import shutil
+    import nexus_server as nx
+    saved = nx.UI_CONFIG_DIR
+    tmp = os.path.join(HERE, "_uicfgtmp")
+    nx.UI_CONFIG_DIR = tmp
+    try:
+        ok, errs, nodes = nx.save_ui_nodes([_ui_rtu_node()])
+        assert ok and not errs and nodes[0]["configState"] == "draft_manual_required"
+        assert nodes[0]["status"] == "Stopped" and nodes[0]["managedBy"] == "user"
+        assert nx._read_ui_collection("nodes")[0]["id"] == "n-pump-1"
+        duplicate = [_ui_rtu_node(), _ui_rtu_node("n-pump-2", slave=1)]
+        ok, errs, _ = nx.save_ui_nodes(duplicate)
+        assert not ok and any("从站地址" in e for e in errs), errs
+        assert len(nx._read_ui_collection("nodes")) == 1
+        mismatch = [_ui_rtu_node(), _ui_rtu_node("n-pump-2", slave=2, baud=19200)]
+        ok, errs, _ = nx.save_ui_nodes(mismatch)
+        assert not ok and any("必须一致" in e for e in errs), errs
+        assert len(nx._read_ui_collection("nodes")) == 1
+    finally:
+        nx.UI_CONFIG_DIR = saved
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def test_ui_device_draft_is_merged_into_realtime_view():
+    """实时 node-change/tag-change 使用的合并逻辑不会把页面草稿设备冲掉。"""
+    import shutil
+    import nexus_server as nx
+    saved = nx.UI_CONFIG_DIR
+    tmp = os.path.join(HERE, "_uimergetmp")
+    nx.UI_CONFIG_DIR = tmp
+    try:
+        assert nx.save_ui_nodes([_ui_rtu_node()])[0]
+        runtime = [{"id": "node-2", "name": "运行设备", "managedBy": "runtime"}]
+        merged = nx.merge_ui_collection(runtime, "nodes")
+        assert [n["id"] for n in merged] == ["node-2", "n-pump-1"]
+    finally:
+        nx.UI_CONFIG_DIR = saved
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def test_ui_nodes_tags_http_persist_and_init_readback():
+    """真 HTTP 契约:POST nodes/tags 后，GET init 能从 RK3506 本地配置读回。"""
+    import shutil
+    import threading
+    import urllib.request
+    import urllib.error
+    from http.server import ThreadingHTTPServer
+    import nexus_server as nx
+    from app import Runtime, SimSource, Controller
+    saved = nx.UI_CONFIG_DIR
+    tmp = os.path.join(HERE, "_uihttp")
+    nx.UI_CONFIG_DIR = os.path.join(tmp, "ui-config")
+    os.makedirs(tmp, exist_ok=True)
+    rt = Runtime({"device_id": "t"})
+    source = SimSource([])
+    live_ctx = nx.RuntimeContext(source, Controller(rt, source, {}))
+    handler = nx.make_handler(rt, live_ctx, nx.SocketHub(), tmp, "sim", set())
+    try:
+        httpd = ThreadingHTTPServer(("127.0.0.1", 0), handler)
+    except (PermissionError, OSError) as e:
+        nx.UI_CONFIG_DIR = saved
+        shutil.rmtree(tmp, ignore_errors=True)
+        raise SkipTest("无端口绑定权限: %s" % e)
+    port = httpd.server_address[1]
+    threading.Thread(target=httpd.serve_forever, daemon=True).start()
+    base = "http://127.0.0.1:%d" % port
+    headers = {"Content-Type": "application/json", "Authorization": "Bearer testtoken123"}
+
+    def post(path, body, auth=True):
+        h = headers if auth else {"Content-Type": "application/json"}
+        try:
+            r = urllib.request.urlopen(urllib.request.Request(
+                base + path, data=json.dumps(body).encode(), headers=h), timeout=3)
+            return r.status, json.load(r)
+        except urllib.error.HTTPError as e:
+            return e.code, json.load(e)
+    try:
+        code, _ = post("/api/nodes", [_ui_rtu_node()], auth=False)
+        assert code == 401
+        code, result = post("/api/nodes", [_ui_rtu_node()])
+        assert code == 200 and result["ok"] is True, result
+        tag = {"id": "tag-pump-freq", "nodeId": "n-pump-1", "name": "频率设定",
+               "address": "1", "type": "UINT16", "access": "RW"}
+        code, result = post("/api/tags", [tag])
+        assert code == 200 and result["ok"] is True, result
+        req = urllib.request.Request(base + "/api/init", headers={"Authorization": "Bearer testtoken123"})
+        init = json.load(urllib.request.urlopen(req, timeout=3))
+        assert any(n["id"] == "n-pump-1" and n["status"] == "Stopped" for n in init["nodes"])
+        assert any(t["id"] == "tag-pump-freq" for t in init["tags"])
+        assert os.path.isfile(os.path.join(nx.UI_CONFIG_DIR, "nodes.json"))
+        assert os.path.isfile(os.path.join(nx.UI_CONFIG_DIR, "tags.json"))
+    finally:
+        httpd.shutdown()
+        nx.UI_CONFIG_DIR = saved
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def test_ui_config_proxy_intercepts_nodes_and_preserves_upstream_init():
+    """Go UI 前置代理只补 nodes 持久化，并把草稿合并到上游 init。"""
+    import shutil
+    import threading
+    import urllib.request
+    from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+    import nexus_server as nx
+    import ui_config_proxy as proxy
+    saved = nx.UI_CONFIG_DIR
+    tmp = os.path.join(HERE, "_uiproxytmp")
+    nx.UI_CONFIG_DIR = tmp
+
+    class Upstream(BaseHTTPRequestHandler):
+        def log_message(self, *args):
+            pass
+
+        def do_GET(self):
+            body = json.dumps({"nodes": [{"id": "node-live", "name": "运行设备"}],
+                               "tags": [], "apps": [], "rules": []}).encode()
+            self.send_response(200); self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(body))); self.end_headers(); self.wfile.write(body)
+    try:
+        upstream = ThreadingHTTPServer(("127.0.0.1", 0), Upstream)
+        server = ThreadingHTTPServer(("127.0.0.1", 0),
+                                     proxy.make_handler("127.0.0.1", upstream.server_address[1]))
+    except (PermissionError, OSError) as e:
+        nx.UI_CONFIG_DIR = saved
+        shutil.rmtree(tmp, ignore_errors=True)
+        raise SkipTest("无端口绑定权限: %s" % e)
+    threading.Thread(target=upstream.serve_forever, daemon=True).start()
+    threading.Thread(target=server.serve_forever, daemon=True).start()
+    base = "http://127.0.0.1:%d" % server.server_address[1]
+    try:
+        payload = [{"id": "node-live", "name": "运行设备"}, _ui_rtu_node()]
+        req = urllib.request.Request(base + "/api/nodes", data=json.dumps(payload).encode(),
+                                     headers={"Content-Type": "application/json",
+                                              "Authorization": "Bearer testtoken"})
+        result = json.load(urllib.request.urlopen(req, timeout=3))
+        assert result["ok"] is True, result
+        init = json.load(urllib.request.urlopen(urllib.request.Request(
+            base + "/api/init", headers={"Authorization": "Bearer testtoken"}), timeout=3))
+        assert [n["id"] for n in init["nodes"]] == ["node-live", "n-pump-1"]
+        assert init["nodes"][0]["managedBy"] == "runtime"
+    finally:
+        server.shutdown(); upstream.shutdown()
+        nx.UI_CONFIG_DIR = saved
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def test_local_lcd_device_config_endpoint_and_render():
+    """物理 LCD 可经仅本机接口保存设备草稿，配置页具备完整触摸按钮。"""
+    import shutil
+    import threading
+    import urllib.request
+    from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+    import dashboard
+    import nexus_server as nx
+    import ui_config_proxy as proxy
+    saved = nx.UI_CONFIG_DIR
+    tmp = os.path.join(HERE, "_lcdcfgtmp")
+    nx.UI_CONFIG_DIR = tmp
+
+    class Upstream(BaseHTTPRequestHandler):
+        def log_message(self, *args):
+            pass
+
+        def do_GET(self):
+            body = b'{"nodes":[],"tags":[],"apps":[],"rules":[]}'
+            self.send_response(200); self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(body))); self.end_headers(); self.wfile.write(body)
+    try:
+        upstream = ThreadingHTTPServer(("127.0.0.1", 0), Upstream)
+        server = ThreadingHTTPServer(("127.0.0.1", 0),
+                                     proxy.make_handler("127.0.0.1", upstream.server_address[1]))
+    except (PermissionError, OSError) as e:
+        nx.UI_CONFIG_DIR = saved; shutil.rmtree(tmp, ignore_errors=True)
+        raise SkipTest("无端口绑定权限: %s" % e)
+    threading.Thread(target=upstream.serve_forever, daemon=True).start()
+    threading.Thread(target=server.serve_forever, daemon=True).start()
+    base = "http://127.0.0.1:%d" % server.server_address[1]
+    try:
+        req = urllib.request.Request(base + "/api/local/device-config",
+                                     data=json.dumps([_ui_rtu_node()]).encode(),
+                                     headers={"Content-Type": "application/json"})
+        saved_result = json.load(urllib.request.urlopen(req, timeout=3))
+        assert saved_result["ok"] and saved_result["nodes"][0]["id"] == "n-pump-1"
+        inventory = json.load(urllib.request.urlopen(base + "/api/local/device-config", timeout=3))
+        assert inventory["nodes"][0]["configState"] == "draft_manual_required"
+        view = dashboard._sample_view(); view["configured_nodes"] = inventory["nodes"]
+        _, buttons = dashboard.render(view, page="device_config", device_form={
+            "deviceTypeLabel": "水泵", "serialPort": "/dev/ttyS1", "baudRate": 9600,
+            "parity": "none", "slaveId": 1, "pollInterval": 1000})
+        actions = [b.get("action") for b in buttons]
+        assert actions.count("config_change") == 14 and "config_save" in actions and "config_back" in actions
+    finally:
+        server.shutdown(); upstream.shutdown()
+        nx.UI_CONFIG_DIR = saved; shutil.rmtree(tmp, ignore_errors=True)
 
 
 if __name__ == "__main__":

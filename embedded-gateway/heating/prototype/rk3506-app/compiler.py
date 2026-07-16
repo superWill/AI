@@ -18,6 +18,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -37,6 +38,8 @@ WRITABLE_ROLES = {"command", "setpoint"}
 DATA_WIDTH = {"bool": 1, "uint16": 1, "int16": 1, "uint32": 2, "int32": 2, "float32": 2}
 PAGES = {"overview", "primary_loop", "secondary_loop", "pumps", "makeup",
          "devices", "alarms", "system"}
+BAUDS = {1200, 2400, 4800, 9600, 19200, 38400, 57600, 115200}
+PARITIES = {"N", "E", "O"}
 
 
 # ===========================================================================
@@ -60,6 +63,7 @@ def validate(draft: dict) -> list[str]:
 
     # --- 总线 ---
     bus_ids: set[str] = set()
+    serial_ports: set[str] = set()
     for b in buses:
         bid = b.get("bus_id")
         if not bid:
@@ -68,9 +72,27 @@ def validate(draft: dict) -> list[str]:
             errs.append(f"bus_id 重复: {bid}")          # 约束: bus_id 全局唯一
         bus_ids.add(bid)
         if b.get("type") == "rs485":
-            for f in ("baud", "parity", "data_bits", "stop_bits"):
+            for f in ("serial", "baud", "parity", "data_bits", "stop_bits"):
                 if f not in b:
                     errs.append(f"rs485 总线 {bid} 缺少 {f}")
+            serial = b.get("serial")
+            if serial is not None:
+                if (not isinstance(serial, str)
+                        or re.fullmatch(r"/dev/[A-Za-z0-9._/-]+", serial) is None
+                        or ".." in serial.split("/")):
+                    errs.append(f"rs485 总线 {bid} serial 必须是 /dev/ 下的设备路径")
+                elif serial in serial_ports:
+                    errs.append(f"RS485 物理串口重复: {serial}")
+                else:
+                    serial_ports.add(serial)
+            if b.get("baud") is not None and b.get("baud") not in BAUDS:
+                errs.append(f"rs485 总线 {bid} 不支持波特率 {b.get('baud')}")
+            if b.get("parity") is not None and b.get("parity") not in PARITIES:
+                errs.append(f"rs485 总线 {bid} parity 必须是 N/E/O")
+            if b.get("data_bits") is not None and b.get("data_bits") not in (7, 8):
+                errs.append(f"rs485 总线 {bid} data_bits 必须是 7 或 8")
+            if b.get("stop_bits") is not None and b.get("stop_bits") not in (1, 2):
+                errs.append(f"rs485 总线 {bid} stop_bits 必须是 1 或 2")
 
     # --- 硬件设备 + 通道 ---
     dev_channels: dict[str, dict] = {}   # device_id -> {channel: chan}
@@ -219,7 +241,8 @@ def build_poll_plan(draft: dict) -> dict:
             reg_points.setdefault(d_id, []).append((bd["point_id"], bd["from"]))
 
     idx = _channels_index(draft)
-    buses = {b["bus_id"]: {"bus_id": b["bus_id"], "type": b["type"], "tasks": []}
+    bus_fields = ("bus_id", "type", "serial", "baud", "parity", "data_bits", "stop_bits")
+    buses = {b["bus_id"]: {**{k: b[k] for k in bus_fields if k in b}, "tasks": []}
              for b in draft["buses"]}
     for d in draft["hardware_devices"]:
         chans = [c for c in d.get("channels", []) or [] if c.get("register") is not None]

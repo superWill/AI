@@ -34,8 +34,11 @@ fi
 
 echo "[push] 打包并推送 $NAME 经跳板 $JUMP_HOST 到板子 $BOARD_HOST ..."
 tar -C "$PARENT" --exclude="$NAME/data" --exclude="$NAME/run" \
+    --exclude="$NAME/tests" --exclude="$NAME/gateway-go" \
+    --exclude="$NAME/design-*.png" --exclude="$NAME/board-*.png" \
+    --exclude="$NAME/design-qa.md" \
     --exclude="*/__pycache__" --exclude="*.pyc" -cf - "$NAME" \
-  | run_board 'mkdir -p /userdata/_stage && rm -rf /userdata/_stage/* && tar -C /userdata/_stage -xf - && sh /userdata/_stage/'"$NAME"'/deploy/install.sh'
+  | run_board 'mkdir -p /userdata/_stage && rm -rf /userdata/_stage/* && tar -C /userdata/_stage -xf - && sh /userdata/_stage/'"$NAME"'/deploy/install.sh && rm -rf /userdata/_stage/*'
 
 echo "[push] 完成。验证:"
 echo "  curl -s http://${BOARD_HOST}:8092/api/health   (经跳板或同网段)"

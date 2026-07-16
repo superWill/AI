@@ -17,6 +17,7 @@ import json
 import os
 import copy
 import random
+import re
 import threading
 import time
 from collections import deque
@@ -29,9 +30,10 @@ from loader import load_runtime_cfg                             # 产物 → 运
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
-# 配置发布后端(PRD §10 安全入口):草稿落盘 + 校验 + 编译,不热切运行时、不接 /api/nodes。
+# 配置发布后端(PRD §10 安全入口):协议草稿与主界面设备草稿分别落盘；都不自动下发运行时。
 CONFIG_DRAFT_PATH = os.path.join(HERE, "current_draft.json")
 CONFIG_BUILD_DIR = os.path.join(HERE, "build")
+UI_CONFIG_DIR = os.path.join(HERE, "data", "ui-config")
 
 
 def _read_json(path):
@@ -39,6 +41,169 @@ def _read_json(path):
         return json.load(open(path, encoding="utf-8"))
     except (OSError, ValueError):
         return None
+
+
+def _ui_config_path(kind):
+    return os.path.join(UI_CONFIG_DIR, "%s.json" % kind)
+
+
+def _read_ui_collection(kind):
+    value = _read_json(_ui_config_path(kind))
+    return value if isinstance(value, list) else []
+
+
+def _write_ui_collection(kind, value):
+    """原子保存主界面配置，防止掉电时留下半个 JSON。"""
+    os.makedirs(UI_CONFIG_DIR, exist_ok=True)
+    path = _ui_config_path(kind)
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(value, f, ensure_ascii=False, indent=2)
+    os.replace(tmp, path)
+
+
+_UI_ID = re.compile(r"^[A-Za-z0-9._-]{1,64}$")
+_SERIAL_BAUDS = {1200, 2400, 4800, 9600, 19200, 38400, 57600, 115200}
+_PARITY = {"none": "none", "n": "none", "even": "even", "e": "even",
+           "odd": "odd", "o": "odd"}
+
+
+def _runtime_ids(items):
+    return {str(x.get("id")) for x in items if isinstance(x, dict) and x.get("id")}
+
+
+def _validate_runtime_items_present(incoming, runtime_items, label):
+    runtime_ids = _runtime_ids(runtime_items)
+    incoming_ids = _runtime_ids(incoming)
+    missing = sorted(runtime_ids - incoming_ids)
+    if missing:
+        return ["%s 属于运行配置，不能从主界面删除: %s" % (label, ", ".join(missing))]
+    return []
+
+
+def save_ui_nodes(payload, runtime_nodes=()):
+    """校验并保存页面新增设备；只形成配置草稿，不生成协议驱动。"""
+    if not isinstance(payload, list):
+        return False, ["nodes 必须是数组"], None
+    if len(payload) > 256:
+        return False, ["设备数量不能超过 256"], None
+    errors = _validate_runtime_items_present(payload, runtime_nodes, "运行时设备")
+    runtime_ids = _runtime_ids(runtime_nodes)
+    staged, seen, serial_settings, bus_slaves = [], set(), {}, set()
+    for i, raw in enumerate(payload):
+        p = "nodes[%d]" % i
+        if not isinstance(raw, dict):
+            errors.append("%s 必须是对象" % p)
+            continue
+        node_id = str(raw.get("id", ""))
+        if node_id in runtime_ids:
+            continue
+        if raw.get("managedBy") == "runtime":
+            errors.append("%s 伪造了运行时设备标记" % p)
+            continue
+        if not _UI_ID.fullmatch(node_id):
+            errors.append("%s.id 格式非法" % p)
+        elif node_id in seen:
+            errors.append("设备 id 重复: %s" % node_id)
+        seen.add(node_id)
+        if not str(raw.get("name", "")).strip():
+            errors.append("%s.name 不能为空" % p)
+
+        driver = str(raw.get("driver", ""))
+        if "modbus" in driver.lower() and "rtu" in driver.lower():
+            serial = str(raw.get("serialPort") or raw.get("endpoint") or "")
+            if not serial.startswith("/dev/") or ".." in serial:
+                errors.append("%s.serialPort 必须是 /dev/ 下的串口设备" % p)
+            try:
+                baud = int(raw.get("baudRate"))
+                data_bits = int(raw.get("dataBits"))
+                stop_bits = int(raw.get("stopBits"))
+                slave = int(raw.get("slaveId"))
+            except (TypeError, ValueError):
+                errors.append("%s 的串口参数或从站地址不是整数" % p)
+                baud = data_bits = stop_bits = slave = -1
+            parity_key = str(raw.get("parity", "none")).lower()
+            parity = _PARITY.get(parity_key)
+            if baud not in _SERIAL_BAUDS:
+                errors.append("%s.baudRate 不受支持" % p)
+            if data_bits not in (7, 8):
+                errors.append("%s.dataBits 只能是 7 或 8" % p)
+            if stop_bits not in (1, 2):
+                errors.append("%s.stopBits 只能是 1 或 2" % p)
+            if parity is None:
+                errors.append("%s.parity 只能是 none/even/odd" % p)
+            if not 1 <= slave <= 247:
+                errors.append("%s.slaveId 必须在 1..247" % p)
+            settings = (baud, data_bits, stop_bits, parity)
+            if serial in serial_settings and serial_settings[serial] != settings:
+                errors.append("同一串口 %s 的波特率/数据位/停止位/校验位必须一致" % serial)
+            serial_settings[serial] = settings
+            key = (serial, slave)
+            if key in bus_slaves:
+                errors.append("同一串口 %s 的从站地址 %s 重复" % key)
+            bus_slaves.add(key)
+
+        item = copy.deepcopy(raw)
+        item.update({"managedBy": "user", "configState": "draft_manual_required",
+                     "status": "Stopped"})
+        item.setdefault("metrics", {"tx": 0, "rx": 0, "errors": 0})
+        staged.append(item)
+    if errors:
+        return False, errors, None
+    _write_ui_collection("nodes", staged)
+    return True, [], staged
+
+
+def save_ui_tags(payload, runtime_nodes=(), runtime_tags=()):
+    """保存页面标签；地址只按文本留存，不猜测功能码或寄存器语义。"""
+    if not isinstance(payload, list):
+        return False, ["tags 必须是数组"], None
+    if len(payload) > 4096:
+        return False, ["标签数量不能超过 4096"], None
+    errors = _validate_runtime_items_present(payload, runtime_tags, "运行时标签")
+    runtime_tag_ids = _runtime_ids(runtime_tags)
+    valid_nodes = _runtime_ids(runtime_nodes) | _runtime_ids(_read_ui_collection("nodes"))
+    staged, seen = [], set()
+    for i, raw in enumerate(payload):
+        p = "tags[%d]" % i
+        if not isinstance(raw, dict):
+            errors.append("%s 必须是对象" % p)
+            continue
+        tag_id = str(raw.get("id", ""))
+        if tag_id in runtime_tag_ids:
+            continue
+        if raw.get("managedBy") == "runtime":
+            errors.append("%s 伪造了运行时标签标记" % p)
+            continue
+        if not _UI_ID.fullmatch(tag_id):
+            errors.append("%s.id 格式非法" % p)
+        elif tag_id in seen:
+            errors.append("标签 id 重复: %s" % tag_id)
+        seen.add(tag_id)
+        if str(raw.get("nodeId", "")) not in valid_nodes:
+            errors.append("%s.nodeId 找不到对应设备" % p)
+        if not str(raw.get("name", "")).strip() or not str(raw.get("address", "")).strip():
+            errors.append("%s.name 和 address 不能为空" % p)
+        if raw.get("type") not in ("FLOAT32", "INT16", "UINT16", "BOOLEAN"):
+            errors.append("%s.type 不受支持" % p)
+        if raw.get("access") not in ("R", "W", "RW"):
+            errors.append("%s.access 不受支持" % p)
+        item = copy.deepcopy(raw)
+        item.update({"managedBy": "user", "configState": "draft_manual_required"})
+        staged.append(item)
+    if errors:
+        return False, errors, None
+    _write_ui_collection("tags", staged)
+    return True, [], staged
+
+
+def merge_ui_collection(runtime_items, kind):
+    """运行快照优先；页面草稿只能补充，不能覆盖同 id 的运行对象。"""
+    result = list(runtime_items)
+    ids = _runtime_ids(runtime_items)
+    result.extend(x for x in _read_ui_collection(kind)
+                  if isinstance(x, dict) and str(x.get("id")) not in ids)
+    return result
 
 
 # ---- build 版本化(第1步):build/versions/N/ + 原子 active 指针 ----
@@ -153,8 +318,8 @@ def config_status():
     # 注:Step5.3 起 active 即 live 真实运行版本(activate 直接切 live ctx),不再有 wired_to_runtime。
 
 
-# 自包含只读配置对账页(PRD §10 第1步)。不动 edge-os 预构建前端,nexus 直接吐这一页。
-# 自己登录拿 token,读 /api/config/status|products|draft,提供校验框(只读,不 compile/activate)。
+# 自包含配置页(PRD §10)。不动 edge-os 预构建前端,nexus 直接吐这一页。
+# 总线/设备编辑只写草稿;校验、编译、激活仍保持显式分步。
 CONFIG_PAGE_HTML = """<!doctype html><html lang=zh><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>配置对账</title><style>
@@ -164,7 +329,7 @@ h1{font-size:20px;margin:0 0 16px}h2{font-size:14px;color:#8aa0bd;margin:20px 0 
 .row{display:flex;gap:12px;flex-wrap:wrap}.card{background:#121d33;border:1px solid #25344d;
 border-radius:10px;padding:14px 16px;min-width:120px}.k{color:#8aa0bd;font-size:12px}
 .v{font-size:22px;font-weight:700;margin-top:4px}.v.ok{color:#34d399}.v.bad{color:#f87171}
-table{border-collapse:collapse;width:100%;max-width:640px}td,th{text-align:left;padding:6px 10px;
+table{border-collapse:collapse;width:100%;max-width:980px}td,th{text-align:left;padding:6px 10px;
 border-bottom:1px solid #25344d}th{color:#8aa0bd;font-weight:600}
 textarea{width:100%;max-width:640px;height:150px;background:#0d1626;color:#e6edf6;
 border:1px solid #25344d;border-radius:8px;padding:10px;font:12px monospace}
@@ -173,11 +338,26 @@ pre{background:#0d1626;border:1px solid #25344d;border-radius:8px;padding:10px;m
 white-space:pre-wrap;color:#f87171}.muted{color:#8aa0bd;font-size:12px}
 .form{display:flex;gap:12px;flex-wrap:wrap}fieldset{border:1px solid #25344d;border-radius:8px;min-width:210px}
 legend{color:#8aa0bd;padding:0 6px;font-size:12px}label{display:block;font-size:12px;color:#8aa0bd;margin:6px 0}
-input,select{background:#0d1626;color:#e6edf6;border:1px solid #25344d;border-radius:6px;padding:4px 6px;width:88px}
+input,select{background:#0d1626;color:#e6edf6;border:1px solid #25344d;border-radius:6px;padding:6px 8px;width:120px}
+.wide{width:170px}.secondary{background:#334155}.success{color:#34d399}.danger{color:#f87171}
 </style></head><body>
-<h1>配置对账 <span class=muted>(只读 · 不发布不热切)</span></h1>
+<h1>网关配置 <span class=muted>(编辑草稿 · 校验后再发布)</span></h1>
 <div class=row id=status></div>
 <h2>最新编译版本摘要 <span class=muted>(运行配置=active;active 由后续 activate 设置,现可为"无")</span></h2><table id=products></table>
+<h2>RS485 总线 <span class=muted>每条物理总线一套串口参数；必须按设备手册填写</span></h2>
+<table id=buses></table>
+<div class=form>
+ <fieldset><legend>新增或修改总线</legend>
+  <label>总线 ID <input id=bus_id value=rs485_1></label>
+  <label>物理串口 <input id=bus_serial class=wide value=/dev/ttyS1></label>
+  <label>波特率 <select id=bus_baud><option>1200</option><option>2400</option><option>4800</option><option selected>9600</option><option>19200</option><option>38400</option><option>57600</option><option>115200</option></select></label>
+  <label>校验位 <select id=bus_parity><option>N</option><option>E</option><option>O</option></select></label>
+  <label>数据位 <select id=bus_data_bits><option>8</option><option>7</option></select></label>
+  <label>停止位 <select id=bus_stop_bits><option>1</option><option>2</option></select></label>
+ </fieldset>
+</div>
+<button onclick=saveBus()>保存到草稿</button> <button class=secondary onclick=newBus()>新增另一条</button>
+<pre id=berr style=display:none></pre>
 <h2>当前草稿 current_draft.json</h2><div id=draft class=muted>—</div>
 <h2>校验草稿(只校验,不编译/不激活)</h2>
 <textarea id=draftin placeholder="把 config_draft.json 粘进来,点校验"></textarea><br>
@@ -212,7 +392,7 @@ input,select{background:#0d1626;color:#e6edf6;border:1px solid #25344d;border-ra
 </div>
 <button onclick=addDevice()>添加设备(写草稿)</button><pre id=aerr style=display:none></pre>
 <script>
-let TOK='';
+let TOK='',DRAFT=null;
 async function api(m,p,b){const h={'Authorization':'Bearer '+TOK};
 if(b)h['Content-Type']='application/json';
 const r=await fetch(p,{method:m,headers:h,body:b?JSON.stringify(b):undefined});return r.json()}
@@ -232,12 +412,27 @@ if(lc){for(const k of ['version','config_version','devices','points','display_ca
 else rows+='<tr><td colspan=2>尚无编译版本(先添加设备并点编译)</td></tr>';
 document.getElementById('products').innerHTML=rows;
 const d=await api('GET','/api/config/draft');
+DRAFT=d.has_draft?d.draft:null;renderBuses();
 document.getElementById('draft').textContent=d.has_draft?
-('hardware_devices: '+d.draft.hardware_devices.length+' · business_devices: '+d.draft.business_devices.length+
+('buses: '+d.draft.buses.length+' · hardware_devices: '+d.draft.hardware_devices.length+' · business_devices: '+d.draft.business_devices.length+
 ' · industry: '+d.draft.industry):'尚无 current_draft(compile 后生成)';
 }
 function card(k,v,c){return '<div class=card><div class=k>'+k+'</div><div class="v '+(c||'')+'">'+v+'</div></div>'}
 function val(id){return document.getElementById(id).value}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function renderBuses(){let rows='<tr><th>总线</th><th>物理串口</th><th>波特率</th><th>格式</th><th>操作</th></tr>';
+for(const b of (DRAFT?.buses||[])){if(b.type!=='rs485')continue;
+ rows+='<tr><td>'+esc(b.bus_id)+'</td><td>'+esc(b.serial)+'</td><td>'+esc(b.baud)+'</td><td>'+esc(b.data_bits)+esc(b.parity)+esc(b.stop_bits)+'</td><td><button class=secondary data-id="'+esc(b.bus_id)+'" onclick="editBus(this.dataset.id)">修改</button></td></tr>'}
+if(!(DRAFT?.buses||[]).some(b=>b.type==='rs485'))rows+='<tr><td colspan=5>尚无 RS485 总线</td></tr>';
+document.getElementById('buses').innerHTML=rows}
+function editBus(id){const b=(DRAFT?.buses||[]).find(x=>x.bus_id===id);if(!b)return;
+for(const [k,v] of Object.entries({bus_id:b.bus_id,bus_serial:b.serial,bus_baud:b.baud,bus_parity:b.parity,bus_data_bits:b.data_bits,bus_stop_bits:b.stop_bits}))document.getElementById(k).value=v;
+document.getElementById('bus_id').disabled=true;window.scrollTo({top:document.getElementById('buses').offsetTop,behavior:'smooth'})}
+function newBus(){document.getElementById('bus_id').disabled=false;document.getElementById('bus_id').value='rs485_'+(((DRAFT?.buses||[]).length)+1);document.getElementById('bus_serial').value='/dev/ttyS'+(((DRAFT?.buses||[]).length)+1)}
+async function saveBus(){const e=document.getElementById('berr');const bus={bus_id:val('bus_id').trim(),type:'rs485',serial:val('bus_serial').trim(),baud:+val('bus_baud'),parity:val('bus_parity'),data_bits:+val('bus_data_bits'),stop_bits:+val('bus_stop_bits')};
+const r=await api('POST','/api/config/buses',{bus});e.style.display='block';
+if(r.ok){e.className='success';e.textContent='✓ 已保存到草稿；尚未编译和激活';document.getElementById('bus_id').disabled=false;await boot()}
+else{e.className='danger';e.textContent='✗ '+(r.errors||['保存失败']).join('\\n- ')}}
 async function addDevice(){
 const dev=val('h_id'),ch=val('h_ch'),role=val('b_role');
 const payload={hardware:{device_id:dev,hardware_template:val('h_tpl'),bus_id:val('h_bus'),
@@ -285,6 +480,27 @@ def add_device_to_draft(draft, payload):
     errs = compiler.validate(new_draft)
     if errs:
         return False, errs, None                      # 不返回被污染的草稿
+    return True, [], new_draft
+
+
+def upsert_bus_in_draft(draft, payload):
+    """新增或按 bus_id 修改一条总线；只返回通过完整校验的新草稿，不碰运行时。"""
+    if not isinstance(payload, dict) or not isinstance(payload.get("bus"), dict):
+        return False, ["payload.bus 缺失或非对象"], None
+    bus = copy.deepcopy(payload["bus"])
+    bid = bus.get("bus_id")
+    if not isinstance(bid, str) or not bid:
+        return False, ["bus_id 不能为空"], None
+    new_draft = copy.deepcopy(draft)
+    buses = new_draft.setdefault("buses", [])
+    found = next((i for i, old in enumerate(buses) if old.get("bus_id") == bid), None)
+    if found is None:
+        buses.append(bus)
+    else:
+        buses[found] = bus
+    errs = compiler.validate(new_draft)
+    if errs:
+        return False, errs, None
     return True, [], new_draft
 
 
@@ -530,6 +746,7 @@ def build_nodes_tags(view, endpoint):
             "status": "Running" if ok else "Error",
             "metrics": {"tx": 0, "rx": 0, "errors": 0 if ok else 1},
             "uptime": "-",
+            "managedBy": "runtime", "configState": "active",
         })
         for pid, p in (d.get("points") or {}).items():
             controllable = pid in CONTROLLABLE
@@ -541,6 +758,7 @@ def build_nodes_tags(view, endpoint):
                 "value": p.get("v") if p.get("v") is not None else 0,
                 "timestamp": d.get("ts", int(time.time() * 1000)),
                 "unit": p.get("u", ""),
+                "managedBy": "runtime", "configState": "active",
             }
             if pid in DISPLAY_GROUP:                 # display_model 分组(前向用)
                 tag["group"] = DISPLAY_GROUP[pid]
@@ -681,7 +899,9 @@ def make_handler(runtime, live_ctx, hub, dist_dir, endpoint, tokens):
                     return self._json({"error": "Unauthorized"}, 401)
                 view = runtime.view()
                 nodes, tags = build_nodes_tags(view, endpoint)
-                return self._json({"nodes": nodes, "tags": tags, "apps": [], "rules": []})
+                return self._json({"nodes": merge_ui_collection(nodes, "nodes"),
+                                   "tags": merge_ui_collection(tags, "tags"),
+                                   "apps": [], "rules": []})
             if path == "/api/snapshot":          # 给本地 LCD(drm_hmi_v2)用
                 return self._json(runtime.view())
             if path == "/api/config/status":     # 配置发布后端:只读状态
@@ -748,6 +968,26 @@ def make_handler(runtime, live_ctx, hub, dist_dir, endpoint, tokens):
             if path == "/api/tags/write":
                 ok, reason = self._write_tag(body.get("tagId", ""), body.get("value"))
                 return self._json({"ok": ok, "error": reason} if not ok else {"ok": True})
+            if path == "/api/nodes":
+                if not self._authed():
+                    return self._json({"error": "Unauthorized"}, 401)
+                runtime_nodes, _ = build_nodes_tags(runtime.view(), endpoint)
+                ok, errs, staged = save_ui_nodes(body, runtime_nodes)
+                return self._json({"ok": ok, "errors": errs,
+                                   "error": errs[0] if errs else None,
+                                   "nodes": staged,
+                                   "configurationState": "draft_manual_required"},
+                                  200 if ok else 400)
+            if path == "/api/tags":
+                if not self._authed():
+                    return self._json({"error": "Unauthorized"}, 401)
+                runtime_nodes, runtime_tags = build_nodes_tags(runtime.view(), endpoint)
+                ok, errs, staged = save_ui_tags(body, runtime_nodes, runtime_tags)
+                return self._json({"ok": ok, "errors": errs,
+                                   "error": errs[0] if errs else None,
+                                   "tags": staged,
+                                   "configurationState": "draft_manual_required"},
+                                  200 if ok else 400)
             if path == "/api/config/validate":   # 校验草稿,返回错误列表(不落产物)
                 if not self._authed():
                     return self._json({"error": "Unauthorized"}, 401)
@@ -771,6 +1011,17 @@ def make_handler(runtime, live_ctx, hub, dist_dir, endpoint, tokens):
                     json.dump(new_draft, open(CONFIG_DRAFT_PATH, "w", encoding="utf-8"),
                               ensure_ascii=False, indent=2)
                 return self._json({"ok": ok, "errors": errs, "status": config_status()})
+            if path == "/api/config/buses":     # 新增/修改总线:只更新草稿,显式 compile/activate 后才生效
+                if not self._authed():
+                    return self._json({"error": "Unauthorized"}, 401)
+                base = _read_json(CONFIG_DRAFT_PATH)
+                if base is None:
+                    return self._json({"ok": False, "errors": ["无 current_draft;请先编译基础草稿"]}, 400)
+                ok, errs, new_draft = upsert_bus_in_draft(base, body)
+                if ok:
+                    json.dump(new_draft, open(CONFIG_DRAFT_PATH, "w", encoding="utf-8"),
+                              ensure_ascii=False, indent=2)
+                return self._json({"ok": ok, "errors": errs, "status": config_status()}, 200 if ok else 400)
             if path == "/api/config/activate":   # 运行中切 live(§8.2 方案B + §8.3 单飞)
                 if not self._authed():
                     return self._json({"error": "Unauthorized"}, 401)
@@ -805,7 +1056,7 @@ def make_handler(runtime, live_ctx, hub, dist_dir, endpoint, tokens):
                                           "errors": [], "previous_active": cur})
                 return self._json({"ok": ok, "version": prev, "state": state,
                                    "errors": errs, "status": config_status()})
-            if path in ("/api/nodes", "/api/tags", "/api/apps", "/api/rules",
+            if path in ("/api/apps", "/api/rules",
                         "/api/scada", "/api/change-password", "/api/restart", "/api/factory-reset"):
                 return self._json({"ok": True})
             return self._json({"ok": True})
@@ -835,6 +1086,8 @@ def broadcaster(runtime, hub, endpoint, stop):
     while not stop.is_set():
         view = runtime.view()
         nodes, tags = build_nodes_tags(view, endpoint)
+        nodes = merge_ui_collection(nodes, "nodes")
+        tags = merge_ui_collection(tags, "tags")
         hub.broadcast(sio_event("tag-change", tags))
         hub.broadcast(sio_event("node-change", nodes))
         hub.broadcast(sio_event("system-metrics", sys_metrics()))
