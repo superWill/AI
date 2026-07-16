@@ -1,0 +1,125 @@
+[
+ {
+  "delta": -2,
+  "fb": "sec_supply_temp",
+  "hi": 75,
+  "lo": 20,
+  "rect": [
+   480,
+   112,
+   64,
+   64
+  ],
+  "sp": "sec_supply_temp_sp"
+ },
+ {
+  "delta": 2,
+  "fb": "sec_supply_temp",
+  "hi": 75,
+  "lo": 20,
+  "rect": [
+   690,
+   112,
+   64,
+   64
+  ],
+  "sp": "sec_supply_temp_sp"
+ },
+ {
+  "delta": -5,
+  "fb": "valve_open",
+  "hi": 100,
+  "lo": 0,
+  "rect": [
+   480,
+   212,
+   64,
+   64
+  ],
+  "sp": "valve_open_sp"
+ },
+ {
+  "delta": 5,
+  "fb": "valve_open",
+  "hi": 100,
+  "lo": 0,
+  "rect": [
+   690,
+   212,
+   64,
+   64
+  ],
+  "sp": "valve_open_sp"
+ },
+ {
+  "delta": -2,
+  "fb": "pump_freq",
+  "hi": 50,
+  "lo": 0,
+  "rect": [
+   480,
+   312,
+   64,
+   64
+  ],
+  "sp": "pump_freq_sp"
+ },
+ {
+  "delta": 2,
+  "fb": "pump_freq",
+  "hi": 50,
+  "lo": 0,
+  "rect": [
+   690,
+   312,
+   64,
+   64
+  ],
+  "sp": "pump_freq_sp"
+ },
+ {
+  "nav": "overview",
+  "rect": [
+   140,
+   442,
+   104,
+   38
+  ]
+ },
+ {
+  "nav": "monitor",
+  "rect": [
+   244,
+   442,
+   104,
+   38
+  ]
+ },
+ {
+  "nav": "nodes",
+  "rect": [
+   348,
+   442,
+   104,
+   38
+  ]
+ },
+ {
+  "nav": "control",
+  "rect": [
+   452,
+   442,
+   104,
+   38
+  ]
+ },
+ {
+  "nav": "settings",
+  "rect": [
+   556,
+   442,
+   104,
+   38
+  ]
+ }
+]
