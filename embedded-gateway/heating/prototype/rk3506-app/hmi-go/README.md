@@ -25,15 +25,23 @@ init 链要求 `$APP/hmic` 存在；缺席时明确失败，不再回退 Python 
 `/userdata/rk3506-app/data/hmi-settings.json`，由板端 backlight sysfs 即时生效，
 重启后自动恢复。最低亮度保留10%，避免全黑后无法触摸恢复。
 
-## 金帧测试(核心验证机制)
+## 渲染验证
 
-`tests/golden/` 包含旧页面兼容基准和 Go-only 设备接入基准；Go 侧逐字节比对。
-受控更新 Go 基准：
+`tests/golden/` 是防意外变化的回归快照，不是 Go-only 页面正确性的独立证明。
+正确性由按钮契约、布局边界、忙碌态和完整字形覆盖等结构测试承担；快照负责发现
+未预期的像素变化。
+
+生成候选不会改基准：
 
 ```sh
-UPDATE_GOLDEN=1 go test ./internal/render/ -run 'TestGolden/<case>$'
+go run ./cmd/golden --case devadd_new
+# 先人工检查 /tmp/hmi-golden-candidate/devadd_new.png，再显式接受：
+go run ./cmd/golden --case devadd_new --accept --reviewed
 go test ./internal/render/ -run TestGolden
 ```
+
+禁止在 `go test` 内更新 expected；测试路径必须只读。Python 金帧生成器已经正式
+退役并会直接失败，避免它覆盖 Go-only 页面的回归快照。
 
 - 比对基于裸 RGB888 缓冲(`.rgb.gz`),不比 PNG 字节(zlib 实现差异)。
 - 按钮列表(`.buttons.json`)同帧一起比对。

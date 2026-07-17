@@ -61,8 +61,8 @@ func TestWidthSemantics(t *testing.T) {
 	}
 }
 
-func TestDeviceAddGlyphCoverage(t *testing.T) {
-	for _, ch := range "从站保存并布已滚失败选择温度采集模块循环泵变频器安全IO" {
+func TestUserFacingGlyphCoverage(t *testing.T) {
+	for _, ch := range "接入设备返回选择模板并挂到现有总线型号从站地址保存并发布中已发布模板库缺失配置服务不可用读取总线无配置草稿无可用总线设备写入后草稿丢失添加设备失败编译失败激活失败激活状态确认超时温度采集模块循环泵变频器安全IO电力监测热量计量" {
 		if ch > 127 {
 			if _, ok := Get(ch); !ok {
 				t.Errorf("设备接入文案缺字形 %q U+%04X", ch, ch)

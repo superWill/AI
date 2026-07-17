@@ -1,5 +1,5 @@
 // Package font 提供 GNU Unifont 子集字形的游程(run)解码。
-// 语义对标 dashboard.py 的 _GLYPH_RUNS:每字形固定 16 行,
+// 每字形固定 16 行,
 // hex 串长 64 → 16px 宽(CJK),32 → 8px 宽(ASCII/半角),位序 MSB 在最左像素。
 package font
 
@@ -15,7 +15,7 @@ type Glyph struct {
 var glyphs map[rune]Glyph
 
 func init() {
-	for ch, bm := range deviceAddGlyphHex {
+	for ch, bm := range supplementalGlyphHex {
 		glyphHex[ch] = bm
 	}
 	glyphs = make(map[rune]Glyph, len(glyphHex))
@@ -34,7 +34,7 @@ func decode(bm string) Glyph {
 	for ry := 0; ry < 16; ry++ {
 		val, err := strconv.ParseUint(bm[ry*bpr*2:(ry+1)*bpr*2], 16, 32)
 		if err != nil {
-			continue // 与 Python 不同处仅在于非法 hex;生成器已断言合法
+			continue // 非法 hex 不应进入经过测试的内置字形表
 		}
 		var runs []Run
 		rx := 0
@@ -54,7 +54,7 @@ func decode(bm string) Glyph {
 	return g
 }
 
-// Get 返回字形;缺字形 ok=false(调用方按 8*scale 占位前进,同 Python)。
+// Get 返回字形;缺字形 ok=false(调用方按 8*scale 占位前进)。
 func Get(ch rune) (Glyph, bool) {
 	g, ok := glyphs[ch]
 	return g, ok

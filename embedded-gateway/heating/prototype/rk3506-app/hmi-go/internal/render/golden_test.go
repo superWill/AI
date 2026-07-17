@@ -1,7 +1,7 @@
 package render
 
-// 金帧测试:消费 tests/golden/,走真实 JSON 解码路径逐字节比对。
-// 旧页面保留兼容基准;Go-only 页面用 UPDATE_GOLDEN=1 受控更新。
+// 快照回归测试:消费 tests/golden/,走真实 JSON 解码路径逐字节比对。
+// 它能发现意外变化，但 Go-only 页面快照不是独立正确性证明。
 
 import (
 	"bytes"
@@ -35,7 +35,7 @@ type goldenInput struct {
 func TestGolden(t *testing.T) {
 	matches, _ := filepath.Glob(filepath.Join(goldenDir, "*.input.json"))
 	if len(matches) == 0 {
-		t.Fatal("找不到金帧用例,先跑 python3 tools/gen_golden_frames.py")
+		t.Fatal("找不到渲染快照用例")
 	}
 	for _, m := range matches {
 		name := strings.TrimSuffix(filepath.Base(m), ".input.json")
@@ -67,9 +67,6 @@ func runGolden(t *testing.T, name string) {
 
 	fb, buttons := Render(view, in.Clock, in.Targets, in.Page,
 		in.AddForm, in.AddMessage, in.AddBusy)
-	if os.Getenv("UPDATE_GOLDEN") == "1" {
-		writeGolden(t, name, fb.Buf, buttons)
-	}
 
 	want := readGz(t, filepath.Join(goldenDir, name+".rgb.gz"))
 	if !bytes.Equal(fb.Buf, want) {
@@ -93,32 +90,6 @@ func runGolden(t *testing.T, name string) {
 	}
 	if !reflect.DeepEqual(g, w) {
 		t.Errorf("按钮不一致:\n got: %s\nwant: %s", gotJSON, bytes.TrimSpace(wantJSON))
-	}
-}
-
-func writeGolden(t *testing.T, name string, rgb []byte, buttons []Button) {
-	t.Helper()
-	f, err := os.Create(filepath.Join(goldenDir, name+".rgb.gz"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	zw := gzip.NewWriter(f)
-	if _, err := zw.Write(rgb); err != nil {
-		t.Fatal(err)
-	}
-	if err := zw.Close(); err != nil {
-		t.Fatal(err)
-	}
-	if err := f.Close(); err != nil {
-		t.Fatal(err)
-	}
-	raw, err := json.MarshalIndent(buttons, "", " ")
-	if err != nil {
-		t.Fatal(err)
-	}
-	raw = append(raw, '\n')
-	if err := os.WriteFile(filepath.Join(goldenDir, name+".buttons.json"), raw, 0o644); err != nil {
-		t.Fatal(err)
 	}
 }
 
