@@ -1,0 +1,122 @@
+[
+ {
+  "action": "config_back",
+  "rect": [
+   16,
+   68,
+   86,
+   30
+  ]
+ },
+ {
+  "action": "devadd_change",
+  "delta": -1,
+  "field": "template",
+  "rect": [
+   650,
+   108,
+   48,
+   30
+  ]
+ },
+ {
+  "action": "devadd_change",
+  "delta": 1,
+  "field": "template",
+  "rect": [
+   718,
+   108,
+   48,
+   30
+  ]
+ },
+ {
+  "action": "devadd_change",
+  "delta": -1,
+  "field": "bus",
+  "rect": [
+   650,
+   150,
+   48,
+   30
+  ]
+ },
+ {
+  "action": "devadd_change",
+  "delta": 1,
+  "field": "bus",
+  "rect": [
+   718,
+   150,
+   48,
+   30
+  ]
+ },
+ {
+  "action": "devadd_change",
+  "delta": -1,
+  "field": "slave",
+  "rect": [
+   650,
+   192,
+   48,
+   30
+  ]
+ },
+ {
+  "action": "devadd_change",
+  "delta": 1,
+  "field": "slave",
+  "rect": [
+   718,
+   192,
+   48,
+   30
+  ]
+ },
+ {
+  "nav": "overview",
+  "rect": [
+   140,
+   442,
+   104,
+   38
+  ]
+ },
+ {
+  "nav": "monitor",
+  "rect": [
+   244,
+   442,
+   104,
+   38
+  ]
+ },
+ {
+  "nav": "nodes",
+  "rect": [
+   348,
+   442,
+   104,
+   38
+  ]
+ },
+ {
+  "nav": "control",
+  "rect": [
+   452,
+   442,
+   104,
+   38
+  ]
+ },
+ {
+  "nav": "settings",
+  "rect": [
+   556,
+   442,
+   104,
+   38
+  ]
+ }
+]

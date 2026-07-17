@@ -70,7 +70,7 @@ var Nav = []NavItem{
 
 var PageTitle = map[string]string{
 	"overview": "总览", "monitor": "数据监控", "nodes": "设备管理",
-	"control": "就地控制", "settings": "系统设置",
+	"device_add": "设备接入", "control": "就地控制", "settings": "系统设置",
 }
 
 type Control struct {

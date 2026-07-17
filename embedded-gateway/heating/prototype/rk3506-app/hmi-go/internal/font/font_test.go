@@ -60,3 +60,13 @@ func TestWidthSemantics(t *testing.T) {
 		t.Fatal("缺字形不应命中")
 	}
 }
+
+func TestDeviceAddGlyphCoverage(t *testing.T) {
+	for _, ch := range "从站保存并布已滚失败选择温度采集模块循环泵变频器安全IO" {
+		if ch > 127 {
+			if _, ok := Get(ch); !ok {
+				t.Errorf("设备接入文案缺字形 %q U+%04X", ch, ch)
+			}
+		}
+	}
+}

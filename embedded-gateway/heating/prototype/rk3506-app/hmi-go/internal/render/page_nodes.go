@@ -2,10 +2,14 @@ package render
 
 import "fmt"
 
-// pageNodes:设备页只读展示运行设备。配置入口已退役(设备接入走 Web /config 页)。
+// pageNodes:设备页展示运行设备，并开放模板化设备接入入口。
 func pageNodes(f *FB, v *View, targets map[string]int, buttons *[]Button) {
 	devs := v.Devices
 	f.Text(fmt.Sprintf("运行 %d 台", len(devs)), 24, 76, 1, Muted)
+	add := [4]int{646, 66, 138, 34}
+	f.RoundRect(add[0], add[1], add[2], add[3], Blue, 8, nil)
+	f.TextCenter("接入设备", add[0]+add[2]/2, add[1]+9, 1, White)
+	*buttons = append(*buttons, Button{Rect: add, Action: "open_device_add"})
 	cw, chh, gap := 376, 72, 8
 	for i := 0; i < min(len(devs), 8); i++ {
 		d := &devs[i]

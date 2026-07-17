@@ -1,0 +1,10 @@
+{
+ "view": {"devices": [], "events": []},
+ "clock": "14:32:07",
+ "targets": {},
+ "page": "device_add",
+ "display_model": null,
+ "add_form": {"template": "循环泵变频器", "bus": "rs485_1", "slave": 9},
+ "add_message": "device_id 重复: temp8ai_9",
+ "add_busy": false
+}

@@ -33,7 +33,7 @@ func drawNav(f *FB, page string, buttons *[]Button) {
 	x0 := (W - cell*len(Nav)) / 2
 	for i, nv := range Nav {
 		x := x0 + i*cell
-		active := nv.ID == page
+		active := nv.ID == page || (page == "device_add" && nv.ID == "nodes")
 		off, col := 0, Muted
 		if active {
 			f.RoundRect(x+7, y+5, cell-14, 28, PaleBlue, 14, nil)

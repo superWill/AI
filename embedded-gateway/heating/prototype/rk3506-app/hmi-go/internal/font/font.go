@@ -15,6 +15,9 @@ type Glyph struct {
 var glyphs map[rune]Glyph
 
 func init() {
+	for ch, bm := range deviceAddGlyphHex {
+		glyphHex[ch] = bm
+	}
 	glyphs = make(map[rune]Glyph, len(glyphHex))
 	for ch, bm := range glyphHex {
 		glyphs[ch] = decode(bm)

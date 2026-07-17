@@ -10,6 +10,7 @@ type Button struct {
 	Nav    string
 	Action string
 	Theme  string
+	Field  string
 	Delta  int
 	FBID   string
 	SP     string
@@ -27,6 +28,10 @@ func (b Button) MarshalJSON() ([]byte, error) {
 	case b.Action == "theme_set":
 		m["action"] = b.Action
 		m["theme"] = b.Theme
+	case b.Action == "devadd_change":
+		m["action"] = b.Action
+		m["field"] = b.Field
+		m["delta"] = b.Delta
 	case b.Action != "":
 		m["action"] = b.Action
 	default:
