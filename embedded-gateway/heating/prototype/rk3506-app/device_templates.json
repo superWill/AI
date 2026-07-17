@@ -1,0 +1,100 @@
+{
+  "version": 1,
+  "_readme": [
+    "LCD 设备接入模板库。占位符:$ID(设备实例 id)/$BUS(总线 id)/$SLAVE(从站地址,整数)。",
+    "展开规则:遍历 JSON 树,字符串做 $ID/$BUS 子串替换;值恰为 \"$SLAVE\" 的替换为整数。",
+    "红线:source 必填。真实设备模板必须以 datasheet: 或 capture: 开头并给出可溯源出处;",
+    "sim: 前缀仅限模拟设备。禁止凭记忆或猜测填写寄存器——错误寄存器会写坏设备。"
+  ],
+  "templates": [
+    {
+      "id": "temp8ai",
+      "label": "温度采集模块",
+      "source": "sim:samples/heating_draft.json#hx_ai_1",
+      "hardware": {
+        "device_id": "$ID",
+        "hardware_template": "rs485_8ai_modbus",
+        "bus_id": "$BUS",
+        "slave": "$SLAVE",
+        "timeout_ms": 250,
+        "retries": 1,
+        "channels": [
+          {"channel": "AI1", "register": 0, "function": 3, "data_type": "uint16",
+           "raw_range": [0, 65535], "eng_range": [0, 150], "scale": 0.1, "unit": "℃"},
+          {"channel": "AI2", "register": 1, "function": 3, "data_type": "uint16",
+           "raw_range": [0, 65535], "eng_range": [0, 150], "scale": 0.1, "unit": "℃"}
+        ]
+      },
+      "business_devices": [
+        {
+          "business_id": "$ID_temp_point",
+          "business_template": "temperature_point",
+          "industry": "heating",
+          "bindings": {
+            "measurement": {"point_id": "$ID_temp", "label": "温度", "from": "$ID.AI1"}
+          },
+          "alarms": [{"type": "high", "limit": 65, "unit": "℃", "deadband": 1}],
+          "display": {"page": "devices", "card": "$ID_card", "label": "温度采集模块", "priority": 50}
+        }
+      ]
+    },
+    {
+      "id": "pumpvfd",
+      "label": "循环泵变频器",
+      "source": "sim:samples/heating_draft.json#pump_vfd_2",
+      "hardware": {
+        "device_id": "$ID",
+        "hardware_template": "vfd_modbus",
+        "bus_id": "$BUS",
+        "slave": "$SLAVE",
+        "timeout_ms": 250,
+        "retries": 1,
+        "channels": [
+          {"channel": "REG0", "register": 0, "function": 3, "data_type": "uint16", "unit": ""},
+          {"channel": "REG1", "register": 1, "function": 3, "data_type": "uint16",
+           "scale": 0.1, "unit": "Hz"}
+        ]
+      },
+      "business_devices": [
+        {
+          "business_id": "$ID_pump",
+          "business_template": "circulation_pump",
+          "industry": "heating",
+          "bindings": {
+            "feedback": {"point_id": "$ID_run", "label": "运行反馈", "from": "$ID.REG0"},
+            "setpoint": {"point_id": "$ID_freq_sp", "label": "频率设定", "from": "$ID.REG1",
+                         "limit_lo": 0, "limit_hi": 50, "rate_limit_per_s": 5}
+          },
+          "display": {"page": "devices", "card": "$ID_card", "label": "循环泵变频器", "priority": 50}
+        }
+      ]
+    },
+    {
+      "id": "safeio",
+      "label": "安全IO模块",
+      "source": "sim:samples/heating_draft.json#safety_io_5",
+      "hardware": {
+        "device_id": "$ID",
+        "hardware_template": "rs485_8di_modbus",
+        "bus_id": "$BUS",
+        "slave": "$SLAVE",
+        "channels": [
+          {"channel": "DI1", "register": 0, "function": 2, "data_type": "bool", "unit": ""},
+          {"channel": "DI2", "register": 1, "function": 2, "data_type": "bool", "unit": ""}
+        ]
+      },
+      "business_devices": [
+        {
+          "business_id": "$ID_safety",
+          "business_template": "safety_io",
+          "industry": "heating",
+          "bindings": {
+            "fault": {"point_id": "$ID_estop", "label": "急停", "from": "$ID.DI1"},
+            "measurement": {"point_id": "$ID_water_low", "label": "缺水", "from": "$ID.DI2"}
+          },
+          "display": {"page": "devices", "card": "$ID_card", "label": "安全IO模块", "priority": 50}
+        }
+      ]
+    }
+  ]
+}
