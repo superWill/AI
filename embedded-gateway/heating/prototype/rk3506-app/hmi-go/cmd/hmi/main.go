@@ -13,7 +13,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"path/filepath"
 	"strconv"
+	"strings"
 	"time"
 
 	"embedded-gateway/heating/rk3506-app/hmi-go/internal/api"
@@ -21,6 +23,7 @@ import (
 	"embedded-gateway/heating/rk3506-app/hmi-go/internal/drm"
 	"embedded-gateway/heating/rk3506-app/hmi-go/internal/localsettings"
 	"embedded-gateway/heating/rk3506-app/hmi-go/internal/render"
+	"embedded-gateway/heating/rk3506-app/hmi-go/internal/templates"
 	"embedded-gateway/heating/rk3506-app/hmi-go/internal/touch"
 )
 
@@ -48,6 +51,21 @@ func optOr(opt map[string]string, key, def string) string {
 	return def
 }
 
+func resolveProductsDir(root string) string {
+	if _, err := os.Stat(filepath.Join(root, "display_model.json")); err == nil {
+		return root
+	}
+	raw, err := os.ReadFile(filepath.Join(root, "active"))
+	if err != nil {
+		return root
+	}
+	version := strings.TrimSpace(string(raw))
+	if version == "" {
+		return root
+	}
+	return filepath.Join(root, "versions", version)
+}
+
 func main() {
 	pos, opt := parseArgs(os.Args[1:])
 	port := 8092
@@ -60,8 +78,11 @@ func main() {
 	touchDev := optOr(opt, "touch", "/dev/input/event0")
 	settingsPath := optOr(opt, "settings", "/userdata/rk3506-app/data/hmi-settings.json")
 	backlightPath := optOr(opt, "backlight", "/sys/class/backlight/backlight")
+	templatesPath := optOr(opt, "templates", "/userdata/rk3506-app/device_templates.json")
+	configBase := "http://127.0.0.1:8092"
 
 	if products := opt["products"]; products != "" {
+		products = resolveProductsDir(products)
 		dmPath := products + "/display_model.json"
 		if raw, err := os.ReadFile(dmPath); err == nil {
 			var dm map[string]any
@@ -84,9 +105,14 @@ func main() {
 		fmt.Printf("[drm] 初始化失败: %v\n", err)
 		os.Exit(1)
 	}
-	client := api.New(base)
+	client := api.NewWithConfig(base, configBase)
 	st := app.NewState()
 	st.SetSettings(settings)
+	if tpls, err := templates.Load(templatesPath); err != nil {
+		fmt.Printf("[devadd] template load err: %v\n", err)
+	} else {
+		st.SetTemplates(tpls)
+	}
 	cache := app.NewFrameCache()
 	dirty := make(chan struct{}, 1)
 	deps := app.Deps{
@@ -102,6 +128,7 @@ func main() {
 		Logf: func(format string, args ...any) {
 			fmt.Printf(format+"\n", args...)
 		},
+		Config: client,
 	}
 	touch.Start(touchDev, func(x, y int) { st.OnTap(x, y, deps) })
 	fmt.Printf("LCD go(触摸仪表盘)接管屏幕,读 %s/api/snapshot。\n", base)
@@ -130,7 +157,7 @@ func main() {
 					pages = append(pages, nv.ID)
 				}
 				cache.Invalidate(pages...)
-				_, page, _ := st.RenderInputs()
+				_, page, _, _, _, _ := st.RenderInputs()
 				resetWarm(page)
 			} else {
 				cache.Invalidate("settings")
@@ -151,8 +178,9 @@ func main() {
 		if time.Now().UTC().Year() >= 2020 {
 			clock = time.Now().Format("15:04:05")
 		}
-		vw, renderPage, targets := st.RenderInputs()
-		fb, buttons := render.Render(vw, clock, targets, renderPage)
+		vw, renderPage, targets, addForm, addMessage, addBusy := st.RenderInputs()
+		fb, buttons := render.Render(vw, clock, targets, renderPage,
+			addForm, addMessage, addBusy)
 		frame := drm.PrepareRGB(fb.Buf)
 		cache.Put(renderPage, frame, buttons)
 		// 渲染期间可能被 tap 切页:旧帧绝不覆盖新选中的页(对标 L329-333)
@@ -162,7 +190,7 @@ func main() {
 		if len(warm) > 0 && len(vw.Devices) > 0 {
 			wp := warm[0]
 			warm = warm[1:]
-			wfb, wbtns := render.Render(vw, clock, targets, wp)
+			wfb, wbtns := render.Render(vw, clock, targets, wp, nil, "", false)
 			wframe := drm.PrepareRGB(wfb.Buf)
 			cache.Put(wp, wframe, wbtns)
 			st.CommitIfCurrent(wp, wbtns, func() { scr.BlitFrame(wframe) })

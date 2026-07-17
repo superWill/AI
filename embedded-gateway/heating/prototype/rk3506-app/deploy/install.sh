@@ -20,6 +20,7 @@ fi
 cp -f "$SRC/app.py" "$SRC/drm_hmi_v4.py" \
       "$SRC/dashboard.py" "$SRC/cjk_font.py" "$SRC/compiler.py" "$SRC/loader.py" \
       "$SRC/nexus_server.py" "$SRC/app_config.json" "$APP/"
+cp -f "$SRC/device_templates.json" "$APP/"
 cp -f "$SRC/sim_104.py" "$SRC/sim_104_config.json" "$APP/" 2>/dev/null || true
 # Go 版 LCD HMI 由 push.sh 放到 tmpfs，避免 NAND 暂存区同时保存新旧两个 5MB 二进制。
 HMIC_SRC=

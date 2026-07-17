@@ -50,6 +50,10 @@ rotate_logs() {
 start() {
   stop_all
   rotate_logs
+  if [ ! -x "$APP/hmic" ]; then
+    echo "[S99-go] 缺少 $APP/hmic；Go-only LCD 拒绝回退 Python" >&2
+    return 1
+  fi
   TF="$RUN/control_token"
   [ -s "$TF" ] || (head -c 18 /dev/urandom | base64 | tr -d '\n/+=' > "$TF"; chmod 600 "$TF")
   export GATEWAYC_CONTROL_TOKEN=$(cat "$TF")
@@ -57,15 +61,9 @@ start() {
     BUILD="$APP/build" FALLBACK_CFG="$APP/app_config.json" DIST="$APP/nexus-dist" \
     CORE=http://127.0.0.1:8091 RUN="$RUN" nohup "$APP/supervisor-go.sh" \
     >>"$RUN/sup.out" 2>&1 &
-  # LCD:优先 Go 版 hmic,二进制缺席才回退 Python(镜像 gatewayc 的回退模式)
-  if [ -x "$APP/hmic" ]; then
-    nohup "$APP/hmic" 8091 >>"$RUN/lcd.log" 2>&1 &
-    LCD_IMPL=hmic
-  else
-    nohup "$PY" "$APP/drm_hmi_v4.py" 8091 >>"$RUN/lcd.log" 2>&1 &
-    LCD_IMPL=python
-  fi
-  echo "[S99-go] core:8091 + ui:8092 + LCD($LCD_IMPL) 已启动"
+  nohup "$APP/hmic" 8091 --products "$APP/build" \
+    --templates "$APP/device_templates.json" >>"$RUN/lcd.log" 2>&1 &
+  echo "[S99-go] core:8091 + ui:8092 + LCD(hmic,Go-only) 已启动"
 }
 
 case "$1" in

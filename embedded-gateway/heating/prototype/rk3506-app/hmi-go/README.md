@@ -1,8 +1,7 @@
 # hmi-go — RK3506 本地 LCD HMI(drm_hmi_v4.py 的 Go 移植)
 
-`drm_hmi_v4.py + dashboard.py + cjk_font.py`(~1250 行纯标准库 Python)的 1:1 移植。
-目标:板端 LCD 进程从 Python 收敛为单个静态二进制 `hmic`,渲染输出与 Python 版
-**逐字节一致**(金帧测试锁定)。
+板端 LCD 的 Go 实现。目标是把运行时收敛为单个静态二进制 `hmic`；设备接入页、
+触摸状态机和保存即发布编排只在 Go 中实现，不再新增 Python 运行时回退功能。
 
 ## 构建 / 测试
 
@@ -17,10 +16,10 @@ sh build.sh
 sh ../deploy/push.sh
 ```
 
-启动参数与 Python 版兼容:`hmic 8091 [--products <dir>]
+启动参数:`hmic 8091 [--products <build目录>] [--templates <模板库.json>]
 [--touch /dev/input/event0] [--settings <json>] [--backlight <sysfs目录>]`。
-LCD 设备配置页已退役(设备接入走 Web /config 页,ui_config_proxy 已删除)。
-init 链:`deploy/S99gateway-go` 有 `$APP/hmic` 则启 Go 版,缺席回退 Python。
+LCD 设备页支持从模板库选型号、选已有总线、选从站地址并保存即发布。
+init 链要求 `$APP/hmic` 存在；缺席时明确失败，不再回退 Python HMI。
 
 设置页支持10%～100%背光调节与 Light/Dark 配色，写入
 `/userdata/rk3506-app/data/hmi-settings.json`，由板端 backlight sysfs 即时生效，
@@ -28,10 +27,11 @@ init 链:`deploy/S99gateway-go` 有 `$APP/hmic` 则启 Go 版,缺席回退 Pytho
 
 ## 金帧测试(核心验证机制)
 
-`tests/golden/` 10 个用例,由 Python 侧生成、Go 侧逐字节比对:
+`tests/golden/` 包含旧页面兼容基准和 Go-only 设备接入基准；Go 侧逐字节比对。
+受控更新 Go 基准：
 
 ```sh
-python3 tools/gen_golden_frames.py      # 重新生成基准(改 dashboard.py 后必跑)
+UPDATE_GOLDEN=1 go test ./internal/render/ -run 'TestGolden/<case>$'
 go test ./internal/render/ -run TestGolden
 ```
 
@@ -43,13 +43,8 @@ go test ./internal/render/ -run TestGolden
 
 ## 加字库字形
 
-字库单一事实源是 `../cjk_font.py`(GNU Unifont 16x16/16x8 子集,无生成器,
-手工按 Unifont 点阵追加)。流程:
-
-1. 改 `cjk_font.py`(key=字符,value=hex 串:ASCII 32 字符,CJK 64 字符)
-2. `python3 tools/gen_font_go.py` → 重新生成 `internal/font/glyphs_gen.go`
-3. `python3 tools/gen_golden_frames.py` → 基准帧同步
-4. `go test ./...`
+Go-only 页面新增字形写入独立的 `internal/font/*_glyphs.go`，随后运行
+`go test ./internal/font ./internal/render`。不要为了 Go-only 页面修改 Python 字库。
 
 缺字形语义与 Python 一致:不绘制、前进 8×scale 占位。
 

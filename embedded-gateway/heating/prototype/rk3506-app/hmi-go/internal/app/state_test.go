@@ -1,9 +1,14 @@
 package app
 
 import (
+	"reflect"
+	"sync"
 	"testing"
+	"time"
 
+	"embedded-gateway/heating/rk3506-app/hmi-go/internal/api"
 	"embedded-gateway/heating/rk3506-app/hmi-go/internal/render"
+	"embedded-gateway/heating/rk3506-app/hmi-go/internal/templates"
 )
 
 func noopDeps(cache *FrameCache) Deps {
@@ -112,3 +117,158 @@ func TestOnTapNavUsesCache(t *testing.T) {
 }
 
 // open_device_config:有草稿 → slot 1;fetch 失败 → 空列表 slot 0。
+
+type mockConfig struct {
+	mu        sync.Mutex
+	calls     []string
+	draft     map[string]any
+	hasDraft  bool
+	addErrors []string
+}
+
+func (m *mockConfig) call(name string) {
+	m.mu.Lock()
+	m.calls = append(m.calls, name)
+	m.mu.Unlock()
+}
+
+func (m *mockConfig) Login() error { m.call("login"); return nil }
+func (m *mockConfig) GetDraft() (map[string]any, bool, error) {
+	m.call("draft")
+	m.mu.Lock()
+	defer m.mu.Unlock()
+	return m.draft, m.hasDraft, nil
+}
+func (m *mockConfig) AddDevice(payload map[string]any) (bool, []string) {
+	m.call("devices")
+	if len(m.addErrors) > 0 {
+		return false, m.addErrors
+	}
+	hardware, _ := payload["hardware"].(map[string]any)
+	m.mu.Lock()
+	items, _ := m.draft["hardware_devices"].([]any)
+	m.draft["hardware_devices"] = append(items, hardware)
+	m.mu.Unlock()
+	return true, nil
+}
+func (m *mockConfig) Compile(map[string]any) (bool, []string) {
+	m.call("compile")
+	return true, nil
+}
+func (m *mockConfig) Activate() (bool, string, []string) {
+	m.call("activate")
+	return true, "active", nil
+}
+func (m *mockConfig) ActivateStatus() (api.ActivateStatus, error) {
+	m.call("status")
+	var status api.ActivateStatus
+	status.LastActivate.State = "active"
+	return status, nil
+}
+
+func simTemplate() templates.Template {
+	return templates.Template{
+		ID: "pumpvfd", Label: "循环泵变频器", Source: "sim:test",
+		Hardware:        map[string]any{"device_id": "$ID", "bus_id": "$BUS", "slave": "$SLAVE"},
+		BusinessDevices: []any{},
+	}
+}
+
+func waitFor(t *testing.T, check func() bool) {
+	t.Helper()
+	deadline := time.Now().Add(2 * time.Second)
+	for time.Now().Before(deadline) {
+		if check() {
+			return
+		}
+		time.Sleep(5 * time.Millisecond)
+	}
+	t.Fatal("异步状态等待超时")
+}
+
+func TestDeviceAddOpenLoadsBusesAndWrapsFields(t *testing.T) {
+	s := NewState()
+	s.SetTemplates([]templates.Template{simTemplate(), {ID: "safeio", Label: "安全IO", Source: "sim:test", Hardware: map[string]any{}, BusinessDevices: []any{}}})
+	m := &mockConfig{hasDraft: true, draft: map[string]any{
+		"buses":            []any{map[string]any{"bus_id": "rs485_1"}, map[string]any{"bus_id": "rs485_2"}},
+		"hardware_devices": []any{},
+	}}
+	d := noopDeps(nil)
+	d.Config = m
+	s.Buttons = []render.Button{{Rect: [4]int{646, 66, 138, 34}, Action: "open_device_add"}}
+	s.OnTap(700, 80, d)
+	waitFor(t, func() bool {
+		s.mu.Lock()
+		defer s.mu.Unlock()
+		return len(s.Buses) == 2 && s.AddMessage == ""
+	})
+	s.mu.Lock()
+	s.changeAddForm("template", -1)
+	s.changeAddForm("bus", -1)
+	s.AddForm.Slave = 1
+	s.changeAddForm("slave", -1)
+	if s.AddForm.TplIdx != 1 || s.AddForm.BusIdx != 1 || s.AddForm.Slave != 247 {
+		t.Fatalf("地板模环绕失败: %+v", s.AddForm)
+	}
+	s.mu.Unlock()
+}
+
+func TestDeviceAddSavePublishesAndReturnsToNodes(t *testing.T) {
+	s := NewState()
+	s.SetTemplates([]templates.Template{simTemplate()})
+	s.Page = "device_add"
+	s.Buses = []string{"rs485_1"}
+	s.AddForm = AddForm{Slave: 9}
+	s.Buttons = []render.Button{{Rect: [4]int{616, 406, 168, 30}, Action: "devadd_save"}}
+	m := &mockConfig{hasDraft: true, draft: map[string]any{
+		"buses": []any{map[string]any{"bus_id": "rs485_1"}}, "hardware_devices": []any{},
+	}}
+	d := noopDeps(nil)
+	d.Config = m
+	s.OnTap(700, 420, d)
+	waitFor(t, func() bool {
+		s.mu.Lock()
+		defer s.mu.Unlock()
+		return !s.AddBusy && s.Page == "nodes"
+	})
+	m.mu.Lock()
+	got := append([]string(nil), m.calls...)
+	m.mu.Unlock()
+	want := []string{"login", "draft", "devices", "draft", "compile", "activate", "status"}
+	if !reflect.DeepEqual(got, want) {
+		t.Fatalf("编排顺序=%v want=%v", got, want)
+	}
+}
+
+func TestDeviceAddDuplicateFailsBeforePost(t *testing.T) {
+	s := NewState()
+	s.SetTemplates([]templates.Template{simTemplate()})
+	s.Page = "device_add"
+	s.Buses = []string{"rs485_1"}
+	s.AddForm = AddForm{Slave: 9}
+	s.Buttons = []render.Button{{Rect: [4]int{616, 406, 168, 30}, Action: "devadd_save"}}
+	m := &mockConfig{hasDraft: true, draft: map[string]any{
+		"buses":            []any{map[string]any{"bus_id": "rs485_1"}},
+		"hardware_devices": []any{map[string]any{"device_id": "pumpvfd_9"}},
+	}}
+	d := noopDeps(nil)
+	d.Config = m
+	s.OnTap(700, 420, d)
+	waitFor(t, func() bool {
+		s.mu.Lock()
+		defer s.mu.Unlock()
+		return !s.AddBusy && s.AddMessage != ""
+	})
+	s.mu.Lock()
+	message, page := s.AddMessage, s.Page
+	s.mu.Unlock()
+	if message != "device_id 重复: pumpvfd_9" || page != "device_add" {
+		t.Fatalf("message=%q page=%s", message, page)
+	}
+	m.mu.Lock()
+	calls := append([]string(nil), m.calls...)
+	m.mu.Unlock()
+	if !reflect.DeepEqual(calls, []string{"login", "draft"}) {
+		t.Fatalf("重复预检后不应 POST: %v", calls)
+	}
+}
