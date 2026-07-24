@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2026 07 23 ibkr options playbook</title>
+  <link rel="stylesheet" href="../_assets/style.css" />
+</head>
+<body>
+  <div class="site-shell">
+  <div class="page">
+    <div class="topbar">
+      <div class="nav-cluster">
+        <a class="back" href="../index.html">← 返回投研首页</a>
+        <a class="nav-link secondary" href="../all-docs.html">全部文档</a>
+      </div>
+      <div class="nav-cluster">
+        <a class="home-link" href="../notes.html">Notes</a>
+        <a class="home-link" href="../candidates.html">Candidates</a>
+        <a class="home-link" href="../tickers.html">Tickers</a>
+      </div>
+    </div>
+    <section class="hero">
+      <div class="doc-header-grid">
+        <div>
+          <div class="eyebrow">notes</div>
+          <h1>2026-07-23-ibkr-options-playbook</h1>
+          <p>市场、公司或主题研究的阶段性结论。</p>
+          <div class="meta-row">
+            <span class="pill">notes/2026-07-23-ibkr-options-playbook.md</span>
+            <span class="pill">283 words</span>
+            <span class="pill">8 sections</span>
+          </div>
+        </div>
+        <div class="doc-stat-stack">
+          <div class="doc-stat">
+            <div class="doc-stat-label">Document Type</div>
+            <div class="doc-stat-value">Notes</div>
+          </div>
+          <div class="doc-stat">
+            <div class="doc-stat-label">Reading Mode</div>
+            <div class="doc-stat-value">Research Memo</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="doc-layout">
+      <article class="doc doc-main">
+<hr />
+<p>date: 2026-07-23 type: playbook（工具纪律） status: active purpose: 期权权限确认后的完整纪律——只走两条正道,禁区清单,段永平系统重构,IBKR 机制要点 holder_context: 2026-07-23 用户确认账户有期权权限、可卖 put(此前&quot;不能做期权&quot;硬约束作废,CLAUDE.md 已同步)。触发事件:段永平 7/23 雪球帖(加GOOG/BRK·NVDA体量靠滚动卖put维持·AAPL被call走进T-bill·卖MU/SpaceX/TSLA/PLTR put) related: ../portfolios/2026-07-23-put-selling-plan.md（执行计划）· 2026-06-25-top-signals-and-panic-discipline.md（为什么禁区是禁区） memory: ibkr-options-playbook · no-options-trading(已解除)</p>
+<hr />
+<h1 id="ibkr-期权-playbook只有两条正道2026-07">IBKR 期权 playbook：只有两条正道（2026-07）</h1>
+<h2 id="一句话">一句话</h2>
+<p><strong>期权在这本书里只是两件工具：cash-secured put = 收钱的限价单，covered call = 收钱的减仓单。判据只有一个——被行权你高不高兴？不高兴就不该卖。</strong> 其他一切玩法（买虚值博方向、裸卖、价差、IV 交易）都在禁区。</p>
+<h2 id="一正道两条">一、正道两条</h2>
+<h3 id="1-cash-secured-put收钱的限价单">1. Cash-secured put（收钱的限价单）</h3>
+<ul>
+<li><strong>只对「既定计划本来就要加仓」的票卖</strong>——行权 = 完成计划，不是事故。</li>
+<li>行权价 = 「今天现金买也乐意」的价，<strong>不是 premium 最厚的价</strong>。想 roll 的冲动 = 当初行权价定错了。</li>
+<li>现金 100% 担保，担保金买短期 T-bill（双收益：T-bill 利息 + premium；IBKR 现金利息低于 T-bill，别懒）。</li>
+<li><strong>有底仓的人卖 put 两个结局都是赢</strong>（飞了在车上、跌了折价加仓）；没底仓的人卖 put，踏空是真踏空。</li>
+</ul>
+<h3 id="2-covered-call收钱的减仓单">2. Covered call（收钱的减仓单）</h3>
+<ul>
+<li>用于<strong>趁强减仓</strong>的既定批次——被 call 走 = 完成减仓，落袋进 T-bill（段永平 AAPL 模板）。</li>
+<li><strong>克制用</strong>：对右尾肥的票（NVDA 类）卖 call 等于把持有理由卖掉了。只对&quot;本来就要减&quot;的部分卖。</li>
+<li>权限推定同级可用，首笔前在 IBKR 确认。</li>
+</ul>
+<h2 id="二禁区写死含理由">二、禁区（写死，含理由）</h2>
+<table><thead><tr><th>禁区</th><th>为什么</th></tr></thead><tbody><tr><td><strong>对正在减仓的内存/SOXX 腿（MU/SKHY/NVDA/TSM）卖 put</strong></td><td>方向与批 2/3 减仓计划打架;且<strong>行权日 = 组合最痛日</strong>(betaSOXX 0.89,put 被指派的场景就是 SOX 崩的场景,相关性=1 的日子)。段永平能卖 MU put 因为他书里半导体≈0——同一动作两本书两种风险</td></tr><tr><td>半导体高 IV 的 premium 诱惑</td><td>SOX -20% 的 tape 里肥 premium 就是市场为顶部信号 note 追踪的尾部开的价——赚它=给自家火灾卖保险</td></tr><tr><td>买短期虚值博方向</td><td>theta 磨损,赌场业务</td></tr><tr><td>裸卖 call / 用期权放大 SOXX 敞口</td><td>上尾无限风险 / 组合已 0.89 不需要更多</td></tr></tbody></table>
+<h2 id="三段永平系统重构2026-07-23-帖-多年雪球帖-known">三、段永平系统重构（2026-07-23 帖 + 多年雪球帖 <code>[KNOWN]</code>）</h2>
+<table><thead><tr><th>环节</th><th>他的习惯</th></tr></thead><tbody><tr><td>定量</td><td>行权义务 ≤ 想加的量(&quot;保持 NVDA 体量&quot;=put 名义量对应目标敞口)</td></tr><tr><td>行权价</td><td>乐意买入价(GOOG 例:他 Q1 成本 ~$314 一带),不猜底</td></tr><tr><td>担保</td><td>100% 现金,买成 T-bill</td></tr><tr><td>时机</td><td><strong>恐慌日出手</strong>(2025-04-08 暴跌日单日卖 $8000 万 put),绝不追涨时卖;客观效果=总在 IV 肥时卖但他不是波动率交易者</td></tr><tr><td>期限</td><td>无教条;用过 1 月年度周期(LEAPS 循环)<code>[INFERRED MED]</code>,也有事件驱动短期</td></tr><tr><td>管理</td><td>不止损、不防御 roll,只接受两个结局:到期作废→继续卖 / 被行权→接货结束</td></tr><tr><td>出场</td><td>备兑 call 趁强减(AAPL&quot;水果成熟被 call 走→T-bill→现价不接回&quot;)</td></tr></tbody></table>
+<p><strong>13F 盲区提醒</strong>：13F 不披露短 put——他的真实敞口比 13F 大。同理,<strong>自己的短 put 义务必须记 <code>portfolios/</code>,否则低估自身敞口</strong>。</p>
+<h2 id="四ibkr-机制要点-med用前核实">四、IBKR 机制要点 <code>[MED,用前核实]</code></h2>
+<ul>
+<li>权限:Client Portal→Trading Permissions,按问卷给等级(L1 备兑→L4 裸卖);cash-secured put 现金账户可做,spread/裸卖需 margin。</li>
+<li>佣金 ~$0.15–0.65/合约;行权/被指派免费。</li>
+<li>卖方警惕:除息日前深度实值 call 提前指派。</li>
+<li>工具:TWS OptionTrader / Strategy Builder;挂单用 bid-ask 中间价限价,不追。</li>
+<li>首笔用 1 张单一标的跑通被行权/保证金全流程再上量。</li>
+</ul>
+<h2 id="五与组合的接口">五、与组合的接口</h2>
+<ul>
+<li>执行顺序锁死:<strong>先内存腿批 2/3 趁强减 → 所得进 T-bill → 再对计划内标的卖 put</strong>。卖 put 不是新策略,是既定加仓计划的执行方式升级。</li>
+<li>每笔短 put 当天记入 <a href="../portfolios/2026-07-23-put-selling-plan.html">卖 put 计划</a> 的记账表。</li>
+</ul>
+      </article>
+      <aside class="doc-sidebar">
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">文档导航</h3>
+          <ul class="toc-list"><li><a href="#一句话">一句话</a></li><li><a href="#一正道两条">一、正道两条</a></li><li style="padding-left:14px"><a href="#1-cash-secured-put收钱的限价单">1. Cash-secured put（收钱的限价单）</a></li><li style="padding-left:14px"><a href="#2-covered-call收钱的减仓单">2. Covered call（收钱的减仓单）</a></li><li><a href="#二禁区写死含理由">二、禁区（写死，含理由）</a></li><li><a href="#三段永平系统重构2026-07-23-帖-多年雪球帖-known">三、段永平系统重构（2026-07-23 帖 + 多年雪球帖 `[KNOWN]`）</a></li><li><a href="#四ibkr-机制要点-med用前核实">四、IBKR 机制要点 `[MED,用前核实]`</a></li><li><a href="#五与组合的接口">五、与组合的接口</a></li></ul>
+        </section>
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">阅读提示</h3>
+          <ul class="summary-list">
+            <li><span class="summary-label">先看什么</span><span class="summary-value">先读一段话结论，再看表格和风险点。</span></li>
+            <li><span class="summary-label">适合用途</span><span class="summary-value">复盘、比较、回查研究底稿。</span></li>
+            <li><span class="summary-label">建议动作</span><span class="summary-value">如果文档内容改变了 thesis，再回到候选池或组合页更新判断。</span></li>
+          </ul>
+        </section>
+      </aside>
+    </div>
+    <div class="footer">该页面由 Markdown 自动生成。原始文件：notes/2026-07-23-ibkr-options-playbook.md</div>
+  </div>
+  </div>
+</body>
+</html>
