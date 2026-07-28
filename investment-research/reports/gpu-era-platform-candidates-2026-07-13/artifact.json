@@ -1,0 +1,150 @@
+{
+  "surface": "report",
+  "manifest": {
+    "version": 1,
+    "surface": "report",
+    "title": "GPU 时代潜在赢家",
+    "description": "评估谁有潜力控制 GPU 时代的软件平台与算力标准。",
+    "generatedAt": "2026-07-13T07:50:14Z",
+    "cards": [],
+    "charts": [
+      {
+        "id": "archetype_scores",
+        "title": "候选公司的两类战略位置评分",
+        "subtitle": "[FRAME] 0–10启发式评分；不是市场份额、概率或目标价。",
+        "headerMarkdown": "[FRAME] 深色代表平台控制潜力，浅色代表算力标准潜力。",
+        "type": "bar",
+        "dataset": "candidate_scores_long",
+        "sourceId": "analyst_framework",
+        "valueFormat": "number",
+        "layout": "full",
+        "encodings": {
+          "x": {"field": "company", "type": "nominal", "label": "公司"},
+          "y": {"field": "score", "type": "quantitative", "label": "评分（0–10）"},
+          "color": {"field": "archetype", "type": "nominal", "label": "战略位置"},
+          "tooltip": [
+            {"field": "evidence", "type": "nominal", "label": "核心依据"},
+            {"field": "confidence", "type": "nominal", "label": "置信度"}
+          ]
+        }
+      }
+    ],
+    "tables": [
+      {
+        "id": "candidate_evidence",
+        "title": "候选公司证据与结论",
+        "subtitle": "截至2026年7月13日；不同公司披露口径不可直接视为市场份额。",
+        "dataset": "candidate_evidence",
+        "sourceId": "analyst_framework",
+        "defaultSort": {"field": "platform_score", "direction": "desc"},
+        "density": "spacious",
+        "layout": "full",
+        "columns": [
+          {"field": "company", "label": "公司", "type": "text"},
+          {"field": "platform_score", "label": "平台型评分", "format": "number"},
+          {"field": "silicon_score", "label": "芯片型评分", "format": "number"},
+          {"field": "evidence", "label": "当前证据", "type": "text"},
+          {"field": "verdict", "label": "判断", "type": "text"}
+        ]
+      }
+    ],
+    "sources": [
+      {"id": "analyst_framework", "label": "分析框架、评分方法与一手来源", "path": "score_query.sql", "query": {"engine": "sqlite", "language": "sql", "sql": "WITH candidate_scores(company, archetype, score, evidence, confidence) AS (VALUES ('NVIDIA','Microsoft型平台',9.4,'CUDA开发生态、全云覆盖与企业软件栈','MED'),('NVIDIA','Intel型算力标准',9.8,'GPU、NVLink、网络与整机系统规模','HIGH'),('OpenAI','Microsoft型平台',9.0,'模型、API、ChatGPT、Codex与开发者入口','MED'),('OpenAI','Intel型算力标准',3.5,'自研芯片刚起步且采用多芯片策略','LOW'),('Microsoft','Microsoft型平台',8.7,'Azure、Foundry、Office、GitHub与企业分发','HIGH'),('Microsoft','Intel型算力标准',4.5,'Maia已部署但主要服务内部云','MED'),('Alphabet','Microsoft型平台',8.3,'Gemini、Vertex、Android、Workspace与Cloud','MED'),('Alphabet','Intel型算力标准',6.5,'十年TPU路线但主要通过Google Cloud交付','MED'),('Amazon','Microsoft型平台',7.8,'AWS、Bedrock与企业云采购入口','MED'),('Amazon','Intel型算力标准',6.8,'Trainium部署规模大但局限AWS','MED'),('AMD','Microsoft型平台',5.5,'ROCm改善但生态控制力有限','MED'),('AMD','Intel型算力标准',7.8,'商用第二供应商与CPU/GPU组合','MED'),('Meta','Microsoft型平台',6.8,'PyTorch、Llama与大众应用分发','MED'),('Meta','Intel型算力标准',4.2,'MTIA规模扩大但主要内部使用','LOW'),('Broadcom','Microsoft型平台',3.5,'不控制通用开发者接口','HIGH'),('Broadcom','Intel型算力标准',7.2,'定制ASIC、网络与多客户设计能力','MED')) SELECT company, archetype, score, evidence, confidence FROM candidate_scores", "description": "重现报告中的两类启发式评分。", "executed_at": "2026-07-13T07:50:14Z", "filters": ["截至2026-07-13的一手公开资料"], "metric_definitions": ["score为0至10的序数型分析评分，不是概率或市场份额"]}},
+      {"id": "nvidia_q1", "label": "NVIDIA Q1 FY2027 results", "href": "https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-first-quarter-fiscal-2027"},
+      {"id": "openai_2026", "label": "OpenAI adoption and infrastructure update", "href": "https://openai.com/index/accelerating-the-next-phase-ai/"},
+      {"id": "microsoft_q3", "label": "Microsoft FY2026 Q3 earnings call", "href": "https://www.microsoft.com/en-us/investor/events/fy-2026/earnings-fy-2026-q3"},
+      {"id": "amazon_q1", "label": "Amazon Q1 2026 results", "href": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-First-Quarter-Results/default.aspx"},
+      {"id": "amd_q1", "label": "AMD Q1 2026 earnings slides", "href": "https://ir.amd.com/financial-information/sec-filings/content/0000002488-26-000072/amdq126earningsslidesfin.htm"},
+      {"id": "broadcom_q2", "label": "Broadcom Q2 FY2026 results", "href": "https://investors.broadcom.com/news-releases/news-release-details/broadcom-inc-announces-second-quarter-fiscal-year-2026-financial"}
+    ],
+    "blocks": [
+      {
+        "id": "title",
+        "type": "markdown",
+        "body": "# GPU 时代潜在赢家"
+      },
+      {
+        "id": "executive_summary",
+        "type": "markdown",
+        "body": "## Executive Summary\n\n- [INFERRED] **NVIDIA目前不是候选者，而是同时占据两个位置的在位者。** CUDA控制开发者接口，Blackwell、NVLink与网络系统控制主流AI算力交付；置信度：HIGH。\n- [INFERRED] **最像Microsoft型挑战者的是OpenAI，其次是Microsoft与Alphabet。** OpenAI控制模型/API/应用入口，Microsoft控制企业分发，Alphabet拥有模型、云、TPU与大众产品；置信度：MED。\n- [INFERRED] **最像Intel型公开市场挑战者的是AMD，但胜率明显低于NVIDIA。** 若把云内自研芯片也计算在内，Amazon与Alphabet更有规模，但它们尚未建立通用商用架构；置信度：MED。\n- [INFERRED] **更可能出现分拆式格局，而不是第二个单一NVIDIA。** Broadcom、TSMC、云厂自研芯片与开放软件可能共同压低NVIDIA利润池，却未必产生一个统一替代者；置信度：MED。"
+      },
+      {
+        "id": "definitions",
+        "type": "markdown",
+        "body": "## 两个位置必须分开看\n\n[FRAME] **Microsoft型位置**指控制开发者接口、企业工作流、应用分发与迁移成本。\n\n[FRAME] **Intel型位置**指控制主流计算架构、系统路线图、供应规模以及广泛可购买的标准产品。\n\n[INFERRED] NVIDIA当前把这两个传统上分开的角色重新捆绑在一起；这正是其护城河强于普通芯片公司的原因。置信度：HIGH。"
+      },
+      {"id": "score_chart", "type": "chart", "chartId": "archetype_scores"},
+      {
+        "id": "score_interpretation",
+        "type": "markdown",
+        "body": "## NVIDIA领先；第二名取决于你问哪一层\n\n[FRAME] 评分只用于结构化比较，不能从9.0与8.7的差异推导精确胜率。\n\n[INFERRED] OpenAI在模型、API、ChatGPT与Codex之间形成开发者和应用飞轮，但多云、多芯片策略也意味着它未必希望控制底层硬件标准。置信度：MED。\n\n[INFERRED] Microsoft拥有最强企业分发与身份、数据、办公工作流入口，但其多模型策略降低了对单一模型接口的控制。置信度：HIGH。\n\n[INFERRED] AMD是最清晰的商用第二供应商，但ROCm生态与整机网络栈仍不足以复制CUDA的迁移成本。置信度：HIGH。"
+      },
+      {"id": "evidence_table", "type": "table", "tableId": "candidate_evidence"},
+      {
+        "id": "evidence_detail",
+        "type": "markdown",
+        "body": "## 当前硬证据支持三类赢家\n\n[KNOWN] [NVIDIA](https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-first-quarter-fiscal-2027)最近一季数据中心收入752亿美元、同比增长92%，CUDA生态约有600万开发者。\n\n[KNOWN] [OpenAI](https://openai.com/index/accelerating-the-next-phase-ai/)披露API处理量超过每分钟150亿token，企业业务已占收入40%以上，并主动采用多云、多芯片基础设施。\n\n[KNOWN] [Amazon](https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-First-Quarter-Results/default.aspx)披露自研芯片业务年化收入超过200亿美元，过去12个月部署超过210万颗AI芯片，其中超过一半为Trainium。\n\n[KNOWN] [Broadcom](https://investors.broadcom.com/news-releases/news-release-details/broadcom-inc-announces-second-quarter-fiscal-year-2026-financial)最近季度AI半导体收入108亿美元、同比增长143%，证明定制ASIC与网络正在形成实质规模。\n\n[KNOWN] [AMD](https://ir.amd.com/financial-information/sec-filings/content/0000002488-26-000072/amdq126earningsslidesfin.htm)最近季度数据中心收入58亿美元、同比增长57%，但该口径同时包含EPYC CPU与Instinct GPU。"
+      },
+      {
+        "id": "recommendations",
+        "type": "markdown",
+        "body": "## 对公开市场研究的优先级\n\n1. [INFERRED] **先把NVIDIA当作双重在位者研究，而不是普通GPU厂商。** 最关键监控项是CUDA迁移成本、NVLink系统渗透率和推理成本优势；置信度：HIGH。\n2. [INFERRED] **把Microsoft、Alphabet和Amazon视为平台与自研芯片的期权组合。** 它们不需要取代NVIDIA，只要把更多工作负载迁入自己的云与ASIC，就能捕获利润；置信度：HIGH。\n3. [INFERRED] **把AMD视为商用架构挑战者，而不是平台赢家。** 需要看到ROCm第三方生产负载、网络栈和多客户规模持续改善后，才应提高判断；置信度：HIGH。\n4. [INFERRED] **把Broadcom与TSMC视为军火商和收费站，而不是Microsoft或Intel的直接复制品。** 它们可从多家自研芯片赢家中获利，但不控制最终开发者接口；置信度：HIGH。"
+      },
+      {
+        "id": "questions",
+        "type": "markdown",
+        "body": "## 需要继续验证的问题\n\n- [INFERRED] CUDA之外的生产推理工作负载占比是否持续扩大？\n- [INFERRED] Trainium、TPU、Maia与MTIA能否服务第三方客户，而不只是内部大客户？\n- [INFERRED] OpenAI、Microsoft与云厂的多模型接口是否会把模型层商品化？\n- [INFERRED] NVLink Fusion是否会让NVIDIA从GPU供应商转变为更广泛的系统标准制定者？"
+      },
+      {
+        "id": "caveats",
+        "type": "markdown",
+        "body": "## Caveats and assumptions\n\n[FRAME] 该框架借用Microsoft与Intel的历史角色，但GPU/AI时代的云、开源模型和定制ASIC结构不同，类比不能当作预测。\n\n[KNOWN] 各家公司披露的收入、芯片数量、开发者和token指标口径不同，不能直接横向相除。\n\n[INFERRED] 报告结论适合确定研究优先级，不足以单独决定买卖或仓位。置信度：HIGH。\n\n[RULES I BROKE]: none."
+      }
+    ]
+  },
+  "snapshot": {
+    "version": 1,
+    "generatedAt": "2026-07-13T07:50:14Z",
+    "status": "ready",
+    "datasets": {
+      "candidate_scores_long": [
+        {"company": "NVIDIA", "archetype": "Microsoft型平台", "score": 9.4, "evidence": "CUDA开发生态、全云覆盖与企业软件栈", "confidence": "MED"},
+        {"company": "NVIDIA", "archetype": "Intel型算力标准", "score": 9.8, "evidence": "GPU、NVLink、网络与整机系统规模", "confidence": "HIGH"},
+        {"company": "OpenAI", "archetype": "Microsoft型平台", "score": 9.0, "evidence": "模型、API、ChatGPT、Codex与开发者入口", "confidence": "MED"},
+        {"company": "OpenAI", "archetype": "Intel型算力标准", "score": 3.5, "evidence": "自研芯片刚起步且采用多芯片策略", "confidence": "LOW"},
+        {"company": "Microsoft", "archetype": "Microsoft型平台", "score": 8.7, "evidence": "Azure、Foundry、Office、GitHub与企业分发", "confidence": "HIGH"},
+        {"company": "Microsoft", "archetype": "Intel型算力标准", "score": 4.5, "evidence": "Maia已部署但主要服务内部云", "confidence": "MED"},
+        {"company": "Alphabet", "archetype": "Microsoft型平台", "score": 8.3, "evidence": "Gemini、Vertex、Android、Workspace与Cloud", "confidence": "MED"},
+        {"company": "Alphabet", "archetype": "Intel型算力标准", "score": 6.5, "evidence": "十年TPU路线但主要通过Google Cloud交付", "confidence": "MED"},
+        {"company": "Amazon", "archetype": "Microsoft型平台", "score": 7.8, "evidence": "AWS、Bedrock与企业云采购入口", "confidence": "MED"},
+        {"company": "Amazon", "archetype": "Intel型算力标准", "score": 6.8, "evidence": "Trainium部署规模大但局限AWS", "confidence": "MED"},
+        {"company": "AMD", "archetype": "Microsoft型平台", "score": 5.5, "evidence": "ROCm改善但生态控制力有限", "confidence": "MED"},
+        {"company": "AMD", "archetype": "Intel型算力标准", "score": 7.8, "evidence": "商用第二供应商与CPU/GPU组合", "confidence": "MED"},
+        {"company": "Meta", "archetype": "Microsoft型平台", "score": 6.8, "evidence": "PyTorch、Llama与大众应用分发", "confidence": "MED"},
+        {"company": "Meta", "archetype": "Intel型算力标准", "score": 4.2, "evidence": "MTIA规模扩大但主要内部使用", "confidence": "LOW"},
+        {"company": "Broadcom", "archetype": "Microsoft型平台", "score": 3.5, "evidence": "不控制通用开发者接口", "confidence": "HIGH"},
+        {"company": "Broadcom", "archetype": "Intel型算力标准", "score": 7.2, "evidence": "定制ASIC、网络与多客户设计能力", "confidence": "MED"}
+      ],
+      "candidate_evidence": [
+        {"company": "NVIDIA", "platform_score": 9.4, "silicon_score": 9.8, "evidence": "[KNOWN] 数据中心季度收入752亿美元；CUDA约600万开发者", "verdict": "[INFERRED] 当前双重在位者"},
+        {"company": "OpenAI", "platform_score": 9.0, "silicon_score": 3.5, "evidence": "[KNOWN] API每分钟处理超过150亿token；企业收入占比超过40%", "verdict": "[INFERRED] 最强纯平台候选，但非上市公司"},
+        {"company": "Microsoft", "platform_score": 8.7, "silicon_score": 4.5, "evidence": "[KNOWN] Azure增长39%–40%；Maia 200已在数据中心运行", "verdict": "[INFERRED] 最强企业分发候选"},
+        {"company": "Alphabet", "platform_score": 8.3, "silicon_score": 6.5, "evidence": "[KNOWN] TPU已有十年路线；Cloud积压订单2400亿美元", "verdict": "[INFERRED] 最完整的非NVIDIA全栈候选"},
+        {"company": "Amazon", "platform_score": 7.8, "silicon_score": 6.8, "evidence": "[KNOWN] 自研芯片年化收入超过200亿美元；部署超210万颗AI芯片", "verdict": "[INFERRED] 云内算力标准潜力强"},
+        {"company": "AMD", "platform_score": 5.5, "silicon_score": 7.8, "evidence": "[KNOWN] 数据中心季度收入58亿美元、同比增长57%", "verdict": "[INFERRED] 最明确的商用第二供应商"},
+        {"company": "Meta", "platform_score": 6.8, "silicon_score": 4.2, "evidence": "[KNOWN] 已部署数十万颗MTIA；Llama下载量曾突破10亿", "verdict": "[INFERRED] 开放生态影响大但直接收费能力弱"},
+        {"company": "Broadcom", "platform_score": 3.5, "silicon_score": 7.2, "evidence": "[KNOWN] AI半导体季度收入108亿美元、同比增长143%", "verdict": "[INFERRED] 定制芯片军火商，不是通用平台"}
+      ]
+    },
+    "accessIssues": []
+  },
+  "sources": [
+    {"id": "analyst_framework", "label": "分析框架、评分方法与一手来源", "path": "score_query.sql", "query": {"engine": "sqlite", "language": "sql", "sql": "WITH candidate_scores(company, archetype, score, evidence, confidence) AS (VALUES ('NVIDIA','Microsoft型平台',9.4,'CUDA开发生态、全云覆盖与企业软件栈','MED'),('NVIDIA','Intel型算力标准',9.8,'GPU、NVLink、网络与整机系统规模','HIGH'),('OpenAI','Microsoft型平台',9.0,'模型、API、ChatGPT、Codex与开发者入口','MED'),('OpenAI','Intel型算力标准',3.5,'自研芯片刚起步且采用多芯片策略','LOW'),('Microsoft','Microsoft型平台',8.7,'Azure、Foundry、Office、GitHub与企业分发','HIGH'),('Microsoft','Intel型算力标准',4.5,'Maia已部署但主要服务内部云','MED'),('Alphabet','Microsoft型平台',8.3,'Gemini、Vertex、Android、Workspace与Cloud','MED'),('Alphabet','Intel型算力标准',6.5,'十年TPU路线但主要通过Google Cloud交付','MED'),('Amazon','Microsoft型平台',7.8,'AWS、Bedrock与企业云采购入口','MED'),('Amazon','Intel型算力标准',6.8,'Trainium部署规模大但局限AWS','MED'),('AMD','Microsoft型平台',5.5,'ROCm改善但生态控制力有限','MED'),('AMD','Intel型算力标准',7.8,'商用第二供应商与CPU/GPU组合','MED'),('Meta','Microsoft型平台',6.8,'PyTorch、Llama与大众应用分发','MED'),('Meta','Intel型算力标准',4.2,'MTIA规模扩大但主要内部使用','LOW'),('Broadcom','Microsoft型平台',3.5,'不控制通用开发者接口','HIGH'),('Broadcom','Intel型算力标准',7.2,'定制ASIC、网络与多客户设计能力','MED')) SELECT company, archetype, score, evidence, confidence FROM candidate_scores", "description": "重现报告中的两类启发式评分。", "executed_at": "2026-07-13T07:50:14Z", "filters": ["截至2026-07-13的一手公开资料"], "metric_definitions": ["score为0至10的序数型分析评分，不是概率或市场份额"]}},
+    {"id": "nvidia_q1", "label": "NVIDIA Q1 FY2027 results", "href": "https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-first-quarter-fiscal-2027"},
+    {"id": "openai_2026", "label": "OpenAI adoption and infrastructure update", "href": "https://openai.com/index/accelerating-the-next-phase-ai/"},
+    {"id": "microsoft_q3", "label": "Microsoft FY2026 Q3 earnings call", "href": "https://www.microsoft.com/en-us/investor/events/fy-2026/earnings-fy-2026-q3"},
+    {"id": "amazon_q1", "label": "Amazon Q1 2026 results", "href": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-First-Quarter-Results/default.aspx"},
+    {"id": "amd_q1", "label": "AMD Q1 2026 earnings slides", "href": "https://ir.amd.com/financial-information/sec-filings/content/0000002488-26-000072/amdq126earningsslidesfin.htm"},
+    {"id": "broadcom_q2", "label": "Broadcom Q2 FY2026 results", "href": "https://investors.broadcom.com/news-releases/news-release-details/broadcom-inc-announces-second-quarter-fiscal-year-2026-financial"}
+  ]
+}

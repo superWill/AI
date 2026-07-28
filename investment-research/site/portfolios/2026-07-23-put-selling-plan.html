@@ -28,8 +28,8 @@
           <p>组合、仓位和执行层面的判断。</p>
           <div class="meta-row">
             <span class="pill">portfolios/2026-07-23-put-selling-plan.md</span>
-            <span class="pill">198 words</span>
-            <span class="pill">6 sections</span>
+            <span class="pill">416 words</span>
+            <span class="pill">8 sections</span>
           </div>
         </div>
         <div class="doc-stat-stack">
@@ -53,9 +53,32 @@
 <h2 id="执行顺序锁死">执行顺序（锁死）</h2>
 <ol>
 <li>内存腿批 2/3 趁强减到 ~13% 目标（既定计划，非本文件新增）。</li>
-<li>所得现金买短期 T-bill。</li>
+<li>所得现金买短期 T-bill <strong>阶梯</strong>（步骤见下「现金腿」）。</li>
 <li>按下表对<strong>计划内标的</strong>卖 cash-secured put。<strong>顺序不可倒置</strong>——卖 put 不是绕过减仓的方式。</li>
 </ol>
+<h2 id="现金腿t-bill-阶梯-收息现金垫-卖-put-担保一物两用">现金腿（T-bill 阶梯 = 收息现金垫 + 卖 put 担保，一物两用）</h2>
+<p><strong>为什么阶梯而非单一期限</strong>：卖 put 的担保金需要在被行权时能及时腾出来接货；阶梯让总有一档快到期可支取，同时锁住短端收益率。这是段永平「担保金躺 T-bill 里」的可执行版。</p>
+<h3 id="买入操作清单照做金额按自己担保金替换下用-40000-示例">买入操作清单（照做，金额按自己担保金替换，下用 $40,000 示例）</h3>
+<p><strong>0. 出发前检查（一次性）</strong></p>
+<ul>
+<li>债券权限：Client Portal → Settings → Trading Permissions，确认 <strong>Bonds</strong> 已开（美国账户通常默认开；没开勾一下即时生效）。买 T-bill 只需债券权限，不需 margin/期权。</li>
+<li>现金在 <strong>securities segment</strong>（不是 commodities segment，后者不计息也不便交易）。</li>
+</ul>
+<p><strong>1. 定金额与分档</strong>（示例 $40,000 拆 4 档）</p>
+<table><thead><tr><th>档</th><th>期限</th><th>面值</th><th>作用</th></tr></thead><tbody><tr><td>1</td><td>4 周</td><td>$10,000</td><td>最近可支取（被行权接货先用它）</td></tr><tr><td>2</td><td>8 周</td><td>$10,000</td><td></td></tr><tr><td>3</td><td>13 周</td><td>$10,000</td><td></td></tr><tr><td>4</td><td>26 周</td><td>$10,000</td><td>锁较高收益率</td></tr></tbody></table>
+<blockquote>面值 <strong>$1,000 起、$1,000 递增</strong>；留头 ~$10k 在账户吃自动利息当缓冲，别买光。</blockquote>
+<p><strong>2. 找券</strong>：Trade → <strong>Bonds</strong>（或 Research → <strong>Bond Scanner</strong>）→ <strong>US Treasuries</strong> 标签 → 类型选 <strong>Bill</strong> → 按 Maturity 排、比 <strong>Yield to Maturity/Worst</strong>，每档挑一只到期日贴近目标、有明确 bid/ask 的。</p>
+<p><strong>3. 下单（每档重复）</strong>：Action=<strong>Buy</strong>；<strong>Quantity 填面值</strong>（<code>10000</code>=$1 万面值，不是 10 张）；<strong>限价单</strong>挂当前 <strong>Ask</strong>（报价是面值百分比如 <code>98.90</code>=折价买、到期收 100）；确认佣金 <strong>0.2bps／最低 $5</strong>（$1 万面值约 $5）。</p>
+<p><strong>4. 成交后</strong>：结算 <strong>T+1</strong>，Portfolio 可见持仓；到期自动按面值兑付回现金，无需操作；<strong>收益=面值−买入价</strong>（无票息）。</p>
+<p><strong>5. 开 Auto-Roll</strong>（推荐）：持仓上打开 → 到期自动续买同类，零维护；<strong>唯一手动介入时刻=某档要接被行权的股票时，先关掉该档 Auto-Roll，让到期资金落回现金交割</strong>。</p>
+<p><strong>三个坑</strong>：① 别挂市价单（债券市价可能吃差价，用限价挂 Ask）；② Quantity 是<strong>面值不是张数</strong>（填 <code>10000</code> 不是 <code>10</code>）；③ 别为凑阶梯买太碎（每档 ≥ ~$1-2 万面值，否则 $5 最低佣金摊薄收益）。</p>
+<p><strong>与担保纪律的对账（重要，别踩自己的规矩）：</strong></p>
+<ul>
+<li>T-bill <strong>可</strong>给 cash-secured put 当担保（margin 账户里按近面值计担保值，一边收息一边背书 put）——这是合规做法，不算「用 margin 冒充现金」。</li>
+<li>「不用 margin 冒充现金」的真正含义：<strong>总 put 名义义务 ≤ 你真实持有的 (现金 + T-bill 面值)</strong>。T-bill 是你真实资产，用它背书=正道；<strong>用超出资产的杠杆买力去卖 put = 禁区</strong>。</li>
+<li>被行权时系统可能先短暂占用 margin 再由你卖 T-bill 补上——因 T-bill 流动性极高，实操无摩擦；但<strong>别把这个便利变成常态性 margin 敞口</strong>。</li>
+<li>别偷懒用 <strong>IBKR 自动现金利息</strong>（基准减 spread、低档不计息）冒充 T-bill——那是躺着不动的低收益默认，捕获不到完整短端收益率。</li>
+</ul>
 <h2 id="候选表按优先级">候选表（按优先级）</h2>
 <table><thead><tr><th>优先级</th><th>标的</th><th>现价(7/23)</th><th>行权价区</th><th>期限</th><th>单张义务</th><th>依据 / 前置条件</th></tr></thead><tbody><tr><td>1</td><td><strong>BRK.B</strong></td><td>$489</td><td><strong>$450-465</strong>(-5~8%)</td><td>30-60d</td><td>~$4.6万</td><td>6/24 计划&quot;加 BRK 锚&quot;;corr SOXX≈-0.03 真正交;被行权=完成计划。<strong>无前置条件,首笔从这开始</strong></td></tr><tr><td>2</td><td>正交锚 NOW/NFLX</td><td>⚠️ 待核</td><td>待定</td><td>30-60d</td><td>待定</td><td>GOOGL.md 结论&quot;加仓先轮正交锚&quot;。<strong>前置:7/23 抓到 NOW $95/NFLX $69,疑拆股或坏数据,先在 IBKR 核实价再定行权价</strong></td></tr><tr><td>3</td><td>GOOG（有条件）</td><td>$342</td><td>$310-315(段Q1成本带)</td><td>30-60d</td><td>~$3.1万</td><td><strong>前置:已持 15.9%,行权会推超权重;必须先在本文件写明&quot;有意识推翻「加仓先轮正交锚」的理由&quot;才可卖</strong>——不能以&quot;段永平还会加&quot;为理由</td></tr></tbody></table>
 <h2 id="禁区引-playbook此处只列名单">禁区（引 playbook，此处只列名单）</h2>
@@ -81,7 +104,7 @@
       <aside class="doc-sidebar">
         <section class="sidebar-card">
           <h3 class="sidebar-title">文档导航</h3>
-          <ul class="toc-list"><li><a href="#执行顺序锁死">执行顺序（锁死）</a></li><li><a href="#候选表按优先级">候选表（按优先级）</a></li><li><a href="#禁区引-playbook此处只列名单">禁区（引 playbook，此处只列名单）</a></li><li><a href="#参数纪律">参数纪律</a></li><li><a href="#短-put-义务台账每笔当天记13f-式盲区不记低估真实敞口">短 put 义务台账（每笔当天记，13F 式盲区：不记=低估真实敞口）</a></li><li><a href="#检验点">检验点</a></li></ul>
+          <ul class="toc-list"><li><a href="#执行顺序锁死">执行顺序（锁死）</a></li><li><a href="#现金腿t-bill-阶梯-收息现金垫-卖-put-担保一物两用">现金腿（T-bill 阶梯 = 收息现金垫 + 卖 put 担保，一物两用）</a></li><li style="padding-left:14px"><a href="#买入操作清单照做金额按自己担保金替换下用-40000-示例">买入操作清单（照做，金额按自己担保金替换，下用 $40,000 示例）</a></li><li><a href="#候选表按优先级">候选表（按优先级）</a></li><li><a href="#禁区引-playbook此处只列名单">禁区（引 playbook，此处只列名单）</a></li><li><a href="#参数纪律">参数纪律</a></li><li><a href="#短-put-义务台账每笔当天记13f-式盲区不记低估真实敞口">短 put 义务台账（每笔当天记，13F 式盲区：不记=低估真实敞口）</a></li><li><a href="#检验点">检验点</a></li></ul>
         </section>
         <section class="sidebar-card">
           <h3 class="sidebar-title">阅读提示</h3>

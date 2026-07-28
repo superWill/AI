@@ -1,0 +1,193 @@
+{
+  "surface": "report",
+  "manifest": {
+    "version": 1,
+    "surface": "report",
+    "title": "英伟达在 AI 与具身智能时代的合理体量",
+    "description": "以2030年为主时点，对英伟达收入、利润、具身智能贡献和估值进行情景测算。",
+    "generatedAt": "2026-07-13T09:30:00Z",
+    "cards": [],
+    "charts": [
+      {
+        "id": "revenue_composition",
+        "title": "2030年收入构成情景",
+        "subtitle": "[FRAME] 年收入，十亿美元；具身智能训练收入与核心AI数据中心收入分开列示以避免重复计算。",
+        "headerMarkdown": "[INFERRED] 核心AI数据中心在三个情景中都是最大收入池；具身智能是重要增量，但不是2030年主体。置信度：MED。",
+        "type": "bar",
+        "dataset": "revenue_composition",
+        "sourceId": "composition_model",
+        "valueFormat": "number",
+        "layout": "full",
+        "encodings": {
+          "x": {"field": "scenario", "type": "nominal", "label": "情景"},
+          "y": {"field": "revenue_b", "type": "quantitative", "label": "收入（十亿美元）"},
+          "color": {"field": "segment", "type": "nominal", "label": "收入来源"},
+          "tooltip": [
+            {"field": "segment", "type": "nominal", "label": "收入来源"},
+            {"field": "revenue_b", "type": "quantitative", "label": "收入（十亿美元）"}
+          ]
+        }
+      },
+      {
+        "id": "valuation_scenarios",
+        "title": "2030年估值情景",
+        "subtitle": "[FRAME] 市值，万亿美元；基于归一化净利润与22–32倍市盈率。",
+        "headerMarkdown": "[COMPUTED] 情景市值为4.0万亿、8.7万亿和15.5万亿美元；当前约5.1万亿美元市值已经排除了最悲观路径的大部分安全垫。",
+        "type": "bar",
+        "dataset": "scenario_metrics",
+        "sourceId": "valuation_model",
+        "valueFormat": "number",
+        "layout": "full",
+        "encodings": {
+          "x": {"field": "scenario", "type": "nominal", "label": "情景"},
+          "y": {"field": "market_cap_t", "type": "quantitative", "label": "市值（万亿美元）"},
+          "tooltip": [
+            {"field": "revenue_b", "type": "quantitative", "label": "收入（十亿美元）"},
+            {"field": "net_income_b", "type": "quantitative", "label": "净利润（十亿美元）"},
+            {"field": "pe", "type": "quantitative", "label": "市盈率"},
+            {"field": "price_per_share", "type": "quantitative", "label": "每股价值（美元）"}
+          ]
+        }
+      }
+    ],
+    "tables": [
+      {
+        "id": "scenario_table",
+        "title": "2030年收入、利润与估值情景",
+        "subtitle": "[FRAME] 每股价值使用当前约243亿股静态股本，未计未来回购或稀释。",
+        "dataset": "scenario_metrics",
+        "sourceId": "valuation_model",
+        "defaultSort": {"field": "revenue_b", "direction": "asc"},
+        "density": "spacious",
+        "layout": "full",
+        "columns": [
+          {"field": "scenario", "label": "情景", "type": "text"},
+          {"field": "revenue_b", "label": "收入 $B", "format": "number"},
+          {"field": "physical_ai_share", "label": "具身占比 %", "format": "number"},
+          {"field": "net_income_b", "label": "净利润 $B", "format": "number"},
+          {"field": "market_cap_t", "label": "市值 $T", "format": "number"},
+          {"field": "price_per_share", "label": "每股 $", "format": "number"}
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "id": "composition_model",
+        "label": "2030年收入构成情景模型",
+        "path": "scenario_query.sql",
+        "query": {
+          "engine": "sqlite",
+          "language": "sql",
+          "sql": "WITH revenue_composition(scenario,segment,revenue_b) AS (VALUES ('悲观','核心AI',340.0),('悲观','具身训练',25.0),('悲观','机器人端侧',8.0),('悲观','游戏及其他',47.0),('基准','核心AI',500.0),('基准','具身训练',55.0),('基准','机器人端侧',25.0),('基准','游戏及其他',70.0),('乐观','核心AI',690.0),('乐观','具身训练',100.0),('乐观','机器人端侧',70.0),('乐观','游戏及其他',90.0)) SELECT scenario,segment,revenue_b FROM revenue_composition",
+          "description": "重现2030年三个情景的收入构成。",
+          "executed_at": "2026-07-13T09:30:00Z",
+          "filters": ["2030年年化收入", "英伟达可确认收入", "排除机器人整机销售额与客户经济价值"],
+          "metric_definitions": ["具身智能收入=训练与仿真数据中心收入+机器人与汽车端侧收入", "核心AI数据中心不含具身智能训练与仿真归因额"]
+        }
+      },
+      {
+        "id": "valuation_model",
+        "label": "2030年估值情景模型",
+        "path": "scenario_query.sql",
+        "query": {
+          "engine": "sqlite",
+          "language": "sql",
+          "sql": "WITH scenarios(scenario,revenue_b,physical_ai_b,net_margin,pe) AS (VALUES ('悲观',420.0,33.0,0.43,22.0),('基准',650.0,80.0,0.48,28.0),('乐观',950.0,170.0,0.51,32.0)) SELECT scenario,revenue_b,(POWER(revenue_b/364.0,1.0/4.5)-1.0)*100.0 AS revenue_cagr,physical_ai_b/revenue_b*100.0 AS physical_ai_share,net_margin*100.0 AS net_margin,revenue_b*net_margin AS net_income_b,pe,revenue_b*net_margin*pe/1000.0 AS market_cap_t,revenue_b*net_margin*pe/24.3 AS price_per_share FROM scenarios",
+          "description": "由收入、净利率和市盈率计算净利润、市值和静态每股价值。",
+          "executed_at": "2026-07-13T09:30:00Z",
+          "filters": ["2030年", "静态243亿股", "未计未来回购和稀释"],
+          "metric_definitions": ["市值=收入×归一化净利率×市盈率", "每股价值=市值/243亿股", "收入增速以FY2027第二季度910亿美元指引中值的年化3640亿美元为起点"]
+        }
+      },
+      {"id": "nvidia_q1_fy27", "label": "NVIDIA Q1 FY2027 results", "href": "https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-first-quarter-fiscal-2027"},
+      {"id": "nvidia_fy26", "label": "NVIDIA FY2026 results", "href": "https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Announces-Financial-Results-for-Fourth-Quarter-and-Fiscal-2026/"},
+      {"id": "nvidia_10q", "label": "NVIDIA Q1 FY2027 Form 10-Q", "href": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000052/nvda-20260426.htm"},
+      {"id": "ifr_2025", "label": "IFR World Robotics 2025", "href": "https://ifr.org/news/global-robot-demand-in-factories-doubles-over-10-years/1"},
+      {"id": "jetson_thor", "label": "NVIDIA Jetson Thor general availability", "href": "https://nvidianews.nvidia.com/news/nvidia-blackwell-powered-jetson-thor-now-available-accelerating-the-age-of-general-robotics"},
+      {"id": "market_cap", "label": "NVIDIA market capitalization, July 2026", "href": "https://companiesmarketcap.com/nvidia/marketcap/"}
+    ],
+    "blocks": [
+      {"id": "title", "type": "markdown", "body": "# 英伟达在 AI 与具身智能时代的合理体量"},
+      {
+        "id": "executive_summary",
+        "type": "markdown",
+        "body": "## Executive Summary\n\n- [INFERRED] **我的2030年基准判断是：英伟达年收入约6,500亿美元，归一化净利润约3,120亿美元，合理市值约8.7万亿美元。** 这对应从当前3,640亿美元指引年化水平继续增长约14%/年，并在2030年获得28倍市盈率；置信度：MED。\n- [INFERRED] **合理区间非常宽：收入4,200亿–9,500亿美元，市值4.0万亿–15.5万亿美元。** 当前约5.1万亿美元市值已经要求公司明显好于悲观情景，投资者并没有得到便宜的具身智能期权；置信度：MED。\n- [INFERRED] **具身智能到2030年更可能贡献330亿–1,700亿美元收入，占总收入约8%–18%。** 它是第二增长曲线，不是英伟达达到6,500亿美元收入的主要理由；置信度：MED。\n- [INFERRED] **真正的大变量仍是AI数据中心的持续资本开支和英伟达的利润抽取率。** 如果云厂自研芯片、推理商品化或供电约束让数据中心增速低于约10%，机器人再火也很难独自支撑当前估值；置信度：HIGH。"
+      },
+      {
+        "id": "baseline",
+        "type": "markdown",
+        "body": "## 起点已经是3,000多亿美元收入体量\n\n[KNOWN] [NVIDIA](https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-first-quarter-fiscal-2027) FY2027第一季度收入为816亿美元，数据中心收入752亿美元；第二季度收入指引中值为910亿美元。\n\n[COMPUTED] 把第二季度指引简单年化得到3,640亿美元，这不是全年预测，只是进入2030年模型的当前速度基线。\n\n[KNOWN] [NVIDIA](https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Announces-Financial-Results-for-Fourth-Quarter-and-Fiscal-2026/) FY2026全年收入为2,159亿美元、GAAP净利润为1,201亿美元。\n\n[INFERRED] 英伟达已经不是等待机器人兑现的小型成长公司；具身智能只能改变其增长持续期和终局利润池，不能把当前规模重新从零计算。置信度：HIGH。"
+      },
+      {"id": "revenue_chart", "type": "chart", "chartId": "revenue_composition"},
+      {
+        "id": "scenario_interpretation",
+        "type": "markdown",
+        "body": "## 基准情景需要约14%的持续年增长\n\n[FRAME] 悲观情景假设核心AI建设快速成熟，2030年收入仅增至4,200亿美元；基准情景假设推理、智能体和企业AI继续扩张，收入达到6,500亿美元；乐观情景假设AI工厂和物理AI同时高速扩张，收入达到9,500亿美元。\n\n[COMPUTED] 相对3,640亿美元的当前指引年化基线，按2026年中到2030年末约4.5年计算，三种路径所需复合增速约为3%、14%和24%。\n\n[INFERRED] 3%的悲观增速并不极端，因为当前季度基线处于供给扩张与客户资本开支高峰；24%的乐观增速则要求英伟达在规模接近万亿美元时仍保持平台定价权。置信度：MED。"
+      },
+      {
+        "id": "physical_ai_role",
+        "type": "markdown",
+        "body": "## 机器人故事很大，但英伟达可获得收入小得多\n\n[KNOWN] [国际机器人联合会](https://ifr.org/news/global-robot-demand-in-factories-doubles-over-10-years/1)统计，2024年全球新安装54.2万台工业机器人，存量约466万台，并预计2028年年度安装量超过70万台。\n\n[KNOWN] [NVIDIA](https://nvidianews.nvidia.com/news/nvidia-blackwell-powered-jetson-thor-now-available-accelerating-the-age-of-general-robotics)披露其机器人栈拥有超过200万开发者、150多家生态伙伴，Jetson Orin客户超过7,000家。\n\n[INFERRED] 这证明生态位置强，但不能证明2030年会出现数千万台高价人形机器人。工业机器人安装量仍以几十万台计，且许多设备只需要低成本控制器。置信度：HIGH。\n\n[FRAME] 模型把具身智能收入限制为英伟达实际可确认的训练/仿真GPU、网络系统和端侧模块收入，不计机器人整机价值、客户节省的人工成本或云服务商的转售收入。\n\n[INFERRED] 基准情景的800亿美元具身智能收入已经相当进取：其中约550亿美元来自训练与仿真，250亿美元来自机器人、汽车和其他端侧计算。置信度：MED。"
+      },
+      {"id": "valuation_chart", "type": "chart", "chartId": "valuation_scenarios"},
+      {
+        "id": "valuation",
+        "type": "markdown",
+        "body": "## 估值关键不是收入，而是利润率能否留下来\n\n[FRAME] 模型使用43%、48%和51%的归一化净利率，低于最近部分季度的异常高GAAP利润率，以反映竞争、产品周期、供应成本和税率正常化。\n\n[COMPUTED] 对应净利润约1,806亿、3,120亿和4,845亿美元；按22倍、28倍和32倍市盈率，市值约4.0万亿、8.7万亿和15.5万亿美元。\n\n[COMPUTED] 若股本保持约243亿股不变，静态每股价值约164、360和638美元。\n\n[INFERRED] 这不是目标价：未来回购、稀释、利率和市场风险偏好会改变每股价值与市盈率。置信度：HIGH。"
+      },
+      {"id": "scenario_table_block", "type": "table", "tableId": "scenario_table"},
+      {
+        "id": "monitoring",
+        "type": "markdown",
+        "body": "## 决定模型走向的四个监控点\n\n1. [INFERRED] **数据中心收入增速。** 若到2028年前仍能保持15%以上，基准情景可维持；若快速跌至个位数，悲观情景更合理。置信度：MED。\n2. [INFERRED] **网络与系统收入占比。** 更高的NVLink、网络和整机附加值能抵消单颗GPU被自研ASIC替代的压力。置信度：HIGH。\n3. [INFERRED] **物理AI的付费证据。** 重点看机器人/汽车收入、Jetson生产模块出货和Omniverse/Isaac是否产生可分辨的增量，而不是开发者数量和合作公告。置信度：HIGH。\n4. [INFERRED] **归一化净利率。** 对2030年6,500亿美元收入而言，净利率每变动5个百分点，净利润会变化约325亿美元；以28倍市盈率计，市值影响约0.91万亿美元。置信度：HIGH。"
+      },
+      {
+        "id": "questions",
+        "type": "markdown",
+        "body": "## 需要继续验证的问题\n\n- [INFERRED] 具身智能训练负载是否会使用与大模型相同的高端GPU和网络配置，还是迁移到更便宜的专用加速器？\n- [INFERRED] 机器人厂商愿意为Jetson Thor级模块支付多高的量产价格，英伟达能保留多少毛利？\n- [INFERRED] 云厂自研芯片在推理工作负载中的占比会不会在2028年前跨过足以压低英伟达定价权的阈值？\n- [INFERRED] 供电、封装、HBM和光互连约束是延后收入，还是永久压低可实现市场规模？"
+      },
+      {
+        "id": "caveats",
+        "type": "markdown",
+        "body": "## Caveats and assumptions\n\n[FRAME] 本报告是情景估算，不是公司指引、目标价或确定性预测。\n\n[GUESS] 2035年方向性收入范围约0.6万亿–1.8万亿美元，基准约1.1万亿美元；时间过远，机器人单位量、端侧ASP、竞争和利润率均不可可靠预测。置信度：LOW。\n\n[KNOWN] 当前市值约5.1万亿美元来自2026年7月的二级市场数据，日内会变化。\n\n[FRAME] 2030年每股价值使用约243亿股静态股本；未建模回购、员工股权、并购或拆股。\n\n[INFERRED] 模型最敏感的变量是核心AI数据中心增长和净利率，而不是机器人总市场规模。置信度：HIGH。\n\n[RULES I BROKE]: none."
+      }
+    ]
+  },
+  "snapshot": {
+    "version": 1,
+    "generatedAt": "2026-07-13T09:30:00Z",
+    "status": "ready",
+    "datasets": {
+      "revenue_composition": [
+        {"scenario": "悲观", "segment": "核心AI", "revenue_b": 340},
+        {"scenario": "悲观", "segment": "具身训练", "revenue_b": 25},
+        {"scenario": "悲观", "segment": "机器人端侧", "revenue_b": 8},
+        {"scenario": "悲观", "segment": "游戏及其他", "revenue_b": 47},
+        {"scenario": "基准", "segment": "核心AI", "revenue_b": 500},
+        {"scenario": "基准", "segment": "具身训练", "revenue_b": 55},
+        {"scenario": "基准", "segment": "机器人端侧", "revenue_b": 25},
+        {"scenario": "基准", "segment": "游戏及其他", "revenue_b": 70},
+        {"scenario": "乐观", "segment": "核心AI", "revenue_b": 690},
+        {"scenario": "乐观", "segment": "具身训练", "revenue_b": 100},
+        {"scenario": "乐观", "segment": "机器人端侧", "revenue_b": 70},
+        {"scenario": "乐观", "segment": "游戏及其他", "revenue_b": 90}
+      ],
+      "scenario_metrics": [
+        {"scenario": "悲观", "revenue_b": 420, "revenue_cagr": 3.2, "physical_ai_share": 7.9, "net_margin": 43, "net_income_b": 180.6, "pe": 22, "market_cap_t": 3.97, "price_per_share": 164},
+        {"scenario": "基准", "revenue_b": 650, "revenue_cagr": 13.8, "physical_ai_share": 12.3, "net_margin": 48, "net_income_b": 312.0, "pe": 28, "market_cap_t": 8.74, "price_per_share": 360},
+        {"scenario": "乐观", "revenue_b": 950, "revenue_cagr": 23.8, "physical_ai_share": 17.9, "net_margin": 51, "net_income_b": 484.5, "pe": 32, "market_cap_t": 15.50, "price_per_share": 638}
+      ]
+    },
+    "accessIssues": []
+  },
+  "sources": [
+    {"id": "composition_model", "label": "2030年收入构成情景模型", "path": "scenario_query.sql", "query": {"engine": "sqlite", "language": "sql", "sql": "WITH revenue_composition(scenario,segment,revenue_b) AS (VALUES ('悲观','核心AI',340.0),('悲观','具身训练',25.0),('悲观','机器人端侧',8.0),('悲观','游戏及其他',47.0),('基准','核心AI',500.0),('基准','具身训练',55.0),('基准','机器人端侧',25.0),('基准','游戏及其他',70.0),('乐观','核心AI',690.0),('乐观','具身训练',100.0),('乐观','机器人端侧',70.0),('乐观','游戏及其他',90.0)) SELECT scenario,segment,revenue_b FROM revenue_composition", "description": "重现2030年三个情景的收入构成。", "executed_at": "2026-07-13T09:30:00Z", "filters": ["2030年年化收入", "英伟达可确认收入", "排除机器人整机销售额与客户经济价值"], "metric_definitions": ["具身智能收入=训练与仿真数据中心收入+机器人与汽车端侧收入", "核心AI数据中心不含具身智能训练与仿真归因额"]}},
+    {"id": "valuation_model", "label": "2030年估值情景模型", "path": "scenario_query.sql", "query": {"engine": "sqlite", "language": "sql", "sql": "WITH scenarios(scenario,revenue_b,physical_ai_b,net_margin,pe) AS (VALUES ('悲观',420.0,33.0,0.43,22.0),('基准',650.0,80.0,0.48,28.0),('乐观',950.0,170.0,0.51,32.0)) SELECT scenario,revenue_b,(POWER(revenue_b/364.0,1.0/4.5)-1.0)*100.0 AS revenue_cagr,physical_ai_b/revenue_b*100.0 AS physical_ai_share,net_margin*100.0 AS net_margin,revenue_b*net_margin AS net_income_b,pe,revenue_b*net_margin*pe/1000.0 AS market_cap_t,revenue_b*net_margin*pe/24.3 AS price_per_share FROM scenarios", "description": "由收入、净利率和市盈率计算净利润、市值和静态每股价值。", "executed_at": "2026-07-13T09:30:00Z", "filters": ["2030年", "静态243亿股", "未计未来回购和稀释"], "metric_definitions": ["市值=收入×归一化净利率×市盈率", "每股价值=市值/243亿股", "收入增速以FY2027第二季度910亿美元指引中值的年化3640亿美元为起点，期间按4.5年计算"]}},
+    {"id": "nvidia_q1_fy27", "label": "NVIDIA Q1 FY2027 results", "href": "https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-first-quarter-fiscal-2027"},
+    {"id": "nvidia_fy26", "label": "NVIDIA FY2026 results", "href": "https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Announces-Financial-Results-for-Fourth-Quarter-and-Fiscal-2026/"},
+    {"id": "nvidia_10q", "label": "NVIDIA Q1 FY2027 Form 10-Q", "href": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000052/nvda-20260426.htm"},
+    {"id": "ifr_2025", "label": "IFR World Robotics 2025", "href": "https://ifr.org/news/global-robot-demand-in-factories-doubles-over-10-years/1"},
+    {"id": "jetson_thor", "label": "NVIDIA Jetson Thor general availability", "href": "https://nvidianews.nvidia.com/news/nvidia-blackwell-powered-jetson-thor-now-available-accelerating-the-age-of-general-robotics"},
+    {"id": "market_cap", "label": "NVIDIA market capitalization, July 2026", "href": "https://companiesmarketcap.com/nvidia/marketcap/"}
+  ]
+}

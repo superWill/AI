@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>validation report</title>
+  <link rel="stylesheet" href="../../_assets/style.css" />
+</head>
+<body>
+  <div class="site-shell">
+  <div class="page">
+    <div class="topbar">
+      <div class="nav-cluster">
+        <a class="back" href="../../index.html">← 返回投研首页</a>
+        <a class="nav-link secondary" href="../../all-docs.html">全部文档</a>
+      </div>
+      <div class="nav-cluster">
+        <a class="home-link" href="../../notes.html">Notes</a>
+        <a class="home-link" href="../../candidates.html">Candidates</a>
+        <a class="home-link" href="../../tickers.html">Tickers</a>
+      </div>
+    </div>
+    <section class="hero">
+      <div class="doc-header-grid">
+        <div>
+          <div class="eyebrow">reports</div>
+          <h1>validation-report</h1>
+          <p>研究文档。</p>
+          <div class="meta-row">
+            <span class="pill">reports/nvidia-ai-physical-intelligence-size-2030-2026-07-13/validation-report.md</span>
+            <span class="pill">347 words</span>
+            <span class="pill">6 sections</span>
+          </div>
+        </div>
+        <div class="doc-stat-stack">
+          <div class="doc-stat">
+            <div class="doc-stat-label">Document Type</div>
+            <div class="doc-stat-value">Reports</div>
+          </div>
+          <div class="doc-stat">
+            <div class="doc-stat-label">Reading Mode</div>
+            <div class="doc-stat-value">Research Memo</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="doc-layout">
+      <article class="doc doc-main">
+<h1 id="validation-report">Validation Report</h1>
+<h2 id="overall-assessment-share-with-caveats">Overall Assessment: Share with caveats</h2>
+<p>[KNOWN] Question reviewed: the 2030 revenue, earnings, physical-AI contribution, and valuation scale that NVIDIA could reach as current AI infrastructure and embodied intelligence develop.</p>
+<h2 id="methodology-review">Methodology Review</h2>
+<p>[KNOWN] The model measures NVIDIA-recognizable revenue rather than total robot sales or customer economic value.</p>
+<p>[KNOWN] Core AI data-center revenue excludes the physical-AI training and simulation line, preventing that revenue from being counted twice.</p>
+<p>[FRAME] Scenario assumptions remain judgmental because NVIDIA does not disclose a physical-AI revenue segment and reliable 2030 robot unit or edge-compute ASP forecasts do not exist.</p>
+<h2 id="issues-found">Issues Found</h2>
+<ol>
+<li>[KNOWN] Severity: Medium — Physical-AI revenue attribution is not directly disclosed; the $33B–$170B range is model-based.</li>
+<li>[KNOWN] Severity: Medium — Terminal P/E and normalized net margin jointly dominate valuation; neither is observable today for 2030.</li>
+<li>[KNOWN] Severity: Low — The static 24.3B share count ignores future repurchases and dilution, so per-share values are illustrations.</li>
+<li>[KNOWN] Severity: Low — Current market capitalization uses a secondary market-data source and changes daily.</li>
+</ol>
+<h2 id="calculation-spot-checks">Calculation Spot-Checks</h2>
+<ul>
+<li>[COMPUTED] Revenue subtotals: verified — $340B+$25B+$8B+$47B=$420B; $500B+$55B+$25B+$70B=$650B; $690B+$100B+$70B+$90B=$950B.</li>
+<li>[COMPUTED] Base net income: verified — $650B×48%=$312B.</li>
+<li>[COMPUTED] Base market capitalization: verified — $312B×28=$8.736T.</li>
+<li>[COMPUTED] Base static per-share value: verified — $8.736T/24.3B=$359.51.</li>
+<li>[COMPUTED] Revenue CAGR: verified — from $364B to $420B/$650B/$950B over 4.5 years equals 3.2%/13.8%/23.8%.</li>
+<li>[COMPUTED] Base margin sensitivity: verified — $650B×5 percentage points×28=$0.91T of equity value.</li>
+</ul>
+<h2 id="visualization-review">Visualization Review</h2>
+<p>[KNOWN] Both bar charts use zero baselines, explicit units, neutral titles, and adjacent interpretation.</p>
+<p>[KNOWN] The portable HTML verifier passed at 1,440px and 390px viewports with no horizontal overflow or external network calls.</p>
+<h2 id="required-caveats-for-stakeholders">Required Caveats for Stakeholders</h2>
+<ul>
+<li>[FRAME] Treat all scenario outputs as conditional results, not forecasts or price targets.</li>
+<li>[INFERRED] The model is suitable for identifying what must be true for the current valuation, but not for choosing a position without a separate downside, probability, and portfolio analysis. Confidence: HIGH.</li>
+<li>[KNOWN] The Jupyter notebook could not be executed because the environment lacks the <code>jupyter</code> module; <code>model.py</code> and <code>scenario_query.sql</code> were executed successfully and reproduce the calculations.</li>
+</ul>
+<p>[RULES I BROKE]: none.</p>
+      </article>
+      <aside class="doc-sidebar">
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">文档导航</h3>
+          <ul class="toc-list"><li><a href="#overall-assessment-share-with-caveats">Overall Assessment: Share with caveats</a></li><li><a href="#methodology-review">Methodology Review</a></li><li><a href="#issues-found">Issues Found</a></li><li><a href="#calculation-spot-checks">Calculation Spot-Checks</a></li><li><a href="#visualization-review">Visualization Review</a></li><li><a href="#required-caveats-for-stakeholders">Required Caveats for Stakeholders</a></li></ul>
+        </section>
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">阅读提示</h3>
+          <ul class="summary-list">
+            <li><span class="summary-label">先看什么</span><span class="summary-value">先读一段话结论，再看表格和风险点。</span></li>
+            <li><span class="summary-label">适合用途</span><span class="summary-value">复盘、比较、回查研究底稿。</span></li>
+            <li><span class="summary-label">建议动作</span><span class="summary-value">如果文档内容改变了 thesis，再回到候选池或组合页更新判断。</span></li>
+          </ul>
+        </section>
+      </aside>
+    </div>
+    <div class="footer">该页面由 Markdown 自动生成。原始文件：reports/nvidia-ai-physical-intelligence-size-2030-2026-07-13/validation-report.md</div>
+  </div>
+  </div>
+</body>
+</html>
