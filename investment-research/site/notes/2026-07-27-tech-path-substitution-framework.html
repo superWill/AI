@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2026 07 27 tech path substitution framework</title>
+  <link rel="stylesheet" href="../_assets/style.css" />
+</head>
+<body>
+  <div class="site-shell">
+  <div class="page">
+    <div class="topbar">
+      <div class="nav-cluster">
+        <a class="back" href="../index.html">← 返回投研首页</a>
+        <a class="nav-link secondary" href="../all-docs.html">全部文档</a>
+      </div>
+      <div class="nav-cluster">
+        <a class="home-link" href="../notes.html">Notes</a>
+        <a class="home-link" href="../candidates.html">Candidates</a>
+        <a class="home-link" href="../tickers.html">Tickers</a>
+      </div>
+    </div>
+    <section class="hero">
+      <div class="doc-header-grid">
+        <div>
+          <div class="eyebrow">notes</div>
+          <h1>2026-07-27-tech-path-substitution-framework</h1>
+          <p>市场、公司或主题研究的阶段性结论。</p>
+          <div class="meta-row">
+            <span class="pill">notes/2026-07-27-tech-path-substitution-framework.md</span>
+            <span class="pill">751 words</span>
+            <span class="pill">25 sections</span>
+          </div>
+        </div>
+        <div class="doc-stat-stack">
+          <div class="doc-stat">
+            <div class="doc-stat-label">Document Type</div>
+            <div class="doc-stat-value">Notes</div>
+          </div>
+          <div class="doc-stat">
+            <div class="doc-stat-label">Reading Mode</div>
+            <div class="doc-stat-value">Research Memo</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="doc-layout">
+      <article class="doc doc-main">
+<hr />
+<p>date: 2026-07-27 type: methodology / tech-path-substitution status: active purpose: 技术路线替代的判据框架——用电动车 1900–1935 完整死亡档案反推可迁移判据(底层物理量斜率 / 补对手短板 / 份额是果不是因 / 互补资产存在性 / 定价战略),含 out-of-sample 检验与适用边界,再套用到 GPU-vs-ASIC、HBM、光互连、EV-vs-增程 holder_context: 由用户「电车上世纪占比 50% 后来为什么不行了」提问延伸;真正服务对象是组合里的 AI 算力路线之争(NVDA 9.2% / TSM 4.0% / MRVL 2.6%),以及内存腿的 HBM 论点 related: memory ai-capex-cycle-topsignal-watchlist · market-adoption-leading-signal · organic-growth-screen · capital-preservation-first · notes/2026-07-13-gui-internet-cycle-vs-ai-analog.md · notes/2026-06-24-memory-storage-cycle-mechanics.md · tickers/MU.md · tickers/NVDA.md · tickers/MRVL.md</p>
+<hr />
+<h1 id="技术路线替代的判据框架">技术路线替代的判据框架</h1>
+<h2 id="一句话">一句话</h2>
+<p><strong>当期市场份额对路线胜负的信息量接近零；决定胜负的是底层物理量的改善斜率归谁，以及谁先补掉对手的短板（而不是谁攻击对手的短板）。</strong></p>
+<p>这篇的姊妹篇是 <a href="2026-07-13-gui-internet-cycle-vs-ai-analog.html"><code>2026-07-13-gui-internet-cycle-vs-ai-analog.md</code></a>——那篇讲<strong>真范式不构成估值安全边际</strong>（赢了技术≠赢了价格），这篇讲<strong>怎么判断谁会赢技术</strong>。两个问题必须分开问，混在一起是最常见的错。</p>
+<hr />
+<h2 id="一案例档案电动车-19001935-known-high">一、案例档案：电动车 1900–1935 <code>[KNOWN, HIGH]</code></h2>
+<h3 id="起点汽油是三条路线里最不被看好的那条">起点：汽油是三条路线里最不被看好的那条</h3>
+<p>1900 年美国产 4,192 辆车：</p>
+<table><thead><tr><th>动力</th><th>数量</th><th>占比</th></tr></thead><tbody><tr><td>蒸汽</td><td>1,681</td><td><strong>40%</strong></td></tr><tr><td>电动</td><td>1,575</td><td><strong>38%</strong></td></tr><tr><td>汽油</td><td>936</td><td><strong>22%</strong></td></tr></tbody></table>
+<p><strong>关键读法不是&quot;电车占 38%&quot;，是&quot;78% 的车不烧汽油&quot;。</strong> 电车巅峰 1912 年，全美约 3 万余辆注册 <code>[MED，各来源 3.0–3.4 万浮动]</code>；1920s 崩溃，1935 年前后基本消失。</p>
+<h3 id="死因拆解按杀伤力排序">死因拆解（按杀伤力排序）</h3>
+<table><thead><tr><th>#</th><th>死因</th><th>时点</th><th>性质</th></tr></thead><tbody><tr><td>①</td><td><strong>电启动马达</strong>（Kettering，凯迪拉克 1912 量产）</td><td>1912</td><td><strong>补掉对手短板</strong></td></tr><tr><td>②</td><td>德州石油（Spindletop 1901）→ 汽油从炼煤油的废料变白菜价</td><td>1901+</td><td>投入品成本坍塌</td></tr><tr><td>③</td><td>Model T 流水线：$850(1908) → ~$260(1925)，电车守在 ~$2,650</td><td>1908–25</td><td><strong>定价战略自杀</strong></td></tr><tr><td>④</td><td>路网铺开 + <strong>农村无电</strong>（REA 1935 前仅约 10% 农场通电）</td><td>1916+</td><td><strong>互补资产缺位</strong></td></tr><tr><td>⑤</td><td>铅酸电池 1859 年发明，到 1920 年仍约 30–40 Wh/kg，<strong>几乎零改善</strong>；爱迪生镍铁电池又贵又晚</td><td>全程</td><td><strong>底层物理量斜率为负</strong></td></tr><tr><td>⑥</td><td>Electric Vehicle Company（&quot;铅酸出租车托拉斯&quot;）1907 崩盘，污名化整个品类</td><td>1899–07</td><td>资本市场事故</td></tr></tbody></table>
+<h3 id="最反直觉的一条">最反直觉的一条</h3>
+<p><strong>杀死电动车的是一个电动马达。</strong></p>
+<p>1912 年前汽油车要手摇曲柄启动——回火打断手腕是常事。电车的头号卖点从来不是环保，是&quot;<strong>上车就走，不用摇</strong>&quot;，广告直接打医生和女性市场。Kettering 的电启动机把这个优势<strong>一夜清零</strong>。</p>
+<blockquote><strong>它没有让电车变差一分，它让油车不再烂。</strong></blockquote>
+<hr />
+<h2 id="二抽出来的判据框架主体">二、抽出来的判据（框架主体）</h2>
+<blockquote>⚠️ <strong>post-hoc 警告，先读这段</strong>：以下判据是<strong>从已知结局反推</strong>的，天然有拟合嫌疑。用户规则要求自问「不知道结局时，这个框架会不会做出同样预测？」——<strong>②③⑤⑥ 我认为会（它们在 1910 年代就是可观测量）；①④ 有事后聪明成分</strong>（当年没人预见 Kettering，也没人把&quot;农村通电率&quot;列为汽车指标）。第四节给了 out-of-sample 检验和失效边界，<strong>不看那节就用这个框架，等于自己给自己编故事</strong>。<code>[INFERRED, post-hoc 已标注]</code></blockquote>
+<h3 id="j1-底层物理量的斜率归谁-最硬的一条">J1 · 底层物理量的斜率归谁 —— 最硬的一条</h3>
+<p>先问：<strong>这场路线之争，被哪一个可测量的物理量决定？</strong> 然后看这个量在两条路线上的<strong>改善速度</strong>（不是当前水平）。</p>
+<p>电车案例：能量密度。1859→1920 铅酸几乎不动，同期内燃机功率密度/可靠性/成本疯狂迭代。<strong>份额 38% 只是快照，斜率早就判了死刑。</strong></p>
+<p><strong>用法</strong>：当前水平落后但斜率更陡 → 会赢；当前水平领先但斜率平 → 会输。<strong>永远看导数不看值。</strong></p>
+<h3 id="j2-致命一击来自补对手短板不是攻对手长板">J2 · 致命一击来自&quot;补对手短板&quot;，不是&quot;攻对手长板&quot;</h3>
+<p><strong>行业里所有人都在盯&quot;谁能在 X 上超过我&quot;，而真正的杀手是&quot;谁把自己在 Y 上的烂消灭掉&quot;。</strong></p>
+<ul>
+<li>电车盯的是&quot;谁续航能超过我&quot; → 死于对手不用摇车了</li>
+<li>找威胁的正确姿势：<strong>列出对手最大的用户痛点，问&quot;如果这个痛点明天消失，我还剩什么？&quot;</strong></li>
+</ul>
+<p><strong>这是这个框架里最可操作的一条。</strong></p>
+<h3 id="j3-当期份额是果不是因">J3 · 当期份额是果不是因</h3>
+<p>38% 从来不是&quot;领先&quot;，是&quot;三条路线还没分出胜负&quot;。<strong>用份额判断路线胜负，是 1900 年和今天投资人共同的错误。</strong></p>
+<p>⚠️ 注意这条和 memory <code>market-adoption-leading-signal</code>（<strong>先看终端采用率，比财报领先</strong>）表面冲突，实则不同层：</p>
+<ul>
+<li><strong>采用率是需求侧的领先信号</strong> → 判断&quot;这个东西有没有真需求&quot;，有效</li>
+<li><strong>路线份额是供给侧路线之争的滞后快照</strong> → 判断&quot;哪条技术路线赢&quot;，无效</li>
+</ul>
+<p><strong>别把两者混用。</strong></p>
+<h3 id="j4-互补资产的存在性不是性能">J4 · 互补资产的存在性（不是性能）</h3>
+<p>电车死于<strong>美国一半国土物理上没有电线</strong>——这不是&quot;充电慢&quot;，是&quot;根本不能充&quot;。</p>
+<p><strong>存在性问题（0 或 1）比性能问题（快或慢）致命一个量级。</strong> 评估新路线时，先列它依赖的外部基础设施，逐条问&quot;这东西存在吗&quot;，再问&quot;够不够好&quot;。</p>
+<h3 id="j5-主动放弃价格战-自杀">J5 · 主动放弃价格战 = 自杀</h3>
+<p>电车厂坚守豪华手工定位，眼看福特把价差拉到 5–10 倍。<strong>这是战略选择，不是技术必然。</strong></p>
+<p><strong>用法</strong>：当在位者说&quot;我们不做低端，我们做高价值&quot;——这句话在路线之争里是<strong>投降信号</strong>，不是定位自信。</p>
+<h3 id="j6-资本市场事故会污名化整个品类">J6 · 资本市场事故会污名化整个品类</h3>
+<p>一个骗局（&quot;铅酸托拉斯&quot;）能让整个技术路线的融资窗口关上好几年。<strong>技术优劣和资本可得性是两条独立的死法。</strong></p>
+<hr />
+<h2 id="三框架自检反向检验与失效边界">三、框架自检：反向检验与失效边界</h2>
+<p><strong>不做这一步，上面就只是一个漂亮故事。</strong> <code>[INFERRED]</code></p>
+<h3 id="检验-1蒸汽车同期第三方-框架预测正确">检验 1：蒸汽车（同期第三方）—— 框架预测正确 ✅</h3>
+<p>蒸汽车 1900 年份额 40%，比电车还高，也死了。框架读数：J1 锅炉预热时间/水耗的物理约束改善缓慢；J2 汽油车的启动短板被补掉后蒸汽车&quot;不用摇&quot;的优势同样清零；J4 依赖沿途水源补给。<strong>三条判据独立指向死亡，与结局一致。</strong></p>
+<h3 id="检验-2交流电-vs-直流电1880s90s-框架预测正确">检验 2：交流电 vs 直流电（1880s–90s）—— 框架预测正确 ✅</h3>
+<p>J1 底层物理量 = 远距离输电损耗（∝ I²R，可用变压器升压压制）。交流在这个量上有<strong>结构性优势且不可被直流用工程手段追平</strong>。爱迪生当年的市场份额和先发优势完全不管用。<strong>J1 单条就定了结局。</strong></p>
+<h3 id="检验-3betamax-vs-vhs-框架失效">检验 3：Betamax vs VHS —— <strong>框架失效</strong> ❌</h3>
+<p>底层物理量（画质）<strong>Betamax 更优，却输了</strong>。胜负由录制时长阈值 + 内容租赁生态 + 授权策略决定——<strong>这是网络效应之争，不是物理量之争</strong>。</p>
+<blockquote><strong>失效边界（重要）</strong>：<strong>当胜负由网络效应/生态/标准锁定主导时，J1 反向失效——物理更优的一方可能输。</strong> 判断适用性的前置问题：<strong>「这个市场的转换成本主要来自物理限制，还是来自生态惯性？」</strong> 前者用 J1，后者用 J2+J5，J1 会给出错误答案。</blockquote>
+<p><strong>这条边界对下面的 GPU vs ASIC 是决定性的——因为 CUDA 恰恰是生态锁定，不是物理优势。</strong></p>
+<hr />
+<h2 id="四套用到当前组合">四、套用到当前组合</h2>
+<h3 id="41-gpu-vs-asicnvda-92-mrvl-26inferred-med">4.1 GPU vs ASIC（NVDA 9.2% / MRVL 2.6%）<code>[INFERRED, MED]</code></h3>
+<p><strong>先判适用性</strong>：NVDA 的护城河 = CUDA 生态锁定 ≫ 硅片物理优势。→ <strong>落在 Betamax 边界内，J1 不适用，主用 J2。</strong></p>
+<p><strong>J2 提问：如果 ASIC 最大的短板明天消失，NVDA 还剩什么？</strong></p>
+<p>ASIC 的短板是<strong>不灵活</strong>——模型架构一变，专用硅就废。补掉这个短板的东西不是更好的 ASIC，是<strong>编译器/中间层抽象</strong>（XLA / MLIR / Triton 这一层）。</p>
+<blockquote><strong>如果编译层成熟到&quot;换硬件后端≈重编译&quot;，CUDA 的转换成本 → 0，NVDA 的护城河不是被攻破，是被绕过。</strong> <strong>这就是 NVDA 的电启动机时刻。</strong></blockquote>
+<p><strong>具体检验点</strong>：</p>
+<ul>
+<li>主流训练框架里非 CUDA 后端的<strong>生产级</strong>（不是 demo）占比</li>
+<li>大厂自研芯片承担<strong>训练</strong>（不只是推理）的比例——推理迁移易、训练迁移难，训练份额才是真信号</li>
+<li>与 memory <code>ai-capex-cycle-topsignal-watchlist</code> 里<strong>梁文锋&quot;1 年内国产芯片生态被验证&quot;</strong>（检验点 2027 年中）是同一个变量的中国侧版本——<strong>那条预言本质上就是在赌编译/生态层能把 CUDA 绕开</strong></li>
+</ul>
+<p><strong>反面</strong>：模型架构仍在高速变化 → ASIC 的窗口一直被推后。<strong>这场仗的底层变量不是硅，是「模型架构的变更速率」。</strong> 架构冻结之日 = ASIC 赢面陡增之时。</p>
+<h3 id="42-hbm内存腿-muskhy-论点inferred-med-high">4.2 HBM（内存腿 / MU、SKHY 论点）<code>[INFERRED, MED-HIGH]</code></h3>
+<p><strong>J2 提问：什么会杀死 HBM？</strong></p>
+<p>答案<strong>不是</strong>&quot;另一种带宽更高的存储&quot;，而是<strong>让带宽需求下降的东西</strong>：MoE / 稀疏与线性注意力（每 token 需要的带宽下降）、PIM（存内计算，把数据搬运本身消掉）、3D DRAM。</p>
+<p>⚠️ <strong>这不是新发现</strong>——<a href="../tickers/MU.html"><code>tickers/MU.md</code></a> 的「反向证据」表里早就列了这四条。<strong>框架在这里的价值是验证，不是创造</strong>，别把它当成新增信息。</p>
+<p><strong>J1 侧</strong>：内存墙（算力增速 &gt; 带宽增速）这个物理差距<strong>仍在扩大</strong> → 只要 Transformer 类架构不变，HBM 的底层斜率是向好的。<strong>HBM 的风险是架构风险，不是物理风险。</strong></p>
+<p><strong>叠加长鑫（2026-07-27 IPO）</strong>：长鑫打的是<strong>常规 DRAM</strong>，不是 HBM——<strong>它冲击的不是护城河，是当下利润表最肥的那条腿</strong>。这属于供给侧竞争，不是路线替代，<strong>不适用本框架</strong>，走周期分析（见 <a href="2026-06-24-memory-storage-cycle-mechanics.html"><code>2026-06-24-memory-storage-cycle-mechanics.md</code></a>）。</p>
+<h3 id="43-光互连-vs-电互连mrvl-26-光复合体inferred-med-high">4.3 光互连 vs 电互连（MRVL 2.6% / 光复合体）<code>[INFERRED, MED-HIGH]</code></h3>
+<p><strong>这是组合里 J1 最干净的一条。</strong></p>
+<p>底层物理量 = <strong>每比特每距离的能耗</strong>。电互连的能耗随距离与速率恶化得比光快，光有一个 break-even 距离——而<strong>这个 break-even 距离随速率提升单调下降</strong>：机柜间 → 板间 → 片间（CPO）。</p>
+<p><strong>斜率是单调的、由物理决定的、且不依赖任何厂商执行。</strong> 这是本框架给出的<strong>最强&quot;物理站在这边&quot;判断</strong>。</p>
+<p><strong>但</strong>（必须说）：J1 判的是<strong>路线赢</strong>，不是<strong>某家公司赢</strong>。光路线赢 ≠ MRVL 赢——见姊妹篇「真范式不构成估值安全边际」。<strong>别把 J1 结论直接翻译成持仓理由。</strong></p>
+<h3 id="44-ev-vs-增程插混-直接的历史回响-knowninferred-med">4.4 EV vs 增程/插混 —— 直接的历史回响 <code>[KNOWN/INFERRED, MED]</code></h3>
+<p><strong>当年五条死因，四条已反转：</strong></p>
+<table><thead><tr><th>1900s 死因</th><th>今天</th></tr></thead><tbody><tr><td>电池 70 年零改善</td><td>锂电 ~250–300 Wh/kg（铅酸 7–8×）；成本 ~$1,200/kWh(1991) → &lt;$100/kWh（<strong>两个数量级</strong>）</td></tr><tr><td>农村无电（J4 存在性）</td><td>电网基本全覆盖</td></tr><tr><td>价差 5–10×（J5）</td><td>中国多个价格带电车<strong>已比油车便宜</strong></td></tr><tr><td>续航 30–50 英里</td><td>300+ 英里常态</td></tr><tr><td>汽油白菜价</td><td><strong>未反转</strong></td></tr></tbody></table>
+<p>→ <strong>&quot;历史重演、电车又不行了&quot;在基本面上站不住。当年是电池物理打不过，今天电池物理已经赢了大半。</strong></p>
+<p><strong>但 J2 的鬼魂在</strong>：纯电的短板是补能焦虑，<strong>补掉这个短板的是增程/插混</strong>——保留内燃机、消灭里程焦虑，<strong>结构上与 1912 年电启动机同型：用折中方案抹掉纯电的核心差异化，同时保住油车的便利。</strong></p>
+<p><strong>检验点</strong>：中国增程+插混份额 vs 纯电份额的<strong>增速差</strong>（不是绝对份额，J3）。<code>[当期数字需拉最新数据，我的知识截止 2026-01 之前]</code></p>
+<hr />
+<h2 id="五可证伪的检验点写下来将来对账">五、可证伪的检验点（写下来，将来对账）</h2>
+<table><thead><tr><th>#</th><th>路线</th><th>检验点</th><th>时间窗</th><th>证伪条件</th></tr></thead><tbody><tr><td>1</td><td>GPU vs ASIC</td><td>大厂自研芯片承担<strong>训练</strong>的比例</td><td>2027 年中</td><td>若 2027 中仍 &lt;10% 且编译层无生产级突破 → CUDA 护城河未被绕过，J2 警报解除</td></tr><tr><td>2</td><td>国产 AI 芯片</td><td>梁文锋&quot;1 年内生态被验证&quot;</td><td>2027 年中</td><td>见 memory <code>ai-capex-cycle-topsignal-watchlist</code></td></tr><tr><td>3</td><td>HBM</td><td>MoE/线性注意力/PIM 是否降低单 token 带宽需求</td><td>持续</td><td>若前沿模型带宽需求/token 出现<strong>下降拐点</strong> → HBM 论点降级</td></tr><tr><td>4</td><td>光互连</td><td>CPO 是否进入量产（片间光互连）</td><td>2027–28</td><td>若 break-even 距离停止下降 → J1 判断失效</td></tr><tr><td>5</td><td>EV</td><td>中国增混 vs 纯电<strong>增速差</strong></td><td>每季度</td><td>增速差持续扩大 → 电启动机模式坐实</td></tr></tbody></table>
+<h2 id="六三档情景对组合-ai-算力腿inferred">六、三档情景（对组合 AI 算力腿）<code>[INFERRED]</code></h2>
+<table><thead><tr><th></th><th>触发</th><th>读数</th></tr></thead><tbody><tr><td><strong>悲观</strong></td><td>编译层跑通 + 模型架构趋稳 → ASIC 侵蚀训练份额</td><td>NVDA 的定价权来自生态而非硅，<strong>生态一破，毛利率结构性下移</strong>；这是比&quot;AI 需求见顶&quot;更慢但更不可逆的杀法</td></tr><tr><td><strong>基准</strong></td><td>模型架构持续变化，CUDA 惯性维持</td><td>GPU 守住训练，ASIC 吃推理增量；光互连按物理斜率稳步渗透</td></tr><tr><td><strong>乐观</strong></td><td>架构变更加速 + 带宽需求继续上升</td><td>GPU + HBM + 光互连三条腿同时受益</td></tr></tbody></table>
+<hr />
+<h2 id="七这个框架的危险">七、这个框架的危险</h2>
+<p><strong>触发我自己的 anti-sycophancy 红灯：它太优雅了，一个模式解释了太多东西。</strong> 具体风险：</p>
+<ol>
+<li><strong>post-hoc 拟合</strong>：判据从已知结局反推（第二节顶部已标注哪几条最可疑）。</li>
+<li><strong>J1 的&quot;底层物理量&quot;是我事后选的</strong>——选对了量框架就成立，选错了就是废话。<strong>同一个案例换个物理量能得出相反结论</strong>，这是框架最脆弱的关节。</li>
+<li><strong>失效边界真实存在</strong>（Betamax），而且<strong>当前 AI 算力之争恰好落在边界附近</strong>——CUDA 是生态锁定，不是物理优势。用错判据会得出完全相反的答案。</li>
+<li>只做了 <strong>3 个 out-of-sample 检验，其中 1 个失败</strong>。样本量太小，<strong>33% 失败率不足以称为&quot;框架&quot;，更接近&quot;一组值得问的问题&quot;</strong>。</li>
+</ol>
+<p><strong>结论：把它当成 checklist 用，别当成预测器用。</strong></p>
+<h2 id="八我不知道的">八、我不知道的</h2>
+<ul>
+<li>中国增混/纯电当期份额与增速差（知识截止 2026-01 之前，需拉最新数据）</li>
+<li>非 CUDA 后端在生产级训练里的真实占比——<strong>没有公开可靠口径</strong>，这是检验点 1 的执行难点</li>
+<li>CPO 量产的真实时间表（各家宣称口径差异大）</li>
+<li>1912 年电车注册数各来源在 3.0–3.4 万之间浮动 <code>[MED]</code></li>
+</ul>
+      </article>
+      <aside class="doc-sidebar">
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">文档导航</h3>
+          <ul class="toc-list"><li><a href="#一句话">一句话</a></li><li><a href="#一案例档案电动车-19001935-known-high">一、案例档案：电动车 1900–1935 `[KNOWN, HIGH]`</a></li><li style="padding-left:14px"><a href="#起点汽油是三条路线里最不被看好的那条">起点：汽油是三条路线里最不被看好的那条</a></li><li style="padding-left:14px"><a href="#死因拆解按杀伤力排序">死因拆解（按杀伤力排序）</a></li><li style="padding-left:14px"><a href="#最反直觉的一条">最反直觉的一条</a></li><li><a href="#二抽出来的判据框架主体">二、抽出来的判据（框架主体）</a></li><li style="padding-left:14px"><a href="#j1-底层物理量的斜率归谁-最硬的一条">J1 · 底层物理量的斜率归谁 —— 最硬的一条</a></li><li style="padding-left:14px"><a href="#j2-致命一击来自补对手短板不是攻对手长板">J2 · 致命一击来自&quot;补对手短板&quot;，不是&quot;攻对手长板&quot;</a></li><li style="padding-left:14px"><a href="#j3-当期份额是果不是因">J3 · 当期份额是果不是因</a></li><li style="padding-left:14px"><a href="#j4-互补资产的存在性不是性能">J4 · 互补资产的存在性（不是性能）</a></li><li style="padding-left:14px"><a href="#j5-主动放弃价格战-自杀">J5 · 主动放弃价格战 = 自杀</a></li><li style="padding-left:14px"><a href="#j6-资本市场事故会污名化整个品类">J6 · 资本市场事故会污名化整个品类</a></li><li><a href="#三框架自检反向检验与失效边界">三、框架自检：反向检验与失效边界</a></li><li style="padding-left:14px"><a href="#检验-1蒸汽车同期第三方-框架预测正确">检验 1：蒸汽车（同期第三方）—— 框架预测正确 ✅</a></li></ul>
+        </section>
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">阅读提示</h3>
+          <ul class="summary-list">
+            <li><span class="summary-label">先看什么</span><span class="summary-value">先读一段话结论，再看表格和风险点。</span></li>
+            <li><span class="summary-label">适合用途</span><span class="summary-value">复盘、比较、回查研究底稿。</span></li>
+            <li><span class="summary-label">建议动作</span><span class="summary-value">如果文档内容改变了 thesis，再回到候选池或组合页更新判断。</span></li>
+          </ul>
+        </section>
+      </aside>
+    </div>
+    <div class="footer">该页面由 Markdown 自动生成。原始文件：notes/2026-07-27-tech-path-substitution-framework.md</div>
+  </div>
+  </div>
+</body>
+</html>
