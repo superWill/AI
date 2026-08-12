@@ -90,3 +90,69 @@ related: tickers/CRCL.md · notes/2026-06-25-top-signals-and-panic-discipline.md
 **判定:条件未完全触发**(当前是科技/半导体局部熊,非全面 risk-off),**但这已是第二次演绎(第一次 2025 年 7–10 月),证据在累积而非减少**。历史基线也已补齐(见 [infrastructure-holders note](2026-07-30-infrastructure-holders-across-crashes.md)):2020-03 两天 −50%(黄金同期仅 −12%)、2022 −77% 跟纳指 —— **三次危机,零次表现为黄金**。下一次全面 risk-off 若仍如此,条件正式触发。
 
 **来源**:Coindesk《GENIUS Act repriced BTC monetary premium》(2026/5/27);KuCoin/SSGA《GENIUS Act reshapes BTC role》(稳定币 $319B、政府背书替代、ETH 受益)。
+
+---
+
+## 七、机构买卖两月台账（2026-06 / 07）`[2026-08-01 深挖]`
+
+> **方法纪律**：按 memory `fund-flow-read-by-layer` 分层读。**不分层的"机构在买/在卖"是废话——这两个月四条腿方向相反。**
+
+### 价格锚 `[COMPUTED, HIGH，yfinance]`
+
+| | |
+|---|---:|
+| 5/25 | $73,580 |
+| **6/30（两月低点）** | **$58,559（6 月 −24.2%）** |
+| 7/21（月内高） | $66,505 |
+| **7/30** | **$64,725（7 月 +10.5%）** |
+| 两月净 | **−12.0%** · 距 1 年高（$77,280）**−16.2%** |
+
+**6 月崩、7 月修——两个月方向相反，任何"最近两月机构在干嘛"的单一答案都是错的。**
+
+### 四条腿分层台账
+
+| 腿 | 谁 | 6–7 月净方向 | 量级 | 置信 |
+|---|---|---|---|---|
+| **① 现货 ETF** | 顾问渠道/散户/部分机构 | **净卖** | 6 月 **−$45 亿**（有史最大单月流出）；7 月 **+$2.05 亿**（有史**最小**月度净流入）；H1 2026 **−$54 亿 = 上市以来首个负半年** | MED-HIGH（多源一致） |
+| **② DAT/财库公司** | Strategy 等 199 家上市公司 | **从最大边际买家 → 净卖家** | MSTR **连停 5 周不买**（末次 6/21 周），**6/29–7/5 卖 3,588 BTC / $2.16 亿**；Satsuma 股东表决**清仓 668 BTC 并退市** | MED-HIGH |
+| **③ 链上巨鲸（1k–10k BTC）** | 不透明 | **净买** | 截至 7/19 的 60 天 **+66,700 BTC**；CryptoQuant 称 6 月末–7 月初两周 **+270,000 BTC（~$167 亿）**，成本区 ~$59k | **LOW-MED（口径存疑，见下）** |
+| **④ 中型持有者（100–1k BTC）** | 矿工/早期投资者/基金 | **净卖** | 同 60 天 **−77,800 BTC** | LOW-MED |
+
+**长期持有者（LTH，≥155 天）**：Glassnode 的 LTH 净头寸变化 **7 月初翻正**，7/12 读数 30 日 **+74,054 BTC**——从派发转为吸筹。`[MED]`
+
+### ⭐ 本轮真正的结构变化：**边际买家换人了**
+
+**2024–25 撑起 BTC 的两条腿（ETF 净流入 + DAT 增发买币）在这两个月同时熄火，其中一条还转向了反面。**
+
+- **DAT 飞轮的数学已经反转**：18 家最大 DAT 里 **13 家折价**（21Shares 口径）。MSTR **mNAV 0.81**、持 **847,363 BTC / 均价 ~$75,700** —— 对 $64,725 现价**水下约 15%**。mNAV<1 时增发买币**摊薄**每股含币量，飞轮不是转慢是转反。
+- MSTR 已把转向写进制度：**Digital Credit Capital Framework**——$25.5 亿美元储备、$10 亿股票回购授权、**授权变现最多 20,800 BTC（持仓 2.5%）**用于付息还债。`[MED-HIGH]`
+- **199 家上市公司合计持 126.4 万 BTC（2026-06-22 口径，约 $790 亿）**——这是悬在市场上方的**潜在被迫卖盘存量**，不是"机构采用"的资产。
+
+> **这就是 [`infrastructure-holders` §八.2](2026-07-30-infrastructure-holders-across-crashes.md) 那套"持有者尸体"框架的加密版同构体**：资产没坏，**融资结构坏了**。SA LP 死于 4x 券商杠杆；DAT 死于 mNAV<1 —— 都是"论点可能对，结构先撑不住"。**§一那张历史表该加一行候选死法：不是交易所欺诈，是财库公司融资失效。**
+
+### 三条要顶回去的话
+
+1. **「鲸鱼两周买了 $167 亿」这个数别照抄。** 同期 ETF 只流出约 $40 亿，**鲸买盘是它的 4 倍**——若真是净新增需求，价格不可能在同一窗口跌到 $58k。链上聚类会把**交易所内部归集、ETF 托管地址重组、OTC 中转**统统记成"鲸买入"。Cointelegraph 自己的标题就是 *Whale accumulation overstated*。**这条按 LOW-MED 用，别当买入信号。** `[INFERRED | MED]`
+2. **7 月 ETF "三周连续净流入"是噪音级别。** 7/24 当周净流入 **$3,379 万**——对一个 IBIT 单只就 $370 亿的复合体，这是零。而 7 月最后两天 **单是 IBIT 就流出 $4.15 亿**。**7 月全月 $2.05 亿 = 史上最小月度净流入，"需求回归"是把小数点看错了。**
+3. **BTC 7 月 +10.5% 不是机构买回来的。** ①②两条主力腿一个近乎零、一个在卖。**7 月的涨更像 6 月超跌后的空头回补 + 风险资产整体喘息**（同期 SOX −20.6% 但标普只 −0.13%）。**把它读成"机构重新进场"是把价格当证据用。**
+
+### 对 §四 MSTR 盯盘清单的结账
+
+| 清单项 | 2026-08-01 状态 |
+|---|---|
+| mNAV < 1 | ✅ **已深化到 0.81**（6/27 首次跌破，6 月末最低 0.99→basic 更低） |
+| BTC 卖出公告从小卖→大卖 | ✅ **已升级**：3,588 枚（$2.16 亿）+ 授权 20,800 枚 |
+| 停止增持 | ✅ **两年来最长停买（5 周）** |
+| MSCI 剔除 | ⬜ **未证实**（本轮未查到实锤，仍是最该盯的开关） |
+| 死亡螺旋 / FTX 式爆 | ❌ **未发生**——仍是慢性失血；MSTR 7 月 **+7.3%**（$93.28），6 月 −45.6% 后企稳 |
+
+**读数**：**"那家公司"的剧本在按慢速版本走，不是快速版本。** §一的历史规律要求的是一次**非自愿、机械、量大**的抛售来标记底部——**授权卖 2.5% 持仓不是那个事件**。**杠杆出清进度：中段，未完成。**
+
+### 待核实 `[缺口]`
+
+- 6 月 ETF 流出口径两版并存：**−$45 亿** vs **−$40.6 亿**，未定。
+- ③④两条链上腿全部来自分析商二手转述（CryptoQuant/Glassnode），**未查一手面板**；巨鲸口径问题见上。
+- **Q2 13F（约 2026-08-14）**是唯一能验证"哪些真机构在 IBIT 里加减仓"的一手文件——现在所有"机构在买/在卖"的说法都还是流量推断。
+- 矿工抛售未单独拆出（混在 100–1k BTC 那格里），**减半后矿工现金流压力**这条腿本轮没查。
+
+**来源**：[Coindesk《DAT 抛售/转型 AI》(7/24)](https://www.coindesk.com/markets/2026/07/24/bitcoin-treasury-companies-sell-up-repay-debt-pivot-to-ai-as-share-prices-collapse) · [Coindesk《ETF 三周连续净流入》(7/27)](https://www.coindesk.com/markets/2026/07/27/bitcoin-etfs-record-third-consecutive-weekly-inflows-despite-losses-of-usd465-million-to-end-week) · [Coindesk《ETF 月度净流入史上最小》(7/30)](https://www.coindesk.com/daybook-us/2026/07/30/bitcoin-etfs-on-track-for-the-smallest-monthly-inflows-ever) · [Coindesk《LTH 转吸筹》(7/02)](https://www.coindesk.com/markets/2026/07/02/bitcoin-long-term-holders-have-returned-to-accumulation) · [Coindesk《鲸买 27 万 BTC vs ETF 流出》(7/03)](https://www.coindesk.com/markets/2026/07/03/bitcoin-whales-bought-270-000-btc-in-two-weeks-even-as-etfs-bled-a-record-usd4-billion) · [Cointelegraph《鲸吸筹被夸大》](https://cointelegraph.com/news/bitcoin-whale-accumulation-overstated-long-term-holders-buy) · [Cryptobriefing《H1 首个负半年》](https://cryptobriefing.com/btc-etf-flows-negative-2026/) · [Yahoo/Bloomberg《Strategy 停买五周》](https://finance.yahoo.com/markets/crypto/articles/strategy-hasn-t-bought-bitcoin-162108668.html) · [CoinMarketCap《DAT 融资优势消失》](https://coinmarketcap.com/academy/article/bitcoin-treasury-companies-losing-financing-edge-2026) · [Research Square《DAT 融资脆弱性/强卖风险》](https://www.researchsquare.com/article/rs-10207300/v1)

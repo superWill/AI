@@ -5,11 +5,48 @@ sector: AI 变现 / 搜索广告 + 云 + Gemini
 layer: Layer 9 — AI 变现入口（广告/交易抽税收税口）
 position_type: core
 status: watching
-last_updated: 2026-07-23
-data_source: 网络调研 2026-06-21；2026-06-24 加大佬持仓对照+订正相关性；2026-06-25 订正巴菲特成本 + 加 $800亿增发/债/巴菲特$100亿私募资本事件；2026-07-23 Q2'26 财报(SEC 8-K 原文)；2026-07-26 双镜头估值($319/fwd 21.6x/FCF 负)
+last_updated: 2026-08-09
+data_source: 网络调研 2026-06-21；2026-06-24 加大佬持仓对照+订正相关性；2026-06-25 订正巴菲特成本 + 加 $800亿增发/债/巴菲特$100亿私募资本事件；2026-07-23 Q2'26 财报(SEC 8-K 原文)；2026-07-26 双镜头估值($319/fwd 21.6x/FCF 负)；2026-08-09 AI 班子出走(TechCrunch/GeekWire 多源)+具身智能腿补记(Gemini Robotics 2/Intrinsic/Waymo)
 ---
 
 # Alphabet (GOOGL)
+
+## 🔴 2026-08-09：AI 核心班子出走 + 具身智能这条腿被漏记（本周两处论点级变化）
+
+### ① 8/5：Jeff Dean 等四人离职创业，Hassabis 卸任 DeepMind 日常管理 `[KNOWN, HIGH——TechCrunch/Yahoo/GeekWire 多源独立确认]`
+
+| 离职者 | 原职务 |
+|---|---|
+| **Jeff Dean** | 首席科学家，27 年工龄，Google AI 战略核心设计者 |
+| **Oriol Vinyals** | DeepMind VP，**Gemini 团队 co-lead**，AlphaStar 负责人 |
+| **Sanjay Ghemawat** | Google Senior Fellow |
+| **Quoc Le** | Google Brain 联创 |
+
+四人共同创办 **Discovery Loop**（Radical Ventures + Khosla 领投种子轮，**Google 自己也投**）。**同期 Demis Hassabis 卸任 DeepMind 日常管理，转任 Alphabet 首席科学家。**
+
+**同日另外两条**：capex 指引上修至 **$1,950–2,050 亿**（FCF 已首负，见下方 07-23 节）；DOJ 搜索垄断案 Chrome 剥离救济。
+
+**价格反应** `[COMPUTED, yfinance]`：8/4 高点 377.65 → **8/5 −4.03%** → 8/6 357.75，**两天 −5.3%**；8 月至今涨幅从 +6.04% 缩到 **+0.45%**，对组合贡献从 +0.96pp 掉到 **+0.07pp**。
+
+**判定**：
+- **这不是人事新闻，是论点级变化。** 本卡「跟踪信号」里的「Gemini 消费 MAU vs ChatGPT」隐含前提是 Gemini 能持续迭代——**现在设计那套东西的人走了，CEO/首席科学家/Gemini co-lead 三线同时换位**。
+- **背景要一起读**：Gemini 旗舰版原定 6 月发布，**至今未出**（memory `ai-capex-cycle-topsignal-watchlist` 早记「Gemini 4 零信息 + 3.5 三次跳票 = 首个不敢报日期的大厂」）。**跳票 + 班子解体是同一件事的两面，不是两件事。**
+- **不构成立即减仓触发**（本卡退出条件是「搜索营收增速转负 + Gemini 消费端持续输给 ChatGPT」，两条都未触发），但**把「Gemini 追不上」这条尾部风险的概率上调一档**。
+
+### ② 具身智能：GOOGL 论点里权重为零，但期权价值被漏记 `[KNOWN via web, MED-HIGH]`
+
+四条腿：**Gemini Robotics 2**（2026-07-30 发布，VLA + ER + 端侧三件套，首次全身控制，端侧 <200 样本适配新硬件，闭源仅早期伙伴）· **Intrinsic**（2026-02 并入 Google，×富士康合资做全厂自动化）· **Waymo**（11 城、**>50 万次/周**全自动驾驶行程，Ojai 车内集成 Gemini）· **Apptronik**（硬件载体，Google 不造机器人）。
+
+**判定**：
+- **当期财务贡献 ≈ 0**（Waymo 仍在 Other Bets 亏损）→ **不进估值，只进期权价值**。
+- **和 NVDA 是两个不同卡点**：NVDA 卡算力+仿真工具链（开源做安卓），GOOGL 卡最强 VLA 模型（闭源自用）。**但生态位 NVDA 更强**——几乎所有机器人公司在 Isaac 上开发。**「模型最强」≠「会赢」。**
+- **GOOGL 真正稀缺的是 Waymo 的 50 万次/周真实数据，不是模型参数。**
+- **⚠️ 与 ① 的交叉**：Gemini Robotics 2 **7/30 发布，8/5 班子解体**——发布后第六天。这条腿的执行风险随 ① 同步上升。
+- 已同步补进 [具身智能卡点笔记 §1.1](../notes/2026-06-20-embodied-ai-chokepoints.md)（原稿把「大脑」层整个判给 NVDA，零次提及 Google，是漏项）。
+
+**待核实**：有单一低质来源称 2026-06 Perplexity 被整合进 Microsoft 365——与本卡无关但同批检索出现，**未采信** `[LOW]`。
+
+---
 
 ## ⭐ 2026-07-23：Q2'26 财报——经营大超 + FCF 首次转负（外部输血从"预判"变报表实锚）`[核实 2026-07-23, SEC 8-K]`
 
@@ -185,6 +222,8 @@ GOOG 是**唯一同时满足"价值"和"成长"两副眼镜**的大盘 AI——�
 - Cloud 增速 + 利润率、capex ROIC
 - DOJ 反垄断救济进展（Chrome/默认协议）
 - AI Overviews/AI Mode 货币化率
+- **🔴 DeepMind 人才流出是否继续**（8/5 后是否再出人）+ **Gemini 旗舰版是否发布**（原定 6 月，已跳票）
+- **具身智能（期权项，不进估值）**：Gemini Robotics VLA 是否转公开可用 · Intrinsic×富士康是否产出可计收入部署 · Waymo 周行程数（当前 >50 万）
 
 ## 仓位与历史
 
@@ -193,6 +232,7 @@ GOOG 是**唯一同时满足"价值"和"成长"两副眼镜**的大盘 AI——�
 | 2026-06-21 | 建档观察 | ~$368 | — | 在位者转型押注；熊市叙事正被证伪；估值最低的大盘 AI；与半导体书不相关 |
 | 2026-06-24 | 更新观察 | ~$346（1y +108%）| — | Q1'26 大佬加仓信号最强(巴菲特翻三倍/三大佬唯一交集);但=拥挤共识+涨完,你 15.9% 已在里面,持有等兑现非追加;订正实测中度相关(corr SOXX 0.34) |
 | 2026-07-23 | Q2'26 财报更新 | ~$342 | — | 经营大超(Cloud +82%/利润率35.6%/backlog $5140亿)但 FCF 首负+capex 指引再上调;盘后-5%次日收窄;结论不变:持有等兑现,加仓先轮正交锚 |
+| 2026-08-09 | 论点更新(未动仓) | $357.75 | 15.9% | Jeff Dean/Vinyals/Ghemawat/Quoc Le 出走+Hassabis 退居(8/5,两天-5.3%);capex 上修$1950-2050亿;DOJ Chrome 救济;具身智能腿补记为期权价值。**退出条件两条均未触发,不动仓**;「Gemini 追不上」尾部概率上调一档 |
 
 ## 参考
 
