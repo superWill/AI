@@ -126,6 +126,20 @@ data_source: official earnings + StockAnalysis 2026-05-08；2026-06-23 加 China
 4. **C1000 服务器 CPU 2028 放量(Meta)**:最大那块的真伪。
 5. **估值回到 raised FV($200)以下**才谈安全边际。
 
+## ⭐ 2026-07-09 加：AI 眼镜"卖铲子"——AR1 是事实标准 SoC `[KNOWN 2026-07]`
+
+> 这是"最新 AI 硬件谁真赚钱"调研的落点(见 [[notes/2026-06-29-ai-bottleneck-profit-pool-migration]] 利润池迁移)。结论:**AI 眼镜这一波,整机方在硬件本体上补贴/亏钱(见 [[ESLOY]]、[[META]]),QCOM 是那个不承担补贴亏损、每副都收芯片钱的"卖铲子"角色。**
+
+- **AR1 / AR1+ = 当前 AI 眼镜的通用 SoC**:Ray-Ban Meta(2025 卖 **700 万副**、计划 2026 年底产能 2000 万)Gen2 跑骁龙 **AR1**;三星 **Galaxy Glasses** 也用 AR1。`[KNOWN, 来源 Qualcomm/TechTimes]` **无论哪家眼镜跑出来、无论 Meta Reality Labs 亏多少(2026 Q1 单季亏 $40 亿),芯片钱照收。** 这是"军备竞赛里卖枪"的干净位置。
+- **AR1+ Gen1**(2025 AWE 发布):比 AR1 小 26%、能效 +7%、双 12MP ISP、NPU 可端侧跑 Llama 1B。`[KNOWN]` Gen3 眼镜业界普遍预期用 AR1+(未官宣)。
+
+**但别把 QCOM 当纯 AI 眼镜标的买(关键约束)** `[INFERRED, HIGH]`:
+- 眼镜/XR 对 QCOM 营收占比**还很小**:2024 Investor Day 的 FY29 目标里 **XR 仅 >$2B**(藏在 IoT $14B 桶里)。→ **是期权价值,不是当期利润。**
+- QCOM 的重估主逻辑仍是**手机(被 Apple+China 侵蚀)+ 汽车 + 数据中心 Dragonfly**,AI 眼镜只是"边缘 AI everywhere"叙事的一个注脚,不是独立驱动。
+- **真要纯玩 AI 眼镜卖铲子的上游,图像传感器/微显示(见 [[SONY]])比 SoC 更纯**——但同样都是"组合逻辑"标的,不是纯敞口。
+
+**三家对比(同一副 Ray-Ban Meta 的钱怎么分)**:整机品牌方 [[ESLOY]] 收溢价但被稀释毛利 → SoC 层 QCOM 稳收不担亏 → 传感器层 [[SONY]] 更上游。**这波 AI 硬件的钱,越往上游越干净,和你 AMAT/LRCX 卖铲子那张卡同构。**
+
 ## 短期增量（3–5 年）
 
 ### 1. 汽车业务进入更大体量阶段

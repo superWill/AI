@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SKILL</title>
+  <link rel="stylesheet" href="../../../_assets/style.css" />
+</head>
+<body>
+  <div class="site-shell">
+  <div class="page">
+    <div class="topbar">
+      <div class="nav-cluster">
+        <a class="back" href="../../../index.html">← 返回投研首页</a>
+        <a class="nav-link secondary" href="../../../all-docs.html">全部文档</a>
+      </div>
+      <div class="nav-cluster">
+        <a class="home-link" href="../../../notes.html">Notes</a>
+        <a class="home-link" href="../../../candidates.html">Candidates</a>
+        <a class="home-link" href="../../../tickers.html">Tickers</a>
+      </div>
+    </div>
+    <section class="hero">
+      <div class="doc-header-grid">
+        <div>
+          <div class="eyebrow">.claude</div>
+          <h1>SKILL</h1>
+          <p>研究文档。</p>
+          <div class="meta-row">
+            <span class="pill">.claude/skills/ticker-file/SKILL.md</span>
+            <span class="pill">255 words</span>
+            <span class="pill">6 sections</span>
+          </div>
+        </div>
+        <div class="doc-stat-stack">
+          <div class="doc-stat">
+            <div class="doc-stat-label">Document Type</div>
+            <div class="doc-stat-value">.Claude</div>
+          </div>
+          <div class="doc-stat">
+            <div class="doc-stat-label">Reading Mode</div>
+            <div class="doc-stat-value">Research Memo</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="doc-layout">
+      <article class="doc doc-main">
+<hr />
+<p>name: ticker-file description: 建立或更新 investment-research/tickers/&lt;TICKER&gt;.md 个股档案的完整流程，含数据抓取、章节口径、标注纪律和落盘后必跑的校验脚本。Use when 用户说&quot;建个 X 的档案&quot;、&quot;给 X 建档&quot;、&quot;更新 X 的 ticker&quot;、&quot;把 X 加进跟踪&quot;、&quot;X 的估值数据过期了&quot;、&quot;补一下 X 的财报数据&quot;，或需要新增/修改 tickers/ 目录下任何个股文件时。</p>
+<hr />
+<h1 id="ticker-档案">Ticker 档案</h1>
+<h2 id="成功标准做完长什么样不是怎么做">成功标准（做完长什么样，不是怎么做）</h2>
+<p>一份合格的 ticker 档案满足以下全部条件：</p>
+<ol>
+<li><strong>章节骨架与 <code>tickers/_template.md</code> 一致</strong>，缺的章节留空而不是删掉。</li>
+<li><strong>每个数字有基准日</strong>：<code>关键数据</code> 的 <code>##</code> 标题上带 <code>（基准 YYYY-MM-DD，来源）</code>，frontmatter 的 <code>last_updated</code> 同步更新。</li>
+<li><strong>每条论断带标注</strong>：<code>[KNOWN]</code>/<code>[COMPUTED]</code>/<code>[INFERRED]</code>/<code>[COMMON]</code>/<code>[GUESS]</code> + 置信度。不确定的数字标 <code>(待核实)</code>。</li>
+<li><strong><code>退出条件</code> 和 <code>跟踪信号</code> 写得可执行</strong>——是具体阈值和数据项，不是形容词。这两节是 <code>earnings-reader</code> 和 <code>position-discipline</code> 的输入，写虚了下游全废。</li>
+<li><strong><code>audit_notes.py</code> 对这个 ticker 报 <code>aligned</code>，不是 <code>无快照数据</code>。</strong>（退出码 0 不够，见坑 ⑦）</li>
+<li>没有目标价、没有买卖建议（项目 <code>CLAUDE.md</code> 硬规定）。</li>
+</ol>
+<h2 id="流程">流程</h2>
+<p><strong>新建</strong>：<code>cp tickers/_template.md tickers/&lt;T&gt;.md</code> → 抓数 → 填 frontmatter（<code>layer</code> 是 9 层产业链位置，<code>position_type</code> = core/thematic/payoff/hedge）→ 自上而下填 → 跑校验。</p>
+<p><strong>更新</strong>：先看 <code>last_updated</code> 有多旧 → 只改需要改的章节 → <strong>重大事件另起 <code>## ⭐ YYYY-MM-DD：&lt;事件&gt;</code> 插在 <code>风险</code> 之前</strong>，不要改写原文（保留判断轨迹）→ 跑校验。</p>
+<h2 id="已知的坑都是真踩过的不是预防性猜测">已知的坑（都是真踩过的，不是预防性猜测）</h2>
+<p><strong>① 市值漂移会让 <code>audit_notes.py</code> 退出 1。</strong> 改了估值/市值就必须跑，这是 <code>CLAUDE.md</code> 的硬规定。默认阈值 20%。</p>
+<p><strong>② 单一来源 + 印证既有结论 → 置信度封顶 MED，标「待交叉核实」。</strong> 这个错在本仓库重复过至少 3 次（见 memory <code>single-source-confirming-thesis-low-confidence</code>）。广泛转载不等于独立验证，要追到原始来源。</p>
+<p><strong>③ 快照可能是坏数据，别拿它推翻真价。</strong> SKHY 那次把真实价 $167.88 当幻觉、信了坏快照 $63.75。数字反常时先用 <code>wc</code>/<code>md5</code>/重定向到文件再 Read 聚合观测，别信肉眼原始流（memory <code>bash-output-aggregate-observation</code> / <code>suspicion-allocation-external-anchor</code>）。</p>
+<p><strong>④ <code>仓位与历史</code> 表有口径冲突，写之前想清楚。</strong> 项目规定「持仓状态只在 <code>portfolios/</code> 记」，但 75 个 ticker 里有 27 个填了这张表，且记录了权重变化。<strong>现行口径</strong>：ticker 表记<strong>决策轨迹与理由</strong>（为什么做），当前权重的真相源是 <code>portfolios/</code>。<strong>往 ticker 表里写一行不等于更新了持仓</strong>——两处冲突时以 <code>portfolios/</code> 为准。</p>
+<p><strong>⑤ 2026-02 之后的事实必须 WebSearch 并引用来源 URL 或季报页码。</strong> 知识截止 2026-01，凭记忆填财务数据是本项目最严重的违规。</p>
+<p><strong>⑥ 有期权禁区的标的要在 <code>仓位与历史</code> 下加引用块提醒。</strong> 正在减仓的内存/SOXX 腿（MU/SKHY/NVDA/TSM）不得卖 put，NVDA 档案里有现成写法可抄。</p>
+<p><strong>⑦ ⚠️ <code>audit_notes.py</code> 退出 0 常常是假绿。</strong> 它只校验快照里存在的 ticker，不在快照里的直接 skip 且<strong>不影响退出码</strong>。2026-08-06 实测：73 个档案里 72 个被 skip，<code>aligned=1</code>，退出码 0。</p>
+<p><strong>⑧ ⚠️ <code>fetch_quotes.py --tickers X</code> 不带 <code>--out</code> 会污染当天的正式快照。</strong> 源码是 <code>out_path = args.out or (OUT_DIR / today.csv)</code>——窄集合会<strong>覆盖</strong>当天的全量快照。这已经发生过：快照 ticker 数 07-17 是 56、07-13 是 54，到 07-30 塌成 12（一次 BRK 分析留下的）。<strong>要抓单个 ticker 必须给 <code>--out</code> 指到临时路径，再用 <code>--snapshot</code> 喂给 audit。</strong></p>
+<p><strong>⑨ 新建档案后要把 ticker 加进 <code>scripts/tickers.txt</code>。</strong> 否则它永远进不了全量快照，也就永远不被校验。当前 <code>tickers.txt</code> 有 57 个而 <code>tickers/</code> 有 73 个档案——<strong>16 个档案在校验范围外</strong>，别再加一个。</p>
+<h2 id="确定性工具">确定性工具</h2>
+<pre><code>cd investment-research
+.venv/bin/python scripts/fetch_quotes.py --tickers &lt;T&gt;          # 抓最新快照 → data/snapshots/
+.venv/bin/python scripts/audit_notes.py --threshold 20          # 落盘后必跑，退出码 0 才算完
+.venv/bin/python scripts/entry_price_irr.py &lt;T&gt; --target-irr 15 # 估值锚：反推入场价（不是目标价）
+python3 scripts/build_html_site.py                              # 改了导航/新增文件才跑</code></pre>
+<p><code>entry_price_irr.py</code> 支持 <code>--fcf</code> 触发 reverse DCF、<code>--batch</code> 多标的横向对比，详见其 docstring。</p>
+<h2 id="验收">验收</h2>
+<p>落盘后按顺序跑。<strong>第 1 步不能省</strong>，否则第 2 步是假绿（坑 ⑦）：</p>
+<pre><code>cd investment-research
+T=NVDA   # 换成目标 ticker
+grep -qx &quot;$T&quot; scripts/tickers.txt || echo &quot;$T&quot; &gt;&gt; scripts/tickers.txt   # 1. 先纳入 universe（坑 ⑨）
+
+# 2. 抓快照。二选一，别用第三种写法：
+.venv/bin/python scripts/fetch_quotes.py                                # 全量，写当天正式快照（推荐）
+# 只抓单个时必须给 --out，且 --out/--snapshot 都要用绝对路径（坑 ⑧⑩）：
+# .venv/bin/python scripts/fetch_quotes.py --tickers $T --out &quot;$PWD/data/_tmp-quotes.csv&quot;
+# .venv/bin/python scripts/audit_notes.py --threshold 20 --snapshot &quot;$PWD/data/_tmp-quotes.csv&quot;
+# rm -f data/_tmp-quotes.csv
+
+.venv/bin/python scripts/audit_notes.py --threshold 20 | grep -- &quot;$T&quot;   # 3. 必须看到对比结果，不是&quot;无快照数据&quot;
+grep -cE &quot;待核实&quot; tickers/$T.md                                          # 4. 允许有，但你要知道有几个
+grep -E &quot;^(ticker|last_updated):&quot; tickers/$T.md                         # 5. frontmatter 没漏</code></pre>
+<p><strong>⑩ ⚠️ <code>audit_notes.py --snapshot</code> 只接受绝对路径。</strong> 传相对路径会在 <code>audit_notes.py:133</code> 的 <code>snap_path.relative_to(ROOT)</code> 抛 <code>ValueError</code> 崩掉（2026-08-06 实测），脚本 docstring 里写的相对路径用法是坏的。</p>
+<p><code>audit_notes.py</code> 报 drift 时不要调高阈值绕过——那是在关掉这个仓库唯一的机器校验。</p>
+<h2 id="相关">相关</h2>
+<ul>
+<li>骨架：<code>tickers/_template.md</code>；范例：<code>tickers/NVDA.md</code>（含 ⭐ 事件段和禁区提醒的写法）</li>
+<li>另一种卡片形态：<code>tickers/_next-apple-progress-template.md</code>（进度卡，不是估值档）</li>
+<li>下游消费者：<code>.claude/agents/earnings-reader.md</code>、<code>.claude/agents/position-discipline.md</code></li>
+</ul>
+      </article>
+      <aside class="doc-sidebar">
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">文档导航</h3>
+          <ul class="toc-list"><li><a href="#成功标准做完长什么样不是怎么做">成功标准（做完长什么样，不是怎么做）</a></li><li><a href="#流程">流程</a></li><li><a href="#已知的坑都是真踩过的不是预防性猜测">已知的坑（都是真踩过的，不是预防性猜测）</a></li><li><a href="#确定性工具">确定性工具</a></li><li><a href="#验收">验收</a></li><li><a href="#相关">相关</a></li></ul>
+        </section>
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">阅读提示</h3>
+          <ul class="summary-list">
+            <li><span class="summary-label">先看什么</span><span class="summary-value">先读一段话结论，再看表格和风险点。</span></li>
+            <li><span class="summary-label">适合用途</span><span class="summary-value">复盘、比较、回查研究底稿。</span></li>
+            <li><span class="summary-label">建议动作</span><span class="summary-value">如果文档内容改变了 thesis，再回到候选池或组合页更新判断。</span></li>
+          </ul>
+        </section>
+      </aside>
+    </div>
+    <div class="footer">该页面由 Markdown 自动生成。原始文件：.claude/skills/ticker-file/SKILL.md</div>
+  </div>
+  </div>
+</body>
+</html>

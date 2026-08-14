@@ -39,6 +39,7 @@ SINGLE_PATTERN = re.compile(
     re.IGNORECASE,
 )
 ROW_PATTERN = re.compile(r"^\s*\|[^|]*市值[^|]*\|(.+?)(?:\||$)", re.MULTILINE)
+REVENUE_ROW_PATTERN = re.compile(r"^\s*\|[^|]*营收[^|]*\|(.+?)(?:\||$)", re.MULTILINE)
 
 # 非 USD（按 yfinance 后缀），跳过审计
 NON_USD_SUFFIXES = (".KS", ".T", ".HK", ".SS", ".SZ", ".KQ")
@@ -73,6 +74,15 @@ def extract_doc_mcap(md_path: Path) -> tuple[str, float | None]:
     return (raw, parse_dollar_amount(raw))
 
 
+def extract_doc_revenue(md_path: Path) -> tuple[str, float | None]:
+    text = md_path.read_text()
+    m = REVENUE_ROW_PATTERN.search(text)
+    if not m:
+        return ("", None)
+    raw = m.group(1).strip()
+    return (raw, parse_dollar_amount(raw))
+
+
 def latest_snapshot() -> Path:
     snaps = sorted(SNAPSHOT_DIR.glob("*.csv"))
     if not snaps:
@@ -80,17 +90,26 @@ def latest_snapshot() -> Path:
     return snaps[-1]
 
 
-def load_snapshot(path: Path) -> dict[str, float]:
-    out: dict[str, float] = {}
+def load_snapshot(path: Path) -> dict[str, dict]:
+    out: dict[str, dict] = {}
     with path.open() as f:
         for row in csv.DictReader(f):
             sym = row["symbol"]
+            rec: dict[str, float] = {}
             mcap = (row.get("marketCap") or "").strip()
             if mcap:
                 try:
-                    out[sym] = float(mcap)
+                    rec["mcap"] = float(mcap)
                 except ValueError:
-                    continue
+                    pass
+            ps = (row.get("priceToSalesTrailing12Months") or "").strip()
+            if ps:
+                try:
+                    rec["ps"] = float(ps)
+                except ValueError:
+                    pass
+            if rec:
+                out[sym] = rec
     return out
 
 

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2026 08 12 analyst target is a lagging function</title>
+  <link rel="stylesheet" href="../_assets/style.css" />
+</head>
+<body>
+  <div class="site-shell">
+  <div class="page">
+    <div class="topbar">
+      <div class="nav-cluster">
+        <a class="back" href="../index.html">← 返回投研首页</a>
+        <a class="nav-link secondary" href="../all-docs.html">全部文档</a>
+      </div>
+      <div class="nav-cluster">
+        <a class="home-link" href="../notes.html">Notes</a>
+        <a class="home-link" href="../candidates.html">Candidates</a>
+        <a class="home-link" href="../tickers.html">Tickers</a>
+      </div>
+    </div>
+    <section class="hero">
+      <div class="doc-header-grid">
+        <div>
+          <div class="eyebrow">notes</div>
+          <h1>2026-08-12-analyst-target-is-a-lagging-function</h1>
+          <p>市场、公司或主题研究的阶段性结论。</p>
+          <div class="meta-row">
+            <span class="pill">notes/2026-08-12-analyst-target-is-a-lagging-function.md</span>
+            <span class="pill">447 words</span>
+            <span class="pill">10 sections</span>
+          </div>
+        </div>
+        <div class="doc-stat-stack">
+          <div class="doc-stat">
+            <div class="doc-stat-label">Document Type</div>
+            <div class="doc-stat-value">Notes</div>
+          </div>
+          <div class="doc-stat">
+            <div class="doc-stat-label">Reading Mode</div>
+            <div class="doc-stat-value">Research Memo</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="doc-layout">
+      <article class="doc doc-main">
+<hr />
+<p>date: 2026-08-12 type: 框架实测 / 证伪检验 / 可复现 status: active data_source: yfinance <code>Ticker.upgrades_downgrades</code>（12 只票、2018-01→2026-08、871 个「股票-月」观测，每月≥3 条评级动作）+ 月末收盘价；脚本 scripts/analyze_analyst_target_lag.py（可复现，换股票池即可重跑） purpose: 检验「投行集中上调目标价 = 见顶信号」这个流行说法。结论：现象是真的，但因果方向反了——分析师目标价是<strong>价格的滞后函数</strong>（与过去 corr +0.56 / 与未来 corr 0.00），不是预测器，也不是可靠的反向指标 related: notes/2026-06-25-top-signals-and-panic-discipline.md · memory ai-capex-cycle-topsignal-watchlist（反应函数 v3）· memory dip-buy-trigger-signals-not-daycount</p>
+<hr />
+<h1 id="分析师目标价是价格的滞后函数不是顶部信号">分析师目标价是价格的滞后函数，不是顶部信号</h1>
+<h2 id="一句话">一句话</h2>
+<p><strong>净上调比例与「过去 3 个月收益」相关系数 +0.559，与「未来 3/6/12 个月收益」相关系数 +0.03 / −0.02 / −0.05。分析师在股票涨完之后上调；上调聚集在顶部附近，但因果是「价格 → 上调」，不是「上调 → 顶部」。</strong></p>
+<p><strong>可操作推论：看到集中唱多，不代表要见顶，代表你已经错过了那段涨幅。</strong></p>
+<hr />
+<h2 id="一起因tsla-2025-12-那次">一、起因：TSLA 2025-12 那次</h2>
+<p>流行说法是「投行 2025 年 12 月把 TSLA 目标价集中定在 550–850 并反复重申，然后就见顶了」。</p>
+<p><strong>实测（yfinance upgrades_downgrades 原始记录）</strong> <code>[COMPUTED, HIGH]</code>：</p>
+<p><strong>TSLA 峰值 = 2025-12-16 收盘 $489.88；2026-08-11 收 $332.81，距顶 −32.1%，八个月未收复。</strong></p>
+<p>2025 年 12 月全部 7 条目标价动作：</p>
+<table><thead><tr><th>日期</th><th>机构</th><th>动作</th><th>目标价</th></tr></thead><tbody><tr><td>12/08</td><td>Morgan Stanley</td><td>Raises（但评级<strong>下调</strong>至 Equal-Weight）</td><td>410 → 425</td></tr><tr><td>12/09</td><td>Piper Sandler</td><td>Maintains</td><td>500</td></tr><tr><td>12/15</td><td>Wedbush</td><td>Maintains</td><td>600</td></tr><tr><td>—</td><td><strong>← 12/16 见顶 $489.88</strong></td><td></td><td></td></tr><tr><td>12/19</td><td>Truist</td><td><strong>Raises</strong></td><td>406 → 444</td></tr><tr><td>12/19</td><td>Deutsche Bank</td><td><strong>Raises</strong></td><td>470 → 500</td></tr><tr><td>12/23</td><td>Canaccord Genuity</td><td><strong>Raises</strong></td><td>482 → <strong>551</strong></td></tr><tr><td>12/30</td><td>Baird</td><td>Maintains</td><td>548</td></tr></tbody></table>
+<p><strong>两处对流行说法的更正：</strong></p>
+<ul>
+<li>❌ <strong>区间不是 550–850，是 425–600</strong>，中位约 500。仅 Canaccord(551)/Baird(548) 在 550 附近，<strong>无一家到 850</strong>。</li>
+<li>✅ <strong>但时序观察成立且更精确</strong>：7 条里 4 条在见顶之后，<strong>三次真正的上调（Truist / DB / Canaccord）全部发生在 12/16 之后</strong>。</li>
+</ul>
+<hr />
+<h2 id="二普遍性检验">二、普遍性检验</h2>
+<p><strong>样本</strong>：TSLA / NVDA / AAPL / MSFT / GOOGL / META / AMZN / MU / AMD / AVGO / NFLX / INTC，2018-01 → 2026-08，<strong>871 个「股票-月」观测</strong>（仅计入当月 ≥3 条评级动作的月份）。</p>
+<p><strong>净上调比例</strong> = (Raises − Lowers) / 当月动作总数。</p>
+<h3 id="未来收益中位数">① 未来收益（中位数）</h3>
+<table><thead><tr><th>分组</th><th>n</th><th>未来 3 月</th><th>未来 6 月</th><th>未来 12 月</th></tr></thead><tbody><tr><td>⬆ 上调最集中（前 20%）</td><td>175</td><td>8.31%</td><td><strong>13.53%</strong></td><td><strong>29.97%</strong></td></tr><tr><td>全样本中位</td><td>871</td><td>6.63%</td><td>16.10%</td><td>32.27%</td></tr><tr><td>⬇ <strong>下调最集中（后 20%）</strong></td><td>186</td><td>5.62%</td><td><strong>19.01%</strong></td><td><strong>35.61%</strong></td></tr></tbody></table>
+<p><strong>6 / 12 个月口径，下调集中的月份反而跑赢约 5.5pp。</strong></p>
+<h3 id="决定性的一组过去-vs-未来">② ⭐ 决定性的一组：过去 vs 未来</h3>
+<table><thead><tr><th></th><th>相关系数</th></tr></thead><tbody><tr><td>净上调比例 vs <strong>过去 3 个月</strong>收益</td><td><strong>+0.559</strong></td></tr><tr><td>净上调比例 vs <strong>过去 6 个月</strong>收益</td><td><strong>+0.515</strong></td></tr><tr><td>净上调比例 vs 未来 3 个月收益</td><td>+0.030</td></tr><tr><td>净上调比例 vs 未来 6 个月收益</td><td>−0.018</td></tr><tr><td>净上调比例 vs 未来 12 个月收益</td><td>−0.049</td></tr></tbody></table>
+<blockquote>## <strong>和过去的相关性 0.56。和未来的相关性 0.00。</strong></blockquote>
+<h3 id="单调性按过去-3-个月涨跌分五档">③ 单调性（按过去 3 个月涨跌分五档）</h3>
+<table><thead><tr><th>过去 3 月表现</th><th>当月净上调比例</th></tr></thead><tbody><tr><td>跌最多</td><td><strong>−0.481</strong></td></tr><tr><td>跌</td><td>+0.075</td></tr><tr><td>平</td><td>+0.467</td></tr><tr><td>涨</td><td>+0.633</td></tr><tr><td><strong>涨最多</strong></td><td><strong>+0.752</strong></td></tr></tbody></table>
+<p><strong>完美单调。涨得越多，上调越集中。</strong></p>
+<hr />
+<h2 id="三结论的准确表述">三、结论的准确表述</h2>
+<table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td>❌</td><td>「分析师唱多 → 见顶」——暗示因果，而 corr(未来)=0.00 不支持</td></tr><tr><td>✅</td><td>「分析师目标价是价格的滞后函数，几乎不含未来信息」</td></tr></tbody></table>
+<p><strong>机制</strong>：分析师在股票涨完之后上调 → 涨幅大的股票天然更接近局部顶部 → <strong>上调因此聚集在顶部附近，但那是共变，不是因果。</strong></p>
+<p><strong>可操作推论</strong>：集中唱多是<strong>对过去的确认</strong>，不是<strong>对未来的预告</strong>。看到它，说明你错过的是已经发生的那段。</p>
+<hr />
+<h2 id="四必须自己拆掉的三条-caveat">四、必须自己拆掉的三条 caveat</h2>
+<ol>
+<li><strong>样本是 12 只大盘科技股、2018–2026 全程大牛市</strong>（12 个月中位收益 32%）——<strong>这是时代不是技巧</strong>，且幸存者偏差重（12 只全部存活，仅 INTC 明显掉队）。</li>
+</ol>
+<ol>
+<li><strong>「下调集中月份跑赢」很可能不是&quot;分析师是反指&quot;，而是&quot;2018–2026 每次暴跌都该买&quot;。</strong> 下调聚集在暴跌之后，而那个窗口在这段历史里几乎全是买点。<strong>本检验无法分离这两个解释。</strong></li>
+</ol>
+<ol>
+<li><strong>相关系数全部在 ±0.05 以内 = 几乎无预测力。</strong> 严谨结论是「<strong>无信息</strong>」，不是「<strong>反向指标</strong>」——<strong>据此做反向交易同样没有依据。</strong></li>
+</ol>
+<hr />
+<h2 id="五与既有框架的连接">五、与既有框架的连接</h2>
+<p>这与 memory <code>ai-capex-cycle-topsignal-watchlist</code> 里的<strong>「反应函数 v3」是同一现象的两面</strong>：</p>
+<ul>
+<li>v3 的观察：<strong>AMD Q2 双 beat + 数据中心 +107% + 指引 2027 翻倍，盘后仍 −7.5%</strong>，因为它进财报前已从 7/29 低点涨了 <strong>20.7%</strong>。</li>
+<li>本篇的观察：<strong>corr(过去) = 0.56 / corr(未来) = 0.00</strong>。</li>
+</ul>
+<p><strong>共同结论：分析师上调、卖方 beat、目标价集中——都是「已被定价」的确认信号，不是「将要发生」的预告。</strong> 判断一个利好还有没有价值，先问它有没有被抢跑，而不是问它本身好不好。</p>
+<p>同理适用于 <code>dip-buy-trigger-signals-not-daycount</code>：<strong>价格类信号（跌了几天 / 涨了几天 / 分析师上调）都属于同一类「对过去的描述」，触发器必须是基本面信号。</strong></p>
+<hr />
+<h2 id="六复现">六、复现</h2>
+<pre><code>.venv/bin/python scripts/analyze_analyst_target_lag.py</code></pre>
+<p>改 <code>TK</code> 列表即可换股票池。<strong>建议后续用非科技、非牛市样本重跑一次</strong>——上面第 1、2 条 caveat 只有换样本才能拆开。</p>
+      </article>
+      <aside class="doc-sidebar">
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">文档导航</h3>
+          <ul class="toc-list"><li><a href="#一句话">一句话</a></li><li><a href="#一起因tsla-2025-12-那次">一、起因：TSLA 2025-12 那次</a></li><li><a href="#二普遍性检验">二、普遍性检验</a></li><li style="padding-left:14px"><a href="#未来收益中位数">① 未来收益（中位数）</a></li><li style="padding-left:14px"><a href="#决定性的一组过去-vs-未来">② ⭐ 决定性的一组：过去 vs 未来</a></li><li style="padding-left:14px"><a href="#单调性按过去-3-个月涨跌分五档">③ 单调性（按过去 3 个月涨跌分五档）</a></li><li><a href="#三结论的准确表述">三、结论的准确表述</a></li><li><a href="#四必须自己拆掉的三条-caveat">四、必须自己拆掉的三条 caveat</a></li><li><a href="#五与既有框架的连接">五、与既有框架的连接</a></li><li><a href="#六复现">六、复现</a></li></ul>
+        </section>
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">阅读提示</h3>
+          <ul class="summary-list">
+            <li><span class="summary-label">先看什么</span><span class="summary-value">先读一段话结论，再看表格和风险点。</span></li>
+            <li><span class="summary-label">适合用途</span><span class="summary-value">复盘、比较、回查研究底稿。</span></li>
+            <li><span class="summary-label">建议动作</span><span class="summary-value">如果文档内容改变了 thesis，再回到候选池或组合页更新判断。</span></li>
+          </ul>
+        </section>
+      </aside>
+    </div>
+    <div class="footer">该页面由 Markdown 自动生成。原始文件：notes/2026-08-12-analyst-target-is-a-lagging-function.md</div>
+  </div>
+  </div>
+</body>
+</html>

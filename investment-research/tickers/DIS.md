@@ -5,8 +5,8 @@ sector: IP 内容 + 主题乐园（反 AI 周期 / 在场体验）
 layer: Layer X — IP 皇冠 + 在场体验（agent 通缩内容，通胀 IP×在场）
 position_type: core
 status: watching
-last_updated: 2026-06-21
-data_source: 网络调研 2026-06-21
+last_updated: 2026-07-03
+data_source: 网络调研 2026-06-21；2026-07-03 价格刷新
 ---
 
 # The Walt Disney Company (DIS)
@@ -30,8 +30,8 @@ data_source: 网络调研 2026-06-21
 
 | 指标 | 数据 |
 |---|---|
-| 股价 | ~$104 |
-| 市值 | **~$1800 亿** |
+| 股价 | **$99.50**（06-21 记 ~$104 → **-4.3%，跌破 $100**；四腿里唯一下跌，性价比转好） |
+| 市值 | **~$172.8B**（17280 亿，快照口径） |
 | Forward PE | ~17–18x（FY26 调整 EPS +12~16%）——**历史偏低**（迪士尼历史 ~20–25x） |
 | **betaSPY** | **0.85**（低 beta） |
 | corrSOXX / corrMU | **0.20 / 0.03**（与半导体书近零相关，又一条反 AI 周期腿） |

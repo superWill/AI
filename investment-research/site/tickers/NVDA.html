@@ -28,8 +28,8 @@
           <p>单只股票的研究卡、跟踪信号和估值框架。</p>
           <div class="meta-row">
             <span class="pill">tickers/NVDA.md</span>
-            <span class="pill">226 words</span>
-            <span class="pill">12 sections</span>
+            <span class="pill">479 words</span>
+            <span class="pill">13 sections</span>
           </div>
         </div>
         <div class="doc-stat-stack">
@@ -47,13 +47,15 @@
     <div class="doc-layout">
       <article class="doc doc-main">
 <hr />
-<p>ticker: NVDA name: NVIDIA sector: Semiconductors / AI 算力 + 机器人平台 layer: Layer 3 — AI 加速计算平台（算力+软件+仿真垄断） position_type: core status: watching last_updated: 2026-06-20 data_source: 网络调研 2026-06-20</p>
+<p>ticker: NVDA name: NVIDIA sector: Semiconductors / AI 算力 + 机器人平台 layer: Layer 3 — AI 加速计算平台（算力+软件+仿真垄断） position_type: core status: watching last_updated: 2026-07-27 data_source: 网络调研 2026-06-20；2026-07-27 vendor financing 事件更新（网络调研 2026-07-28）</p>
 <hr />
 <h1 id="nvidia-nvda">NVIDIA (NVDA)</h1>
 <h2 id="一句话定位">一句话定位</h2>
 <p>AI 算力绝对龙头（CUDA + GPU 生态垄断），全球市值第一。在具身智能里是<strong>大脑卡点</strong>：Jetson Thor（算力）+ GR00T（基础模型）+ Isaac Sim/Omniverse（仿真/合成数据）三件套——&quot;想做通用机器人的安卓&quot;。几乎每家机器人公司都在它的平台上开发。</p>
 <h2 id="关键数据基准-2026-06-20网络调研">关键数据（基准 2026-06-20，网络调研）</h2>
-<table><thead><tr><th>指标</th><th>数据</th></tr></thead><tbody><tr><td>股价</td><td>~$210.69（6/18）</td></tr><tr><td>市值</td><td><strong>~$5.11 万亿</strong>（全球第一）</td></tr><tr><td>GAAP 毛利率</td><td><strong>74.9%</strong></td></tr></tbody></table>
+<table><thead><tr><th>指标</th><th>数据</th></tr></thead><tbody><tr><td>股价</td><td>~$210.69（6/18）</td></tr><tr><td>市值</td><td>~$5.11 万亿（当时全球第一）</td></tr><tr><td>GAAP 毛利率</td><td><strong>74.9%</strong></td></tr></tbody></table>
+<p><strong>2026-07-27 更新</strong> <code>[KNOWN/COMPUTED]</code>：市值 <strong>$4.92 万亿</strong>（7 月早些时候口径，仍为全球第一）→ <strong>7/27 当日 −5% 后约 $4.67 万亿</strong> <code>[COMPUTED 近似]</code>，<strong>AAPL 反超成为全球市值第一</strong>。</p>
+<blockquote>⚠️ 上表 6/20 快照已陈旧约 5 周；<strong>股价未重新核实，做估值前先拉实时报价</strong>（<code>scripts/fetch_quotes.py</code>）。</blockquote>
 <h2 id="财务q1-fy27截至-2026-04-26">财务（Q1 FY27，截至 2026-04-26）</h2>
 <table><thead><tr><th>指标</th><th>数据</th></tr></thead><tbody><tr><td>营收</td><td><strong>$816 亿</strong>，YoY <strong>+85%</strong>（创纪录）</td></tr><tr><td>数据中心营收</td><td><strong>$752 亿</strong>，YoY +92%</td></tr><tr><td>毛利率</td><td>GAAP 74.9% / 非 GAAP 75.0%</td></tr><tr><td>FY26 全年营收</td><td>$2159 亿，YoY +65%</td></tr></tbody></table>
 <blockquote>增长引擎仍是数据中心（GPU 卖给超大厂训练/推理）；机器人目前是<strong>极小占比的看涨期权</strong>。</blockquote>
@@ -75,8 +77,23 @@
 <li>物理 AI（机器人/自动驾驶）成为第二增长曲线——若人形量产，NVDA 是大脑层最大受益。</li>
 <li>&quot;通用机器人的安卓&quot;——平台抽税。</li>
 </ul>
+<h2 id="2026-07-27厂商融资vendor-financing-新增风险类别">⭐ 2026-07-27：厂商融资（vendor financing）—— 新增风险类别</h2>
+<p><code>[KNOWN, HIGH（Bloomberg + Axios 独立报道 + CDS 市场价格佐证）]</code></p>
+<p><strong>事件</strong>：英伟达在谈为 <strong>&gt;$7,500 亿</strong> AI 基建融资提供背书——约 <strong>$2,500 亿</strong>帮 OpenAI 租算力、约 <strong>$3,500 亿</strong>为 OpenAI 未来芯片采购提供融资。<strong>NVDA 的 CDS（债务违约保护成本）跳至历史最高</strong>，股价当日 <strong>−5%</strong>；同日 AAPL 市值反超成为全球第一。</p>
+<p><strong>为什么这是新东西，不是旧波动：</strong></p>
+<p>原风险清单里只有「AI capex 见顶 → 收入下滑」。<strong>vendor financing 加了一条独立路径：即使收入不下滑，客户融资结构恶化也能通过担保回流打击 NVDA 自身的资产负债表。</strong> 这是<strong>信用风险</strong>，不是周期或估值风险。</p>
+<p><strong>2001 电信模板</strong>：朗讯/北电给 CLEC 客户提供 vendor financing 去买自己的设备——账面记成收入，实质是把客户信用风险留在自己表内；<strong>客户一倒，收入和坏账同时爆</strong>。</p>
+<p><strong>在顶部信号体系里的位置</strong>：信号⑥「capex 融资结构」升级一档——</p>
+<ul>
+<li><strong>⑥-a</strong>（2026-07-23 首记）：超大厂 capex 不再由 OCF 自 fund → 转股权/债券（GOOGL FCF −$59 亿首负 + 净 $496 亿发股）</li>
+<li><strong>⑥-b</strong>（2026-07-27 本条）：<strong>设备卖方自己为买方采购提供信用担保</strong></li>
+</ul>
+<blockquote><strong>CDS 创新高比股价 −5% 有信息量得多</strong>——债券市场在用真金白银定价 NVDA 自身的信用质量变化。7 月半导体里 −5% 是噪音。<code>[INFERRED, MED-HIGH]</code></blockquote>
+<p><strong>待核实（决定严重性的关键，公开报道未说清）</strong>：这 $7,500 亿的<strong>法律结构</strong>是担保、回购承诺、还是流动性支持？<strong>性质完全不同，直接决定是否计入表内/表外义务。</strong> 以 10-Q/10-K 正式披露为准。</p>
+<p><strong>四大机械触发器当时仍 0/4</strong>（capex 仍在上调）→ <strong>这是&quot;脆弱性 +1 档&quot;，不是&quot;周期见顶&quot;。</strong> 详见 <a href="../notes/2026-07-27-duv-shock-and-nvda-vendor-financing.html">事件研究</a>。</p>
 <h2 id="风险">风险</h2>
 <ul>
+<li><strong>⚠️ 厂商融资/信用风险（2026-07-27 新增）</strong>：为客户采购提供担保 → 客户信用风险回流自身表内；CDS 已创历史新高。<strong>独立于收入风险的第二条打击路径。</strong>见上节。</li>
 <li><strong>估值</strong>：$5 万亿巨头，机器人是期权非纯暴露；任何 AI 资本开支降温都剧烈波动。</li>
 <li><strong>定制 ASIC 竞争</strong>：超大厂自研（<a href="AVGO.html">AVGO</a>/<a href="MRVL.html">MRVL</a> 协同的 ASIC）侵蚀 GPU 份额——见 MRVL 卡的定制硅格局。</li>
 <li><strong>对华出口管制</strong>：先进 GPU 对华受限，政策悬剑。</li>
@@ -90,6 +107,7 @@
 <h2 id="退出条件">退出条件</h2>
 <ul>
 <li>触发减仓：数据中心增速明显放缓 + 定制 ASIC 份额加速侵蚀。</li>
+<li><strong>触发减仓（2026-07-27 新增）</strong>：10-Q/10-K 正式披露的<strong>担保义务金额</strong>达到有意义规模，且 CDS 不回落 → 信用风险已内化，不再是新闻事件。</li>
 <li>触发卖出：AI 资本开支周期见顶。</li>
 <li>再加码：物理 AI/机器人放量兑现 + 回撤拉回估值。</li>
 </ul>
@@ -97,13 +115,20 @@
 <ul>
 <li>数据中心营收增速、毛利率</li>
 <li>定制 ASIC 对 GPU 份额侵蚀（AVGO/MRVL 联动）</li>
+<li><strong>CDS 利差</strong>是否回落至 2026-07 前区间（不回落 = 持续信用重定价，非一次性事件）<code>[2026-07-27 新增]</code></li>
+<li><strong>10-Q/10-K 中担保/承诺条款</strong>的披露金额与法律性质 <code>[2026-07-27 新增]</code></li>
+<li><strong>是否出现第二家跟进 vendor financing</strong>（AVGO/AMD）→ 由个案升级为行业机制 <code>[2026-07-27 新增]</code></li>
+<li><strong>编译/中间层抽象成熟度</strong>（XLA/MLIR/Triton 非 CUDA 后端的生产级占比）——ASIC 的短板被补掉才是 CUDA 护城河被绕过的路径，见<a href="../notes/2026-07-27-tech-path-substitution-framework.html">路线替代框架</a> <code>[2026-07-27 新增]</code></li>
 <li>对华出口管制政策</li>
 <li>Jetson Thor / GR00T 在人形量产中的采用（身体端兑现节奏）</li>
 </ul>
 <h2 id="仓位与历史">仓位与历史</h2>
-<table><thead><tr><th>日期</th><th>操作</th><th>价格</th><th>仓位</th><th>备注</th></tr></thead><tbody><tr><td>2026-06-20</td><td>建档观察</td><td>~$210.69</td><td>—</td><td>AI 算力垄断 + 具身智能大脑卡点；机器人为免费期权</td></tr></tbody></table>
+<table><thead><tr><th>日期</th><th>操作</th><th>价格</th><th>仓位</th><th>备注</th></tr></thead><tbody><tr><td>2026-06-20</td><td>建档观察</td><td>~$210.69</td><td>—</td><td>AI 算力垄断 + 具身智能大脑卡点；机器人为免费期权</td></tr><tr><td>2026-06-25</td><td>减仓（卖 3/5）</td><td>—</td><td>23.0% → <strong>9.2%</strong></td><td>换 BRK-B 锚；理由是 SIZE 不是 OWN（单票 41% 风险过重）</td></tr><tr><td>2026-07-27</td><td><strong>不动</strong>，转重点观察</td><td>当日 −5%</td><td>9.2%</td><td>vendor financing / CDS 创新高 = 新风险类别；但触发器 0/4，未到减仓条件</td></tr></tbody></table>
+<blockquote><strong>禁区提醒</strong>：NVDA 属于「正在减仓的内存/SOXX 腿」，<strong>不得对其卖 put</strong>（见 memory <code>ibkr-options-playbook</code> / <a href="../portfolios/2026-07-23-put-selling-plan.html"><code>put-selling-plan</code></a>）。</blockquote>
 <h2 id="参考">参考</h2>
 <ul>
+<li><strong>事件研究</strong>：<a href="../notes/2026-07-27-duv-shock-and-nvda-vendor-financing.html">2026-07-27 DUV 惊吓 + 英伟达厂商融资</a></li>
+<li><strong>方法论</strong>：<a href="../notes/2026-07-27-tech-path-substitution-framework.html">技术路线替代的判据框架</a>（GPU vs ASIC：护城河是生态锁定，威胁来自编译层而非更好的 ASIC）</li>
 <li>主题笔记：<a href="../notes/2026-06-20-embodied-ai-chokepoints.html">具身智能卡点：脑-关节-磁材</a>（大脑卡点）</li>
 <li>相关：<a href="6324.T.html">6324.T</a>（关节）· <a href="MP.html">MP</a>（磁材）· <a href="TSM.html">TSM</a> · <a href="ASML.html">ASML</a> · <a href="MRVL.html">MRVL</a> · <a href="AVGO.html">AVGO</a></li>
 <li><a href="https://www.sec.gov/Archives/edgar/data/0001045810/000104581026000051/q1fy27pr.htm">NVIDIA Q1 FY27 财报（8-K，SEC）</a></li>
@@ -113,7 +138,7 @@
       <aside class="doc-sidebar">
         <section class="sidebar-card">
           <h3 class="sidebar-title">文档导航</h3>
-          <ul class="toc-list"><li><a href="#一句话定位">一句话定位</a></li><li><a href="#关键数据基准-2026-06-20网络调研">关键数据（基准 2026-06-20，网络调研）</a></li><li><a href="#财务q1-fy27截至-2026-04-26">财务（Q1 FY27，截至 2026-04-26）</a></li><li><a href="#护城河类型">护城河类型</a></li><li><a href="#短期增量35-年">短期增量（3–5 年）</a></li><li><a href="#长期增量1020-年">长期增量（10–20 年）</a></li><li><a href="#风险">风险</a></li><li><a href="#估值锚">估值锚</a></li><li><a href="#退出条件">退出条件</a></li><li><a href="#跟踪信号">跟踪信号</a></li><li><a href="#仓位与历史">仓位与历史</a></li><li><a href="#参考">参考</a></li></ul>
+          <ul class="toc-list"><li><a href="#一句话定位">一句话定位</a></li><li><a href="#关键数据基准-2026-06-20网络调研">关键数据（基准 2026-06-20，网络调研）</a></li><li><a href="#财务q1-fy27截至-2026-04-26">财务（Q1 FY27，截至 2026-04-26）</a></li><li><a href="#护城河类型">护城河类型</a></li><li><a href="#短期增量35-年">短期增量（3–5 年）</a></li><li><a href="#长期增量1020-年">长期增量（10–20 年）</a></li><li><a href="#2026-07-27厂商融资vendor-financing-新增风险类别">⭐ 2026-07-27：厂商融资（vendor financing）—— 新增风险类别</a></li><li><a href="#风险">风险</a></li><li><a href="#估值锚">估值锚</a></li><li><a href="#退出条件">退出条件</a></li><li><a href="#跟踪信号">跟踪信号</a></li><li><a href="#仓位与历史">仓位与历史</a></li><li><a href="#参考">参考</a></li></ul>
         </section>
         <section class="sidebar-card">
           <h3 class="sidebar-title">阅读提示</h3>

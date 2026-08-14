@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2026 07 small cap value engine</title>
+  <link rel="stylesheet" href="../_assets/style.css" />
+</head>
+<body>
+  <div class="site-shell">
+  <div class="page">
+    <div class="topbar">
+      <div class="nav-cluster">
+        <a class="back" href="../index.html">← 返回投研首页</a>
+        <a class="nav-link secondary" href="../all-docs.html">全部文档</a>
+      </div>
+      <div class="nav-cluster">
+        <a class="home-link" href="../notes.html">Notes</a>
+        <a class="home-link" href="../candidates.html">Candidates</a>
+        <a class="home-link" href="../tickers.html">Tickers</a>
+      </div>
+    </div>
+    <section class="hero">
+      <div class="doc-header-grid">
+        <div>
+          <div class="eyebrow">notes</div>
+          <h1>2026-07-small-cap-value-engine</h1>
+          <p>市场、公司或主题研究的阶段性结论。</p>
+          <div class="meta-row">
+            <span class="pill">notes/2026-07-small-cap-value-engine.md</span>
+            <span class="pill">309 words</span>
+            <span class="pill">11 sections</span>
+          </div>
+        </div>
+        <div class="doc-stat-stack">
+          <div class="doc-stat">
+            <div class="doc-stat-label">Document Type</div>
+            <div class="doc-stat-value">Notes</div>
+          </div>
+          <div class="doc-stat">
+            <div class="doc-stat-label">Reading Mode</div>
+            <div class="doc-stat-value">Research Memo</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="doc-layout">
+      <article class="doc doc-main">
+<hr />
+<p>title: 小资金错定价筛选器：第一轮候选与核验清单 date: 2026-07-20 status: active</p>
+<hr />
+<h1 id="小资金错定价筛选器">小资金错定价筛选器</h1>
+<h2 id="结论先行">结论先行</h2>
+<ul>
+<li>[COMPUTED] 第一轮三个机械筛选器分别返回 127、69 和 50 个结果，去重后留下 213 只美国交易所普通股。（置信度：HIGH）</li>
+<li>[INFERRED] 目前没有候选达到“已经可以买”的证据门槛；第一轮只完成了发现与初步排雷。（置信度：HIGH）</li>
+<li>[INFERRED] <code>AXR</code> 最接近“小市值、资产覆盖、市场关注不足”的经典错定价外形，但日均成交量约 9,343 股，流动性是硬约束。（置信度：HIGH）</li>
+<li>[INFERRED] <code>BBW</code> 的当前盈利质量优于其余四家公司，但它是品牌与消费需求押注，不是资产清算型机会。（置信度：MED）</li>
+<li>[INFERRED] <code>SHOE</code>、<code>FOR</code> 和 <code>ETD</code> 都便宜得有原因，必须先证明经营恶化或集中度风险已被价格充分补偿。（置信度：HIGH）</li>
+<li>[COMMON] 该系统用于缩小研究范围，不承诺任何收益率，也不能把机械低估值直接翻译成安全边际。（置信度：HIGH）</li>
+</ul>
+<h2 id="方法">方法</h2>
+<ul>
+<li>[KNOWN] <code>cashflow_value</code> 要求市值 1 亿至 50 亿美元、正自由现金流、过去十二个月市盈率低于 15、股本回报率高于 5%，且净债务/EBITDA 低于 2.5。（置信度：HIGH）</li>
+<li>[KNOWN] <code>asset_value</code> 要求市值 5,000 万至 30 亿美元、股价/有形账面价值低于 1.25、流动比率高于 1.5、债务/权益低于 60%，且经营现金流为正。（置信度：HIGH）</li>
+<li>[KNOWN] <code>fallen_profitable</code> 要求市值 2 亿至 100 亿美元、过去 52 周跌幅超过 20%、正自由现金流、市盈率低于 20，且股本回报率高于 8%。（置信度：HIGH）</li>
+<li>[KNOWN] 三个筛选器默认要求三个月日均成交量超过 10 万股，并排除优先股、权证和明显的并购空壳证券。（置信度：HIGH）</li>
+<li>[KNOWN] 原始筛选和横向财务字段来自 <code>yfinance</code>，属于二手数据；候选进入研究清单前，以美国证券交易委员会文件为准。（置信度：HIGH）</li>
+<li>[INFERRED] 中国消费金融 ADR、封闭式基金、航运股和一次性会计利润公司在机械榜单中靠前，不代表其风险调整后更便宜。（置信度：HIGH）</li>
+</ul>
+<h2 id="第一批人工核验候选">第一批人工核验候选</h2>
+<h3 id="1-axr-amrep">1. AXR — AMREP</h3>
+<ul>
+<li>[KNOWN] 截至 2026-01-31，现金为 4,999.8 万美元、房地产存货为 6,679.8 万美元、总负债为 456.5 万美元、股东权益为 1.3938 亿美元，流通股为 5,305,199 股。<a href="https://www.sec.gov/Archives/edgar/data/6207/000110465926027088/axr-20260131x10q.htm">SEC 10-Q</a>（置信度：HIGH）</li>
+<li>[COMPUTED] 按本轮二手行情市值 1.3581 亿美元计算，市值约为账面权益的 97.4%，现金约占市值的 36.8%。（置信度：HIGH）</li>
+<li>[KNOWN] 截至 2026-01-31 的九个月净利润为 903.9 万美元，经营现金流为 1,067.7 万美元。（置信度：HIGH）</li>
+<li>[INFERRED] 机会在于低负债、现金和土地资产覆盖；风险在于土地价值难核验、销售节奏不连续和缺乏明确催化剂。（置信度：MED）</li>
+<li>[INFERRED] 约 9,343 股的日均成交量使其不适合快速建立大仓位，100 万美元组合应把成交容量而非估值放在第一位。（置信度：HIGH）</li>
+</ul>
+<h3 id="2-bbw-build-a-bear-workshop">2. BBW — Build-A-Bear Workshop</h3>
+<ul>
+<li>[KNOWN] 截至 2026-05-02 的季度净利润为 1,829.9 万美元，去年同期为 1,531.9 万美元；摊薄每股收益为 1.45 美元，去年同期为 1.17 美元。<a href="https://www.sec.gov/Archives/edgar/data/1113809/000143774926020239/bbw20260417_10q.htm">SEC 10-Q</a>（置信度：HIGH）</li>
+<li>[COMPUTED] 季度经营现金流 2,122.4 万美元减资本开支 686.9 万美元，得到约 1,435.5 万美元的粗略自由现金流。（置信度：HIGH）</li>
+<li>[COMPUTED] 摊薄加权平均股数由 1,314.4 万股降至 1,263.9 万股，降幅约 3.8%。（置信度：HIGH）</li>
+<li>[INFERRED] 当前候选逻辑是低盈利倍数、盈利增长和持续回购，而不是低于账面价值。（置信度：HIGH）</li>
+<li>[INFERRED] 主要反证是消费潮流反转、授权 IP 依赖、门店租赁义务以及近期盈利不可持续。（置信度：MED）</li>
+</ul>
+<h3 id="3-shoe-shoe-station-group">3. SHOE — Shoe Station Group</h3>
+<ul>
+<li>[KNOWN] 公司于 2026-06-12 从 Shoe Carnival 更名为 Shoe Station Group，股票代码为 <code>SHOE</code>。（置信度：HIGH）</li>
+<li>[KNOWN] 截至 2026-05-02 的季度收入为 2.707 亿美元，同比下降 2.5%；同店销售下降 2.1%，销量下降 6%，净亏损为 562.8 万美元。<a href="https://www.sec.gov/Archives/edgar/data/895447/000119312526258362/scvl-20260502.htm">SEC 10-Q</a>（置信度：HIGH）</li>
+<li>[KNOWN] 当季包含 1,360 万美元管理层更替及战略审查费用和 830 万美元减值等费用；期末现金为 1.161 亿美元，公司报告无有息融资债务。（置信度：HIGH）</li>
+<li>[COMPUTED] 按本轮二手行情市值 3.9342 亿美元计算，期末现金约占市值的 29.5%。（置信度：HIGH）</li>
+<li>[INFERRED] 资产负债表提供缓冲，但销售、销量和毛利率同时走弱，加上管理层更替与战略反转，使其暂时更像待验证的价值陷阱。（置信度：HIGH）</li>
+</ul>
+<h3 id="4-for-forestar">4. FOR — Forestar</h3>
+<ul>
+<li>[KNOWN] 截至 2026-03-31，现金为 3.622 亿美元、房地产为 27.097 亿美元、债务为 7.935 亿美元、股东权益为 18.199 亿美元。<a href="https://www.sec.gov/Archives/edgar/data/1406587/000162828026026783/for-20260331.htm">SEC 10-Q</a>（置信度：HIGH）</li>
+<li>[COMPUTED] 按本轮二手行情市值 15.2516 亿美元计算，市值约为账面权益的 83.8%。（置信度：HIGH）</li>
+<li>[COMPUTED] 本财年前六个月向 <code>D.R. Horton</code> 确认的地块、地块组及其他收入约占合并收入 75.5%，售出的地块中约 83.5% 由该客户购买。（置信度：HIGH）</li>
+<li>[INFERRED] 账面折价不是免费午餐；公司实质上同时承担住宅周期、土地存货和单一关联客户集中风险。（置信度：HIGH）</li>
+</ul>
+<h3 id="5-etd-ethan-allen-interiors">5. ETD — Ethan Allen Interiors</h3>
+<ul>
+<li>[KNOWN] 截至 2026-03-31，现金、短期美国国债和长期美国国债合计约 1.8087 亿美元。<a href="https://www.sec.gov/Archives/edgar/data/896156/000143774926013892/eth20260331_10q.htm">SEC 10-Q</a>（置信度：HIGH）</li>
+<li>[COMPUTED] 按本轮二手行情市值 5.7967 亿美元计算，上述现金及国债约占市值的 31.2%。（置信度：HIGH）</li>
+<li>[KNOWN] 本财年前九个月净利润为 2,812.9 万美元，去年同期为 3,932.8 万美元；最近一个季度净利润为 593.4 万美元，去年同期为 960.5 万美元。（置信度：HIGH）</li>
+<li>[INFERRED] 资产支持较强，但盈利仍在下滑，必须先确认需求和毛利率何时稳定。（置信度：HIGH）</li>
+</ul>
+<h2 id="排序与行动门槛">排序与行动门槛</h2>
+<ol>
+<li>[INFERRED] <code>AXR</code>：先做土地分区、每英亩价值、关联交易和历史资本配置核验；在此之前不定内在价值。（置信度：HIGH）</li>
+<li>[INFERRED] <code>BBW</code>：先拆分同店销售、门店扩张、授权费、租赁调整后资本回报率和回购价格；在此之前不把低市盈率视为安全边际。（置信度：HIGH）</li>
+<li>[INFERRED] <code>SHOE</code>：等待战略审查、关店成本和核心门店销售企稳证据。（置信度：HIGH）</li>
+<li>[INFERRED] <code>FOR</code>：只有在住宅压力测试和 <code>D.R. Horton</code> 关系条款核验后，账面折价才有意义。（置信度：HIGH）</li>
+<li>[INFERRED] <code>ETD</code>：等待收入和毛利率至少连续两个季度不再恶化，或价格出现更大资产折价。（置信度：MED）</li>
+</ol>
+<h2 id="组合约束">组合约束</h2>
+<ul>
+<li>[FRAME] 对 100 万美元研究组合，单一初始试探仓不超过 2%，完成完整财报、代理声明和估值核验后才允许提高至 5%；这是研究纪律，不是收益预测。（置信度：MED）</li>
+<li>[FRAME] 不使用保证金、不卖裸期权、不因“愿意持有”而忽视标的流动性和永久损失风险。（置信度：MED）</li>
+<li>[FRAME] 每个候选必须写出三个可证伪条件、保守价值区间和退出条件，缺少任何一项则保持观察。（置信度：MED）</li>
+<li>[COMMON] 期权不会修复错误的公司分析，只会改变收益分布、期限和被迫交易风险。（置信度：HIGH）</li>
+</ul>
+<h2 id="数据文件">数据文件</h2>
+<ul>
+<li>[KNOWN] 完整机械候选池位于 <code>data/screens/2026-07-20-small-cap-value.csv</code>。（置信度：HIGH）</li>
+<li>[KNOWN] 十家公司横向财务快照位于 <code>data/screens/2026-07-20-value-shortlist.csv</code>。（置信度：HIGH）</li>
+<li>[KNOWN] <code>AXR</code> 是低流动性人工例外，不满足默认的十万股日均成交量门槛。（置信度：HIGH）</li>
+</ul>
+      </article>
+      <aside class="doc-sidebar">
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">文档导航</h3>
+          <ul class="toc-list"><li><a href="#结论先行">结论先行</a></li><li><a href="#方法">方法</a></li><li><a href="#第一批人工核验候选">第一批人工核验候选</a></li><li style="padding-left:14px"><a href="#1-axr-amrep">1. AXR — AMREP</a></li><li style="padding-left:14px"><a href="#2-bbw-build-a-bear-workshop">2. BBW — Build-A-Bear Workshop</a></li><li style="padding-left:14px"><a href="#3-shoe-shoe-station-group">3. SHOE — Shoe Station Group</a></li><li style="padding-left:14px"><a href="#4-for-forestar">4. FOR — Forestar</a></li><li style="padding-left:14px"><a href="#5-etd-ethan-allen-interiors">5. ETD — Ethan Allen Interiors</a></li><li><a href="#排序与行动门槛">排序与行动门槛</a></li><li><a href="#组合约束">组合约束</a></li><li><a href="#数据文件">数据文件</a></li></ul>
+        </section>
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">阅读提示</h3>
+          <ul class="summary-list">
+            <li><span class="summary-label">先看什么</span><span class="summary-value">先读一段话结论，再看表格和风险点。</span></li>
+            <li><span class="summary-label">适合用途</span><span class="summary-value">复盘、比较、回查研究底稿。</span></li>
+            <li><span class="summary-label">建议动作</span><span class="summary-value">如果文档内容改变了 thesis，再回到候选池或组合页更新判断。</span></li>
+          </ul>
+        </section>
+      </aside>
+    </div>
+    <div class="footer">该页面由 Markdown 自动生成。原始文件：notes/2026-07-small-cap-value-engine.md</div>
+  </div>
+  </div>
+</body>
+</html>

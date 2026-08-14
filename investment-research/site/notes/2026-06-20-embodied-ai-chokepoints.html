@@ -28,8 +28,8 @@
           <p>市场、公司或主题研究的阶段性结论。</p>
           <div class="meta-row">
             <span class="pill">notes/2026-06-20-embodied-ai-chokepoints.md</span>
-            <span class="pill">252 words</span>
-            <span class="pill">8 sections</span>
+            <span class="pill">510 words</span>
+            <span class="pill">9 sections</span>
           </div>
         </div>
         <div class="doc-stat-stack">
@@ -59,6 +59,24 @@
 <li><strong>为什么不可或缺</strong>：几乎每家机器人公司（Figure、1X、波士顿动力…）都在 Isaac 上开发；仿真+合成数据训练是别人难复制的护城河。TechCrunch：&quot;英伟达想做通用机器人的安卓。&quot;</li>
 <li><strong>catch</strong>：$5 万亿巨头，机器人占比极小——是<strong>机器人的免费看涨期权，不是纯暴露</strong>。详见 <a href="../tickers/NVDA.html">NVDA 卡</a>。</li>
 </ul>
+<h3 id="11-修正2026-08-09大脑不是一个卡点是两个google-被本篇漏掉了">1.1 ⭐ 修正（2026-08-09）：「大脑」不是一个卡点，是两个——Google 被本篇漏掉了</h3>
+<p><code>[KNOWN via web, MED-HIGH，多源一致]</code></p>
+<p><strong>本篇原稿把「大脑」层整个判给 NVDA，通篇零次提及 Google。这是漏项，不是判断分歧。</strong> 准确的切分是<strong>两个不同性质的卡点</strong>：</p>
+<table><thead><tr><th></th><th><strong>NVIDIA</strong></th><th><strong>Google</strong></th></tr></thead><tbody><tr><td>卡什么</td><td><strong>算力 + 仿真工具链</strong>（Jetson Thor / Isaac Sim / Omniverse）</td><td><strong>最强的 VLA 模型本身</strong></td></tr><tr><td>基础模型</td><td><strong>GR00T N1 开源</strong>，N1.7 商业授权</td><td><strong>Gemini Robotics 2 闭源</strong>，仅早期合作伙伴</td></tr><tr><td>硬件</td><td>自产（Jetson Thor）</td><td><strong>不造</strong>，载体是 Apptronik Apollo 2</td></tr><tr><td>商业模式</td><td><strong>卖铲子 / 做安卓</strong>——收所有人的过路费</td><td><strong>垂直整合自用</strong>（Waymo / Intrinsic / Cloud）</td></tr><tr><td>变现现状</td><td>数据中心主业已在收钱，机器人是增量</td><td>除 Waymo 外<strong>收入 ≈ 0</strong></td></tr></tbody></table>
+<p><strong>Google 的四条腿（2026-08 现状）：</strong></p>
+<ol>
+<li><strong>Gemini Robotics 2（2026-07-30 发布）</strong> — 三件套：<strong>Gemini Robotics 2</strong>（VLA，视觉语言转动作）+ <strong>ER 2</strong>（具身推理/多步规划）+ <strong>On-Device 2</strong>（端侧）。首次做到<strong>全身控制</strong>（此前仅上半身操作），扩展到行走/弯腰/平衡/穿越杂乱空间。<strong>最硬的指标：端侧模型用 &lt;200 个演示样本、数小时内适配全新机器人硬件。</strong></li>
+<li><strong>Intrinsic</strong>（2026-02 从 Other Bets 并入 Google）— 工业机器人软件；<strong>2025-10 与富士康合资</strong>做电子制造全厂自动化。<strong>Google 具身线唯一有明确 B 端路径的一块。</strong></li>
+<li><strong>Waymo</strong> — <strong>规模最大的具身 AI 实盘</strong>：11 个美国城市（年内新增 6 个）、<strong>每周 &gt;50 万次全自动驾驶行程</strong>；新 Ojai robotaxi 把 Gemini 做成车内界面。</li>
+<li><strong>Apptronik 合作</strong>（2024-12 起）— Google 不造硬件，只出大脑。</li>
+</ol>
+<p><strong>判定与 catch：</strong></p>
+<ul>
+<li><strong>不改变本篇的可投结论</strong>。Google 的具身线<strong>当期收入 ≈ 0</strong>（Waymo 仍在 Other Bets 亏损），性质与 NVDA 同为「免费看涨期权」，且 GOOGL 的分母比 NVDA 更大——<strong>稀释更严重，不是更纯的暴露</strong>。</li>
+<li><strong>⚠️ 生态位比模型能力更难撼动</strong>：NVIDIA 开源 + 全栈 + 几乎所有机器人公司都在 Isaac 上开发。<strong>「模型最强」≠「会赢」</strong>，Google 手里真正稀缺的是 <strong>Waymo 的 50 万次/周真实数据</strong>，不是参数。</li>
+<li><strong>🔴 人才风险刚好打在这条腿上，时间点极难看</strong>：<strong>Gemini Robotics 2 发布于 7/30，8/5 就出走四人</strong>——其中 <strong>Oriol Vinyals 是 Gemini 团队 co-lead</strong>、Jeff Dean 首席科学家、Sanjay Ghemawat、Quoc Le，同期 Hassabis 卸任 DeepMind 日常管理。<strong>发布后第六天核心班子解体</strong>，后续必须盯（详见 <a href="../tickers/GOOGL.html">GOOGL 卡</a> 2026-08-09 节）。</li>
+<li><strong>对 §4「灵巧手格局未定」的补充</strong>：Gemini Robotics 2 的全身控制若成立，<strong>卡点会从机械自由度部分转移到控制模型</strong>——这会削弱&quot;灵巧手硬件是价值高地&quot;的假设。<strong>尚未验证，列为观察项。</strong></li>
+</ul>
 <h2 id="2-执行器-关节-谐波减速器6324ttickers6324tmd-行星滚柱丝杠-最硬的物理卡点">2. 执行器 / 关节 —— 谐波减速器（<a href="../tickers/6324.T.html">6324.T</a>）+ 行星滚柱丝杠 ✅最硬的物理卡点</h2>
 <ul>
 <li><strong>谐波减速器</strong>：全行业最清晰的执行器瓶颈。Harmonic Drive（6324.T，市占 <strong>70%+</strong>）、Nabtesco 主导。精密+资本密集+认证周期长，<strong>扩产结构性困难</strong>（不像电子能快速加产能）。</li>
@@ -79,12 +97,13 @@
 <li><strong>暂无清晰的公开卡脖子点</strong>——价值高地，但赢家未知，<strong>还不能算稳定的&quot;不可或缺&quot;</strong>。要盯、但不是现在能押。</li>
 </ul>
 <h2 id="5-结论真正不可或缺的几个">5. 结论：真正&quot;不可或缺&quot;的几个</h2>
-<table><thead><tr><th>卡点层</th><th>公司</th><th>不可或缺度</th><th>最大 catch</th></tr></thead><tbody><tr><td>大脑</td><td><strong><a href="../tickers/NVDA.html">NVDA</a></strong></td><td>平台级垄断（安卓化）</td><td>巨头，机器人是免费期权</td></tr><tr><td>执行器（旋转）</td><td><strong><a href="../tickers/6324.T.html">6324.T</a></strong></td><td>物理瓶颈、扩产难</td><td>中国厂追赶 + 路线风险 + 未量产</td></tr><tr><td>执行器（直线）</td><td>行星滚柱丝杠（SKF/亚洲专家）</td><td>最急瓶颈</td><td>无干净纯公开标的</td></tr><tr><td>磁材</td><td><strong><a href="../tickers/MP.html">MP</a></strong> + Lynas</td><td>材料+地缘双卡点</td><td>仍亏损 + 商品/地缘价格波动</td></tr><tr><td>灵巧手</td><td>（未定）</td><td>价值最大但格局未定</td><td>赢家未知，不能押</td></tr></tbody></table>
+<table><thead><tr><th>卡点层</th><th>公司</th><th>不可或缺度</th><th>最大 catch</th></tr></thead><tbody><tr><td>大脑·算力/工具链</td><td><strong><a href="../tickers/NVDA.html">NVDA</a></strong></td><td>平台级垄断（安卓化）</td><td>巨头，机器人是免费期权</td></tr><tr><td>大脑·模型（<strong>2026-08 补</strong>）</td><td><strong><a href="../tickers/GOOGL.html">GOOGL</a></strong></td><td>最强 VLA 且闭源，但<strong>生态位弱于 NVDA</strong></td><td>分母更大、当期收入≈0、核心团队 8/5 出走</td></tr><tr><td>执行器（旋转）</td><td><strong><a href="../tickers/6324.T.html">6324.T</a></strong></td><td>物理瓶颈、扩产难</td><td>中国厂追赶 + 路线风险 + 未量产</td></tr><tr><td>执行器（直线）</td><td>行星滚柱丝杠（SKF/亚洲专家）</td><td>最急瓶颈</td><td>无干净纯公开标的</td></tr><tr><td>磁材</td><td><strong><a href="../tickers/MP.html">MP</a></strong> + Lynas</td><td>材料+地缘双卡点</td><td>仍亏损 + 商品/地缘价格波动</td></tr><tr><td>灵巧手</td><td>（未定）</td><td>价值最大但格局未定</td><td>赢家未知，不能押</td></tr></tbody></table>
 <p><strong>最干净 + 可投 + 库里已覆盖的三个</strong>：<strong>NVDA（脑）+ 6324.T（关节）+ MP（磁材）</strong>——具身智能&quot;不可或缺&quot;最纯的三角表达。</p>
 <blockquote><strong>一句话</strong>：具身智能的不可或缺 = Nvidia（脑）+ 谐波减速器/滚柱丝杠（关节）+ 稀土磁材（肌肉原料）三道关。但与半导体收税口的本质差别是：它们要么是被稀释的巨头（NVDA），要么是会被中国追赶、且尚未量产的机械/材料卡点。<strong>这是押&quot;未来瓶颈兑现&quot;，不是收&quot;当下的过路费&quot;。</strong></blockquote>
 <h2 id="6-跟踪信号">6. 跟踪信号</h2>
 <ul>
 <li>NVDA：Jetson Thor/GR00T 在人形量产中的采用、数据中心增速（主业）。</li>
+<li><strong>GOOGL（2026-08 新增）</strong>：① Gemini Robotics 2 的 VLA/端侧模型<strong>是否从&quot;早期合作伙伴&quot;转为公开可用</strong>（转公开=抢生态位，不转=只自用）；② <strong>Intrinsic × 富士康合资</strong>是否产出可计收入的部署；③ <strong>Waymo 周行程数</strong>（当前 &gt;50 万）；④ <strong>8/5 出走后 DeepMind 机器人团队是否继续出人</strong>。</li>
 <li>6324.T：机器人客户订单 YoY、FY27 利润反转兑现、中国厂高端突破、Tesla 执行器选型（谐波 vs 滚柱丝杠）。</li>
 <li>MP：磁材业务转盈、DoD 合同、中国稀土出口管制变动。</li>
 <li>共享：人形量产 first wave（Tesla/Figure/1X/Unitree）是否在 2026–2027 兑现——这是所有卡点变现的总开关。</li>
@@ -101,7 +120,7 @@
       <aside class="doc-sidebar">
         <section class="sidebar-card">
           <h3 class="sidebar-title">文档导航</h3>
-          <ul class="toc-list"><li><a href="#0-与半导体收税口的本质区别先读这条">0. 与半导体收税口的本质区别（先读这条）</a></li><li><a href="#1-大脑-算力-nvidianvda最像安卓的平台垄断">1. 大脑 / 算力 —— Nvidia（NVDA）✅最像&quot;安卓&quot;的平台垄断</a></li><li><a href="#2-执行器-关节-谐波减速器6324ttickers6324tmd-行星滚柱丝杠-最硬的物理卡点">2. 执行器 / 关节 —— 谐波减速器（[6324.T](../tickers/6324.T.md)）+ 行星滚柱丝杠 ✅最硬的物理卡点</a></li><li><a href="#3-磁材-肌肉原料-mp-materialsmptickersmpmd-lynas-地缘卡点">3. 磁材 / 肌肉原料 —— MP Materials（[MP](../tickers/MP.md)）+ Lynas ✅地缘卡点</a></li><li><a href="#4-灵巧手-触觉-价值最大31-bom但格局未定">4. 灵巧手 / 触觉 —— 价值最大（31% BOM）但格局未定 ⚠️</a></li><li><a href="#5-结论真正不可或缺的几个">5. 结论：真正&quot;不可或缺&quot;的几个</a></li><li><a href="#6-跟踪信号">6. 跟踪信号</a></li><li><a href="#7-参考">7. 参考</a></li></ul>
+          <ul class="toc-list"><li><a href="#0-与半导体收税口的本质区别先读这条">0. 与半导体收税口的本质区别（先读这条）</a></li><li><a href="#1-大脑-算力-nvidianvda最像安卓的平台垄断">1. 大脑 / 算力 —— Nvidia（NVDA）✅最像&quot;安卓&quot;的平台垄断</a></li><li style="padding-left:14px"><a href="#11-修正2026-08-09大脑不是一个卡点是两个google-被本篇漏掉了">1.1 ⭐ 修正（2026-08-09）：「大脑」不是一个卡点，是两个——Google 被本篇漏掉了</a></li><li><a href="#2-执行器-关节-谐波减速器6324ttickers6324tmd-行星滚柱丝杠-最硬的物理卡点">2. 执行器 / 关节 —— 谐波减速器（[6324.T](../tickers/6324.T.md)）+ 行星滚柱丝杠 ✅最硬的物理卡点</a></li><li><a href="#3-磁材-肌肉原料-mp-materialsmptickersmpmd-lynas-地缘卡点">3. 磁材 / 肌肉原料 —— MP Materials（[MP](../tickers/MP.md)）+ Lynas ✅地缘卡点</a></li><li><a href="#4-灵巧手-触觉-价值最大31-bom但格局未定">4. 灵巧手 / 触觉 —— 价值最大（31% BOM）但格局未定 ⚠️</a></li><li><a href="#5-结论真正不可或缺的几个">5. 结论：真正&quot;不可或缺&quot;的几个</a></li><li><a href="#6-跟踪信号">6. 跟踪信号</a></li><li><a href="#7-参考">7. 参考</a></li></ul>
         </section>
         <section class="sidebar-card">
           <h3 class="sidebar-title">阅读提示</h3>

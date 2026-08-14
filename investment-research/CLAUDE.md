@@ -12,7 +12,7 @@
 
 ## 账户硬约束（来自 memory）
 
-- **不能做期权**。任何对冲方案排除 put / call，只能用成分管理 + 现金（见 `no-options-trading`）。
+- **期权：可用但只走两条正道**（2026-07-23 确认有权限、可卖 put）：cash-secured put（愿接货价=收钱的限价单）+ 备兑 call。禁区：买短期虚值博方向、裸卖 call、对正在减仓的内存/SOXX 腿（MU/SKHY/NVDA/TSM）卖 put、用期权放大 SOXX 敞口。短 put 义务必须记入 `portfolios/`（见 `ibkr-options-playbook`）。
 - 组合真实风险对象是**半导体周期不是大盘**：betaSOXX 0.89 / betaSPY 2.31。风险讨论锚定 SOXX（见 `portfolio-soxx-factor-risk`）。
 
 ## 表达纪律

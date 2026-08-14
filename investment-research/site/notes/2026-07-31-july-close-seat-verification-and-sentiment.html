@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2026 07 31 july close seat verification and sentiment</title>
+  <link rel="stylesheet" href="../_assets/style.css" />
+</head>
+<body>
+  <div class="site-shell">
+  <div class="page">
+    <div class="topbar">
+      <div class="nav-cluster">
+        <a class="back" href="../index.html">← 返回投研首页</a>
+        <a class="nav-link secondary" href="../all-docs.html">全部文档</a>
+      </div>
+      <div class="nav-cluster">
+        <a class="home-link" href="../notes.html">Notes</a>
+        <a class="home-link" href="../candidates.html">Candidates</a>
+        <a class="home-link" href="../tickers.html">Tickers</a>
+      </div>
+    </div>
+    <section class="hero">
+      <div class="doc-header-grid">
+        <div>
+          <div class="eyebrow">notes</div>
+          <h1>2026-07-31-july-close-seat-verification-and-sentiment</h1>
+          <p>市场、公司或主题研究的阶段性结论。</p>
+          <div class="meta-row">
+            <span class="pill">notes/2026-07-31-july-close-seat-verification-and-sentiment.md</span>
+            <span class="pill">985 words</span>
+            <span class="pill">21 sections</span>
+          </div>
+        </div>
+        <div class="doc-stat-stack">
+          <div class="doc-stat">
+            <div class="doc-stat-label">Document Type</div>
+            <div class="doc-stat-value">Notes</div>
+          </div>
+          <div class="doc-stat">
+            <div class="doc-stat-label">Reading Mode</div>
+            <div class="doc-stat-value">Research Memo</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="doc-layout">
+      <article class="doc doc-main">
+<hr />
+<p>date: 2026-07-31 type: 月度收官 / 框架实测验证 / 情绪量化 status: active data_source: yfinance 实测（scripts 同款 venv，脚本在 scratchpad 未入库）+ Google News RSS 直连核实（本会话 WebSearch 额度耗尽后改用的通道）+ berkshirehathaway.com 官网一手直查 purpose: 7 月收官全记分卡（含组合加权实测 −0.61%）；席位映射表被横截面数据首次验证（批发商席位崩、平台席位完好）；第一具尸体出清后 48 小时市场用 +8.2% 确认；<strong>情绪影响的四项量化</strong>（5 天贡献 −24.7pp、波动率仅放大 1.08×、标普波动率反降） holder_context: BRK-B 19.9 / GOOGL 15.9 / NVDA 9.2 / META 5.1 / CRCL 5.0 / AMZN 4.3 / TSM 4.0 / MRVL 2.6 / NFLX 1.7 + 现金 32%（实际现金敞口 ~39%）；SPCX 短 put $115/12-18 已实值 related: notes/2026-07-30-infrastructure-holders-across-crashes.md（席位框架本体）· notes/2026-07-29-hawkish-hold-and-chip-capitulation.md · memory ai-capex-cycle-topsignal-watchlist · dip-buy-trigger-signals-not-daycount · tickers/SPCX.md · tickers/MU.md · tickers/BRK-B.md</p>
+<hr />
+<h1 id="2026-07-收官席位验证-情绪量化">2026-07 收官：席位验证 + 情绪量化</h1>
+<h2 id="一句话">一句话</h2>
+<p><strong>半导体经历 2008 年以来最差月份（SOX −20.6%），但标普只跌 0.13%、VIX 收 16、且标普日波动率比 4–6 月还低；杀戮全部集中在「商品化产能」席位（MRVL −37%/MU −29%/SK 海力士 −35%），平台商 NVDA 全月 +0.33% 毫发无损。SOX 全月跌幅的 24.7pp 由 5 个叙事日贡献——剔掉那 5 天，SOX 是涨 9% 的。</strong></p>
+<hr />
+<h2 id="一7-月记分卡-computed-yfinance-实测">一、7 月记分卡 <code>[COMPUTED, yfinance 实测]</code></h2>
+<blockquote>收盘价为 auto-adjust 后（含拆股/分红调整）；52 周高点用近 1 年<strong>收盘价</strong>最大值（非盘中）。</blockquote>
+<h3 id="指数与宏观">指数与宏观</h3>
+<table><thead><tr><th></th><th>7/31 收盘</th><th>7 月 %</th><th>距 52w 高</th><th>最后一周 %</th></tr></thead><tbody><tr><td>S&amp;P 500</td><td>7,489.72</td><td><strong>−0.13</strong></td><td>−1.58</td><td>+1.05</td></tr><tr><td>纳指</td><td>25,373.85</td><td>−3.20</td><td>−6.35</td><td>+1.59</td></tr><tr><td>道指</td><td>52,485.03</td><td>+0.32</td><td>−1.08</td><td>+1.04</td></tr><tr><td><strong>SOX</strong></td><td>11,311.08</td><td><strong>−20.61</strong></td><td>−22.71</td><td>−4.30</td></tr><tr><td><strong>VIX</strong></td><td><strong>15.99</strong></td><td>−2.80</td><td><strong>−48.50</strong></td><td>−13.94</td></tr><tr><td><strong>10Y</strong></td><td><strong>4.74%</strong></td><td>+7.40</td><td><strong>0.00（7/31 即 52w 高）</strong></td><td>+1.41</td></tr><tr><td><strong>30Y</strong></td><td><strong>5.28%</strong></td><td>+7.61</td><td><strong>0.00（7/31 即 52w 高）</strong></td><td>+2.19</td></tr><tr><td>美元 DXY</td><td>99.80</td><td>−1.37</td><td>−1.78</td><td>−1.64</td></tr><tr><td>金</td><td>4,098.60</td><td>+1.88</td><td>−22.94</td><td>+0.76</td></tr><tr><td><strong>油</strong></td><td>86.80</td><td><strong>+24.89</strong></td><td>−23.15</td><td>−2.81</td></tr><tr><td>BTC</td><td>64,725*</td><td>+10.53</td><td>−48.12</td><td>+0.98</td></tr></tbody></table>
+<p>\* BTC 7/31 bar 缺失，用 7/30 收盘。</p>
+<h3 id="持仓与重点票">持仓与重点票</h3>
+<table><thead><tr><th></th><th>7/31</th><th>7 月 %</th><th>距 52w 高</th><th>最后一周 %</th></tr></thead><tbody><tr><td>BRK-B</td><td>511.54</td><td>+2.23</td><td><strong>−0.44</strong></td><td>+3.36</td></tr><tr><td>GOOGL</td><td>356.13</td><td>−0.35</td><td>−11.49</td><td><strong>+11.38</strong></td></tr><tr><td><strong>NVDA</strong></td><td>200.75</td><td><strong>+0.33</strong></td><td>−14.74</td><td>−2.94</td></tr><tr><td>META</td><td>556.71</td><td>−1.17</td><td>−29.30</td><td>−6.47</td></tr><tr><td><strong>AMZN</strong></td><td>271.58</td><td><strong>+13.95</strong></td><td>−1.24</td><td><strong>+17.00</strong></td></tr><tr><td>TSM</td><td>404.25</td><td>−15.35</td><td>−15.35</td><td>+0.21</td></tr><tr><td><strong>MRVL</strong></td><td>187.56</td><td><strong>−37.02</strong></td><td>−40.71</td><td>−3.43</td></tr><tr><td>NFLX</td><td>71.71※</td><td>+0.43</td><td>−43.23</td><td>+2.31</td></tr><tr><td>CRCL</td><td>62.61</td><td>−0.03</td><td>−62.75</td><td>+0.40</td></tr><tr><td>AAPL</td><td>308.91</td><td>+6.76</td><td>−9.17</td><td><strong>−7.24</strong></td></tr><tr><td><strong>MSFT</strong></td><td>464.72</td><td><strong>+24.58</strong></td><td>−13.73</td><td>+21.75</td></tr><tr><td><strong>MU</strong></td><td>823.03</td><td><strong>−28.69</strong></td><td>−32.17</td><td>−10.63</td></tr><tr><td>ORCL</td><td>129.87</td><td>−11.07</td><td>−59.99</td><td><strong>+12.94</strong></td></tr><tr><td><strong>SPCX</strong></td><td><strong>108.37</strong></td><td><strong>−36.57</strong></td><td>−48.73</td><td>−5.82</td></tr><tr><td>SK海力士</td><td>1,718,000 KRW</td><td>−35.17</td><td>−41.14</td><td>−2.33</td></tr></tbody></table>
+<p>※ NFLX 为拆股调整后序列（52w 高 126.32），与拆股前记录对不上时以此口径为准。</p>
+<h3 id="组合读数-computed">⭐ 组合读数 <code>[COMPUTED]</code></h3>
+<p>权重 67.7% + 现金 32.3%（记 0）：</p>
+<table><thead><tr><th></th><th>7 月</th></tr></thead><tbody><tr><td><strong>组合（加权）</strong></td><td><strong>−0.61%</strong></td></tr><tr><td>S&amp;P 500</td><td>−0.13%</td></tr><tr><td><strong>SOX（真实因子）</strong></td><td><strong>−20.61%</strong></td></tr></tbody></table>
+<p><strong>跑输大盘 0.5pp，跑赢自身因子约 20pp。</strong> 最正贡献 <strong>AMZN +0.60pp</strong>、BRK-B +0.44pp；最负 <strong>MRVL −0.96pp</strong>、TSM −0.61pp。<strong>半导体三腿合计 −1.55pp，恰好吃掉其余全部正贡献。6/24 减仓的价值本月用实测结账。</strong></p>
+<hr />
+<h2 id="二席位映射表被横截面首次验证">⭐ 二、席位映射表被横截面首次验证</h2>
+<table><thead><tr><th>席位</th><th>7 月</th></tr></thead><tbody><tr><td><strong>平台/设备商</strong>（NVDA）</td><td><strong>+0.33%</strong></td></tr><tr><td>代工（TSM）</td><td>−15.35%</td></tr><tr><td><strong>商品化产能 / 「带宽批发商」席位</strong></td><td><strong>MRVL −37.0% · SK海力士 −35.2% · MU −28.7%</strong></td></tr></tbody></table>
+<blockquote><strong>SOX −20.6% 的尸体全堆在批发商席位，平台席位完好——与 2001 年顺序一致（批发带宽单年 −90%，同期 Cisco 收入只跌 15%）。</strong> <strong><a href="2026-07-30-infrastructure-holders-across-crashes.html"><code>infrastructure-holders</code></a> 的映射表从「历史类比」升级为「本轮实测」。</strong></blockquote>
+<p><strong>周五补充</strong>：NVDA +3.46%，<strong>从 AAPL 手中夺回全球市值第一</strong>（AAPL 单日 −7.3%、蒸发 $4,000 亿+，13 年来最差财报后表现）。</p>
+<hr />
+<h2 id="三情绪影响的量化本篇核心增量">⭐ 三、情绪影响的量化（本篇核心增量）</h2>
+<p><code>[COMPUTED，脚本 scratchpad/sentiment.py，未入库]</code></p>
+<h3 id="波动率几乎没放大-不是恐慌是定向抛售">① 波动率几乎没放大 —— 不是恐慌，是定向抛售</h3>
+<table><thead><tr><th>日收益率年化标准差</th><th>4–6 月</th><th>7 月</th><th>放大</th></tr></thead><tbody><tr><td>SOX</td><td>55.3%</td><td>59.5%</td><td><strong>1.08×</strong></td></tr><tr><td><strong>S&amp;P 500</strong></td><td>13.8%</td><td><strong>12.2%</strong></td><td><strong>0.88×（反而更平静）</strong></td></tr><tr><td>NVDA</td><td>40.1%</td><td>41.7%</td><td>1.04×</td></tr><tr><td>MU</td><td>95.3%</td><td>110.4%</td><td>1.16×</td></tr><tr><td>MRVL</td><td>105.0%</td><td>94.0%</td><td><strong>0.90×</strong></td></tr></tbody></table>
+<blockquote><strong>SOX 跌 20%，日波动率只放大 8%；标普波动率甚至低于 4–6 月。这就是 VIX 收 16 的原因——市场不恐慌，只是在有序地卖一个板块。</strong></blockquote>
+<h3 id="情绪化交易频率板块内极端指数为零">② 情绪化交易频率：板块内极端，指数为零</h3>
+<table><thead><tr><th>7 月 21 个交易日中 \</th><th>涨跌\</th><th>&gt;3%</th><th>天数</th><th>最大单日</th></tr></thead><tbody><tr><td><strong>MU</strong></td><td><strong>14 / 21（67%）</strong></td><td><strong>+18.4% / −9.9%</strong></td></tr><tr><td>MRVL</td><td>13 / 21</td><td>+12.2% / −9.8%</td></tr><tr><td>SOX</td><td>10 / 21</td><td>+8.2% / −5.4%</td></tr><tr><td>NVDA</td><td>6 / 21</td><td>+4.1% / −5.0%</td></tr><tr><td>TSM</td><td>5 / 21</td><td>+7.6% / −4.5%</td></tr><tr><td>AMZN</td><td>4 / 21</td><td>+15.3% / −4.6%</td></tr><tr><td><strong>S&amp;P 500</strong></td><td><strong>0 / 21</strong></td><td><strong>+1.7% / −1.5%</strong></td></tr></tbody></table>
+<h3 id="最有力的一个数5-天决定整月">③ ⭐ 最有力的一个数：5 天决定整月</h3>
+<table><thead><tr><th>SOX 7 月</th><th></th></tr></thead><tbody><tr><td><strong>实际</strong></td><td><strong>−15.29%</strong>（此为日收益连乘口径，与收盘价口径 −20.61% 的差异来自复利与起点日）</td></tr><tr><td><strong>剔除最差 5 天</strong></td><td><strong>+9.12%</strong></td></tr><tr><td>剔除最好 5 天</td><td>−31.12%</td></tr></tbody></table>
+<p><strong>最差 5 天合计 −24.7pp；最好 5 天 +21.2pp。</strong> <strong>那 5 天：7/02、7/07、7/13、7/28、7/29 —— 全部是叙事冲击日（长鑫/DUV、Kimi K3、鹰派 Fed），不是财报日。</strong></p>
+<blockquote>## <strong>21 天里 5 天定生死。剔掉它们 SOX 是涨 9% 的。</strong></blockquote>
+<h3 id="相关性升高日内齐动月度分化">④ 相关性升高：日内齐动，月度分化</h3>
+<table><thead><tr><th>半导体四票（NVDA/MU/MRVL/TSM）平均两两相关性</th><th></th></tr></thead><tbody><tr><td>4–6 月</td><td>0.523</td></tr><tr><td><strong>7 月</strong></td><td><strong>0.650（+24%）</strong></td></tr></tbody></table>
+<p><strong>与 §二 的横截面巨大分化（NVDA +0.33% vs MRVL −37%）并存 → 结构是：日内按 beta 齐动，月度按席位定价。</strong></p>
+<h3 id="判决">判决</h3>
+<table><thead><tr><th>维度</th><th>读数</th><th>情绪主导？</th></tr></thead><tbody><tr><td>波动率放大</td><td>1.08×</td><td>❌ 不是恐慌</td></tr><tr><td>大幅波动频率</td><td>MU 67% 的交易日</td><td>✅ 板块内极端</td></tr><tr><td><strong>跌幅集中度</strong></td><td><strong>5 天 = −24.7pp</strong></td><td>✅ <strong>叙事冲击主导</strong></td></tr><tr><td>相关性</td><td>0.52→0.65</td><td>✅ 日内不区分个股</td></tr><tr><td>传染指数</td><td>标普波动率<strong>下降</strong></td><td>❌ 完全隔离</td></tr></tbody></table>
+<blockquote>## <strong>情绪影响：在半导体板块内部是压倒性的（5 天定了约 25pp），在指数层面接近于零。</strong> <strong>不是「市场恐慌」，是「市场在一个高共识板块里，用少数几个叙事日重新定价终值」——其余 16 天基本无事发生。</strong></blockquote>
+<p><strong>对 <code>dip-buy-trigger-signals-not-daycount</code> 的量化升级</strong>：「跌了多少」信息量≈0，<strong>因为跌幅集中在 5 天</strong>。该盯的是<strong>那 5 天的叙事有没有被证伪</strong>（长鑫实际产能、DUV 量产进度、Kimi K3 的真实冲击），不是价格。</p>
+<hr />
+<h2 id="四宏观通胀降温了但市场没转-dovish">四、宏观：通胀降温了，但市场没转 dovish</h2>
+<p><strong>⚠️ 口径更正</strong>：6 月 PCE 是<strong>周四 7/30</strong> 与 Q2 GDP 同日发布，不是周五。<code>[HIGH，≥5 源时间戳]</code></p>
+<table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td>headline PCE</td><td><strong>环比 −0.1%（疫情以来首次环比下降）</strong>，同比 +3.7%</td></tr><tr><td><strong>核心 PCE</strong></td><td><strong>同比 3.3%</strong>，低于预期、较 5 月微降</td></tr><tr><td>Q2 GDP</td><td>年化 +1.5%；消费 +0.3%，个人收入低于预期</td></tr></tbody></table>
+<p><strong>但 10Y 4.74% / 30Y 5.28% 在 7/31 双双创 52 周新高，油 +24.9%，美元反而 −1.4%。</strong> FT/Reuters/CNN 一致警告 7 月大概率反弹（中东推油价）。<strong>降温读数没有换来 dovish 定价——这解释了 9:3 那三票鹰派异议不是姿态。</strong></p>
+<p><strong>长端新高 + 油价飙升 + 波动率躺平</strong>：市场用「只杀一个板块」的方式消化全局性利率/通胀压力。<code>[INFERRED]</code></p>
+<hr />
+<h2 id="五第一具尸体完整尺寸-48-小时被当成底部信号">⭐ 五、第一具尸体：完整尺寸 + 48 小时被当成底部信号</h2>
+<p><code>[HIGH，WSJ 独家 → Reuters/BI/Bloomberg 跟进]</code></p>
+<table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td><strong>SA LP 7 月</strong></td><td><strong>−67%</strong></td></tr><tr><td>规模</td><td><strong>$450 亿 → ~$100 亿</strong></td></tr><tr><td>卖给 Citadel 的公开股票组合</td><td>~$160 亿</td></tr><tr><td>Aschenbrenner 首度发声</td><td><strong>&quot;We let you down this month&quot;</strong></td></tr><tr><td>死因</td><td><strong>4x 杠杆</strong>（普遍认定）</td></tr></tbody></table>
+<p><strong>⭐ 市场解读反转</strong>：MarketWatch——华尔街把这次强平当 <strong>&quot;AI trade 底部信号&quot;</strong> 押注；<strong>周四 SOX +8.2%（15 个月最大单日涨幅）</strong>，部分归因于强平抛压出清。</p>
+<blockquote><strong>这正是 <a href="2026-07-30-infrastructure-holders-across-crashes.html"><code>infrastructure-holders</code> §八.1</a> 的实时演绎：「强平出清后一个强制卖压源消失，机械上短期偏正面一档」——48 小时内被 +8.2% 确认。</strong></blockquote>
+<p><strong>无其他基金爆雷、无监管介入报道</strong>（周五海量报道里一条都没有，倾向暂无；缺席不等于不存在）。<strong>公司层尸体仍为 0。</strong></p>
+<hr />
+<h2 id="六下周三个硬检验点">六、下周三个硬检验点</h2>
+<h3 id="spcx已跌破行权价带实值进双重事件">🔴 SPCX：已跌破行权价，带实值进双重事件</h3>
+<table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td>股价</td><td><strong>$108.37</strong>（7 月 −36.6%，距高点 −48.7%）</td></tr><tr><td><strong>短 put $115 / 12-18</strong></td><td><strong>已实值 $6.63/股</strong></td></tr><tr><td><strong>8/4</strong></td><td>首份财报，<strong>期权隐含 ±15%</strong>，空头仓位传 $250 亿</td></tr><tr><td><strong>8/6</strong></td><td>约 <strong>10 亿股解禁</strong>；Cramer 公开劝「别在解禁前抄底」</td></tr></tbody></table>
+<p><strong>只看一行</strong>：Starlink 分部经营利润 YoY —— <strong>&gt;+40% 且利润率 ≥40% → 空头证伪；&lt;+10% 或利润率 &lt;32% → 向悲观档收敛</strong>。台账两剧本中<strong>接货概率上升</strong>。</p>
+<h3 id="mu-腿cook-开门-vs-参议员堵门">🔴 MU 腿：「Cook 开门 vs 参议员堵门」</h3>
+<ul>
+<li><strong>Tim Cook 财报会表态「希望有更多内存供应商」</strong> → 被解读为向中国内存开门 → MU 周五跌（口径 −3.2%~−6%，<code>[LOW-MED]</code>）</li>
+<li><strong>两党参议员致函 Apple，要求承诺拒用中国内存</strong> <code>[MED-HIGH，2 源]</code></li>
+<li>同期：<strong>长鑫 A 股首日一度 +531%</strong>、盘中市值破 4 万亿人民币、华西喊 5 万亿目标 <code>[HIGH]</code>；传再签 470 亿大单 <code>[LOW，单源]</code></li>
+</ul>
+<blockquote><strong>这条政治线比价格波动信息量大——它决定「中国供给威胁」是叙事还是现实，即 §三 那 5 天的叙事能否被证伪。</strong></blockquote>
+<h3 id="brk-q2尚未发布官网一手确认">🟡 BRK Q2：尚未发布（官网一手确认）</h3>
+<p>直查 berkshirehathaway.com：<code>last-modified: Fri, 24 Jul 2026</code>，最新条目是 7/24 完成收购 <strong>Taylor Morrison（$85 亿房建商）</strong>，<strong>无 Q2 release、无发布预告</strong> <code>[HIGH，一手]</code>。按 Q1 惯例（5 月首个周六）今天上午发布是基准预期，但属 <code>[INFERRED]</code>。</p>
+<p><strong>Abel 2026 已完成两笔收购</strong>：OxyChem（1/2）+ Taylor Morrison（7/24，$85 亿）。<strong>Taylor Morrison 7/24 交割 → 不进 Q2 资产负债表，仅为 subsequent event。</strong></p>
+<p><strong>看三个数</strong>：现金水位（上季 $3,970 亿，扣 OxyChem 后）· <strong>回购是否重启</strong> · 经营利润。</p>
+<h3 id="其余日历">其余日历</h3>
+<table><thead><tr><th>日期</th><th>事件</th></tr></thead><tbody><tr><td>8/7（周五）</td><td>7 月非农 <code>[MED-HIGH，惯例外推]</code></td></tr><tr><td>8/14</td><td>Abel 第二份 13F</td></tr></tbody></table>
+<hr />
+<h2 id="七框架状态">七、框架状态</h2>
+<table><thead><tr><th>框架</th><th>状态</th></tr></thead><tbody><tr><td>四大机械触发器</td><td><strong>0/4 站稳</strong>（四大 capex ≈$7,500 亿全维持/上调）</td></tr><tr><td><strong>反应函数 v2</strong></td><td>✅ <strong>周五完全兑现</strong>：AMZN 收 <strong>+15.2%</strong>（远超盘后 +8%）、AAPL 收 <strong>−7.3%</strong></td></tr><tr><td><strong>「单因子杀跌」</strong></td><td>⚠️ <strong>需撤回一半降级</strong>——标普月度 −0.13%、距高点 −1.58%、<strong>波动率反降</strong>，隔离比 7/29 判断的更彻底</td></tr><tr><td>席位映射</td><td>✅ 横截面首次验证</td></tr><tr><td>第一具尸体</td><td>✅ 持有者层；<strong>公司层仍 0</strong></td></tr></tbody></table>
+<p><strong>一个待观察异常</strong>：TechStock² 指周五道指涨幅里「两只股票贡献约 124%」<code>[单源 MED]</code>——<strong>涨得极窄</strong>。局部崩盘 + 指数无感 + VIX 16 + 涨幅集中，这个组合要么靠板块跌完出清，要么某天补齐指数那一层。</p>
+<hr />
+<h2 id="八未核实项">八、未核实项</h2>
+<ul>
+<li>周五 SOX 精确收盘涨跌幅（拉不到）</li>
+<li>MU 周五跌幅口径打架（−3.16% / −4.2% / −6%，方向 HIGH 幅度 LOW-MED）</li>
+<li>BRK Q2 官方发布时间无预告</li>
+<li>长鑫 470 亿大单（单源传闻）</li>
+<li>SA LP「保住了最好的资产」具体指什么（BI 未指明，不猜）</li>
+<li>§三③ 的 SOX 月度回报两种口径差异（日连乘 −15.29% vs 收盘价 −20.61%），<strong>结论不受影响</strong>（剔除 5 天的相对效应一致）</li>
+</ul>
+<p><strong>通道说明</strong>：本会话 WebSearch 额度耗尽（200/200），新闻部分改用 <strong>Google News RSS（curl）+ 官网直查</strong>，行情部分改用 <strong>yfinance 本地实测</strong>——<strong>均为一手或准一手，可信度不低于常规检索。</strong></p>
+      </article>
+      <aside class="doc-sidebar">
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">文档导航</h3>
+          <ul class="toc-list"><li><a href="#一句话">一句话</a></li><li><a href="#一7-月记分卡-computed-yfinance-实测">一、7 月记分卡 `[COMPUTED, yfinance 实测]`</a></li><li style="padding-left:14px"><a href="#指数与宏观">指数与宏观</a></li><li style="padding-left:14px"><a href="#持仓与重点票">持仓与重点票</a></li><li style="padding-left:14px"><a href="#组合读数-computed">⭐ 组合读数 `[COMPUTED]`</a></li><li><a href="#二席位映射表被横截面首次验证">⭐ 二、席位映射表被横截面首次验证</a></li><li><a href="#三情绪影响的量化本篇核心增量">⭐ 三、情绪影响的量化（本篇核心增量）</a></li><li style="padding-left:14px"><a href="#波动率几乎没放大-不是恐慌是定向抛售">① 波动率几乎没放大 —— 不是恐慌，是定向抛售</a></li><li style="padding-left:14px"><a href="#情绪化交易频率板块内极端指数为零">② 情绪化交易频率：板块内极端，指数为零</a></li><li style="padding-left:14px"><a href="#最有力的一个数5-天决定整月">③ ⭐ 最有力的一个数：5 天决定整月</a></li><li style="padding-left:14px"><a href="#相关性升高日内齐动月度分化">④ 相关性升高：日内齐动，月度分化</a></li><li style="padding-left:14px"><a href="#判决">判决</a></li><li><a href="#四宏观通胀降温了但市场没转-dovish">四、宏观：通胀降温了，但市场没转 dovish</a></li><li><a href="#五第一具尸体完整尺寸-48-小时被当成底部信号">⭐ 五、第一具尸体：完整尺寸 + 48 小时被当成底部信号</a></li></ul>
+        </section>
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">阅读提示</h3>
+          <ul class="summary-list">
+            <li><span class="summary-label">先看什么</span><span class="summary-value">先读一段话结论，再看表格和风险点。</span></li>
+            <li><span class="summary-label">适合用途</span><span class="summary-value">复盘、比较、回查研究底稿。</span></li>
+            <li><span class="summary-label">建议动作</span><span class="summary-value">如果文档内容改变了 thesis，再回到候选池或组合页更新判断。</span></li>
+          </ul>
+        </section>
+      </aside>
+    </div>
+    <div class="footer">该页面由 Markdown 自动生成。原始文件：notes/2026-07-31-july-close-seat-verification-and-sentiment.md</div>
+  </div>
+  </div>
+</body>
+</html>

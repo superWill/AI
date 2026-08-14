@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>source notes</title>
+  <link rel="stylesheet" href="../../_assets/style.css" />
+</head>
+<body>
+  <div class="site-shell">
+  <div class="page">
+    <div class="topbar">
+      <div class="nav-cluster">
+        <a class="back" href="../../index.html">← 返回投研首页</a>
+        <a class="nav-link secondary" href="../../all-docs.html">全部文档</a>
+      </div>
+      <div class="nav-cluster">
+        <a class="home-link" href="../../notes.html">Notes</a>
+        <a class="home-link" href="../../candidates.html">Candidates</a>
+        <a class="home-link" href="../../tickers.html">Tickers</a>
+      </div>
+    </div>
+    <section class="hero">
+      <div class="doc-header-grid">
+        <div>
+          <div class="eyebrow">reports</div>
+          <h1>source-notes</h1>
+          <p>研究文档。</p>
+          <div class="meta-row">
+            <span class="pill">reports/nvidia-ai-physical-intelligence-size-2030-2026-07-13/source-notes.md</span>
+            <span class="pill">467 words</span>
+            <span class="pill">7 sections</span>
+          </div>
+        </div>
+        <div class="doc-stat-stack">
+          <div class="doc-stat">
+            <div class="doc-stat-label">Document Type</div>
+            <div class="doc-stat-value">Reports</div>
+          </div>
+          <div class="doc-stat">
+            <div class="doc-stat-label">Reading Mode</div>
+            <div class="doc-stat-value">Research Memo</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="doc-layout">
+      <article class="doc doc-main">
+<h1 id="source-and-methodology-notes">Source and methodology notes</h1>
+<h2 id="reporting-job">Reporting job</h2>
+<ul>
+<li>Question: What annual revenue, earnings, and equity value could NVIDIA reach by 2030 as current AI infrastructure and embodied intelligence develop?</li>
+<li>Audience: product stakeholders / public-equity research reader.</li>
+<li>Main horizon: calendar 2030 annual run-rate; 2035 is directional only.</li>
+<li>Boundary: NVIDIA revenue only. Robot hardware, labor savings, cloud-service resale, and total robotics output are excluded.</li>
+</ul>
+<h2 id="required-report-structure-mapping">Required report structure mapping</h2>
+<ol>
+<li>Title → <code>title</code></li>
+<li>Executive Summary → <code>executive_summary</code></li>
+<li>Key findings with visual evidence → <code>baseline</code>, <code>scenario_interpretation</code>, <code>physical_ai_role</code>, <code>valuation</code></li>
+<li>Recommended next steps → <code>monitoring</code></li>
+<li>Further questions → <code>questions</code></li>
+<li>Caveats and assumptions → <code>caveats</code></li>
+</ol>
+<h2 id="market-boundary-and-anti-double-counting-rule">Market boundary and anti-double-counting rule</h2>
+<ul>
+<li>Core AI data center excludes data-center revenue explicitly attributed to physical-AI training and simulation.</li>
+<li>Physical-AI training and simulation is a subset of data-center demand, separated only to show its contribution.</li>
+<li>Physical-AI edge includes robot and autonomous-machine compute modules plus related automotive/edge revenue.</li>
+<li>Gaming, professional visualization, and other edge revenue are grouped together.</li>
+<li>Software is not added as a separate revenue pool because it is often monetized through hardware and systems; adding it separately would risk double counting.</li>
+</ul>
+<h2 id="evidence-inventory-as-of-2026-07-13">Evidence inventory, as of 2026-07-13</h2>
+<ul>
+<li>NVIDIA Q1 FY2027 results: revenue $81.615B, data-center revenue $75.2B, Q2 revenue guide $91B ±2%.</li>
+<li>NVIDIA FY2026 results: revenue $215.938B, GAAP net income $120.067B.</li>
+<li>NVIDIA Q1 FY2027 10-Q: diluted weighted-average shares 24.391B.</li>
+<li>IFR World Robotics 2025: 542,076 industrial robots installed in 2024; 4,663,698 operational stock; more than 700,000 annual installations expected by 2028.</li>
+<li>NVIDIA Jetson Thor release: more than 2M robotics developers, 150+ ecosystem partners, 7,000+ Jetson Orin customers.</li>
+<li>Current market-cap reference: $5.109T in July 2026 from CompaniesMarketCap; this is a secondary market-data source.</li>
+</ul>
+<h2 id="scenario-assumptions">Scenario assumptions</h2>
+<ul>
+<li>2030 revenue: $420B / $650B / $950B.</li>
+<li>Normalized net margin: 43% / 48% / 51%.</li>
+<li>Terminal P/E: 22x / 28x / 32x.</li>
+<li>Static share count for price illustration: 24.3B; future repurchases and dilution are not modeled.</li>
+<li>Physical-AI attributable revenue: $33B / $80B / $170B.</li>
+<li>2035 direction: $0.6T–$1.8T annual revenue, with a base case near $1.1T. This is not used in the valuation calculation.</li>
+</ul>
+<h2 id="chart-map">Chart map</h2>
+<ul>
+<li><code>revenue_composition</code>: Composition / stacked bar. Question: what creates each 2030 revenue scenario? Fields: scenario, segment, revenue_b. Supports the claim that core AI remains the main engine even when physical AI scales.</li>
+<li><code>valuation_scenarios</code>: Comparison / bar. Question: what equity value follows from scenario earnings and multiples? Fields: scenario, market_cap_t. Supports the valuation range, with zero baseline.</li>
+</ul>
+<h2 id="validation-notes">Validation notes</h2>
+<ul>
+<li>All scenario subtotals reconcile to total revenue.</li>
+<li>Net income equals revenue multiplied by normalized net margin.</li>
+<li>Market cap equals net income multiplied by P/E.</li>
+<li>Price per share uses a static 24.3B share denominator and therefore is an illustration, not a target price.</li>
+<li>The model is structurally auditable but assumption-sensitive. Validation status: Share with caveats.</li>
+</ul>
+<p>[RULES I BROKE]: none.</p>
+      </article>
+      <aside class="doc-sidebar">
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">文档导航</h3>
+          <ul class="toc-list"><li><a href="#reporting-job">Reporting job</a></li><li><a href="#required-report-structure-mapping">Required report structure mapping</a></li><li><a href="#market-boundary-and-anti-double-counting-rule">Market boundary and anti-double-counting rule</a></li><li><a href="#evidence-inventory-as-of-2026-07-13">Evidence inventory, as of 2026-07-13</a></li><li><a href="#scenario-assumptions">Scenario assumptions</a></li><li><a href="#chart-map">Chart map</a></li><li><a href="#validation-notes">Validation notes</a></li></ul>
+        </section>
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">阅读提示</h3>
+          <ul class="summary-list">
+            <li><span class="summary-label">先看什么</span><span class="summary-value">先读一段话结论，再看表格和风险点。</span></li>
+            <li><span class="summary-label">适合用途</span><span class="summary-value">复盘、比较、回查研究底稿。</span></li>
+            <li><span class="summary-label">建议动作</span><span class="summary-value">如果文档内容改变了 thesis，再回到候选池或组合页更新判断。</span></li>
+          </ul>
+        </section>
+      </aside>
+    </div>
+    <div class="footer">该页面由 Markdown 自动生成。原始文件：reports/nvidia-ai-physical-intelligence-size-2030-2026-07-13/source-notes.md</div>
+  </div>
+  </div>
+</body>
+</html>

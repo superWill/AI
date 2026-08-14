@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BRK B</title>
+  <link rel="stylesheet" href="../_assets/style.css" />
+</head>
+<body>
+  <div class="site-shell">
+  <div class="page">
+    <div class="topbar">
+      <div class="nav-cluster">
+        <a class="back" href="../index.html">← 返回投研首页</a>
+        <a class="nav-link secondary" href="../all-docs.html">全部文档</a>
+      </div>
+      <div class="nav-cluster">
+        <a class="home-link" href="../notes.html">Notes</a>
+        <a class="home-link" href="../candidates.html">Candidates</a>
+        <a class="home-link" href="../tickers.html">Tickers</a>
+      </div>
+    </div>
+    <section class="hero">
+      <div class="doc-header-grid">
+        <div>
+          <div class="eyebrow">tickers</div>
+          <h1>BRK-B</h1>
+          <p>单只股票的研究卡、跟踪信号和估值框架。</p>
+          <div class="meta-row">
+            <span class="pill">tickers/BRK-B.md</span>
+            <span class="pill">145 words</span>
+            <span class="pill">25 sections</span>
+          </div>
+        </div>
+        <div class="doc-stat-stack">
+          <div class="doc-stat">
+            <div class="doc-stat-label">Document Type</div>
+            <div class="doc-stat-value">Tickers</div>
+          </div>
+          <div class="doc-stat">
+            <div class="doc-stat-label">Reading Mode</div>
+            <div class="doc-stat-value">Research Memo</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="doc-layout">
+      <article class="doc doc-main">
+<hr />
+<p>ticker: BRK-B name: Berkshire Hathaway Class B sector: 综合控股（保险浮存金 + 铁路/能源实业 + 上市股票组合 + 巨额现金） layer: 压舱锚 —— 组合里唯一的负相关腿 position_type: core（第一大持仓 19.9%） status: holding last_updated: 2026-07-30 data_source: 实测行情 2026-07-30（scripts/fetch_quotes.py）+ Q1 2026 13F（2026-05-15 申报）+ 网络调研</p>
+<hr />
+<h1 id="berkshire-hathaway-brk-b">Berkshire Hathaway (BRK-B)</h1>
+<h2 id="建档说明第一大持仓此前无档案">⚠️ 建档说明：第一大持仓，此前无档案</h2>
+<p><strong>2026-06-25 建仓 19.9%（卖 3/5 NVDA + 3/5 TSM 换入），至 2026-07-30 才建档。</strong> 一个占组合五分之一、刚换 CEO 的持仓长期无档，是仓库最大的覆盖缺口。</p>
+<h2 id="一句话定位">一句话定位</h2>
+<p><strong>不是股票，是一个装着三样东西的容器</strong>：<strong>$3,970 亿现金（历史纪录）+ $2,631 亿上市股票组合 + 实业</strong>。你买它买的是<strong>低相关性和干火药</strong>，不是增长。</p>
+<blockquote><strong>组合角色</strong>：实测 <strong>corr SOXX ≈ −0.03、beta 0.61</strong> —— 是这本书里<strong>唯一真正的负相关腿</strong>。NFLX(0.05)/NOW(−0.07)/V(0.31) 都比不上它干净。</blockquote>
+<hr />
+<h2 id="2026-07-30-关键数据实测">⭐ 2026-07-30 关键数据（实测）</h2>
+<table><thead><tr><th>指标</th><th>数据</th></tr></thead><tbody><tr><td>股价</td><td><strong>$509.16</strong></td></tr><tr><td>市值</td><td><strong>$1.098 万亿</strong></td></tr><tr><td>追踪 PE</td><td>15.1</td></tr><tr><td><strong>远期 PE</strong></td><td><strong>23.6</strong> ⚠️ 见下方「为什么不能用 PE 估它」</td></tr><tr><td>P/S</td><td>2.93</td></tr><tr><td><strong>beta</strong></td><td><strong>0.61</strong></td></tr><tr><td>距 52 周高</td><td><strong>−1.5%</strong></td></tr></tbody></table>
+<h3 id="市值三段拆解-computed">⭐ 市值三段拆解 <code>[COMPUTED]</code></h3>
+<pre><code>市值 $1,098 亿×10 = $1.098 万亿
+  现金        $3,970 亿  →  36%
+  股票组合    $2,631 亿  →  24%
+  隐含实业估值 $4,380 亿  →  40%   （BNSF + BHE + GEICO + 制造/服务群）</code></pre>
+<blockquote><strong>在 $509 买入，等于用 $4,380 亿买下全部实业，同时白拿 60% 的现金+股票。</strong> <strong>这个拆解是理解 BRK 的正确起点，不是 PE。</strong></blockquote>
+<h3 id="为什么不能用-pe-估它">⚠️ 为什么不能用 PE 估它</h3>
+<p><strong>2018 年会计准则变更后，GAAP 净利润包含 $2,631 亿股票组合的未实现浮盈浮亏。</strong> 股市涨 → 利润暴增；股市跌 → 利润暴跌。<strong>和经营无关。</strong></p>
+<p><strong>远期 PE 23.6 &gt; 追踪 PE 15.1 就是这个噪音的产物，不代表盈利要下滑。</strong></p>
+<p><strong>正确的口径</strong>（巴菲特本人反复强调）：</p>
+<ul>
+<li><strong>Operating earnings</strong>（剔除投资损益）</li>
+<li><strong>P/B</strong>：Q1 2026 回购价对应 <strong>1.44× book</strong>（Abel 在这个价位仍在回购 $2.34 亿）→ <strong>管理层认为 1.44x 以内值得买</strong></li>
+<li>三段拆解（上表）</li>
+</ul>
+<hr />
+<h2 id="2026-年最大的变化abel-时代开始了">⭐ 2026 年最大的变化：Abel 时代开始了</h2>
+<p><strong>Greg Abel 于 2026 年 1 月正式接任 CEO</strong>，巴菲特转任董事长/顾问（掌舵 60 年）。<strong>Q1 2026 是 Abel 的第一份 13F。</strong></p>
+<table><thead><tr><th></th><th>Q4 2025（巴菲特最后一季）</th><th><strong>Q1 2026（Abel 第一季）</strong></th></tr></thead><tbody><tr><td>组合市值</td><td>$2,741 亿</td><td><strong>$2,631 亿</strong></td></tr><tr><td>持仓只数</td><td>约 40</td><td><strong>26–29</strong>（来源不一）</td></tr><tr><td>买/卖</td><td>—</td><td>买 $160 亿 / <strong>卖 $240 亿（净卖出）</strong></td></tr><tr><td>现金</td><td>$3,730 亿</td><td><strong>$3,970 亿（纪录）</strong></td></tr></tbody></table>
+<p><strong>清仓</strong>：Amazon、<strong>Visa</strong>、<strong>Mastercard</strong>、UnitedHealth、Domino&#x27;s <strong>大幅加仓</strong>：<strong>Alphabet +225%（三倍）</strong>，新买 C 类股 → 升至<strong>第 5 大持仓</strong> <strong>减持</strong>：Chevron 大幅 <strong>新建</strong>：<strong>Delta 航空 $26 亿</strong>（最大新仓） <strong>继续建仓</strong>：Chubb、纽约时报</p>
+<blockquote><strong>16 个仓位被砍 = 巴菲特最后一季持仓的三分之一。Abel 在 AGM 上说「延续」，但动作不是延续。</strong></blockquote>
+<p><strong>方向读数</strong> <code>[INFERRED, MED]</code>：<strong>清掉的（AMZN/V/MA/UNH）全是轻资产高倍数；加的（Chubb/Delta/能源）全是重资产低倍数。唯一不协调的例外是 Alphabet 三倍加仓。</strong></p>
+<hr />
+<h2 id="前十持仓财务对照实测-2026-07-30">前十持仓财务对照（实测 2026-07-30）</h2>
+<p><code>[COMPUTED，scripts/fetch_quotes.py]</code> ⚠️ <strong>13F 是 3/31 快照，财务是今日实测，两者不同步</strong></p>
+<table><thead><tr><th>标的</th><th>股价</th><th>市值$B</th><th>PE</th><th><strong>fwdPE</strong></th><th>P/S</th><th>股息%</th><th><strong>beta</strong></th><th>距52周高</th></tr></thead><tbody><tr><td><strong>AAPL</strong>（~22%）</td><td>$338.19</td><td>4,967</td><td><strong>41.1</strong></td><td><strong>35.0</strong></td><td><strong>11.0</strong></td><td>0.32</td><td>1.10</td><td>−1.9%</td></tr><tr><td>AXP</td><td>$331.50</td><td>224</td><td>20.1</td><td>16.5</td><td>3.16</td><td>1.13</td><td>1.04</td><td>−14.5%</td></tr><tr><td>KO</td><td>$89.08</td><td>383</td><td>27.8</td><td>25.3</td><td>7.65</td><td>2.40</td><td>—</td><td>−2.0%</td></tr><tr><td>BAC</td><td>$61.07</td><td>433</td><td>14.5</td><td><strong>11.6</strong></td><td>3.80</td><td>2.04</td><td>1.18</td><td>−3.0%</td></tr><tr><td>CVX</td><td>$191.86</td><td>382</td><td>32.7</td><td><strong>15.1</strong></td><td>2.06</td><td><strong>3.80</strong></td><td>0.49</td><td>−10.6%</td></tr><tr><td><strong>GOOGL</strong></td><td>$336.71</td><td>4,118</td><td>16.8</td><td>⚠️ 22.9</td><td>9.24</td><td>0.26</td><td>1.25</td><td><strong>−17.6%</strong></td></tr><tr><td>OXY</td><td>$56.03</td><td>56</td><td>75.7</td><td><strong>14.3</strong></td><td>2.64</td><td>1.93</td><td><strong>0.15</strong></td><td>−17.0%</td></tr><tr><td>MCO</td><td>$483.24</td><td>84</td><td>30.8</td><td>25.6</td><td><strong>10.26</strong></td><td>0.85</td><td>1.33</td><td>−11.6%</td></tr><tr><td>CB</td><td>$361.90</td><td>140</td><td><strong>12.9</strong></td><td><strong>12.4</strong></td><td>2.27</td><td>1.12</td><td><strong>0.41</strong></td><td>−1.1%</td></tr><tr><td>KHC</td><td>$27.62</td><td>33</td><td>—</td><td>13.2</td><td><strong>1.31</strong></td><td><strong>5.86</strong></td><td><strong>0.08</strong></td><td>−5.5%</td></tr><tr><td>DAL（新）</td><td>$86.25</td><td>57</td><td>14.8</td><td><strong>9.7</strong></td><td><strong>0.83</strong></td><td>0.87</td><td>1.29</td><td>−9.9%</td></tr></tbody></table>
+<p><strong>⭐ 结构 = 哑铃，不是「便宜组合」</strong>：<strong>除 AAPL 外远期 PE 中位数约 14.7</strong>（明显低于大盘），<strong>但 AAPL 一只 41x PE / 11x P/S、占 22%</strong>。</p>
+<blockquote><strong>一个「价值」组合，22% 押在全组合最贵的那只上。这是巴菲特的遗产仓位——减了很多年，始终没清。</strong></blockquote>
+<hr />
+<h2 id="护城河类型">护城河类型</h2>
+<p><strong>结构性护城河，不是产品护城河：</strong></p>
+<ol>
+<li><strong>保险浮存金</strong> —— 长期成本为负或近零的杠杆，别人复制不了</li>
+<li><strong>资本配置的信誉溢价</strong> —— 危机中「唯一能在周末开出百亿支票的买家」，能拿到别人拿不到的条款（2008 GS/GE、2011 BAC）</li>
+<li><strong>实业的分散现金流</strong> —— BNSF（铁路特许经营）、BHE（受监管公用事业）、GEICO</li>
+<li><strong>税务与结构优势</strong> —— 内部资本调拨不产生税负摩擦</li>
+<li><strong>⭐ $3,970 亿干火药</strong> —— <strong>在流动性危机中，这是护城河而不是现金拖累</strong></li>
+</ol>
+<hr />
+<h2 id="风险">风险</h2>
+<h3 id="1-abel-的资本配置能力未经验证最大的一条">⭐ 1. Abel 的资本配置能力未经验证（最大的一条）</h3>
+<p><strong>巴菲特 60 年的记录是这家公司估值溢价的全部来源。Abel 接手 7 个月，第一个动作是砍掉三分之一的仓位。</strong></p>
+<p><strong>这不能提前验证。</strong> 对一个 19.9% 的仓位，这是<strong>不可对冲的单点风险</strong>。</p>
+<h3 id="2-aapl-集中度">2. AAPL 集中度</h3>
+<p>股票组合的 <strong>22% 在一只 41x PE / 11x P/S 的股票上</strong>。AAPL 若回到历史均值倍数，直接冲击 BRK 的账面。</p>
+<h3 id="3-现金拖累双刃">3. 现金拖累（双刃）</h3>
+<p>$3,970 亿按短端约 4% 计 ≈ <strong>年化 $160 亿利息</strong> <code>[COMPUTED, 近似]</code>。<strong>在牛市里这是巨大机会成本；在崩盘里这是最强武器。</strong> 你买 BRK 就是买这个不对称。</p>
+<h3 id="4-规模问题">4. 规模问题</h3>
+<p><strong>$1.1 万亿市值，$3,970 亿现金 —— 能移动指针的标的太少。</strong> 这是复利率下降的结构性原因，不是管理层的问题。</p>
+<h3 id="5-保险巨灾-gaap-利润噪音">5. 保险巨灾 + GAAP 利润噪音</h3>
+<hr />
+<h2 id="估值锚">估值锚</h2>
+<ul>
+<li><strong>不用 PE。</strong> 用 <strong>P/B + 三段拆解 + operating earnings</strong></li>
+<li><strong>管理层的锚</strong>：Q1 2026 在 <strong>1.44× book</strong> 仍在回购 → 这是 Abel 认为「值得买」的上限参考</li>
+<li><strong>对照</strong>：市值 $1.098 万亿 vs 现金+股票 $6,601 亿 → <strong>实业隐含 $4,380 亿</strong></li>
+</ul>
+<hr />
+<h2 id="三档情景5-年509-入场inferred-med">三档情景（5 年，$509 入场）<code>[INFERRED, MED]</code></h2>
+<table><thead><tr><th>情景</th><th>概率</th><th>假设</th><th>年化</th></tr></thead><tbody><tr><td><strong>悲观</strong></td><td>25%</td><td>Abel 资本配置平庸；牛市持续，$3,970 亿现金持续拖累；AAPL 倍数回归</td><td><strong>约 +2~4%/年</strong>（跑输大盘，但<strong>不亏本金</strong>）</td></tr><tr><td><strong>基准</strong></td><td>55%</td><td>Abel 延续纪律，现金逐步部署到能源/基建/保险；实业稳健复利</td><td><strong>约 +8~10%/年</strong></td></tr><tr><td><strong>乐观</strong></td><td>20%</td><td>出现系统性错杀，Abel 用 $3,970 亿在低位大规模部署（2008 剧本重演）</td><td><strong>约 +14~18%/年</strong></td></tr></tbody></table>
+<blockquote><strong>分布形状：正偏且下行有底。</strong> 这正是它作为锚的价值——<strong>悲观档是「跑输」不是「亏损」</strong>，和你书里其他腿的悲观档（SPCX −32%/年、META −8%/年）完全不同类。</blockquote>
+<hr />
+<h2 id="组合角色与实测对持有人最重要的一节">⭐ 组合角色与实测（对持有人最重要的一节）</h2>
+<table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td>权重</td><td><strong>19.9%（第一大仓）</strong></td></tr><tr><td>风险占比</td><td><strong>2.5%</strong>（权重 19.9% / 风险 2.5% ≈ <strong>1/8</strong>）</td></tr><tr><td>corr SOXX</td><td><strong>−0.03</strong></td></tr><tr><td>beta</td><td><strong>0.61</strong></td></tr></tbody></table>
+<h3 id="你的真实现金敞口比自报的高-computed">⭐ 你的真实现金敞口比自报的高 <code>[COMPUTED]</code></h3>
+<pre><code>BRK 市值中 36% 是现金
+19.9% × 36% = 7.2% 的组合，实质是伯克希尔的现金
+
+自报现金          32%
+＋ BRK 内嵌现金    7.2%
+──────────────────────
+实际现金敞口   ≈ 39%</code></pre>
+<blockquote><strong>这也解释了 corr −0.03 和 beta 0.61 从哪来——你买的锚里本来就装着锚。</strong> <strong>做仓位判断时，真实分母是 39% 不是 32%。</strong></blockquote>
+<h3 id="锚的实证2026-07-23-07-30">锚的实证（2026-07-23 → 07-30）</h3>
+<table><thead><tr><th></th><th>7/23</th><th>7/30</th><th></th></tr></thead><tbody><tr><td><strong>BRK-B</strong></td><td>$489</td><td><strong>$509.16</strong></td><td><strong>+4.1%</strong></td></tr><tr><td>同期</td><td>SOX 7 月 −19%、道指单日 −2.19%、内存股入熊市</td><td></td><td></td></tr></tbody></table>
+<blockquote><strong>在全市场最难受的一周，它是涨的。这就是买它的理由，且已被验证。</strong></blockquote>
+<hr />
+<h2 id="退出条件-加仓条件">退出条件 / 加仓条件</h2>
+<ul>
+<li><strong>触发减仓</strong>：Abel 出现明确的资本配置失误（高位大额收购 / 高位回购）；或现金占比长期低于 10% 且回报未见改善</li>
+<li><strong>触发卖出</strong>：治理结构实质性恶化；保险承保纪律破坏</li>
+<li><strong>再加码</strong>：<strong>市场恐慌 + BRK 跟跌</strong>（历史上罕见，因为它通常逆势）→ 那是极少数「锚打折」的窗口</li>
+<li>⚠️ <strong>不因为「涨太多」减仓</strong> —— 它的作用是降低组合波动，不是贡献收益</li>
+</ul>
+<hr />
+<h2 id="跟踪信号">跟踪信号</h2>
+<ul>
+<li><strong>⭐ 现金余额与部署节奏</strong>（季报）—— Abel 时代最重要的单一指标</li>
+<li><strong>Abel 的每一笔大额动作</strong>（收购 / 13F 大变动 / 回购价位）</li>
+<li><strong>回购的 P/B 价位</strong> —— 管理层的估值观点，比任何分析师都可信</li>
+<li>13F 季度变动（下次约 <strong>2026-08-14</strong>，Abel 第二季）</li>
+<li>AAPL 权重变化（是否继续减）</li>
+<li>Operating earnings（剔除投资损益）</li>
+</ul>
+<hr />
+<h2 id="仓位与历史">仓位与历史</h2>
+<table><thead><tr><th>日期</th><th>操作</th><th>价格</th><th>仓位</th><th>备注</th></tr></thead><tbody><tr><td>2026-06-25</td><td><strong>建仓</strong></td><td>—</td><td><strong>19.9%</strong></td><td>卖 3/5 NVDA（23%→9.2%）+ 3/5 TSM（10.1%→4.0%）换入；理由=用高 beta 换负相关锚</td></tr><tr><td>2026-07-23</td><td>列为卖 put 优先级 1</td><td>$489</td><td>—</td><td>行权价区 $450–465，30–60d，单张义务约 $4.6 万；<strong>无前置条件</strong></td></tr><tr><td>2026-07-30</td><td>建档</td><td>$509.16</td><td>19.9%</td><td>现价距原定行权价区 <strong>−9.7% ~ −11.6%</strong></td></tr></tbody></table>
+<blockquote><strong>卖 put 计划提醒</strong>：BRK.B 仍是候选表优先级 1，且是<strong>唯一无前置条件</strong>的一笔。但现价 $509.16 已高于 7/23 的 $489，<strong>原定 $450–465 行权价区现在更远了</strong>，参数需重定。见 <a href="../portfolios/2026-07-23-put-selling-plan.html"><code>put-selling-plan</code></a>。</blockquote>
+<hr />
+<h2 id="待研究">待研究</h2>
+<ol>
+<li><strong>Book value per share 最新值</strong> —— 算准当前 P/B（现只有「Q1 回购在 1.44× book」这一个锚）</li>
+<li><strong>Operating earnings</strong>（剔除投资损益）最新四季</li>
+<li><strong>保险浮存金规模与承保成本</strong></li>
+<li><strong>实业分部拆解</strong>：BNSF / BHE / GEICO / 制造服务群各自的收入与利润</li>
+<li><strong>前十持仓的精确权重</strong>（现只确认 AAPL ~22%、前五约 61–68%，来源不一）</li>
+<li>Abel 的历史资本配置记录（BHE 时期）</li>
+</ol>
+<h2 id="我不知道的">我不知道的</h2>
+<ul>
+<li><strong>持仓只数 26 vs 29、前五权重 61% vs 68%</strong> —— 来源不一致，未解</li>
+<li>BRK 远期 PE 23.6 我判定为 GAAP 噪音，<strong>但未独立验证</strong></li>
+<li>现金 $3,970 亿的期限结构（多少在 T-bill、多少在更长端）</li>
+</ul>
+<hr />
+<h2 id="参考">参考</h2>
+<ul>
+<li><a href="https://13f.info/13f/000119312526226661-berkshire-hathaway-inc-q1-2026">13f.info — BRK Q1 2026 13F</a> · <a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&amp;CIK=0001067983&amp;type=13F">SEC EDGAR — BRK 13F 申报</a></li>
+<li><a href="https://www.cnbc.com/2026/05/16/berkshires-new-ceo-overhauls-portfolio-dumping-a-slate-of-stocks.html">CNBC — Abel 大改组合，清掉一批股票</a> · <a href="https://www.forbes.com/sites/bill_stone/2026/05/16/berkshire-portfolio-shifts-as-abel-reshapes-buffetts-playbook/">Forbes — Abel 重塑巴菲特打法</a></li>
+<li><a href="https://www.fool.com/investing/2026/07/25/what-greg-abel-might-do-berkshire-hathaway-cash/">Motley Fool — Abel 会怎么用这笔现金</a> · <a href="https://seekingalpha.com/article/4905557-tracking-berkshire-hathaway-portfolio-q1-2026-update">Seeking Alpha — BRK Q1 2026 组合跟踪</a></li>
+<li>组合相关：<a href="../portfolios/2026-06-24-actual-holdings-snapshot.html"><code>2026-06-24-actual-holdings-snapshot</code></a> · <a href="../portfolios/2026-07-23-put-selling-plan.html"><code>put-selling-plan</code></a> · <a href="V.html"><code>V</code></a>（⚠️ Abel 已清仓 V/MA，该卡的「堪比 BRK 相关性 profile」类比需修订）· <a href="GOOGL.html"><code>GOOGL</code></a>（Abel 三倍加仓，同向证据）</li>
+</ul>
+      </article>
+      <aside class="doc-sidebar">
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">文档导航</h3>
+          <ul class="toc-list"><li><a href="#建档说明第一大持仓此前无档案">⚠️ 建档说明：第一大持仓，此前无档案</a></li><li><a href="#一句话定位">一句话定位</a></li><li><a href="#2026-07-30-关键数据实测">⭐ 2026-07-30 关键数据（实测）</a></li><li style="padding-left:14px"><a href="#市值三段拆解-computed">⭐ 市值三段拆解 `[COMPUTED]`</a></li><li style="padding-left:14px"><a href="#为什么不能用-pe-估它">⚠️ 为什么不能用 PE 估它</a></li><li><a href="#2026-年最大的变化abel-时代开始了">⭐ 2026 年最大的变化：Abel 时代开始了</a></li><li><a href="#前十持仓财务对照实测-2026-07-30">前十持仓财务对照（实测 2026-07-30）</a></li><li><a href="#护城河类型">护城河类型</a></li><li><a href="#风险">风险</a></li><li style="padding-left:14px"><a href="#1-abel-的资本配置能力未经验证最大的一条">⭐ 1. Abel 的资本配置能力未经验证（最大的一条）</a></li><li style="padding-left:14px"><a href="#2-aapl-集中度">2. AAPL 集中度</a></li><li style="padding-left:14px"><a href="#3-现金拖累双刃">3. 现金拖累（双刃）</a></li><li style="padding-left:14px"><a href="#4-规模问题">4. 规模问题</a></li><li style="padding-left:14px"><a href="#5-保险巨灾-gaap-利润噪音">5. 保险巨灾 + GAAP 利润噪音</a></li></ul>
+        </section>
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">阅读提示</h3>
+          <ul class="summary-list">
+            <li><span class="summary-label">先看什么</span><span class="summary-value">先读一段话结论，再看表格和风险点。</span></li>
+            <li><span class="summary-label">适合用途</span><span class="summary-value">复盘、比较、回查研究底稿。</span></li>
+            <li><span class="summary-label">建议动作</span><span class="summary-value">如果文档内容改变了 thesis，再回到候选池或组合页更新判断。</span></li>
+          </ul>
+        </section>
+      </aside>
+    </div>
+    <div class="footer">该页面由 Markdown 自动生成。原始文件：tickers/BRK-B.md</div>
+  </div>
+  </div>
+</body>
+</html>

@@ -61,6 +61,14 @@ python3 -m venv .venv
 # 3. 审计：对比 ticker 文档里的市值数据 vs 最新快照，标记偏差
 .venv/bin/python scripts/audit_notes.py
 # 阈值默认 ±20%，可加 --threshold 30 调整
+
+# 4. 小市值错定价初筛（发现工具，不是买入清单）
+.venv/bin/python scripts/screen_small_cap_value.py
+# → data/screens/YYYY-MM-DD-small-cap-value.csv
+
+# 5. 为人工挑选的候选补充可比财务字段
+.venv/bin/python scripts/enrich_value_shortlist.py AXR SHOE BBW FOR ETD
+# → data/screens/YYYY-MM-DD-value-shortlist.csv
 ```
 
 `audit_notes.py` 是写新 ticker 文档时的对账工具——任何手写市值与最新快照偏差超过阈值会被列出，便于发现"copy 自老笔记"的过期数据。
