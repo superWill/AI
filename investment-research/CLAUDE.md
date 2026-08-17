@@ -28,6 +28,15 @@ python3 -m venv .venv
 .venv/bin/python scripts/fetch_quotes.py
 ```
 
-## 提交 scope
+## 提交流程（2026-08-17 起，本项目覆盖 [`../CLAUDE.md`](../CLAUDE.md) 的分支纪律）
 
-- 用 `docs(investment): ...`，**不要**和嵌入式 / iOS 改动混进同一个 commit 或 branch。
+- **直接在 `main` 上提交，不开分支。** 上层 `../CLAUDE.md` 的「一类改动一个 branch / 在 main 上先开 branch」**对投研不适用**——用户已明确改为 main 直提。
+- **每次调研产出落盘后可直接 commit + push，不必每次征求同意。** 这是常驻授权，仅限本目录。
+- 用 `docs(investment): ...` scope。
+
+### ⚠️ 但这三条是硬约束，每次都要做
+
+1. **提交前先确认当前分支**：`git branch --show-current`。（曾因未确认而在分支切换后提错位置。）
+2. **只 stage `investment-research/`**：`git add investment-research/`，然后必须验证零跨目录混入：
+   `git diff --cached --name-only | grep -v "^investment-research/"` —— 有输出就停下。
+3. **这是 monorepo，`/Users/songzijian/Coding/AI` 下同时跑着 embedded-gateway / iOS 等其他会话的改动**（见 memory `stay-in-investment-lane`）。**绝不 `git add .`、绝不 `git commit -a`。**
