@@ -25,14 +25,17 @@ def clean(s):
 rows = []
 seen = set()
 for ln in open(SRC, encoding="utf-8").read().split("\n"):
-    m = re.match(r'^\|\s*\*\*([A-Z]{2}-\d{2})\*\*\s*\|(.*)\|\s*$', ln)
+    m = re.match(r'^\|\s*\*\*([A-Z]{2}-\d{2}(?:\.\d+)?)\*\*\s*\|(.*)\|\s*$', ln)
     if not m: continue
     cid = m.group(1)
     if cid in seen: continue          # 只取正文首次出现（附录矩阵里的引用不算）
     cells = [c.strip() for c in m.group(2).split("|")]
     name = steps = verdict = basis = prio = ""
     main = ""
-    if len(cells) == 4:               # 标准表：级|依据|名称+步骤|判定
+    note = ""
+    if len(cells) == 5:               # 原子版：级|依据|主文本|判定|备注
+        prio, basis, main, verdict, note = cells
+    elif len(cells) == 4:               # 标准表：级|依据|名称+步骤|判定
         prio, basis, main, verdict = cells
     elif len(cells) == 3:             # OP：级|名称+步骤|判定
         prio, main, verdict = cells
@@ -50,12 +53,13 @@ for ln in open(SRC, encoding="utf-8").read().split("\n"):
     if nm:
         name, steps = nm.group(1), nm.group(2)
     else:
-        name, steps = "", main
+        name, steps = main, "（见父案步骤）" if '.' in cid else main
+        if '.' not in cid: name = ""
     if cid.startswith("EX") and not verdict:
         verdict, steps = steps, "（外观/设计检查项）"
     seen.add(cid)
     rows.append([cid, GROUP.get(cid[:2], ""), clean(name), clean(prio),
-                 clean(basis), clean(steps), clean(verdict)])
+                 clean(basis), clean(steps), clean(verdict), clean(note)])
 
 wb = Workbook()
 ws = wb.active
@@ -75,8 +79,10 @@ for i, (h, w) in enumerate(zip(headers, widths), 1):
 
 for r, row in enumerate(rows, 2):
     ws.cell(r, 1, r-1)
-    for i, v in enumerate(row, 2):
+    for i, v in enumerate(row[:7], 2):
         ws.cell(r, i, v)
+    if len(row) > 7 and row[7]:
+        ws.cell(r, 13, row[7])
     for i in range(1, len(headers)+1):
         c = ws.cell(r, i); c.border = thin; c.alignment = wrap
 
