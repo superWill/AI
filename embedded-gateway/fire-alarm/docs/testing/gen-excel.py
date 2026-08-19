@@ -87,7 +87,7 @@ for r, row in enumerate(rows, 2):
         c = ws.cell(r, i); c.border = thin; c.alignment = wrap
 
 n = len(rows) + 1
-dv = DataValidation(type="list", formula1='"通过,不通过,不适用,待测"', allow_blank=True)
+dv = DataValidation(type="list", formula1='"通过,不通过,不适用,待测,暂不测试"', allow_blank=True)
 ws.add_data_validation(dv); dv.add(f"J2:J{n}")
 ws.conditional_formatting.add(f"J2:J{n}",
     CellIsRule(operator="equal", formula=['"通过"'], fill=PatternFill("solid", fgColor="C6EFCE")))
