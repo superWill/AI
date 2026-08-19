@@ -28,8 +28,8 @@
           <p>仓库入口与使用说明。</p>
           <div class="meta-row">
             <span class="pill">CLAUDE.md</span>
-            <span class="pill">95 words</span>
-            <span class="pill">5 sections</span>
+            <span class="pill">120 words</span>
+            <span class="pill">6 sections</span>
           </div>
         </div>
         <div class="doc-stat-stack">
@@ -68,15 +68,23 @@
 <pre><code>python3 -m venv .venv
 .venv/bin/pip install -r scripts/requirements.txt
 .venv/bin/python scripts/fetch_quotes.py</code></pre>
-<h2 id="提交-scope">提交 scope</h2>
+<h2 id="提交流程2026-08-17-起本项目覆盖-claudemdclaudemd-的分支纪律">提交流程（2026-08-17 起，本项目覆盖 <a href="CLAUDE.html"><code>../CLAUDE.md</code></a> 的分支纪律）</h2>
 <ul>
-<li>用 <code>docs(investment): ...</code>，<strong>不要</strong>和嵌入式 / iOS 改动混进同一个 commit 或 branch。</li>
+<li><strong>直接在 <code>main</code> 上提交，不开分支。</strong> 上层 <code>../CLAUDE.md</code> 的「一类改动一个 branch / 在 main 上先开 branch」<strong>对投研不适用</strong>——用户已明确改为 main 直提。</li>
+<li><strong>每次调研产出落盘后可直接 commit + push，不必每次征求同意。</strong> 这是常驻授权，仅限本目录。</li>
+<li>用 <code>docs(investment): ...</code> scope。</li>
 </ul>
+<h3 id="但这三条是硬约束每次都要做">⚠️ 但这三条是硬约束，每次都要做</h3>
+<ol>
+<li><strong>提交前先确认当前分支</strong>：<code>git branch --show-current</code>。（曾因未确认而在分支切换后提错位置。）</li>
+<li><strong>只 stage <code>investment-research/</code></strong>：<code>git add investment-research/</code>，然后必须验证零跨目录混入：<br /><code>git diff --cached --name-only | grep -v &quot;^investment-research/&quot;</code> —— 有输出就停下。</li>
+<li><strong>这是 monorepo，<code>/Users/songzijian/Coding/AI</code> 下同时跑着 embedded-gateway / iOS 等其他会话的改动</strong>（见 memory <code>stay-in-investment-lane</code>）。<strong>绝不 <code>git add .</code>、绝不 <code>git commit -a</code>。</strong></li>
+</ol>
       </article>
       <aside class="doc-sidebar">
         <section class="sidebar-card">
           <h3 class="sidebar-title">文档导航</h3>
-          <ul class="toc-list"><li><a href="#数据不臆造知识截止-2026-01">数据：不臆造，知识截止 2026-01</a></li><li><a href="#账户硬约束来自-memory">账户硬约束（来自 memory）</a></li><li><a href="#表达纪律">表达纪律</a></li><li><a href="#环境">环境</a></li><li><a href="#提交-scope">提交 scope</a></li></ul>
+          <ul class="toc-list"><li><a href="#数据不臆造知识截止-2026-01">数据：不臆造，知识截止 2026-01</a></li><li><a href="#账户硬约束来自-memory">账户硬约束（来自 memory）</a></li><li><a href="#表达纪律">表达纪律</a></li><li><a href="#环境">环境</a></li><li><a href="#提交流程2026-08-17-起本项目覆盖-claudemdclaudemd-的分支纪律">提交流程（2026-08-17 起，本项目覆盖 [`../CLAUDE.md`](../CLAUDE.md) 的分支纪律）</a></li><li style="padding-left:14px"><a href="#但这三条是硬约束每次都要做">⚠️ 但这三条是硬约束，每次都要做</a></li></ul>
         </section>
         <section class="sidebar-card">
           <h3 class="sidebar-title">阅读提示</h3>
