@@ -11,7 +11,7 @@ from openpyxl.formatting.rule import CellIsRule
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SRC = os.path.join(HERE, "gb4717-gb16806-test-cases.md")
-OUT = os.path.join(HERE, "test-cases-execution.xlsx")
+OUT = os.path.join(HERE, "test-cases-template.xlsx")  # 只输出空白模板；test-cases-execution.xlsx 是实测工作表，严禁脚本覆盖
 
 GROUP = {"FA":"火灾报警","LC":"报警控制(联动输出)","FT":"故障报警","SH":"屏蔽","SV":"监管报警",
          "ST":"自检","DP":"显示与查询","CK":"检查功能","PW":"电源","WD":"看门狗",
