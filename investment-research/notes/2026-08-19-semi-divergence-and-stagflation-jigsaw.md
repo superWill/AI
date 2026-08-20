@@ -184,12 +184,6 @@ related: memory `ai-capex-cycle-topsignal-watchlist`（反应函数 v3 / 四大�
 - 同时它们在承受 capex 侵蚀 FCF（`ai-capex-cycle-topsignal-watchlist` 信号⑥：GOOGL FCF 首次转负、发股 fund capex）。
 - **贴现率不降 + FCF 被 capex 吃掉 = 同一个分子被两头挤。**
 
-### 为什么这条比 8/18 那根阴线重要得多
-
-- **8/18 是单日仓位事件，滞胀是持续数季的贴现率与利润率环境。**
-- 组合 25.3% 在 AI capex 付款方一侧（超大厂），**这些公司的估值对长端利率最敏感**，而它们同时在承受 capex 侵蚀 FCF（见 `ai-capex-cycle-topsignal-watchlist` 信号⑥：GOOGL FCF 首次转负、发股 fund capex）。
-- **利率不降 + FCF 被 capex 吃掉 = 同一个分子被两头挤。**
-
 ### 🔴 必须自己拆掉的 caveat
 
 **CPI 3.4% 和非农 −23k 都是单来源，且都印证我已有的「滞胀」倾向——按 `single-source-confirming-thesis-low-confidence`，置信度封顶 LOW-MED，待交叉核实。**
