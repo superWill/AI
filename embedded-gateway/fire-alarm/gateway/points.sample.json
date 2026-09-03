@@ -1,0 +1,8 @@
+[
+  {"loop": 1, "addr": 1,  "name": "1F 走廊 感烟",        "type": "点型光电感烟", "zone": 1},
+  {"loop": 1, "addr": 3,  "name": "水流指示器/排烟阀",    "type": "输入输出模块", "zone": 2},
+  {"loop": 1, "addr": 4,  "name": "运行数据存储单元",      "type": "机内设备"},
+  {"loop": 1, "addr": 5,  "name": "1F 走廊 声光警报器",   "type": "声光警报器",   "zone": 1},
+  {"loop": 1, "addr": 7,  "name": "气灭 紧急启停按钮",     "type": "现场启停按键", "zone": 1},
+  {"loop": 1, "addr": 16, "name": "打印机",              "type": "机内设备"}
+]
