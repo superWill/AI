@@ -1,0 +1,57 @@
+#!/bin/sh
+# gatewayc-核心拓扑开机自启:supervisor(gatewayc 核心 + nexus 客户端)+ LCD→gatewayc:8091。
+#
+# ⚠ 这是「生产切换」的产物——把板子真的切到 Go 核心。
+#   仅在 轨B影子浸泡通过 + 单站灰度授权 之后启用,不在边界重构阶段部署。
+#   安装(staging,不替换现有 S99):install_go.sh   回退:revert_to_python.sh
+#
+# 命名 S99zz-gateway-go,排在厂家 S99lvgl-test 之后(后启者占屏)。
+APP=/userdata/rk3506-app
+RUN=$APP/run
+PY=$(command -v python3 || echo /usr/bin/python3)
+GATEWAYC=$APP/gatewayc
+CORE=http://127.0.0.1:8091
+mkdir -p "$RUN" "$APP/build"
+
+start() {
+  # 清掉可能残留的旧 Python 网关(nexus 内嵌 / app.py)与旧 LCD / 旧 supervisor
+  for p in $(ps 2>/dev/null | grep -E 'nexus_server\.py|app\.py --source|drm_hmi|supervisor\.sh|gatewayc run' | grep -v grep | awk '{print $1}'); do
+    kill "$p" 2>/dev/null
+  done
+  sleep 1
+  # 强鉴权 token:生成一次落盘,export 给 supervisor(→gatewayc/nexus)与 LCD 共享。
+  TF="$RUN/control_token"
+  [ -s "$TF" ] || (head -c 18 /dev/urandom | base64 | tr -d '\n/+=' > "$TF"; chmod 600 "$TF")
+  export GATEWAYC_CONTROL_TOKEN=$(cat "$TF")
+  # supervisor:gatewayc 核心(读 build/active 版本)+ nexus 客户端(remote → gatewayc)
+  GATEWAYC="$GATEWAYC" NEXUS="$APP/nexus_server.py" PY="$PY" BUILD="$APP/build" \
+    FALLBACK_CFG="$APP/app_config.json" DIST="$APP/nexus-dist" CORE="$CORE" RUN="$RUN" \
+    nohup "$APP/supervisor.sh" >>"$RUN/sup.out" 2>&1 &
+  # LCD → gatewayc:8091(drm_hmi_v4 取位置参数端口;继承 GATEWAYC_CONTROL_TOKEN 带鉴权)
+  nohup "$PY" "$APP/drm_hmi_v4.py" 8091 >>"$RUN/lcd.log" 2>&1 &
+  echo "[S99-go] gatewayc-核心拓扑已起(supervisor + LCD→8091)"
+}
+
+stop() {
+  # 反复杀 supervisor(含 gatewayc_loop/nexus_loop 子 shell)直到没有,否则子 shell 会
+  # 在杀核心的窗口里 respawn 回来;再反复杀核心/客户端/LCD。
+  i=0; while [ $i -lt 6 ]; do
+    sup=$(ps 2>/dev/null | grep 'supervisor\.sh' | grep -v grep | awk '{print $1}')
+    [ -z "$sup" ] && break
+    for p in $sup; do kill -9 "$p" 2>/dev/null; done
+    sleep 1; i=$((i+1))
+  done
+  i=0; while [ $i -lt 3 ]; do
+    for p in $(ps 2>/dev/null | grep -E 'gatewayc run|gatewayc ui|nexus_server\.py|drm_hmi_v4' | grep -v grep | awk '{print $1}'); do
+      kill -9 "$p" 2>/dev/null
+    done
+    sleep 1; i=$((i+1))
+  done
+}
+
+case "$1" in
+  start) start ;;
+  stop) stop ;;
+  restart) stop; sleep 1; start ;;
+  *) echo "usage: $0 {start|stop|restart}"; exit 1 ;;
+esac

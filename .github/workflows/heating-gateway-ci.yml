@@ -1,0 +1,73 @@
+name: heating-gateway-ci
+
+# 仅在供热网关(RK3506)相关路径变更时跑;锁住 Go race / arm 构建 / Python 配置测试 /
+# 部署脚本语法 / Go↔Nexus 边界对账,防回归。PR #1(feat/heating-gateway-go-migration)用。
+on:
+  push:
+    paths: ['embedded-gateway/heating/prototype/rk3506-app/**']
+  pull_request:
+    paths: ['embedded-gateway/heating/prototype/rk3506-app/**']
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  APP: embedded-gateway/heating/prototype/rk3506-app
+  GO: embedded-gateway/heating/prototype/rk3506-app/gateway-go
+
+jobs:
+  go:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: embedded-gateway/heating/prototype/rk3506-app/gateway-go/go.mod
+      - name: build + vet
+        working-directory: ${{ env.GO }}
+        run: go build ./... && go vet ./...
+      - name: test -race
+        working-directory: ${{ env.GO }}
+        run: go test -race ./...
+      - name: armv7 静态交叉编译
+        working-directory: ${{ env.GO }}
+        run: GOOS=linux GOARCH=arm GOARM=7 go build -ldflags="-s -w" -o /tmp/gatewayc-arm . && ls -l /tmp/gatewayc-arm
+
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - name: 配置测试(编译器/版本化/激活)
+        working-directory: ${{ env.APP }}
+        run: python3 tests/test_compiler.py
+      - name: 部署脚本语法检查
+        working-directory: ${{ env.GO }}/deploy
+        run: |
+          for f in supervisor.sh install_go.sh revert_to_python.sh shadow_eval_deploy.sh shadow_eval_stop.sh S99zz-gateway-go; do
+            echo "sh -n $f"; sh -n "$f"
+          done
+
+  boundary:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: embedded-gateway/heating/prototype/rk3506-app/gateway-go/go.mod
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - name: Go↔Nexus 边界对账(gatewayc 取数 vs 内嵌,结构需逐项一致)
+        working-directory: ${{ env.APP }}
+        run: |
+          (cd gateway-go && go build -o /tmp/gatewayc .)
+          /tmp/gatewayc run --source sim --config app_config.json --port 8091 >/tmp/gw.log 2>&1 &
+          /tmp/gatewayc health --url http://127.0.0.1:8091 --timeout 25   # 启动健康门
+          python3 app.py --source sim --config app_config.json --port 8092 >/tmp/app.log 2>&1 &
+          for i in $(seq 1 25); do curl -sf http://127.0.0.1:8092/api/snapshot >/dev/null && break || sleep 1; done
+          python3 nexus_reconcile.py --core http://127.0.0.1:8091 --embedded http://127.0.0.1:8092
+      - name: D3 编译对拍(gatewayc compile/load == Python 回退)
+        working-directory: ${{ env.APP }}
+        run: python3 tests/ci_d3_check.py /tmp/gatewayc

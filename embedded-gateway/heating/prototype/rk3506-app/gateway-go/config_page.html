@@ -1,0 +1,105 @@
+<!doctype html><html lang=zh><head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>配置对账</title><style>
+*{box-sizing:border-box}body{margin:0;background:#0b1220;color:#e6edf6;
+font:14px/1.5 -apple-system,system-ui,"PingFang SC",sans-serif;padding:24px}
+h1{font-size:20px;margin:0 0 16px}h2{font-size:14px;color:#8aa0bd;margin:20px 0 8px;font-weight:600}
+.row{display:flex;gap:12px;flex-wrap:wrap}.card{background:#121d33;border:1px solid #25344d;
+border-radius:10px;padding:14px 16px;min-width:120px}.k{color:#8aa0bd;font-size:12px}
+.v{font-size:22px;font-weight:700;margin-top:4px}.v.ok{color:#34d399}.v.bad{color:#f87171}
+table{border-collapse:collapse;width:100%;max-width:640px}td,th{text-align:left;padding:6px 10px;
+border-bottom:1px solid #25344d}th{color:#8aa0bd;font-weight:600}
+textarea{width:100%;max-width:640px;height:150px;background:#0d1626;color:#e6edf6;
+border:1px solid #25344d;border-radius:8px;padding:10px;font:12px monospace}
+button{background:#2563eb;color:#fff;border:0;border-radius:8px;padding:8px 16px;cursor:pointer;margin-top:8px}
+pre{background:#0d1626;border:1px solid #25344d;border-radius:8px;padding:10px;max-width:640px;
+white-space:pre-wrap;color:#f87171}.muted{color:#8aa0bd;font-size:12px}
+.form{display:flex;gap:12px;flex-wrap:wrap}fieldset{border:1px solid #25344d;border-radius:8px;min-width:210px}
+legend{color:#8aa0bd;padding:0 6px;font-size:12px}label{display:block;font-size:12px;color:#8aa0bd;margin:6px 0}
+input,select{background:#0d1626;color:#e6edf6;border:1px solid #25344d;border-radius:6px;padding:4px 6px;width:88px}
+</style></head><body>
+<h1>配置对账 <span class=muted>(只读 · 不发布不热切)</span></h1>
+<div class=row id=status></div>
+<h2>最新编译版本摘要 <span class=muted>(运行配置=active;active 由后续 activate 设置,现可为"无")</span></h2><table id=products></table>
+<h2>当前草稿 current_draft.json</h2><div id=draft class=muted>—</div>
+<h2>校验草稿(只校验,不编译/不激活)</h2>
+<textarea id=draftin placeholder="把 config_draft.json 粘进来,点校验"></textarea><br>
+<button onclick=doValidate()>校验</button><pre id=verr style=display:none></pre>
+<h2>添加采集设备 <span class=muted>(三段:硬件→业务点→显示;只写草稿,需再校验/编译/重启生效)</span></h2>
+<div class=form>
+ <fieldset><legend>① 硬件设备</legend>
+  <label>device_id <input id=h_id value=ai_mod_9></label>
+  <label>模板 <select id=h_tpl><option>rs485_8ai_modbus</option><option>rs485_8di_modbus</option></select></label>
+  <label>总线 <input id=h_bus value=rs485_1></label>
+  <label>从站 <input id=h_slave type=number value=9></label>
+  <label>通道 <input id=h_ch value=AI1></label>
+  <label>寄存器 <input id=h_reg type=number value=0></label>
+  <label>数据类型 <select id=h_dt><option>uint16</option><option>int16</option><option>bool</option></select></label>
+  <label>工程量程 <input id=h_emin type=number value=0> ~ <input id=h_emax type=number value=150></label>
+  <label>scale <input id=h_scale value=0.1></label>
+  <label>单位 <input id=h_unit value=℃></label>
+ </fieldset>
+ <fieldset><legend>② 业务测点</legend>
+  <label>business_id <input id=b_id value=new_point></label>
+  <label>模板 <select id=b_tpl><option>temperature_point</option><option>pressure_point</option></select></label>
+  <label>point_id <input id=b_pid value=new_temp></label>
+  <label>名称 <input id=b_label value=新增测点></label>
+  <label>角色 <select id=b_role><option>measurement</option></select></label>
+ </fieldset>
+ <fieldset><legend>③ 显示卡片</legend>
+  <label>页面 <select id=d_page><option>primary_loop</option><option>secondary_loop</option><option>system</option></select></label>
+  <label>卡片 id <input id=d_card value=new_card></label>
+  <label>卡片名 <input id=d_label value=新增卡片></label>
+  <label>优先级 <input id=d_pri type=number value=50></label>
+ </fieldset>
+</div>
+<button onclick=addDevice()>添加设备(写草稿)</button><pre id=aerr style=display:none></pre>
+<script>
+let TOK='';
+async function api(m,p,b){const h={'Authorization':'Bearer '+TOK};
+if(b)h['Content-Type']='application/json';
+const r=await fetch(p,{method:m,headers:h,body:b?JSON.stringify(b):undefined});return r.json()}
+async function boot(){
+const lg=await(await fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},
+body:JSON.stringify({username:'config',password:'x'})})).json();TOK=lg.token;
+const s=await api('GET','/api/config/status');
+const eok=s.errors===0||s.errors===null;const lc=s.latest_compiled;
+document.getElementById('status').innerHTML=
+card('运行版本(active)',s.active_version??'无',s.active_version==null?'':'ok')+
+card('最新编译',s.latest_version??'无')+
+card('编译设备',lc?lc.devices:'—')+card('编译点位',lc?lc.points:'—')+
+card('草稿错误',s.errors??'无草稿',eok?'ok':'bad')+card('有草稿',s.has_draft?'是':'否');
+let rows='<tr><th>项</th><th>值</th></tr>';
+if(lc){for(const k of ['version','config_version','devices','points','display_cards','safety_commands'])
+ rows+='<tr><td>'+k+'</td><td>'+lc[k]+'</td></tr>'}
+else rows+='<tr><td colspan=2>尚无编译版本(先添加设备并点编译)</td></tr>';
+document.getElementById('products').innerHTML=rows;
+const d=await api('GET','/api/config/draft');
+document.getElementById('draft').textContent=d.has_draft?
+('hardware_devices: '+d.draft.hardware_devices.length+' · business_devices: '+d.draft.business_devices.length+
+' · industry: '+d.draft.industry):'尚无 current_draft(compile 后生成)';
+}
+function card(k,v,c){return '<div class=card><div class=k>'+k+'</div><div class="v '+(c||'')+'">'+v+'</div></div>'}
+function val(id){return document.getElementById(id).value}
+async function addDevice(){
+const dev=val('h_id'),ch=val('h_ch'),role=val('b_role');
+const payload={hardware:{device_id:dev,hardware_template:val('h_tpl'),bus_id:val('h_bus'),
+ slave:+val('h_slave'),timeout_ms:250,retries:1,
+ channels:[{channel:ch,register:+val('h_reg'),"function":3,data_type:val('h_dt'),
+  raw_range:[0,65535],eng_range:[+val('h_emin'),+val('h_emax')],scale:+val('h_scale'),unit:val('h_unit')}]},
+ business_devices:[{business_id:val('b_id'),business_template:val('b_tpl'),industry:'heating',
+  bindings:{[role]:{point_id:val('b_pid'),label:val('b_label'),from:dev+'.'+ch}},
+  display:{page:val('d_page'),card:val('d_card'),label:val('d_label'),priority:+val('d_pri')}}]};
+const r=await api('POST','/api/config/devices',payload);const e=document.getElementById('aerr');
+e.style.display='block';
+if(r.ok){e.style.color='#34d399';
+ e.textContent='✓ 已写入草稿(设备总数见上方"有草稿";产物未变,需再编译);可重复添加';boot()}
+else{e.style.color='#f87171';e.textContent='✗ '+r.errors.length+' 错:\n- '+r.errors.join('\n- ')}}
+async function doValidate(){const e=document.getElementById('verr');
+let body;try{body=JSON.parse(document.getElementById('draftin').value)}catch(x){
+e.style.display='block';e.style.color='#f87171';e.textContent='JSON 解析失败: '+x.message;return}
+const r=await api('POST','/api/config/validate',body);e.style.display='block';
+if(r.ok){e.style.color='#34d399';e.textContent='✓ 校验通过,'+0+' 错'}
+else{e.style.color='#f87171';e.textContent='✗ '+r.errors.length+' 错:\n- '+r.errors.join('\n- ')}}
+boot();
+</script></body></html>
