@@ -1,8 +1,9 @@
 #!/usr/bin/env /usr/bin/python3
 """把桌面的 Numbers 工作副本回灌到仓库的 test-cases-execution.xlsx。
 
-    /usr/bin/python3 sync-from-numbers.py            # 只看差异，不写
-    /usr/bin/python3 sync-from-numbers.py --apply    # 确认后写入仓库
+    /usr/bin/python3 sync-from-numbers.py                  # 只看差异，不写
+    /usr/bin/python3 sync-from-numbers.py --apply          # 确认后写入仓库
+    /usr/bin/python3 sync-from-numbers.py --from d.xlsx    # 用已导出的 xlsx，跳过 Numbers
 
 以 Numbers 那份为准：仓库文件只保留 Excel 侧的东西（下拉、冻结、筛选、统计公式），
 测试执行表的单元格内容整列覆盖，序号重排为连续 1..N。
@@ -58,9 +59,15 @@ def read(path):
 
 def main():
     apply = "--apply" in sys.argv
+    # Numbers 的 osascript 导出偶发失败（AppleScript 连不上前台文档）。
+    # 手动导出一份后用 --from 复用，比重试整个流程省事。
+    pre = None
+    if "--from" in sys.argv:
+        pre = sys.argv[sys.argv.index("--from") + 1]
     with tempfile.TemporaryDirectory() as tmp:
-        exported = os.path.join(tmp, "desk.xlsx")
-        export_numbers(exported)
+        exported = pre or os.path.join(tmp, "desk.xlsx")
+        if not pre:
+            export_numbers(exported)
 
         hdr_a, rows_a = read(REPO_XLSX)
         hdr_b, rows_b = read(exported)
