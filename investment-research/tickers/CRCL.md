@@ -5,10 +5,43 @@ sector: Fintech / Stablecoin Infrastructure
 layer: N/A             # 不属于半导体 9 层产业链；本质是"稳定币储备净息差"宏观利率敞口
 position_type: thematic / payoff   # 监管落地 + 利率路径双驱动
 status: watching
-last_updated: 2026-07-01
+last_updated: 2026-08-04
 ---
 
 # Circle Internet Group (CRCL)
+
+## ⭐ 2026-08-04:续约维持原条款 + Morgan Stanley 降至 Underweight $38 + USDC Q2 流通下滑 `[KNOWN 2026-08]`
+
+> **三重打击:续约未收回份额(失败)、USDC 供应 Q2 走向环比萎缩、卖方顶级降级;Q2 财报明日(8/5)发布,现价 ~$62 带着-30% YTD 去面对业绩季。**
+
+### 1. Circle–Coinbase 分润协议续约:维持原条款,圆筒压力未奏效
+
+- **结果(2026-07-30 Coinbase Q2 财报电话)**:Coinbase CFO Alesia Haas 明确表示:"We have already met the conditions for the Circle contract to renew, so it will renew on the **same terms**."自动续约三年,分润结构不变——Coinbase 平台自持 USDC 拿 100%,链下 50/50。
+- **对 CRCL 的含义**:续约前 Circle 推出 cirBTC(打 Coinbase cbBTC)施压想收回份额的策略**完全失败**。分润比未获任何改善,Coinbase 依然吞 USDC 毛收入 ~54%。本卡之前标注的"大概率温和调整"(Bernstein 判断)——结果是**温和地对 COIN 有利、对 CRCL 不利**。
+- **财务影响**:Circle 每年向 Coinbase 支付 ~$9 亿(2024年数据)的分发费用维持不变,占 CRCL 营收 ~54%,直接压住净利率。
+- 来源:[Coinbase-Circle partnership to renew on same terms, CFO says – CoinGape](https://coingape.com/block-of-fame/pulse/coinbase-circle-partnership-to-renew-on-same-terms-cfo-alesia-haas-says/) / [Circle pays Coinbase $908M for USDC distribution – Crypto Briefing](https://cryptobriefing.com/circle-pays-coinbase-908m-usdc-distribution/)
+
+### 2. Morgan Stanley 降级:Underweight,$38 目标价(原 $106),股价 -6-7%(2026-08-03)
+
+- Morgan Stanley 分析师 James Faucette 将 CRCL 从 Equal Weight 降至 **Underweight**,目标价从 $106 砍至 **$38**(降幅 64%),为分析师覆盖中**最低**目标价。
+- 核心理由:① **USDC 供应预测下修**——2027E 削减 33%,2028E 削减 44%;② 代币化现金产品(OUSD/Ethena/Ondo 等)及新稳定币模式竞争加剧;③ Agentic 支付(x402)实际日流量仅 **$41,900**(近乎可忽略,证伪短期催化);④ 盈利预测低于共识 3-20%。
+- 市场反应:CRCL 单日 -6-7%,8/4 盘前 -4% 至 ~$60.10,收盘约 $62.58。年初至今 -30%。
+- 对比:TD Cowen 给 Buy/$82;Bernstein 降目标从 $190 至 $140(仍维持买入)——分析师分歧极大($38–$140 区间)。
+- 来源:[Circle slides after Morgan Stanley slashes price target to $38 – CoinDesk](https://www.coindesk.com/markets/2026/08/03/circle-internet-slides-after-morgan-stanley-downgrade-cut-in-price-target) / [Morgan Stanley Downgrades Circle – Bitcoin World](https://bitcoinworld.co.in/morgan-stanley-downgrades-circle-price-target/) / [CRCL Price Targets Range $38–$82 – Benzinga](https://www.benzinga.com/crypto/cryptocurrency/26/08/60882375/crcl-price-targets-range-from-38-to-82-what-is-happening)
+
+### 3. USDC 供应 Q2 末 ~$730 亿,QoQ 下滑(跌破此前最大风险阈值)
+
+- Q2 2026 末 USDC 流通量 **~$730 亿**,较 Q1 末 $770 亿 **环比下降 ~5%**。本卡跟踪信号的最大红线("USDC 绝对流通掉头向下 = 从'停滞'变'萎缩',触发卖出")**已触碰**。
+- Q2 财报 2026-08-05(明日)发布;预期营收 ~$7.2 亿,EPS $0.165,市场预期年度盈利同比下滑。
+- 来源:[Q2 Earnings Expected to Decline – Yahoo Finance](https://finance.yahoo.com/markets/stocks/articles/earnings-preview-circle-internet-group-140034060.html) / [Circle Q2 results Aug 5 – Circle PR](https://www.circle.com/pressroom/circle-to-announce-q2-2026-financial-results-on-august-5-2026)
+
+### 4. Venue 截息:OUSD 尚未上线,但 Ethena/Sky/Ondo 累积侵蚀加深
+
+- **OUSD/Open Standard**(140+ 家联盟含 Stripe/Visa/MC/BlackRock/Coinbase):目标 H2 2026 上线,**至今尚未发行**。参照系 Paxos USDG 同类联盟币上线后仅 ~$30 亿 vs USDC $730 亿——采用之路仍陡峭。[来源:CoinShares OUSD 分析](https://coinshares.com/us/insights/research-data/what-is-open-usd-and-what-does-it-mean-for-stablecoins/)
+- **Hyperliquid/USDH**(Native Markets 中标):$58 亿 USDC 储备、50% 收益分给 HYPE,Circle+COIN 合计 EBITDA ~$6000–8000 万损失(Compass Point 估算)。[来源:CoinDesk 5/18](https://www.coindesk.com/markets/2026/05/18/hyperliquid-s-usdc-deal-could-supercharge-hype-pressure-circle-coinbase-margins-analysts-say/)
+- **Ethena USDe/sUSDe**:总规模 **$56 亿+**,靠 ETH 空头基差截取收益(非直接截 USDC 储备息,但分流潜在 USDC 持币量)。
+- **Sky Protocol USDS**(前 MakerDAO):通过 PSM 将 USDC 存入 T-bill 并把收益经 Sky Savings Rate 转给 sUSDS 持有人,储蓄率约 5.5%,是直接从 Circle 储备池截息。
+- **净判断**:OUSD 威胁仍是"预期"而非"现实",但 Hyperliquid+Ethena+Sky 的累计规模已数百亿,拖累效应不可忽视,Morgan Stanley 下修 USDC 假设 33-44% 已将部分因素量化。
 
 ## ⭐ 2026-07-01:Open USD = 护城河 B 类损伤(论点断了一条腿)`[KNOWN 2026-07]`
 
@@ -58,12 +91,15 @@ USDC 发行方。商业模式本质 = **拿用户的稳定币储备去买短债�
 
 | 指标 | 数据 | 备注 |
 |---|---|---|
-| 股价 | **~$74.7** | 2026-07-01,OUSD 后 4 个月低,近月 -29%,距顶 **-65%** |
-| 市值 | **~$18.9B** | — |
-| 分析师共识目标 | ~$130–152 | 区间 $77（低）～$280（高）;**OUSD 后大概率下修** |
+| 股价 | **~$62.58** | **2026-08-03(Morgan Stanley 降级后),盘前 8/4 约 $60.10;YTD -30%** |
+| 市值 | **~$15.8B** | — |
+| 分析师目标价区间 | **$38–$140** | Morgan Stanley $38(Underweight)/TD Cowen $82(Buy)/Bernstein $140(Buy);**分歧极大** |
+| 分析师均值目标 | ~$100–110 est. | 较 6 月 $130–152 大幅下移 |
+| Q2'26 预期 | 营收 ~$720M,EPS $0.165 | 财报 2026-08-05 发布;预期 YoY 盈利下滑 |
 | Q1'26 净利 | **$55.3M,YoY -15%** | **净利率 11%→8%**——营收+20% 净利却降 = 分润已吃 margin |
-| USDC 流通 | $77B(+28% YoY,**QoQ 走平**) | float 增长已停滞(OUSD 前就裂) |
+| USDC 流通 | **~$73B(Q2 末)**,Q1 末 $77B | **QoQ -5%,已从"停滞"转"萎缩"**;YoY+28% 但环比开始下滑 |
 | 内部人 | **94:0 全卖**(6 个月) | CEO/总裁都卖,$75 无人买 |
+| 续约结果 | **维持原条款** | Coinbase CFO 2026-07-30 电话确认;Circle cirBTC 施压未奏效 |
 
 ## 护城河类型
 
@@ -109,8 +145,8 @@ USDC 发行方。商业模式本质 = **拿用户的稳定币储备去买短债�
 - 持有阈值：流通量重回环比增长 + 利率维持高位/上行。
 - **⭐ OUSD 硬跟踪项(2026-07 新增,论点第二条腿的证伪线)**:
   - **采用曲线**:OUSD 上线后 6–12 个月抢到的 float / 支付集成(参照 Paxos USDG 失败基准——若 OUSD 明显跑赢 USDG = 联盟币这次真起来了 = 护城河实质破);
-  - **8 月 Coinbase 分润续约结果**:分润比恶化 / Coinbase 明确倾斜 OUSD = 分发伙伴反水坐实;
-  - **USDC 份额 vs OUSD + USDT**:USDC 绝对流通掉头向下 = 从"停滞"变"萎缩",触发卖出。
+  - **⭐ 8 月 Coinbase 分润续约结果(2026-08-04 更新)**:续约**维持原条款**,Circle 未收回份额——这是明确的负面结果,本条"分润比恶化"触发了,但不是 OUSD 倾斜引发,而是 Circle 筹码不足。
+  - **USDC 份额 vs OUSD + USDT**:⭐ **Q2 末 USDC 流通 ~$73B,QoQ -5%——已从"停滞"变"萎缩"**,触发卖出信号已亮;OUSD 尚未上线,但 Ethena/Sky/Ondo 已造成分流。
 
 ## 跟踪信号
 
@@ -133,6 +169,7 @@ USDC 发行方。商业模式本质 = **拿用户的稳定币储备去买短债�
 | 2026-06-19 | 建档观察 | ~$80.59 | — | 便宜但缺催化；押"利率维持高位 + 流通量回增"双确认 |
 | 2026-06-25 | 更新观察 | ~$70.98（距顶 -70%）| — | 加密复合体血洗(BTC-51%/MSTR-79%/COIN-64%);corr COIN 0.71/BTC 0.55,BTC-S&P 0.96=杠杆风险非对冲；资本保全口径第一顺位砍 |
 | 2026-07-01 | 更新观察 | ~$74.7（距顶 -65%）| — | **OUSD 联盟(Coinbase/Visa/MC/BlackRock/Stripe+140家)= 护城河 B 类损伤**;论点断护城河腿,只剩利率交易;take-rate 去中介化确认为真 B(非BTC非利率) |
+| 2026-08-04 | 更新观察 | ~$62.58(YTD -30%),盘前 ~$60.10 | — | **续约维持原条款(Coinbase CFO 7/30 确认)**,Circle cirBTC 施压失败;Morgan Stanley 降至 Underweight/$38;USDC Q2 末 $73B(QoQ -5%,萎缩触发);Q2 财报明日(8/5);OUSD 尚未上线,Ethena+Sky+HL 累计侵蚀加深 |
 
 ## 参考
 
@@ -144,3 +181,12 @@ USDC 发行方。商业模式本质 = **拿用户的稳定币储备去买短债�
 - **OUSD 联盟(Stripe/Coinbase/MC/Visa/BlackRock+140家)分享储备收益,CRCL -17%** — https://www.coindesk.com/business/2026/06/30/circle-slides-8-as-stripe-coinbase-and-blackrock-back-rival-stablecoin-network
 - OUSD 采用面临陡峭上坡 / Paxos USDG 前车之鉴 — https://www.coindesk.com/business/2026/06/30/why-the-openusd-s-real-threat-that-tanked-circle-stock-still-faces-a-steep-uphill-battle-for-adoption
 - Q1'26 净利 $55.3M -15% / 净利率 11%→8% — https://www.businesswire.com/news/home/20260511188445/en/Circle-Reports-First-Quarter-2026-Results
+- **[2026-08-04] Circle-Coinbase 续约维持原条款,Coinbase CFO 电话确认** — https://coingape.com/block-of-fame/pulse/coinbase-circle-partnership-to-renew-on-same-terms-cfo-alesia-haas-says/
+- **[2026-08-04] Circle pays Coinbase $908M / 续约背景** — https://cryptobriefing.com/circle-pays-coinbase-908m-usdc-distribution/
+- **[2026-08-03] Morgan Stanley 降至 Underweight,$38 目标价,CRCL -6-7%** — https://www.coindesk.com/markets/2026/08/03/circle-internet-slides-after-morgan-stanley-downgrade-cut-in-price-target
+- **[2026-08-03] Morgan Stanley 下修 USDC 假设 33-44%/2027-28** — https://bitcoinworld.co.in/morgan-stanley-downgrades-circle-price-target/
+- **[2026-08-04] CRCL 盘前 $60.10,分析师目标价区间 $38–$82** — https://www.benzinga.com/crypto/cryptocurrency/26/08/60882375/crcl-price-targets-range-from-38-to-82-what-is-happening
+- **[2026-08] Circle Q2 财报 2026-08-05** — https://www.circle.com/pressroom/circle-to-announce-q2-2026-financial-results-on-august-5-2026
+- **[2026-08] Q2'26 盈利预期下滑,USDC Q2 末 $73B** — https://finance.yahoo.com/markets/stocks/articles/earnings-preview-circle-internet-group-140034060.html
+- **[2026-06] Hyperliquid USDC 协议砍 Circle+COIN EBITDA ~$80M** — https://www.coindesk.com/markets/2026/05/18/hyperliquid-s-usdc-deal-could-supercharge-hype-pressure-circle-coinbase-margins-analysts-say/
+- **[2026-07] OUSD/Open Standard 尚未上线,参照 USDG $3B** — https://coinshares.com/us/insights/research-data/what-is-open-usd-and-what-does-it-mean-for-stablecoins/
