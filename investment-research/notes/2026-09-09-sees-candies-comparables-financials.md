@@ -159,3 +159,26 @@ related: memory organic-growth-screen · memory capital-preservation-first · me
 - WDFC：[10-K FY2025](https://www.sec.gov/Archives/edgar/data/105132/000010513225000067/wdfc-20250831.htm)
 - TR：[10-K FY2025](https://www.sec.gov/Archives/edgar/data/98677/000110465926021621/tr-20251231x10k.htm)
 - ROL：[10-K FY2025](https://www.sec.gov/Archives/edgar/data/84839/000008483926000008/rol-20251231.htm) · [Q4 新闻稿](https://www.prnewswire.com/news-releases/rollins-inc-reports-fourth-quarter-and-full-year-2025-financial-results-302685636.html)
+
+---
+
+## 附：Monster 2026 两季追加（2026-09-09）
+
+价格核对（yfinance，拆股调整）：2025-12-31 收 $38.33 → 2026-09-08 收 $43.15，**YTD +12.6%**；高点 2026-07-16 $49.97，回撤 −13.6%；2 拆 1 于 2026-08-11 生效。市值 $845 亿，静态 P/E 40 / 动态 33。「今年跌 20%」的说法与数据不符，疑为未复权 K 线或从高点量的回撤。`[COMPUTED, HIGH]`
+
+| 项目 | Q1 2026 | Q2 2026 | H1 2026 |
+|---|---|---|---|
+| 净销售额 | 2,353.3（+26.9%，恒汇 +22.1%） | 2,537.5（+20.2%，恒汇 +17.9%） | 4,890.8（+23.3%） |
+| 箱量（百万，192oz） | 274.5（+28.6%） | 304.9（+22.3%） | |
+| **单箱净售价** | $8.44（上年 8.51） | $8.20（上年 8.29） | |
+| 毛利率 | 55.0% | 55.9% | 55.5% |
+| 配送 / 销售 / 管理费用占比 | 4.4% / 8.3% / 11.3% | 4.7%（+44.9%）/ 10.6%（+36.7%）/ 11.5% | |
+| 营业利润率 | 31.0% | 29.2%（上年同期 29.9%） | 30.1% |
+| 净利润 | 569.5 | 584.5 | 1,154.0 |
+| 海外占比 / 增速 | 45% / +44.9% | 46% / +34.6% | |
+| 回购 | 140 万股 @ $73.86 ≈ 1.03 亿 | 0；剩余授权 9 亿 | |
+| 现金 + 投资 | | 4,200.5；零债 | |
+
+读法：2025 Q4 提价后单箱价连续三期下降（−1.6% / −0.8% / −1.1%），费用增速（配送 +45%、销售 +37%）高于收入增速（+20%），营业利润率 −0.7pt。判据 ①④ 仍不成立；回撤是 40 倍估值对二阶变化的反应，不是业绩差。美国份额：红牛 35.9% / Monster 27.3% / Celsius 系约 20%（一年 +8pt）`[SEC, MED]`。
+
+来源：[Q1 2026 新闻稿](https://www.globenewswire.com/news-release/2026/05/07/3290614/0/en/monster-beverage-reports-2026-first-quarter-financial-results.html) · [Q2 2026 新闻稿](https://www.globenewswire.com/news-release/2026/08/06/3340780/10193/en/Monster-Beverage-Reports-2026-Second-Quarter-Financial-Results.html) · [Q2 8-K EX-99.1](https://www.sec.gov/Archives/edgar/data/0000865752/000110465926057188/tm2613885d1_ex99-1.htm) · 份额 [Investing.com Celsius Q4 2025](https://www.investing.com/news/company-news/celsius-q4-2025-slides-portfolio-hits-20-market-share-on-alani-nu-surge-93CH-4528286) · 回撤解读 [Simply Wall St 2026-08-09](https://simplywall.st/stocks/us/food-beverage-tobacco/nasdaq-mnst/monster-beverage/news/why-monster-beverage-mnst-is-down-62-after-stronger-first-ha)
