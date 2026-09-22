@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SKILL</title>
+  <link rel="stylesheet" href="../../../_assets/style.css" />
+</head>
+<body>
+  <div class="site-shell">
+  <div class="page">
+    <div class="topbar">
+      <div class="nav-cluster">
+        <a class="back" href="../../../index.html">← 返回投研首页</a>
+        <a class="nav-link secondary" href="../../../all-docs.html">全部文档</a>
+      </div>
+      <div class="nav-cluster">
+        <a class="home-link" href="../../../notes.html">Notes</a>
+        <a class="home-link" href="../../../candidates.html">Candidates</a>
+        <a class="home-link" href="../../../tickers.html">Tickers</a>
+      </div>
+    </div>
+    <section class="hero">
+      <div class="doc-header-grid">
+        <div>
+          <div class="eyebrow">.claude</div>
+          <h1>SKILL</h1>
+          <p>研究文档。</p>
+          <div class="meta-row">
+            <span class="pill">.claude/skills/weekly-review/SKILL.md</span>
+            <span class="pill">130 words</span>
+            <span class="pill">11 sections</span>
+          </div>
+        </div>
+        <div class="doc-stat-stack">
+          <div class="doc-stat">
+            <div class="doc-stat-label">Document Type</div>
+            <div class="doc-stat-value">.Claude</div>
+          </div>
+          <div class="doc-stat">
+            <div class="doc-stat-label">Reading Mode</div>
+            <div class="doc-stat-value">Research Memo</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="doc-layout">
+      <article class="doc doc-main">
+<hr />
+<p>name: weekly-review description: 投研周复盘的固定节拍流程——时间驱动（不是事件驱动）地跑一遍四大触发器读数、持仓纪律检查、行为盲区自检，落一段周记到 notes/。Use when 用户说&quot;周复盘&quot;、&quot;做个复盘&quot;、&quot;这周投研盘一盘&quot;、&quot;/weekly-review&quot;，或距上次周记 ≥7 天需要主动提醒时。解决的问题：事件驱动的复盘逮不住&quot;手痒/踏空焦虑/信号读数漂移&quot;这类慢性偏差，只有固定节拍才逮得住（思路来源 @bitfish 的&quot;周复盘&quot;Loop）。</p>
+<hr />
+<h1 id="投研周复盘">投研周复盘</h1>
+<blockquote>这是<strong>时间驱动</strong>的 Loop，不是事件驱动。哪怕这周啥也没发生也要跑——&quot;没发生&quot;本身就是一条读数。 目标不是产出观点，是<strong>给上周的自己报错</strong>：读数漂了没、纪律破了没、手痒了没。</blockquote>
+<h2 id="成功标准做完长什么样">成功标准（做完长什么样）</h2>
+<p>一次合格的周复盘满足全部：</p>
+<ol>
+<li><strong>四大机械触发器有本周读数</strong>（AI capex 顶部信号 watchlist 的 0/4 计数 + 逐条状态），并与上周对比&quot;哪条动了&quot;。</li>
+<li><strong>持仓过了一遍 <code>position-discipline</code></strong>（仓位上限、现金底线、期权禁区、四级动作梯），产出&quot;有没有被破 + 破了的规定动作&quot;。</li>
+<li><strong>行为盲区自检</strong>：本周有没有出现 memory 里记过的发作模式——手痒（<code>capital-preservation-first</code>）、按天数/深度抄底（<code>dip-buy-trigger-signals-not-daycount</code>）、踏空焦虑、单来源印证既有结论（<code>single-source-confirming-thesis-low-confidence</code>）。有就点名，没有就写&quot;本周未发作&quot;。</li>
+<li><strong>一段周记落 <code>notes/YYYY-MM-DD-weekly-review.md</code></strong>（当周周日或复盘当日日期）。<strong>不落盘 = 没做</strong>（这正是断点①：&quot;信息不过系统等于没进过脑子&quot;）。</li>
+<li><strong>不产出目标价/买卖建议</strong>（项目 <code>CLAUDE.md</code> 硬规定）——产出的是论点变化 + 可选动作 + 三档情景。</li>
+</ol>
+<h2 id="流程">流程</h2>
+<ol>
+<li><strong>先看上一份周记</strong>：<code>ls -t notes/*weekly-review.md | head -1</code>，读它的&quot;待观察&quot;清单，逐条对账&quot;兑现了没&quot;。没有上一份就写&quot;首次周复盘&quot;。</li>
+<li><strong>刷价格快照</strong>（改了估值判断才需要）：<code>.venv/bin/python scripts/fetch_quotes.py</code>。</li>
+<li><strong>四大触发器读数</strong>：对照 memory <code>ai-capex-cycle-topsignal-watchlist</code> 的四大机械触发器 + ⑥融资结构信号，逐条给本周状态，算 X/4。</li>
+<li><strong>持仓纪律</strong>：调 <code>position-discipline</code> agent（或按其规则手动过）——只看 <code>portfolios/</code>，不看研究记录（避免双源真相）。</li>
+<li><strong>行为自检</strong>：对照成功标准第 3 条那几个 memory，诚实点名本周的冲动/偏差。</li>
+<li><strong>落盘</strong>：写周记（模板见下），列出&quot;本周结论变化 / 下周待观察 / 待核实项&quot;。</li>
+<li><strong>更新 memory</strong>（可选）：若本周发现一个新的稳定偏差或反应模式，追加/更新对应 memory，并在 <code>MEMORY.md</code> 加一行指针。</li>
+</ol>
+<h2 id="周记模板">周记模板</h2>
+<pre><code># 周复盘 YYYY-MM-DD
+
+## 上周待观察对账
+- &lt;上周列的项&gt; → &lt;兑现了/没兑现/仍在等&gt;
+
+## 四大触发器（X/4）
+- ①CoWoS 缺口: &lt;状态&gt;
+- ②超大厂卖过剩算力: &lt;状态&gt;
+- ③NVDA 二阶导: &lt;状态&gt;
+- ④capex 是否骤停: &lt;状态&gt;
+- ⑥融资结构（vendor financing/发股 fund capex）: &lt;状态&gt;
+
+## 持仓纪律
+- 仓位/现金/期权禁区: &lt;有无被破 + 规定动作&gt;
+
+## 行为自检
+- 手痒/抄底冲动/踏空焦虑/单来源印证: &lt;本周是否发作，点名&gt;
+
+## 本周结论变化
+- &lt;哪个论点被数据改了&gt;
+
+## 下周待观察
+- &lt;可证伪的判据 + 开奖时间&gt;
+
+## 待核实
+- &lt;标 (待核实) 的项&gt;</code></pre>
+<h2 id="已知的坑">已知的坑</h2>
+<p><strong>① 别把周复盘做成&quot;再研究一遍&quot;。</strong> 它是报错机制不是产出机制——重点是对账上周、逮本周偏差，不是生成新观点。跑超过 20 分钟就是跑偏了。</p>
+<p><strong>② &quot;这周没事&quot;要照跑照写。</strong> 慢性偏差（读数漂移、纪律松动）恰恰在平静周积累。空周记也是数据点。</p>
+<p><strong>③ 触发器状态别只写数字，要写&quot;哪条动了&quot;。</strong> 0/4 连续 N 周和&quot;这周③从绿转黄但仍 0/4&quot;是两条完全不同的信息。</p>
+<p><strong>④ 持仓只从 <code>portfolios/</code> 读。</strong> 研究记录 ≠ 持仓记录，混用会造成双源真相（<code>CLAUDE.md</code> 硬规定）。</p>
+<p><strong>⑤ 落盘走投研提交纪律</strong>：<code>git branch --show-current</code> 确认在 main → <code>git add investment-research/</code> → <code>git diff --cached --name-only | grep -v &quot;^investment-research/&quot;</code> 验零跨目录 → commit。<strong>若 HEAD 不在 main（别的会话切了分支）或全局有跨目录脏改动，停下问用户，不擅自切分支。</strong></p>
+      </article>
+      <aside class="doc-sidebar">
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">文档导航</h3>
+          <ul class="toc-list"><li><a href="#成功标准做完长什么样">成功标准（做完长什么样）</a></li><li><a href="#流程">流程</a></li><li><a href="#周记模板">周记模板</a></li><li><a href="#上周待观察对账">上周待观察对账</a></li><li><a href="#四大触发器x4">四大触发器（X/4）</a></li><li><a href="#持仓纪律">持仓纪律</a></li><li><a href="#行为自检">行为自检</a></li><li><a href="#本周结论变化">本周结论变化</a></li><li><a href="#下周待观察">下周待观察</a></li><li><a href="#待核实">待核实</a></li><li><a href="#已知的坑">已知的坑</a></li></ul>
+        </section>
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">阅读提示</h3>
+          <ul class="summary-list">
+            <li><span class="summary-label">先看什么</span><span class="summary-value">先读一段话结论，再看表格和风险点。</span></li>
+            <li><span class="summary-label">适合用途</span><span class="summary-value">复盘、比较、回查研究底稿。</span></li>
+            <li><span class="summary-label">建议动作</span><span class="summary-value">如果文档内容改变了 thesis，再回到候选池或组合页更新判断。</span></li>
+          </ul>
+        </section>
+      </aside>
+    </div>
+    <div class="footer">该页面由 Markdown 自动生成。原始文件：.claude/skills/weekly-review/SKILL.md</div>
+  </div>
+  </div>
+</body>
+</html>

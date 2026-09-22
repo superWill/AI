@@ -84,3 +84,5 @@ SONY    # Sony — 最上游卖铲子(图像传感器 63.6% 份额)，三家里�
 LLY     # Eli Lilly — GLP-1 双寡头之首，份额/增速/疗效/管线全赢；32x fwd = 好生意贵价格
 NVO     # Novo Nordisk — 双寡头之二，被礼来全面反超；10x = 下跌中的便宜(赔率型，非白捡)
 BRK-B
+COST
+BE

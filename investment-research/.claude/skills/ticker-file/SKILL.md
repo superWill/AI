@@ -75,7 +75,7 @@ grep -cE "待核实" tickers/$T.md                                          # 4.
 grep -E "^(ticker|last_updated):" tickers/$T.md                         # 5. frontmatter 没漏
 ```
 
-**⑩ ⚠️ `audit_notes.py --snapshot` 只接受绝对路径。** 传相对路径会在 `audit_notes.py:133` 的 `snap_path.relative_to(ROOT)` 抛 `ValueError` 崩掉（2026-08-06 实测），脚本 docstring 里写的相对路径用法是坏的。
+**⑩ ⚠️ `audit_notes.py --snapshot` 只接受绝对路径，且必须在仓库根目录之内。** 指到 scratchpad（`/private/tmp/...`）会在 `relative_to(ROOT)` 抛 `not in the subpath` 崩掉（2026-09-16 实测）——所以 `--out` 也要落在 `$PWD/data/_tmp-quotes.csv`，用完 `rm`。 传相对路径会在 `audit_notes.py:133` 的 `snap_path.relative_to(ROOT)` 抛 `ValueError` 崩掉（2026-08-06 实测），脚本 docstring 里写的相对路径用法是坏的。
 
 `audit_notes.py` 报 drift 时不要调高阈值绕过——那是在关掉这个仓库唯一的机器校验。
 
