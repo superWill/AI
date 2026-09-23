@@ -119,8 +119,11 @@ def fetch():
 
 def post_cmd(point_id, value):
     body = json.dumps({"point_id": point_id, "value": value}).encode()
-    req = urllib.request.Request(BASE + "/api/command", data=body,
-                                 headers={"Content-Type": "application/json"})
+    headers = {"Content-Type": "application/json"}
+    _tok = os.environ.get("GATEWAYC_CONTROL_TOKEN", "")  # gatewayc 强鉴权时 LCD 也要带 token
+    if _tok:
+        headers["X-Control-Token"] = _tok
+    req = urllib.request.Request(BASE + "/api/command", data=body, headers=headers)
     try:
         with urllib.request.urlopen(req, timeout=3) as r:
             return json.loads(r.read())

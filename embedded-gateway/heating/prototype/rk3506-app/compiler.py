@@ -109,6 +109,14 @@ def validate(draft: dict) -> list[str]:
         dev_channels[did] = chans
 
     # --- 业务设备 + 绑定 ---
+    # 先收齐全部 point_id:interlock 可引用后面声明的点位(如急停在 safety_io,
+    # 而循环泵在它前面),单遍校验会误判"未知点位"。
+    all_point_ids: set[str] = set()
+    for biz in bizs:
+        for _role, _bd in (biz.get("bindings") or {}).items():
+            if _bd.get("point_id"):
+                all_point_ids.add(_bd["point_id"])
+
     point_ids: set[str] = set()
     biz_ids: set[str] = set()
     for biz in bizs:
@@ -152,6 +160,17 @@ def validate(draft: dict) -> list[str]:
                     errs.append(f"{bzid}.{pid}: {role} 必须配置 limit_lo/limit_hi(安全限值)")
                 if "feedback" not in bindings:
                     errs.append(f"{bzid}: 含 {role} 的控制对象应绑定 feedback(反馈点)")
+                for il in bd.get("interlocks", []) or []:   # 约束: 联锁引用完整 + 有条件
+                    ilp = il.get("point")
+                    if not ilp:
+                        errs.append(f"{bzid}.{pid}: interlock 缺少 point")
+                    elif ilp not in all_point_ids:
+                        errs.append(f"{bzid}.{pid}: interlock 引用未知点位 {ilp}")
+                    if not any(k in il for k in ("equals", "max", "min")):
+                        errs.append(f"{bzid}.{pid}: interlock {ilp} 缺少条件(equals/max/min)")
+                cts = bd.get("confirm_timeout_s")
+                if cts is not None and not isinstance(cts, (int, float)):
+                    errs.append(f"{bzid}.{pid}: confirm_timeout_s 必须是数值")
         disp = biz.get("display")
         if disp is None and not biz.get("backend_only"):
             errs.append(f"{bzid}: 必须有 display 或标记 backend_only")  # 约束: 显示卡片
@@ -285,6 +304,9 @@ def build_safety_policy(draft: dict) -> dict:
                     "rate_per_s": bd.get("rate_limit_per_s"),
                     "business_id": biz["business_id"],
                     "feedback": (biz.get("bindings", {}).get("feedback") or {}).get("point_id"),
+                    "interlocks": bd.get("interlocks", []) or [],
+                    "confirm_timeout_s": bd.get("confirm_timeout_s"),
+                    "confirm_tolerance": bd.get("confirm_tolerance"),
                 }
     return {"config_version": draft["config_version"], "commands": cmds}
 

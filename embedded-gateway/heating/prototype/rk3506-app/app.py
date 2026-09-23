@@ -376,6 +376,7 @@ class MqttClient:
         self.subs = []
         self.buf = deque(maxlen=2000)
         self.lock = threading.Lock()
+        self.connect_lock = threading.Lock()   # 防多线程并发 _connect 开出多个 rx_loop
 
     def _connect(self):
         s = socket.create_connection((self.host, self.port), timeout=5)
@@ -393,10 +394,12 @@ class MqttClient:
         s.sendall(b"\x10" + _mqtt_len(len(body)) + body)
         if s.recv(4)[:1] != b"\x20":
             s.close(); raise OSError("CONNACK 失败")
+        s.settimeout(None)   # 连上后转阻塞:rx_loop 的 recv 不再因空闲>5s 误超时→误重连丢命令
         self.sock = s
         for topic in self.subs:
             self._subscribe(topic)
-        threading.Thread(target=self._rx_loop, daemon=True).start()
+        # rx_loop 绑定本次的 socket s,不读 self.sock——重连开新 loop 也不会和旧的抢字节。
+        threading.Thread(target=self._rx_loop, args=(s,), daemon=True).start()
 
     def subscribe(self, topic):
         self.subs.append(topic)
@@ -409,16 +412,16 @@ class MqttClient:
         with self.lock:
             self.sock.sendall(b"\x82" + _mqtt_len(len(body)) + body)
 
-    def _rx_loop(self):
+    def _rx_loop(self, sock):
         try:
-            while self.sock:
-                hdr = self.sock.recv(1)
+            while True:
+                hdr = sock.recv(1)
                 if not hdr:
                     break
-                length = _read_len(self.sock)
+                length = _read_len(sock)
                 data = b""
                 while len(data) < length:
-                    chunk = self.sock.recv(length - len(data))
+                    chunk = sock.recv(length - len(data))
                     if not chunk:
                         break
                     data += chunk
@@ -433,16 +436,20 @@ class MqttClient:
                             print("[mqtt] on_message error:", exc, flush=True)
         except OSError:
             pass
-        self.sock = None
+        finally:
+            if self.sock is sock:                     # 只在仍是自己这条连接时清空
+                self.sock = None
 
     def publish(self, topic, obj):
         try:
             if self.sock is None:
-                self._connect()
-                while self.buf:
-                    t, o = self.buf.popleft()
-                    o = dict(o); o["replay"] = True
-                    self._raw(t, o)
+                with self.connect_lock:               # 双检:只让一个线程真正重连
+                    if self.sock is None:
+                        self._connect()
+                        while self.buf:
+                            t, o = self.buf.popleft()
+                            o = dict(o); o["replay"] = True
+                            self._raw(t, o)
             self._raw(topic, obj)
             return True
         except OSError:
@@ -488,6 +495,10 @@ class Controller:
         if not ok:
             self._record(command_id, point_id, value, "blocked_by_safety", reason, origin)
             return False, reason
+        ok, reason = self._interlock_check(point_id)     # 写前联锁:急停/缺水/质量码
+        if not ok:
+            self._record(command_id, point_id, value, "blocked_by_interlock", reason, origin)
+            return False, reason
         # 写数据源(sim 直接写设定值;modbus 按 control_map 写寄存器)
         if isinstance(self.source, SimSource):
             wrote = self.source.write_setpoint(point_id, value)
@@ -496,8 +507,71 @@ class Controller:
         status = "accepted" if wrote else "write_failed"
         if wrote:
             self._last[point_id] = (float(value), time.time())
+            threading.Thread(target=self._confirm_feedback,   # 写后回读确认(非阻塞)
+                             args=(point_id, value, command_id, origin),
+                             daemon=True).start()
         self._record(command_id, point_id, value, status, "" if wrote else "源写入失败", origin)
         return wrote, ""
+
+    def _point(self, pid):
+        """从运行时快照取点位 {v,u,q};复用 Runtime.view(),不另存储。"""
+        for d in self.rt.view()["devices"]:
+            p = d.get("points", {}).get(pid)
+            if p is not None:
+                return p
+        return None
+
+    def _interlock_check(self, point_id) -> tuple[bool, str]:
+        """写前联锁:safety_policy 声明的每个联锁点必须质量码 GOOD 且条件满足,否则拒写。
+        条件键 equals/max/min;联锁点缺失或非 GOOD 一律视为不安全。"""
+        for il in (self.safety_policy.get(point_id) or {}).get("interlocks", []) or []:
+            ilp = il.get("point")
+            p = self._point(ilp)
+            if p is None:
+                return False, f"联锁点 {ilp} 不在快照中"
+            if p.get("q") != "good":
+                return False, f"联锁点 {ilp} 质量码非 GOOD({p.get('q')})"
+            try:
+                fv = float(p.get("v"))
+            except (TypeError, ValueError):
+                return False, f"联锁点 {ilp} 值非法 {p.get('v')!r}"
+            if "equals" in il and fv != float(il["equals"]):
+                return False, f"联锁未满足:{ilp}={fv} 需={il['equals']}"
+            if "max" in il and fv > float(il["max"]):
+                return False, f"联锁未满足:{ilp}={fv} 需≤{il['max']}"
+            if "min" in il and fv < float(il["min"]):
+                return False, f"联锁未满足:{ilp}={fv} 需≥{il['min']}"
+        return True, ""
+
+    def _confirm_feedback(self, point_id, value, command_id, origin):
+        """写后回读确认:在 confirm_timeout_s 内盯反馈点收敛到命令值±tolerance。
+        收敛→confirmed;超时→feedback_timeout + 告警。无 feedback 声明则跳过。"""
+        pol = self.safety_policy.get(point_id) or {}
+        fb = pol.get("feedback")
+        if not fb:
+            return
+        timeout = pol.get("confirm_timeout_s") or 5
+        tol = pol.get("confirm_tolerance")
+        tol = 1 if tol is None else tol
+        target = float(value)
+        deadline = time.time() + timeout
+        while time.time() < deadline:
+            time.sleep(0.5)
+            p = self._point(fb)
+            if p and p.get("q") == "good":
+                try:
+                    if abs(float(p["v"]) - target) <= tol:
+                        self._record(command_id, point_id, value, "confirmed",
+                                     f"反馈 {fb}={p['v']} 已收敛", origin)
+                        return
+                except (TypeError, ValueError):
+                    pass
+        p = self._point(fb)
+        cur = p.get("v") if p else None
+        self._record(command_id, point_id, value, "feedback_timeout",
+                     f"反馈 {fb}={cur} {timeout}s 内未收敛到 {target}±{tol}", origin)
+        self.rt.add_event({"kind": "alarm", "action": "feedback_timeout",
+                           "detail": f"{point_id}←{value} 回读确认失败(feedback={fb})"})
 
     def _rate_check(self, point_id, value) -> tuple[bool, str]:
         """safety_policy 里声明了 rate_per_s 才限速;无历史值则放行(首条命令)。"""
@@ -610,11 +684,14 @@ def make_handler(runtime: Runtime, controller: Controller, html_dir: str):
 # ===========================================================================
 # 8) 线程:采集、上云、心跳
 # ===========================================================================
-def collector_loop(source, runtime, interval, stop):
+def collector_loop(source, runtime, interval, stop, shadow=None):
     while not stop.is_set():
         try:
-            runtime.update(source.poll())
+            samples = source.poll()
+            runtime.update(samples)
             runtime.mark_alive()              # 招4:喂"采集存活",看门狗据此判活
+            if shadow:                         # 轨B只读旁路:把原始采样发出去(默认关)
+                shadow(samples)
         except Exception as exc:
             print("[采集] 异常:", exc, flush=True)
         stop.wait(interval)
@@ -679,6 +756,10 @@ def main():
     ap.add_argument("--source", choices=["sim", "modbus"], default=None)
     ap.add_argument("--serial", default=None)
     ap.add_argument("--port", type=int, default=None)
+    ap.add_argument("--shadow-tap", action="store_true",
+                    help="把每轮原始采样旁路发到 MQTT _shadow/samples(轨B只读影子用,默认关)")
+    ap.add_argument("--shadow-sock", default=None,
+                    help="把每轮原始采样旁路发到 unix datagram 路径(板上无 broker 时的备用通道)")
     args = ap.parse_args()
 
     cfg = json.load(open(args.config))
@@ -719,6 +800,34 @@ def main():
                           username=mcfg.get("username"), password=mcfg.get("password"))
         mqtt.subscribe(f"{base}/property/set")
 
+    # 只读旁路:可同时发 MQTT 与 unix socket(任一为空则跳过);默认两者都关。
+    shadow_sinks = []
+    if (args.shadow_tap or cfg.get("shadow_tap")) and mcfg:
+        # 专属客户端(独立 cid),只在 collector 线程发——不与 uploader 共用 mqtt
+        # 客户端,避免两线程并发懒连接互相置空 self.sock。
+        tap_mqtt = MqttClient(mcfg["host"], mcfg.get("port", 1883),
+                              cfg.get("device_id", "rk3506-gw-01") + "-tap",
+                              username=mcfg.get("username"), password=mcfg.get("password"))
+        _topic = f"{base}/_shadow/samples"
+        shadow_sinks.append(lambda s: tap_mqtt.publish(_topic, {"ts": time.time(), "samples": s}))
+    sock_path = args.shadow_sock or cfg.get("shadow_sock")
+    if sock_path:
+        _sk = socket.socket(socket.AF_UNIX, socket.SOCK_DGRAM)
+        def _sock_send(s, _sk=_sk, _p=sock_path):
+            try:
+                _sk.sendto(json.dumps({"ts": time.time(), "samples": s}).encode(), _p)
+            except OSError:
+                pass   # 无监听者/超长即丢,绝不影响生产
+        shadow_sinks.append(_sock_send)
+    shadow_cb = None
+    if shadow_sinks:
+        def shadow_cb(samples, _sinks=shadow_sinks):
+            for _snk in _sinks:
+                try:
+                    _snk(samples)
+                except Exception:
+                    pass   # 旁路永不影响生产采集
+
     # safety_policy 来自 loader 生成配置(编译产物);旧 app_config 无此键则回退 SAFE_RANGES
     controller = Controller(runtime, source, cfg.get("control_map", {}), mqtt, base,
                             safety_policy=cfg.get("safety_policy"))
@@ -727,7 +836,7 @@ def main():
 
     stop = threading.Event()
     threading.Thread(target=collector_loop,
-                     args=(source, runtime, cfg.get("poll_interval_s", 2), stop),
+                     args=(source, runtime, cfg.get("poll_interval_s", 2), stop, shadow_cb),
                      daemon=True).start()
     threading.Thread(target=watchdog_loop, args=(runtime, cfg, stop),
                      daemon=True).start()

@@ -32,6 +32,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 # 配置发布后端(PRD §10 安全入口):草稿落盘 + 校验 + 编译,不热切运行时、不接 /api/nodes。
 CONFIG_DRAFT_PATH = os.path.join(HERE, "current_draft.json")
 CONFIG_BUILD_DIR = os.path.join(HERE, "build")
+GATEWAYC_BIN = "gatewayc"   # D3:配置编译/校验调 gatewayc compile/load;二进制不可用时(非严格)回退 Python compiler
+GATEWAYC_STRICT = False      # 严格模式(生产/remote):gatewayc 不可用即失败,不静默回退 Python
 
 
 def _read_json(path):
@@ -288,22 +290,77 @@ def add_device_to_draft(draft, payload):
     return True, [], new_draft
 
 
+def _gatewayc_compile_cli(draft, out_dir=None, validate_only=False):
+    """D3:调 `gatewayc compile`。返回 (ok, errors)。out_dir 给定则落 4 产物;
+    validate_only 仅校验。gatewayc 二进制不存在抛 FileNotFoundError(由上层回退 Python)。"""
+    import subprocess
+    import tempfile
+    fd, tmp = tempfile.mkstemp(suffix=".json")
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as f:
+            json.dump(draft, f, ensure_ascii=False)
+        cmd = [GATEWAYC_BIN, "compile", tmp]
+        if validate_only:
+            cmd.append("--validate-only")
+        elif out_dir:
+            cmd += ["--out", out_dir]
+        r = subprocess.run(cmd, capture_output=True, text=True)
+        if r.returncode == 0:
+            return True, []
+        # gatewayc 把校验错误打到 stderr 的 "  - <err>" 行(与 Python compiler 逐字对拍一致)
+        errs = [ln.strip()[2:] for ln in r.stderr.splitlines() if ln.strip().startswith("- ")]
+        return False, errs or [(r.stderr.strip() or "gatewayc compile 失败")]
+    finally:
+        try:
+            os.remove(tmp)
+        except OSError:
+            pass
+
+
+def _validate_draft(draft):
+    """D3:优先 gatewayc compile --validate-only;无二进制回退 Python compiler.validate。"""
+    try:
+        _ok, errs = _gatewayc_compile_cli(draft, validate_only=True)
+        return errs
+    except FileNotFoundError:
+        if GATEWAYC_STRICT:
+            return ["gatewayc 不可用(%s),严格模式禁止回退 Python compiler" % GATEWAYC_BIN]
+        return compiler.validate(draft)
+
+
+def _emit_generated(vd):
+    """gatewayc load <vd> --emit-app-config <vd>/app_config.generated.json。"""
+    import subprocess
+    out = os.path.join(vd, "app_config.generated.json")
+    subprocess.run([GATEWAYC_BIN, "load", vd, "--emit-app-config", out],
+                   capture_output=True, text=True, check=True)
+
+
 def compile_draft(draft):
     """validate → compile → 写 build/versions/N/*.json + 该目录内 app_config.generated.json
-    + 存 current_draft.json。**不设 active、不热切运行时**(activate 留到后续)。返回 (ok, errors, status)。"""
-    errs = compiler.validate(draft)
+    + 存 current_draft.json。**不设 active、不热切运行时**(activate 留到后续)。返回 (ok, errors, status)。
+    D3:编译/校验走 `gatewayc compile/load`;无 gatewayc 二进制(CI/测试)则回退 Python compiler/loader。"""
+    errs = _validate_draft(draft)
     if errs:
         return False, errs, None                      # 校验失败不落任何产物
-    products = compiler.compile(draft)
     n = next_version()                                # 写到新版本目录,绝不覆盖 active 所指
     vd = version_dir(n)
     os.makedirs(vd, exist_ok=True)
-    for name, obj in products.items():
-        json.dump(obj, open(os.path.join(vd, name), "w", encoding="utf-8"),
-                  ensure_ascii=False, indent=2)
-    cfg = load_runtime_cfg(vd)
-    json.dump(cfg, open(os.path.join(vd, "app_config.generated.json"),
-                        "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+    try:
+        ok, cerrs = _gatewayc_compile_cli(draft, out_dir=vd)
+        if not ok:
+            return False, cerrs, None
+        _emit_generated(vd)                           # gatewayc load → app_config.generated.json
+    except FileNotFoundError:                         # 无 gatewayc 二进制
+        if GATEWAYC_STRICT:                           # 严格模式(生产):失败,不回退 Python
+            return False, ["gatewayc 不可用(%s),严格模式禁止回退 Python compiler/loader" % GATEWAYC_BIN], None
+        products = compiler.compile(draft)
+        for name, obj in products.items():
+            json.dump(obj, open(os.path.join(vd, name), "w", encoding="utf-8"),
+                      ensure_ascii=False, indent=2)
+        cfg = load_runtime_cfg(vd)
+        json.dump(cfg, open(os.path.join(vd, "app_config.generated.json"),
+                            "w", encoding="utf-8"), ensure_ascii=False, indent=2)
     json.dump(draft, open(CONFIG_DRAFT_PATH, "w", encoding="utf-8"),
               ensure_ascii=False, indent=2)
     # 普通 compile **不改 active**(activate 才改);如有争议先不自动设 active。
@@ -553,6 +610,103 @@ def build_nodes_tags(view, endpoint):
     return nodes, tags
 
 
+def gatewayc_view(core_url, timeout=2):
+    """从 Go 核心(gatewayc:8091)取 /api/snapshot 作为 view。
+    边界重构:nexus 不再内嵌采集,改消费 gatewayc。第3步把 collect/make_handler 切到这里;
+    现仅供并行对账(nexus_reconcile.py)与 client 复用。默认 live 仍走内嵌,本函数不改变现有行为。"""
+    import urllib.request
+    with urllib.request.urlopen(core_url.rstrip("/") + "/api/snapshot", timeout=timeout) as r:
+        return json.load(r)
+
+
+CORE_URL = None      # --core-url 给定则进 remote 模式:nexus 消费 gatewayc,不开 source、不当总线主站
+CONTROL_TOKEN = ""   # gatewayc /api/command 强鉴权 token(转发时带 X-Control-Token)
+
+
+def remote_command(core_url, point_id, value, timeout=3):
+    """把控制下发转发到 gatewayc /api/command(带强鉴权 token),返回 (ok, reason)。"""
+    import urllib.request
+    data = json.dumps({"point_id": point_id, "value": value}).encode()
+    headers = {"Content-Type": "application/json"}
+    if CONTROL_TOKEN:
+        headers["X-Control-Token"] = CONTROL_TOKEN
+    req = urllib.request.Request(core_url.rstrip("/") + "/api/command", data=data,
+                                 headers=headers, method="POST")
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as r:
+            d = json.load(r)
+        return bool(d.get("ok")), d.get("reason", "")
+    except Exception as e:
+        return False, "gatewayc 下发失败: %s" % e
+
+
+class RemoteController:
+    """remote 模式控制器:apply 转发到 gatewayc(Go controller 做安全/决策/写),nexus 不本地写。
+    接口对齐 app.Controller.apply(point_id, value, command_id, origin)。"""
+    def __init__(self, core_url):
+        self.core_url = core_url
+        self.source = None             # 占位:remote 模式无本地 source
+
+    def apply(self, point_id, value, command_id="", origin=""):
+        return remote_command(self.core_url, point_id, value)
+
+
+GW_PIDFILE = None   # remote 激活重启 gatewayc 用(supervisor 写的 pid 文件)
+
+
+def _restart_gatewayc():
+    """SIGTERM gatewayc;supervisor 据 gatewayc.pid 重启时会带新 active 配置。"""
+    try:
+        with open(GW_PIDFILE, encoding="utf-8") as f:
+            pid = int(f.read().strip())
+        os.kill(pid, 15)                 # SIGTERM(不引 signal 模块)
+        return True
+    except (OSError, ValueError, TypeError) as e:
+        print("[激活] 重启 gatewayc 失败(pidfile=%s): %s" % (GW_PIDFILE, e), flush=True)
+        return False
+
+
+def _wait_gatewayc_healthy(core_url, timeout=30, stale_ms=6000):
+    """轮询 gatewayc /api/health,采集新鲜(年龄≤stale_ms)即就绪。"""
+    import urllib.request
+    deadline = time.time() + timeout
+    while time.time() < deadline:
+        try:
+            with urllib.request.urlopen(core_url.rstrip("/") + "/api/health", timeout=2) as r:
+                age = json.load(r).get("collector_age_ms", 1e12)
+            if 0 <= age <= stale_ms:
+                return True
+        except Exception:
+            pass
+        time.sleep(1)
+    return False
+
+
+def remote_activate(version):
+    """remote 模式激活(D1 方案A):翻 active 指针 → 重启 gatewayc(supervisor 带新配置)→
+    启动健康门;不过则回退上一版重启。返回 (ok, errors, state)。"""
+    if version is None:
+        return False, ["无可激活版本(先 compile)"], "failed"
+    prev = read_active()
+    write_active(version)
+    if not _restart_gatewayc():
+        if prev is not None:                 # 重启没成 → 回退指针,别留 active 翻了但没切的不一致
+            write_active(prev)
+        return False, ["无法重启 gatewayc(pidfile 不可用,supervisor 在跑吗?)"], "failed"
+    if _wait_gatewayc_healthy(CORE_URL):
+        return True, [], "active"
+    if prev is not None:                 # 健康门失败 → 回退上一版
+        write_active(prev)
+    else:
+        try:
+            os.remove(_active_file())
+        except OSError:
+            pass
+    _restart_gatewayc()
+    _wait_gatewayc_healthy(CORE_URL)
+    return False, ["新版本 %s 健康门失败,已回退到 %s" % (version, prev)], "rolled_back"
+
+
 def sys_metrics():
     cpu, mem = 5.0, 30.0
     try:
@@ -751,7 +905,7 @@ def make_handler(runtime, live_ctx, hub, dist_dir, endpoint, tokens):
             if path == "/api/config/validate":   # 校验草稿,返回错误列表(不落产物)
                 if not self._authed():
                     return self._json({"error": "Unauthorized"}, 401)
-                errs = compiler.validate(body)
+                errs = _validate_draft(body)          # D3:gatewayc compile --validate-only(无二进制回退 Python)
                 return self._json({"ok": not errs, "errors": errs})
             if path == "/api/config/compile":    # 校验+编译+落产物,不热切运行时
                 if not self._authed():
@@ -774,6 +928,15 @@ def make_handler(runtime, live_ctx, hub, dist_dir, endpoint, tokens):
             if path == "/api/config/activate":   # 运行中切 live(§8.2 方案B + §8.3 单飞)
                 if not self._authed():
                     return self._json({"error": "Unauthorized"}, 401)
+                if CORE_URL:                     # remote 模式:翻指针 + 重启 gatewayc + 健康门 + 回退(D1方案A)
+                    version = body.get("version") or latest_version()
+                    prev = read_active()
+                    ok, errs, state = remote_activate(version)
+                    LAST_ACTIVATE.update({"version": version, "state": state,
+                                          "errors": ([] if ok else errs),
+                                          "previous_active": (prev if ok else LAST_ACTIVATE.get("previous_active"))})
+                    return self._json({"ok": ok, "version": version, "state": state,
+                                       "errors": errs, "status": config_status()})
                 version = body.get("version") or latest_version()
                 if version is None:
                     return self._json({"ok": False, "errors": ["无可激活版本(先 compile)"]}, 400)
@@ -792,6 +955,17 @@ def make_handler(runtime, live_ctx, hub, dist_dir, endpoint, tokens):
             if path == "/api/config/rollback":   # 回滚到上一激活版本(运行中切 live)
                 if not self._authed():
                     return self._json({"error": "Unauthorized"}, 401)
+                if CORE_URL:                     # remote 模式:回滚=激活上一版(同样翻指针+重启+健康门)
+                    rprev = LAST_ACTIVATE.get("previous_active")
+                    if rprev is None:
+                        return self._json({"ok": False, "errors": ["无可回滚的上一版本"]}, 400)
+                    cur = read_active()
+                    ok, errs, state = remote_activate(rprev)
+                    if ok:
+                        LAST_ACTIVATE.update({"version": rprev, "state": state,
+                                              "errors": [], "previous_active": cur})
+                    return self._json({"ok": ok, "version": rprev, "state": state,
+                                       "errors": errs, "status": config_status()})
                 prev = LAST_ACTIVATE.get("previous_active")
                 if prev is None:
                     return self._json({"ok": False, "errors": ["无可回滚的上一版本"]}, 400)
@@ -848,9 +1022,23 @@ def main():
     ap.add_argument("--source", choices=["sim", "modbus"], default=None)
     ap.add_argument("--serial", default=None)
     ap.add_argument("--port", type=int, default=None)
+    ap.add_argument("--core-url", default=None,
+                    help="给定则 remote 模式:从 gatewayc(如 http://127.0.0.1:8091)取数 + 转发控制,nexus 不开 source")
+    ap.add_argument("--gw-pidfile", default="/tmp/gwsup/gatewayc.pid",
+                    help="remote 激活重启 gatewayc 用的 pid 文件(supervisor 写)")
+    ap.add_argument("--gatewayc-bin", default="gatewayc",
+                    help="D3:配置编译/校验调用的 gatewayc 二进制路径(不可用时回退 Python compiler)")
+    ap.add_argument("--gatewayc-strict", action="store_true",
+                    help="严格模式:gatewayc 不可用即失败,不回退 Python(remote 模式自动开启)")
+    ap.add_argument("--control-token", default=None,
+                    help="转发控制到 gatewayc 时带的 X-Control-Token(默认读 env GATEWAYC_CONTROL_TOKEN)")
     ap.add_argument("--products", default=None,
                     help="编译产物目录;给定则从 point_registry 派生可控点与设备类型")
     args = ap.parse_args()
+    global GATEWAYC_BIN, GATEWAYC_STRICT, CONTROL_TOKEN
+    GATEWAYC_BIN = args.gatewayc_bin                   # D3:配置编译/校验用的 gatewayc 二进制
+    GATEWAYC_STRICT = args.gatewayc_strict or bool(args.core_url)  # remote(生产)模式默认严格,不回退 Python
+    CONTROL_TOKEN = args.control_token or os.environ.get("GATEWAYC_CONTROL_TOKEN", "")  # 转发控制的强鉴权 token
 
     cfg_path = select_startup_config(args.config)     # 有 active 则从 versions/<active> 起 live
     cfg = json.load(open(cfg_path))
@@ -869,36 +1057,48 @@ def main():
                   % (pdir, "/展示排序" if display_model else ""), flush=True)
         else:                                             # 无 active 产物 → 不派生,回退硬编码
             print("[映射] %s 无 point_registry,跳过派生(回退硬编码映射)" % pdir, flush=True)
-    kind = args.source or cfg.get("source", "sim")
-    if kind == "modbus":
-        dev = args.serial or cfg.get("serial", "/dev/ttyS1")
-        source = ModbusSource(dev, cfg.get("baud", 9600), cfg["devices"])
-        endpoint = dev
-        print("[源] modbus %s" % dev, flush=True)
-    else:
-        source = SimSource(cfg["devices"])
-        endpoint = "sim"
-        print("[源] sim 内置仿真", flush=True)
-
     runtime = Runtime(cfg)
-    controller = Controller(runtime, source, cfg.get("control_map", {}),
-                            safety_policy=cfg.get("safety_policy"))
-    # live modbus 激活时要用真串口构造新 source(SimSource 默认不开串口)。
-    live_source_factory = ((lambda devices: ModbusSource(
-        args.serial or cfg.get("serial", "/dev/ttyS1"), cfg.get("baud", 9600), devices))
-        if kind == "modbus" else None)
-    # Step5.3:live RuntimeContext —— collector/handler/activate 都经它取数,activate 原子替换其内容。
-    live_ctx = RuntimeContext(source, controller, active_version=read_active(),
-                              source_factory=live_source_factory)
+    if args.core_url:                                 # remote 模式:消费 gatewayc,不开 source
+        global CORE_URL, GW_PIDFILE
+        CORE_URL = args.core_url
+        GW_PIDFILE = args.gw_pidfile
+        endpoint = "gatewayc"
+        live_ctx = RuntimeContext(None, RemoteController(args.core_url),
+                                  active_version=read_active(), source_factory=None)
+        print("[源] 远程 gatewayc %s(nexus 不开 source、不当 RS485 主站)" % args.core_url, flush=True)
+    else:
+        kind = args.source or cfg.get("source", "sim")
+        if kind == "modbus":
+            dev = args.serial or cfg.get("serial", "/dev/ttyS1")
+            source = ModbusSource(dev, cfg.get("baud", 9600), cfg["devices"])
+            endpoint = dev
+            print("[源] modbus %s" % dev, flush=True)
+        else:
+            source = SimSource(cfg["devices"])
+            endpoint = "sim"
+            print("[源] sim 内置仿真", flush=True)
+        controller = Controller(runtime, source, cfg.get("control_map", {}),
+                                safety_policy=cfg.get("safety_policy"))
+        # live modbus 激活时要用真串口构造新 source(SimSource 默认不开串口)。
+        live_source_factory = ((lambda devices: ModbusSource(
+            args.serial or cfg.get("serial", "/dev/ttyS1"), cfg.get("baud", 9600), devices))
+            if kind == "modbus" else None)
+        # Step5.3:live RuntimeContext —— collector/handler/activate 都经它取数,activate 原子替换其内容。
+        live_ctx = RuntimeContext(source, controller, active_version=read_active(),
+                                  source_factory=live_source_factory)
     hub = SocketHub()
     tokens = set()
     stop = threading.Event()
 
     def collect():
         while not stop.is_set():
-            src = live_ctx.current_source()           # 锁内取引用,poll 在锁外(§8.2)
             try:
-                runtime.update(src.poll())
+                if CORE_URL:                          # remote:取 gatewayc view,devices[] 重组回 {addr:dev}
+                    v = gatewayc_view(CORE_URL)        # 喂进同一个 runtime,handler/广播器读 runtime.view() 不变
+                    runtime.update({d["addr"]: d for d in v.get("devices", [])})
+                else:
+                    src = live_ctx.current_source()   # 锁内取引用,poll 在锁外(§8.2)
+                    runtime.update(src.poll())
             except Exception as exc:
                 print("[采集] 异常:", exc, flush=True)
             stop.wait(cfg.get("poll_interval_s", 2))

@@ -53,12 +53,17 @@ def load_runtime_cfg(build_dir: str, device_id: str = "rk3506-gw-01",
                 dev_points.append({"id": pt["point_id"], "reg": pt["register"],
                                    "scale": pt.get("scale", 1),
                                    "unit": pinfo.get("unit", "")})
-            devices.append({
+            dev = {
                 "addr": t["slave"], "name": did,
                 "type": TEMPLATE_CN.get(t.get("hardware_template", ""), "采集模块"),
                 "start": t["start"], "count": t["count"], "fault": "none",
                 "points": dev_points,
-            })
+            }
+            # 桥接:把编译出的每设备可靠性参数透传给 app.py(否则静默退回全局默认)
+            for k in ("timeout_ms", "retries"):
+                if t.get(k) is not None:
+                    dev[k] = t[k]
+            devices.append(dev)
 
     # safety_policy.commands → control_map(写设定值用:setpoint_id → addr/reg/scale)
     control_map = {}
