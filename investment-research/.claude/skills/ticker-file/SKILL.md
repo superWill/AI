@@ -77,6 +77,8 @@ grep -E "^(ticker|last_updated):" tickers/$T.md                         # 5. fro
 
 **⑩ ⚠️ `audit_notes.py --snapshot` 只接受绝对路径，且必须在仓库根目录之内。** 指到 scratchpad（`/private/tmp/...`）会在 `relative_to(ROOT)` 抛 `not in the subpath` 崩掉（2026-09-16 实测）——所以 `--out` 也要落在 `$PWD/data/_tmp-quotes.csv`，用完 `rm`。 传相对路径会在 `audit_notes.py:133` 的 `snap_path.relative_to(ROOT)` 抛 `ValueError` 崩掉（2026-08-06 实测），脚本 docstring 里写的相对路径用法是坏的。
 
+**⑪ ⚠️ 快照里的 `forwardPE` 对亏损/微利/转盈公司是坏数据。** 2026-09-23 实测：CRCL 快照 fwd PE 8.9，一致预期 FY26 EPS $1.15 → 真实 76–82x；COIN 快照 8.8，FY26 EPS −$2.03 → 无意义。yfinance 的 forward EPS 口径不明且不校验。**PE 一律用「现价 / 一致预期 EPS」自己算，快照的 PE 列只当占位。** 这次差点把「fwd PE 8.9 便宜」写进加仓讨论。
+
 `audit_notes.py` 报 drift 时不要调高阈值绕过——那是在关掉这个仓库唯一的机器校验。
 
 ## 相关

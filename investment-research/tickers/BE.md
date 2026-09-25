@@ -5,7 +5,7 @@ sector: AI 数据中心现场供电 / 固体氧化物燃料电池（SOFC）
 layer: Layer 6 — AI 基础设施（电力）：并网排队与燃机交期卡点的「速度溢价」卖方
 position_type: thematic（候选，未持有）
 status: watching
-last_updated: 2026-09-16
+last_updated: 2026-09-25
 data_source: 实测行情 2026-09-15（scripts/fetch_quotes.py）+ SEC 10-K FY2025 / 10-Q Q1–Q2'26 / 8-K（可转债、Hunterbrook 回应、S&P 纳入）+ 电话会转录（Motley Fool / Investing.com）+ SemiAnalysis 2025-12-30 & 2026-09-10 + Hunterbrook 做空报告两篇 + GEV/Siemens/CAT 财报 + IRS Notice 2026-15 + EIA STEO；两个研究子 agent 2026-09-16 拉取（WebSearch 配额耗尽，NOT FOUND 项见文末）
 ---
 
@@ -19,7 +19,7 @@ data_source: 实测行情 2026-09-15（scripts/fetch_quotes.py）+ SEC 10-K FY20
 
 | 指标 | 数据 | 备注 |
 |---|---|---|
-| 股价 | **$259.35** | 距 6/25 历史高点 $351.28 **−26%**；7/29 曾跌至 $157（−52%）后 V 型回来 `[KNOWN]` |
+| 股价 | **$266.65**（9/24 收，force majeure 日 −3.1%；9/15 $259.35）| 距 6/25 历史高点 $351.28 **−26%**；7/29 曾跌至 $157（−52%）后 V 型回来 `[KNOWN]` |
 | 市值 | **$76.4B** | EV ≈ $76.2–76.5B（现金 $2.67B ≈ 追索债务 $2.48B）`[KNOWN]` |
 | TTM PE | **332**（yfinance）/ 292（stockanalysis） | TTM 净利 $245M，口径无意义 |
 | Forward PE | **52.6**（FY27E $4.93）/ 95.7（FY26E $2.71） | `[COMPUTED]` |
@@ -126,6 +126,14 @@ data_source: 实测行情 2026-09-15（scripts/fetch_quotes.py）+ SEC 10-K FY20
 - **韩国**：CHPS 2026 招标量 −30%，政府称 LNG 制灰氢燃料电池「不符合脱碳政策」→ 韩国这条腿在萎缩，已被美国 DC 替代。
 - **天然气**：EIA STEO Henry Hub 2026 $3.43 / 2027 $3.28，库存高于五年均 5%。燃料由谁承担合同条款 NOT FOUND（Jupiter 由 Oracle 承担）。
 - **接入规则**：FERC 2025-12 令 PJM 重写共址规则；德州 SB6 2026-07 首例裁定紧急切负荷不以 BTM 容量为上限。方向对现场供电有利。EPA 2026-01 燃机 NSPS 新增「临时」子类，对燃机松绑 → 对 Bloom 相对不利 `[INFERRED]` LOW。
+
+## ⭐ 2026-09-24：Oracle 对 Project Jupiter 发 force majeure —— 退出条件①的前兆 `[核实 2026-09-25，TechCrunch 9/24]`
+
+- **事件**：Oracle 就 Project Jupiter（新墨西哥 Stargate 园区，**2.45 GW，Bloom 独家供电**，媒体称 $165B）向出资方 Blue Owl 发不可抗力通知。原因两条：① Energy Transfer 天然气管道许可被拒，延至 **2027-02-01**；② **Bloom 燃料电池的空气许可待批**（州限 11/23）。条款允许 2028 上线延误时**延付款项**，不退租。Oracle：「按计划」；Blue Owl：「财务承诺不变」。
+- **股价**：ORCL −3.47%、**BE −3.10%**、GEV 受累（Barron's）。
+- **对本档**：Jupiter 是 Oracle 1.2 GW 已签量的核心，也是 H1'26 那家 73% 客户的主要交付地。档案退出条件①「Oracle 或 Brookfield 任一公告缩减/延后 GW 承诺」——**这次是「延后付款」不是「缩减承诺」，前兆而非触发**。但它验证了两条风险：a) 「速度溢价」的前提是 55–90 天出电，而**电出不来的原因不在 Bloom 产能，在燃气管道许可和空气许可**——Bloom 的「免空气区许可」优势是加州口径，新墨西哥要批；b) Hunterbrook 引 SemiAnalysis 说的「Jupiter 首电 2027→2029」从做空方单源变成了 Oracle 自己的通知。
+- **对 watchlist 信号⑥**：此前三形态都是钱（⑥-a 发股、⑥-b 卖方扛信用、⑥-c 买方预付）。**这是第一个「实体交付不了」的形态：不是融资断，是电/许可断，付款条款随之后移。** 归为 ⑥-d。`[INFERRED, HIGH]`
+- **跟踪**：11/23 新墨西哥空气许可裁决；Q3 财报（10 月底）Oracle 相关 RPO 与客户集中度是否变化；GEV 燃机是否因此获得 Jupiter 替代订单（若是，速度溢价论点直接受损）。
 
 ## 风险
 

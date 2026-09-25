@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2026 09 23 blackrock machine native economy</title>
+  <link rel="stylesheet" href="../_assets/style.css" />
+</head>
+<body>
+  <div class="site-shell">
+  <div class="page">
+    <div class="topbar">
+      <div class="nav-cluster">
+        <a class="back" href="../index.html">← 返回投研首页</a>
+        <a class="nav-link secondary" href="../all-docs.html">全部文档</a>
+      </div>
+      <div class="nav-cluster">
+        <a class="home-link" href="../notes.html">Notes</a>
+        <a class="home-link" href="../candidates.html">Candidates</a>
+        <a class="home-link" href="../tickers.html">Tickers</a>
+      </div>
+    </div>
+    <section class="hero">
+      <div class="doc-header-grid">
+        <div>
+          <div class="eyebrow">notes</div>
+          <h1>2026-09-23-blackrock-machine-native-economy</h1>
+          <p>市场、公司或主题研究的阶段性结论。</p>
+          <div class="meta-row">
+            <span class="pill">notes/2026-09-23-blackrock-machine-native-economy.md</span>
+            <span class="pill">950 words</span>
+            <span class="pill">8 sections</span>
+          </div>
+        </div>
+        <div class="doc-stat-stack">
+          <div class="doc-stat">
+            <div class="doc-stat-label">Document Type</div>
+            <div class="doc-stat-value">Notes</div>
+          </div>
+          <div class="doc-stat">
+            <div class="doc-stat-label">Reading Mode</div>
+            <div class="doc-stat-value">Research Memo</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="doc-layout">
+      <article class="doc doc-main">
+<hr />
+<p>date: 2026-09-23 type: 报告研读 / 稳定币与代币化主题 status: active data_source: 一手：BlackRock Digital Assets Research 白皮书《The Machine-Native Economy》PDF 全文（子 agent 下载 + pypdf 提取逐字核对）；Fink 2026 年度信（WebFetch 直读）；BlackRock Thematic 2026 中期展望；CoinDesk 2026-03-24 Mitchnick 讲话；a16z crypto 2026-05 RWA 数据汇总；BIS 2026 年报 Ch.III。二手：金色财经/BlockTempo/PANews 转载、eco.com 转引 rwa.xyz、CryptoSlate 转述 IMF purpose: 用户转来一段中文摘要（「大模型 token 和资产 token 是同一件事」），找到原文、核对措辞被改了多少、报告到底主张什么、有什么软肋，以及对 CRCL 持仓（5%，5 年 venture）和 V/COIN 观察档案的含义（V/COIN 未持有，持仓真相源是 portfolios/） related: notes/2026-06-24-token-is-electricity-value-chain.md（OpenRouter/Stripe，算力即货币）· notes/2026-09-22-ai-agent-landscape.md（agent 支付「零头」判断）· tickers/V.md · tickers/COIN.md · tickers/CRCL.md · memory single-source-confirming-thesis-low-confidence</p>
+<hr />
+<h1 id="贝莱德the-machine-native-economy类比是真的同一件事是改写者加的">贝莱德《The Machine-Native Economy》：类比是真的，「同一件事」是改写者加的</h1>
+<h2 id="一句话">一句话</h2>
+<p><code>[KNOWN, HIGH]</code> 出处是贝莱德数字资产研究部 <strong>2026-09-22</strong> 发布的 11 页白皮书《The Machine-Native Economy: How digital assets connect intelligence, commerce, and compute》，作者 Will Su / Robert Mitchnick / Jay Jacobs / William Helm。「LLM 分词 ≈ 资产代币化」确实是全文三大论点的第一条，但原文措辞是 <strong>&quot;analogous&quot; / &quot;functionally comparable, though technically distinct&quot; / &quot;The functions are distinct&quot;</strong>——中文摘要把这些保留语抹平成「同一件事」，「动手的格式」「同步数据」是改写者加的。<strong>报告的真正主张不是这个类比，是三段推论：AI 是机器原生智能 → agent 需要机器原生货币（稳定币）→ 算力会成为新的数字资产。</strong> 这是一份产品叙事文件，不是市场研究。<code>[INFERRED, HIGH]</code></p>
+<h2 id="一原文逐字对应用户那段摘要">一、原文逐字（对应用户那段摘要）</h2>
+<p>Executive Summary 第一条（p.2）：</p>
+<blockquote>&quot;LLMs and blockchains share analogous tokenization architectures. Large language models divide human language into tokens and encode them numerically for model interpretation and processing. Blockchains similarly represent economic value and entitlements as digital asset tokens designed for machine-verifiable transfer and settlement. <strong>The functions are distinct</strong>, but both workflows translate real-world inputs into formats that machines can use natively.&quot;</blockquote>
+<p>正文小标题（p.3）：</p>
+<blockquote>&quot;AI and digital asset tokenization convert real-world inputs into machine-native representations&quot;</blockquote>
+<p>正文（p.3）：</p>
+<blockquote>&quot;At the architectural level, tokenization in artificial intelligence and digital assets serves an analogous purpose: translating information and economic entitlements into discrete, standardized representations that machines can process natively. AI tokens encode information, while digital asset tokens represent units of value, ownership, or economic claims.&quot; &quot;Blockchains apply a <strong>functionally comparable, though technically distinct</strong>, process to stores of value and economic claims.&quot;</blockquote>
+<p>对应「查余额、链上结算」（p.4）：</p>
+<blockquote>&quot;Through programmable interfaces, agents can evaluate balances and rules before executing authorized transactions and verifying settlement, with limited reliance on manual processes.&quot;</blockquote>
+<p>总纲（p.2）：</p>
+<blockquote>&quot;AI represents machine-native intelligence, while digital assets represent machine-native money.&quot;</blockquote>
+<p>Figure 1 是双栏对照图：&quot;AI is changing the world&quot; → tokens → 数字 ID → embedding 矩阵 ‖ &quot;$100 beneficial interest in a money market fund&quot; → 代币化基金份额 → 编码交易字段 → 链上记录。<strong>这张图就是中文两句话的视觉原型</strong>，例子暗指 BUIDL 但全文未点名任何贝莱德产品。</p>
+<p><strong>措辞核对表</strong> <code>[COMPUTED]</code></p>
+<table><thead><tr><th>中文摘要</th><th>原文</th><th>判定</th></tr></thead><tbody><tr><td>在做同一件事</td><td>analogous / functionally comparable, though technically distinct</td><td><strong>强化</strong>，原文三处留保留语</td></tr><tr><td>翻译成机器能直接读、动手的格式</td><td>translate real-world inputs into formats that machines can use natively</td><td>「动手」是引申（原文另处讲 agentic AI 「toward real-world action」）</td></tr><tr><td>切成 Token</td><td>divides human language into tokens</td><td>对应</td></tr><tr><td>查余额、链上结算</td><td>evaluate balances… verifying settlement</td><td>对应</td></tr><tr><td>同步数据</td><td>无</td><td>加的</td></tr></tbody></table>
+<p>中文最早转载是 9/23 金色财经，那版贴近原文；用户手里这版是二次口语化改写，来源 NOT FOUND。</p>
+<h2 id="二报告结构与三大论点-known-high">二、报告结构与三大论点 <code>[KNOWN, HIGH]</code></h2>
+<ol>
+<li><strong>架构类比</strong>（上）。</li>
+<li><strong>Agentic commerce 需要机器原生支付轨道</strong>：「stablecoins, native cryptoassets, and other on-chain assets can serve as machine-native instruments for payment and settlement」；ACH/卡网络「less suited to always-on, very low-value transactions requiring programmable execution」。协议栈：MCP（Anthropic 2024-11）、A2A（Google 2025-04）为基础层；支付层 x402（Coinbase）、MPP（Stripe+Tempo）、ACP（Stripe+OpenAI）、AP2（Google）、TAP（Visa）。合规：AML/KYC/<strong>KYA（know-your-agent）</strong>链下做、结果上链。</li>
+<li><strong>算力成为新的数字资产</strong>：「Analyst estimates suggest that hyperscaler cloud revenues could exceed $1 trillion annually by 2030… standardized claims on compute capacity could become a significant digital asset use case」；x402 可按 per-use / per-model-token / per-job 结算。</li>
+</ol>
+<p><strong>报告内数字</strong>（脚注来源）</p>
+<table><thead><tr><th>项目</th><th>数值</th><th>来源</th></tr></thead><tbody><tr><td>稳定币流通市值</td><td>&gt;$300B（2026-09）</td><td>RWA.xyz</td></tr><tr><td>稳定币 2025 调整后交易量</td><td>&gt;$11T，「same broad range as Visa and Mastercard」</td><td>Visa/Allium；<strong>脚注自认「not directly comparable」</strong></td></tr><tr><td>ACH 2025</td><td>$93T</td><td>Nacha</td></tr><tr><td>稳定币 2020–25 CAGR</td><td>80%（ACH ~8.5%）</td><td></td></tr><tr><td>AI capex 2025–30 累计</td><td>&gt;$5T</td><td>Goldman</td></tr><tr><td>三大云 2030 合计收入</td><td>~$1.1T，29% CAGR</td><td>Bloomberg 一致预期 2026-08-31</td></tr><tr><td>OpenRouter</td><td>&gt;400 模型 / &gt;80 供应商，Stripe 2026-08 收购</td><td>Stripe</td></tr></tbody></table>
+<p><strong>没有的东西</strong>：RWA 市场规模预测（无「$x 万亿 by 2030」）；BUIDL/IBIT/DTCC 一字未提；唯一的实证「agent 偏好稳定币付款、比特币储值」来自 Bitcoin Policy Institute 的<strong>模拟</strong>，原文自注「reflect simulated model responses rather than observed agent behavior」。结论段自己降温：「The ecosystem remains nascent, with agentic payment activity and compute-market liquidity still limited.」</p>
+<h2 id="三贝莱德这条叙事的演化-known-high">三、贝莱德这条叙事的演化 <code>[KNOWN, HIGH]</code></h2>
+<table><thead><tr><th>日期</th><th>出处</th><th>关键句</th></tr></thead><tbody><tr><td>2025-03</td><td>Fink 2025 年度信</td><td>「Every stock, every bond, every fund—every asset—can be tokenized」「If SWIFT is the postal service, tokenization is email itself」</td></tr><tr><td>2025-12</td><td>Fink &amp; Goldstein，The Economist</td><td>「a bond is still a bond, even if it lives on a blockchain」；代币化 ≈ 1996 年互联网</td></tr><tr><td>2026-03-23</td><td>Fink 2026 年度信</td><td>「tokenization today may be roughly where the internet was in 1996」；数字资产相关 AUM ~$150B（ETP ~$80B + 稳定币储备 $65B）；<strong>信里没把 AI 和代币化连起来</strong></td></tr><tr><td><strong>2026-03-24</strong></td><td>Mitchnick，Digital Asset Summit</td><td><strong>「Crypto is computer-native money… AI is computer-native data and intelligence. And so there&#x27;s a natural symbiosis there.」</strong>「AI agents are very unlikely to use Fedwire and SWIFT」；多数代币「The majority of that is nonsense」</td></tr><tr><td>2026-08-24</td><td>Thematic 2026 中期展望</td><td>「AI as machine-native intelligence, with crypto as machine-native money」</td></tr><tr><td>2026-09-22</td><td>本白皮书</td><td>扩成 11 页，<strong>LLM-token 类比是此时新增的</strong></td></tr></tbody></table>
+<p>脉络：3 月口头 → 8 月一句 → 9 月成文。类比是包装，「machine-native money」才是贝莱德要卖的概念，对应它管理的 $65B 稳定币储备和最大代币化货币基金。<code>[INFERRED, HIGH]</code></p>
+<h2 id="四外部锚市场到底多大-known-med">四、外部锚：市场到底多大 <code>[KNOWN, MED]</code></h2>
+<ul>
+<li><strong>链上 RWA（不含稳定币）约 $39B</strong>（rwa.xyz 2026-09，二手转引）：国债 $15.7B、私募信贷 $8.0B；稳定币 $305B。口径冲突：另一源说国债 $26–28B，差在是否把代币化货币基金算进国债 <code>(待核实口径)</code>。</li>
+<li>BUIDL $2.29B、106 个持有人、10 条链；7 月曾 ~$2.8B，两个月缩 ~$0.5B。</li>
+<li>代币化债券占全球 $140T 债市 <strong>0.01%</strong>（a16z）；只有 ~5% 进入 DeFi 协议；80% 集中在国债类，五家平台占 75–80%。</li>
+<li>预测差 15 倍：McKinsey $2–4T（2030）、BCG $9.4T（2030）、渣打 &gt;$30T（2034）。a16z 自己说差异是口径（含不含「money layer」）。</li>
+<li>DTCC 2026-07-15 首批生产环境代币化证券交易（BlackRock/Vanguard/JPM/GS 等近 40 家），10 月全面上线 <code>[单源二手，LOW-MED]</code>。</li>
+</ul>
+<h2 id="五反方-known-med">五、反方 <code>[KNOWN, MED]</code></h2>
+<ul>
+<li><strong>BIS 2026 年报 Ch.III（6/23）</strong>：「current designs fall short on foundational properties of money and threaten financial integrity」「cannot currently ensure exchange at par across issuers and blockchains under all conditions」「Money is far more than a technology; it is an institutional achievement」——直接打第二论点的地基。</li>
+<li><strong>IMF Notes 26/01《Tokenized Finance》（4 月）</strong>：代币化「can amplify financial shocks at machine speed」（CryptoSlate 转述，原文 403，LOW-MED）。</li>
+<li><strong>a16z</strong>：「Much of what gets called &#x27;tokenization&#x27; today is actually closer to digitization」。</li>
+<li>报告自身三处软肋 <code>[INFERRED]</code>：① machine-native money 的实证只有一份模拟研究；② 最硬的数字 $11T 是「adjusted」口径且脚注自认不可比；③ 算力市场原文自认「largely speculative」。</li>
+</ul>
+<h2 id="六对本组合的含义-inferred-med">六、对本组合的含义 <code>[INFERRED, MED]</code></h2>
+<ul>
+<li><strong>类比本身没有投资信息量</strong>。「分词」和「代币化」共享一个词根不构成因果，原文也没说构成。别把它当论点，它是 TAM 叙事的修辞。</li>
+<li><strong>有信息量的是贝莱德在为什么站台</strong>：稳定币做 agent 支付轨道。这和 6/24 笔记「token 即电力」、Stripe 买 OpenRouter、V 的「稳定币卖铲子」thesis 同一条线。贝莱德是 $65B 稳定币储备的管理人，它有仓位。</li>
+<li><strong>和 9/22 agent 地图的读数对照</strong>：Visa 只披露「数百笔」agent 交易，OpenAI Instant Checkout 3 月回退，Amazon 封 Muse。<strong>agent 支付的真实交易量是零头，贝莱德这份报告是在需求出现之前写的供给侧文件。</strong> 这不是错，是时点。</li>
+<li><strong>三个可证伪点</strong>（到期回来打分）：① x402/ACP/AP2 任一协议公布月交易额 &gt; $1B；② BUIDL 或任一代token化货币基金被 AI agent 持有的案例被披露；③ DTCC 10 月全面上线后代币化国债规模是否从 $15B 量级跳一个数量级。三条都没兑现前，报告的第二、三论点停在 <code>[FRAME]</code>。</li>
+<li><strong>持仓动作：无。</strong> V/COIN/CRCL 的论点不因这份报告变化；它只是增加了「叙事供给」，没增加「交易量」。</li>
+</ul>
+<h2 id="参考">参考</h2>
+<ul>
+<li><a href="https://www.blackrock.com/us/individual/literature/whitepaper/the-machine-native-economy.pdf">白皮书 PDF</a>（2026-09-22，编号 CE0926-M-5936357-EXP0927）</li>
+<li><a href="https://www.blackrock.com/corporate/investor-relations/larry-fink-annual-chairmans-letter">Fink 2026 年度信</a> · <a href="https://www.blackrock.com/corporate/investor-relations/2025-larry-fink-annual-chairmans-letter">Fink 2025 年度信</a> · <a href="https://www.blackrock.com/us/financial-professionals/insights/thematic-investing-2026-mid-year-update">Thematic 2026 中期展望 8/24</a> · <a href="https://www.blackrock.com/us/financial-professionals/insights/thematic-investing-outlook-2026">Thematic Outlook 2026 1/21</a></li>
+<li><a href="https://www.coindesk.com/business/2026/03/24/blackrock-flags-ai-as-crypto-s-next-big-use-case-not-token-boom">CoinDesk：Mitchnick「computer-native money」2026-03-24</a> · <a href="https://www.theblock.co/post/381046/blackrock-larry-fink-rob-goldstein-tokenization">The Block：Fink/Goldstein Economist 专栏 2025-12-02</a> · <a href="https://www.blackrock.com/us/individual/podcasts/the-bid/cryptocurrency-decoded">The Bid Ep.264 Goldstein</a></li>
+<li><a href="https://a16zcrypto.com/posts/article/tokenized-asset-rwa-market-data-charts/">a16z crypto：RWA 数据与预测汇总 2026-05</a> · <a href="https://app.rwa.xyz/assets/BUIDL">rwa.xyz BUIDL</a> · <a href="https://yellow.com/research/rwa-tokenization-concentration-treasury-dominance-2026">Yellow：RWA 集中度 2026-09-10</a></li>
+<li><a href="https://www.bis.org/publ/arpdf/ar2026e3.htm">BIS 2026 年报 Ch.III</a> · <a href="https://www.imf.org/en/publications/imf-notes/issues/2026/04/01/tokenized-finance-574921">IMF Notes 26/01 Tokenized Finance</a> · <a href="https://cryptoslate.com/blackrock-imf-tokenization-debate/">CryptoSlate：BlackRock vs IMF</a></li>
+<li>中文转载：<a href="https://www.blocktempo.com/blackrock-machine-native-economy-ai-agents-structural-demand-digital-assets/">BlockTempo 9/23</a> · <a href="https://panews.io/articles/01a0cc1e-4d0c-70c4-91ad-c329524eedea">PANews 英文</a> · <a href="https://5oops.com/261093.html">金色财经快讯转载</a></li>
+</ul>
+      </article>
+      <aside class="doc-sidebar">
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">文档导航</h3>
+          <ul class="toc-list"><li><a href="#一句话">一句话</a></li><li><a href="#一原文逐字对应用户那段摘要">一、原文逐字（对应用户那段摘要）</a></li><li><a href="#二报告结构与三大论点-known-high">二、报告结构与三大论点 `[KNOWN, HIGH]`</a></li><li><a href="#三贝莱德这条叙事的演化-known-high">三、贝莱德这条叙事的演化 `[KNOWN, HIGH]`</a></li><li><a href="#四外部锚市场到底多大-known-med">四、外部锚：市场到底多大 `[KNOWN, MED]`</a></li><li><a href="#五反方-known-med">五、反方 `[KNOWN, MED]`</a></li><li><a href="#六对本组合的含义-inferred-med">六、对本组合的含义 `[INFERRED, MED]`</a></li><li><a href="#参考">参考</a></li></ul>
+        </section>
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">阅读提示</h3>
+          <ul class="summary-list">
+            <li><span class="summary-label">先看什么</span><span class="summary-value">先读一段话结论，再看表格和风险点。</span></li>
+            <li><span class="summary-label">适合用途</span><span class="summary-value">复盘、比较、回查研究底稿。</span></li>
+            <li><span class="summary-label">建议动作</span><span class="summary-value">如果文档内容改变了 thesis，再回到候选池或组合页更新判断。</span></li>
+          </ul>
+        </section>
+      </aside>
+    </div>
+    <div class="footer">该页面由 Markdown 自动生成。原始文件：notes/2026-09-23-blackrock-machine-native-economy.md</div>
+  </div>
+  </div>
+</body>
+</html>

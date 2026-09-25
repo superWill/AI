@@ -203,3 +203,22 @@ related: notes/2026-09-15-oil-cycle-deep-dive.md（传导框架与三档情景�
 **对 §五三档的修正**：仍在基准档，但市场这周按「Fed 信用够 + 油见顶」定价，把升级档概率往下压。这个定价的前提要在 9/30 核心 PCE（Warsh 判据 m/m 0.2）上验证。**动作不变：不动。** 组合本周跑输（现金 32% + BRK −2.9% + betaSOXX 0.32），是「宁愿错过」的结构性代价，不是判断错。
 
 其他：9/18 四巫日约 $7T 名义到期（史上第二大）无波动；道指周 −1.7% 为 3 月来最差周；8 月工业生产 0.0%（预期 +0.3%）、LEI −0.1%（3 月来首降）；Oura 递交 IPO（拟募 >$2.2B）；9/24 Trump–Xi 白宫峰会（AI 护栏 / 芯片准入 / 关税休战）；9/23 flash PMI。
+
+### 09-23 追加（9/22 收盘）`[KNOWN, HIGH]` yfinance + Yahoo/stockanalysis/FRED/Richmond Fed
+- 9/22：S&P 持平 7,764、Nasdaq +0.45% 连续第二日新高、道指 −0.36%、**SOX +2.06%（加息后累计 +13.6%）**、VIX 14.21。MU +5.0%（$1,096，9/30 财报前）、SNDK +5%（Rosenblatt 首评 $2,400）、META −0.63%（IBKR 平台被卖最多）、CRWV +1.6%（$3.7B 转债 9/22 交割）、BE +1.3%。
+- 利率：10Y 4.97、2Y 4.75、TIPS 2.62；**2Y 拍卖高收益 4.787%（前次 4.315%）**。Barkin 9/22「Why Hike?」：>60% PCE 分项年化 >3%、「'passing' shocks aren't proving to be short-lived」、「Will additional hikes be required? We'll see.」FedWatch 10/28 加息 55–60%。
+- 油：WTI **$90（−5.9%）**、Brent $99，连跌六日。Trump UNGA：伊朗「make a deal or annihilate」，Kushner/Witkoff 与伊方 3 小时会谈，称伊朗请求停火（伊方否认）；沙特东西管线重启口径不一。**无停火，霍尔木兹 <20 艘/日。**
+- NVDA：Bloomberg 9/22 前瞻 P/E **<17x**，十年最低，与本笔记 9/16 七姐妹表一致（yfinance 13.6）。
+- 日历：9/23 Meta Connect（4pm PT）、flash PMI（53.6/55.8 是否 actual 待核）；**9/24 Trump–Xi 白宫会谈**（关税休战 11/10 到期、芯片管制、稀土）+ **COST 财报**（共识 $94.85B / EPS $6.55）；9/30 MU（共识 EPS $31.14 / $50.4B）。
+- 环境：macOS 27 后 x86 Homebrew Python 失效（bad CPU type），`.venv` 已用 arm64 系统 Python 3.9 重建，yfinance 1.2.0；旧 venv 改名 `.venv-x86_64-broken`。
+
+### 09-25 追加（9/23–24）：利率杀第二波 + Oracle force majeure `[KNOWN, HIGH]` Investrade / Yahoo / FRED / Fed 官网 / TechCrunch
+- **9/23**：S&P −0.75%、Nasdaq −1.13%、Russell −1.77%；**S&P 成分 >51% 跌破 200 日线**；11 板块只有能源收红。驱动：**flash PMI 综合 58.4**（制造 57.0 = 2022-05 来最强，投入成本「四年最陡」，Williamson：「近二十年调查史上最严重供应瓶颈之一」）→ 10Y +13.7bp 至 5.11%，**5Y 5.03% 2007 年来首破 5%**。
+- **9/24**：S&P −0.02%（盘中 −0.5% 被「美伊分阶段协议」头条拉回）、道指三连跌、SOX −0.33%、VIX 15.67；**10Y 5.14–5.16%（盘中破 5.2%）、30Y 5.446%（2004 年来最高）、TIPS 实际 2.76%（9/23）**；5Y 拍卖尾 3.1bp、BTC 2.21（史上第二大尾，单源）；7Y 5.085%。**三位 Fed 官员排队说再加**：Williams 9/24「今年再加一次合理」、Barr 9/23「可能需要进一步调整」+ 点名 AI 投资需求是通胀源、Paulson 9/24「温和的进一步加息」。FedWatch 10/28 54% → 9/25 TE 64–67%。
+- **对 9/15 三档**：10Y 5.16 / TIPS 2.76 已到**基准档上沿**（4.9–5.3 / 2.6–2.9），升级档（5.3–5.6 / 3%+）一步之遥。**SOX 的压力测试开始了：10Y 5.1–5.2 区间 SOX 两日只 −0.3%、AMD/INTC 反涨**——半导体这次没跟利率跌，与 4.2 节「2026 敏感度回到 2022 水平」的判断**相反**，待更多数据。`[INFERRED, MED]`
+- **COST Q4**：EPS $6.75 beat $0.20，其中 $0.15 是关税退税；剔油剔汇同店 6.7%、付费会员 +3.8%（首次跌破 4%）、续费率止跌 +10bp、core-on-core −32bp（公司归因退税再投资降价）；无特别股息；管理层定调「6–7% 是更正常的水平」；盘后 +0.3%。详见 tickers/COST.md ⭐9/24。
+- **Trump–Xi 9/24**：休战延 2 个月至 2027-01-10；**芯片管制零宣布**（无 H20/B30A/H200）；稀土「按月过日子」；成果 = 两只熊猫 + 10 万学生签证。半导体/中概零反应。
+- **⭐ Oracle force majeure（Jupiter 2.45 GW）**：燃气管道许可被拒延至 2027-02、Bloom 空气许可待批 → 对 Blue Owl 发不可抗力，可延付。ORCL −3.5%、BE −3.1%。**信号⑥第四形态 ⑥-d：不是钱断，是电/许可断。** 详见 tickers/BE.md ⭐9/24。
+- **Meta Connect**：VR Glasses $1,299（2027 春）、Ray-Ban Gen 3 $449；Muse 连接器加 **Walmart**/Best Buy/Sephora/Instacart/Shop Pay/PayPal；Walmart+Target 站 Google/Shopify 的 UCP；META 9/24 **+4.5%** 至 $777.59（「Muse 变现策略」）。Amazon 仍封。
+- 油：胡塞 6 枚导弹射延布/塔伊夫被拦；沙特东西管线已重启；沙特产量 1990 年来最低；Brent 9/24 $106.6（+3.4%），9 月 MTD +17%。美伊「分阶段协议」（重开霍尔木兹换解除港口封锁）在谈，**无停火**。
+- 其他：初请 197K；8 月新屋销售 684K（预期 620K）；HY OAS 273bp（周 +5bp，仍紧）；USDJPY 158.7（财务省 7 月末起干预 ¥15.4T）；黄金 $4,283 周 −2%；PAYX −8.8%、CTAS −3.4%、MGM −10%（Diller 撤回要约）；Micron 9/30 共识 $50.45B / EPS $31.16，看 FQ1'27 指引能否 >$55B；Oura 9/28 当周定价；Q2 GDP 三读 + 8 月 PCE 均 **9/30**（含年度修订）。
