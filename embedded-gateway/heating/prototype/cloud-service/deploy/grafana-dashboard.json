@@ -1,0 +1,74 @@
+{
+  "title": "供热站监控（测试）",
+  "uid": "heating-test",
+  "schemaVersion": 39,
+  "tags": ["heating"],
+  "time": { "from": "now-3h", "to": "now" },
+  "refresh": "10s",
+  "templating": {
+    "list": [
+      {
+        "name": "station",
+        "type": "query",
+        "datasource": { "type": "postgres", "uid": "heating_pg" },
+        "query": "SELECT device_id FROM station ORDER BY device_id",
+        "refresh": 2,
+        "includeAll": false
+      },
+      {
+        "name": "metric",
+        "type": "query",
+        "datasource": { "type": "postgres", "uid": "heating_pg" },
+        "query": "SELECT DISTINCT metric FROM telemetry ORDER BY metric",
+        "refresh": 2,
+        "multi": true,
+        "includeAll": true,
+        "current": { "text": "All", "value": "$__all" }
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1,
+      "title": "遥测曲线 · $station",
+      "type": "timeseries",
+      "datasource": { "type": "postgres", "uid": "heating_pg" },
+      "gridPos": { "h": 11, "w": 18, "x": 0, "y": 0 },
+      "targets": [
+        {
+          "format": "time_series",
+          "rawQuery": true,
+          "rawSql": "SELECT ts AS \"time\", metric AS metric, value FROM telemetry WHERE device_id = '$station' AND metric IN ($metric) AND quality = 'good' AND $__timeFilter(ts) ORDER BY ts"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "站点在线状态",
+      "type": "table",
+      "datasource": { "type": "postgres", "uid": "heating_pg" },
+      "gridPos": { "h": 11, "w": 6, "x": 18, "y": 0 },
+      "targets": [
+        {
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT device_id, online, last_seq, last_seen FROM station ORDER BY device_id"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "近期报警",
+      "type": "table",
+      "datasource": { "type": "postgres", "uid": "heating_pg" },
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 11 },
+      "targets": [
+        {
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT ts, device_id, alarm_id, message FROM alarm WHERE $__timeFilter(ts) ORDER BY ts DESC LIMIT 50"
+        }
+      ]
+    }
+  ]
+}

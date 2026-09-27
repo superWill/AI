@@ -1,0 +1,16 @@
+{
+  "client_id": "cloud-ingest",
+
+  "broker_host": "127.0.0.1",
+  "broker_port": 1883,
+  "keepalive": 60,
+
+  "username": "",
+  "password": "",
+  "tls": false,
+  "ca_certs": null,
+
+  "dsn": "host=127.0.0.1 port=5432 dbname=heating user=heating password=CHANGE_ME",
+
+  "_note": "broker 与 worker 同机时 broker_host=127.0.0.1。dsn 改成你建库时设的密码。上 TLS 时 broker_port 用 8883、tls=true 并填 ca_certs。"
+}

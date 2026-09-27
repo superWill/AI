@@ -1,0 +1,17 @@
+[Unit]
+Description=Heating cloud ingest worker (MQTT -> PostgreSQL)
+After=network-online.target mosquitto.service postgresql.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=heating
+WorkingDirectory=/opt/heating-cloud
+ExecStart=/usr/bin/python3.11 /opt/heating-cloud/ingest_worker.py --config /opt/heating-cloud/config.json
+Restart=always
+RestartSec=5
+# 2G 机器：限制内存，跑飞了由 systemd 拉回而不是拖垮整机
+MemoryMax=256M
+
+[Install]
+WantedBy=multi-user.target

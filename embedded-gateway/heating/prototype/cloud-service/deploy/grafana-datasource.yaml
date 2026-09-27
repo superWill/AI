@@ -1,0 +1,17 @@
+# Grafana 数据源自动配置
+# 放到 /etc/grafana/provisioning/datasources/heating.yaml 后重启 grafana-server。
+apiVersion: 1
+datasources:
+  - name: HeatingPG
+    uid: heating_pg          # dashboard JSON 按此 uid 引用，别改
+    type: postgres
+    access: proxy
+    url: 127.0.0.1:5432
+    user: heating
+    jsonData:
+      database: heating
+      sslmode: disable
+      postgresVersion: 1500
+      timescaledb: false
+    secureJsonData:
+      password: CHANGE_ME      # 改成建库时设的密码

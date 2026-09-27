@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>供热运营后管</title>
+<link rel="stylesheet" href="./vendor/element-plus.css" />
+<script src="./vendor/vue.global.prod.js"></script>
+<script src="./vendor/element-plus.full.min.js"></script>
+<script src="./vendor/axios.min.js"></script>
+<style>
+  body { margin: 0; font-family: -apple-system, "PingFang SC", sans-serif; }
+  .login-box { max-width: 320px; margin: 12vh auto; padding: 28px; border: 1px solid #eee; border-radius: 8px; box-shadow: 0 2px 12px #0001; }
+  .login-box h2 { text-align: center; margin: 0 0 18px; }
+  .topbar { display: flex; align-items: center; justify-content: space-between; padding: 0 18px; background: #001529; color: #fff; height: 52px; }
+  .topbar .title { font-weight: 600; }
+  .panel { padding: 16px; }
+  .params { margin-bottom: 14px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .kpi { color: #888; font-size: 13px; }
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<!-- 模板放 x-template，避免浏览器 DOM 解析吞掉自闭合标签 -->
+<script type="text/x-template" id="app-tpl">
+  <div v-if="!token" class="login-box">
+    <h2>供热运营后管</h2>
+    <el-form @submit.prevent>
+      <el-form-item><el-input v-model="loginForm.username" placeholder="用户名" /></el-form-item>
+      <el-form-item><el-input v-model="loginForm.password" type="password" placeholder="密码" @keyup.enter="login" /></el-form-item>
+      <el-button type="primary" style="width:100%" @click="login">登录</el-button>
+    </el-form>
+    <p class="kpi" style="text-align:center;margin-top:12px">默认 admin / admin</p>
+  </div>
+
+  <div v-else>
+    <div class="topbar">
+      <span class="title">🔥 供热运营后管</span>
+      <span>
+        <span style="margin-right:14px">{{ username }}（{{ role }}）</span>
+        <el-button size="small" @click="logout">退出</el-button>
+      </span>
+    </div>
+
+    <el-tabs v-model="tab" class="panel" @tab-change="onTab">
+      <el-tab-pane label="监控总览" name="overview">
+        <el-button size="small" @click="loadStations" style="margin-bottom:10px">刷新</el-button>
+        <a :href="grafanaUrl" target="_blank" style="margin-left:10px"><el-button size="small">打开 Grafana 实时看板</el-button></a>
+        <el-table :data="stations" border size="small">
+          <el-table-column prop="device_id" label="站点" width="120" />
+          <el-table-column label="在线" width="80">
+            <template #default="s"><el-tag :type="s.row.online ? 'success' : 'danger'" size="small">{{ s.row.online ? '在线' : '离线' }}</el-tag></template>
+          </el-table-column>
+          <el-table-column prop="last_seq" label="last_seq" width="100" />
+          <el-table-column prop="heat_area_m2" label="供热面积㎡" width="120" />
+          <el-table-column prop="report_interval_s" label="上送周期s" width="110" />
+          <el-table-column prop="last_seen" label="最后心跳" />
+        </el-table>
+      </el-tab-pane>
+
+      <el-tab-pane label="站点管理" name="stations">
+        <el-alert v-if="role!=='admin'" type="info" :closable="false" title="只读：仅管理员可编辑元数据" style="margin-bottom:10px" />
+        <el-table :data="stations" border size="small">
+          <el-table-column prop="device_id" label="站点" width="120" />
+          <el-table-column prop="heat_area_m2" label="供热面积㎡" width="120" />
+          <el-table-column prop="building_count" label="楼栋" width="80" />
+          <el-table-column prop="household_count" label="户数" width="90" />
+          <el-table-column prop="design_sec_supply_temp" label="设计二供℃" width="110" />
+          <el-table-column prop="retrofit_date" label="改造日期" width="120" />
+          <el-table-column label="操作" width="100">
+            <template #default="s"><el-button size="small" :disabled="role!=='admin'" @click="editMeta(s.row)">编辑</el-button></template>
+          </el-table-column>
+        </el-table>
+      </el-tab-pane>
+
+      <el-tab-pane label="报表中心" name="reports">
+        <div class="params">
+          <el-select v-model="rpt.type" style="width:220px" @change="rpt.data=null">
+            <el-option label="① 运行+设备状态日报" value="daily" />
+            <el-option label="② 热量/能耗结算" value="settlement" />
+            <el-option label="③ 节能效果对比" value="energy_saving" />
+            <el-option label="④ 报警与数据质量" value="data_quality" />
+          </el-select>
+          <el-select v-if="rpt.type!=='data_quality'" v-model="rpt.station" placeholder="站点" style="width:130px">
+            <el-option v-for="s in stations" :key="s.device_id" :label="s.device_id" :value="s.device_id" />
+          </el-select>
+          <el-date-picker v-if="rpt.type==='daily'" v-model="rpt.day" type="date" value-format="YYYY-MM-DD" placeholder="日期" />
+          <el-date-picker v-if="rpt.type==='settlement'" v-model="rpt.ym" type="month" value-format="YYYY-MM" placeholder="月份" />
+          <el-date-picker v-if="rpt.type==='energy_saving'||rpt.type==='data_quality'" v-model="rpt.range" type="daterange" value-format="YYYY-MM-DD" start-placeholder="起" end-placeholder="止" />
+          <el-button type="primary" @click="runReport">生成</el-button>
+          <el-button @click="exportReport">导出 Excel</el-button>
+        </div>
+
+        <div v-if="rpt.data && rpt.type==='daily'">
+          <h4>工况字段</h4>
+          <el-table :data="rpt.data.fields" border size="small">
+            <el-table-column prop="label_cn" label="指标" /><el-table-column prop="unit" label="单位" />
+            <el-table-column prop="avg" label="均值" /><el-table-column prop="min" label="最小" />
+            <el-table-column prop="max" label="最大" /><el-table-column prop="n" label="样本数" />
+          </el-table>
+          <p class="kpi">一次Δt：{{ rpt.data.dt.pri_dt }}　二次Δt：{{ rpt.data.dt.sec_dt }}</p>
+          <h4>设备状态</h4>
+          <el-table :data="rpt.data.device" border size="small">
+            <el-table-column prop="equip" label="设备" /><el-table-column prop="run_minutes" label="运行分钟" />
+            <el-table-column prop="start_count" label="启停次数" /><el-table-column prop="fault_count" label="故障数" />
+          </el-table>
+        </div>
+
+        <el-table v-if="rpt.data && (rpt.type==='settlement'||rpt.type==='energy_saving')" :data="rpt.data" border size="small">
+          <el-table-column v-for="c in tableCols(rpt.data)" :key="c" :prop="c" :label="c" />
+        </el-table>
+
+        <div v-if="rpt.data && rpt.type==='data_quality'">
+          <h4>数据完整率</h4>
+          <el-table :data="rpt.data.completeness" border size="small">
+            <el-table-column prop="device_id" label="站点" /><el-table-column prop="got_frames" label="实收帧" />
+            <el-table-column prop="expect_frames" label="应收帧" /><el-table-column prop="pct" label="完整率%" />
+          </el-table>
+          <h4>坏点率</h4>
+          <el-table :data="rpt.data.badrate" border size="small">
+            <el-table-column prop="device_id" label="站点" /><el-table-column prop="total" label="总点数" /><el-table-column prop="pct" label="坏点率%" />
+          </el-table>
+          <h4>报警统计</h4>
+          <el-table :data="rpt.data.alarms" border size="small">
+            <el-table-column prop="device_id" label="站点" /><el-table-column prop="n" label="报警数" />
+            <el-table-column prop="cleared" label="已解除" /><el-table-column prop="avg_min" label="平均处理分钟" />
+          </el-table>
+        </div>
+      </el-tab-pane>
+
+      <el-tab-pane label="报警中心" name="alarms">
+        <div class="params">
+          <el-select v-model="alarmStatus" style="width:140px" @change="loadAlarms">
+            <el-option label="全部" value="" /><el-option label="未处理" value="active" />
+            <el-option label="已确认" value="acked" /><el-option label="已解除" value="cleared" />
+          </el-select>
+          <el-button size="small" @click="loadAlarms">刷新</el-button>
+        </div>
+        <el-table :data="alarms" border size="small">
+          <el-table-column prop="ts" label="时间" width="200" />
+          <el-table-column prop="device_id" label="站点" width="100" />
+          <el-table-column prop="alarm_id" label="类型" width="140" />
+          <el-table-column prop="message" label="内容" />
+          <el-table-column label="状态" width="90">
+            <template #default="s">
+              <el-tag size="small" :type="{active:'danger',acked:'warning',cleared:'success'}[s.row.status]">{{ {active:'未处理',acked:'已确认',cleared:'已解除'}[s.row.status] }}</el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column label="操作" width="150">
+            <template #default="s">
+              <el-button size="small" v-if="s.row.status==='active'" @click="ackAlarm(s.row.id)">确认</el-button>
+              <el-button size="small" type="success" v-if="s.row.status!=='cleared'" @click="clearAlarm(s.row.id)">解除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-tab-pane>
+    </el-tabs>
+
+    <el-dialog v-model="metaDlg" title="编辑站点元数据" width="460px">
+      <el-form label-width="120px">
+        <el-form-item label="供热面积㎡"><el-input-number v-model="metaForm.heat_area_m2" :min="0" /></el-form-item>
+        <el-form-item label="楼栋数"><el-input-number v-model="metaForm.building_count" :min="0" /></el-form-item>
+        <el-form-item label="户数"><el-input-number v-model="metaForm.household_count" :min="0" /></el-form-item>
+        <el-form-item label="设计二次供温"><el-input-number v-model="metaForm.design_sec_supply_temp" /></el-form-item>
+        <el-form-item label="上送周期s"><el-input-number v-model="metaForm.report_interval_s" :min="1" /></el-form-item>
+        <el-form-item label="改造日期"><el-date-picker v-model="metaForm.retrofit_date" type="date" value-format="YYYY-MM-DD" /></el-form-item>
+      </el-form>
+      <template #footer><el-button @click="metaDlg=false">取消</el-button><el-button type="primary" @click="saveMeta">保存</el-button></template>
+    </el-dialog>
+  </div>
+</script>
+
+<script>
+const { createApp, reactive, toRefs } = Vue;
+const ElMessage = ElementPlus.ElMessage;
+createApp({
+  template: '#app-tpl',
+  setup() {
+    const st = reactive({
+      token: localStorage.getItem('token') || '',
+      role: localStorage.getItem('role') || '',
+      username: localStorage.getItem('username') || '',
+      loginForm: { username: 'admin', password: '' },
+      tab: 'overview',
+      stations: [], alarms: [], alarmStatus: '',
+      metaDlg: false, metaForm: {},
+      rpt: { type: 'daily', station: '', day: '', ym: '', range: [], data: null },
+      grafanaUrl: location.protocol + '//' + location.hostname + ':3000',
+    });
+    const api = axios.create();
+    api.interceptors.request.use(c => { if (st.token) c.headers.Authorization = 'Bearer ' + st.token; return c; });
+    api.interceptors.response.use(r => r, e => {
+      const m = e.response && e.response.data && e.response.data.detail || e.message;
+      ElMessage.error(m); if (e.response && e.response.status === 401) logout(); return Promise.reject(e);
+    });
+
+    function persist() { localStorage.setItem('token', st.token); localStorage.setItem('role', st.role); localStorage.setItem('username', st.username); }
+    async function login() {
+      const { data } = await api.post('/api/login', st.loginForm);
+      st.token = data.token; st.role = data.role; st.username = data.username; persist();
+      loadStations();
+    }
+    function logout() { st.token = ''; st.role = ''; st.username = ''; persist(); }
+    async function loadStations() { const { data } = await api.get('/api/stations'); st.stations = data; }
+    function onTab(name) { if (name === 'alarms') loadAlarms(); }
+
+    function editMeta(row) { st.metaForm = Object.assign({ report_interval_s: 30 }, row); st.metaDlg = true; }
+    async function saveMeta() {
+      await api.put('/api/stations/' + st.metaForm.device_id + '/meta', st.metaForm);
+      ElMessage.success('已保存'); st.metaDlg = false; loadStations();
+    }
+
+    function tableCols(rows) { return rows && rows.length ? Object.keys(rows[0]) : []; }
+    function reportParams() {
+      const r = st.rpt, p = {};
+      if (r.type !== 'data_quality') p.station = r.station;
+      if (r.type === 'daily') p.day = r.day;
+      if (r.type === 'settlement') p.ym = r.ym;
+      if (r.type === 'energy_saving') { p.dfrom = r.range[0]; p.dto = r.range[1]; }
+      if (r.type === 'data_quality') { p.dfrom = r.range[0]; p.dto = r.range[1]; }
+      return p;
+    }
+    async function runReport() {
+      const { data } = await api.get('/api/reports/' + st.rpt.type, { params: reportParams() });
+      st.rpt.data = data;
+    }
+    async function exportReport() {
+      const res = await api.get('/api/export/' + st.rpt.type, { params: reportParams(), responseType: 'blob' });
+      const url = URL.createObjectURL(res.data), a = document.createElement('a');
+      a.href = url; a.download = st.rpt.type + '.xlsx'; a.click(); URL.revokeObjectURL(url);
+    }
+
+    async function loadAlarms() { const { data } = await api.get('/api/alarms', { params: { status: st.alarmStatus } }); st.alarms = data; }
+    async function ackAlarm(id) { await api.post('/api/alarms/' + id + '/ack'); loadAlarms(); }
+    async function clearAlarm(id) { await api.post('/api/alarms/' + id + '/clear'); loadAlarms(); }
+
+    if (st.token) loadStations();
+    return { ...toRefs(st), login, logout, loadStations, onTab, editMeta, saveMeta,
+             tableCols, runReport, exportReport, loadAlarms, ackAlarm, clearAlarm };
+  }
+}).use(ElementPlus).mount('#app');
+</script>
+</body>
+</html>

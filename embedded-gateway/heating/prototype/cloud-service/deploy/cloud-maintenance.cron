@@ -1,0 +1,4 @@
+# 云端测试机维护任务 —— 装到 /etc/cron.d/cloud-maintenance（注意文件末尾要有换行）
+PGPASSFILE=/var/lib/heating/.pgpass
+# 每小时第 5 分钟：报表聚合(aggregate) + 小时rollup/留存清理(maintenance)
+5 * * * * heating psql "host=127.0.0.1 dbname=heating user=heating" -f /opt/heating-cloud/aggregate.sql -f /opt/heating-cloud/maintenance.sql >/var/log/heating-maintenance.log 2>&1
