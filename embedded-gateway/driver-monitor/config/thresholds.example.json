@@ -1,0 +1,25 @@
+{
+  "_note": "疲劳状态机阈值与时间窗。复制为 thresholds.json 后按现场标定调整。所有阈值版本化(version 字段),不写死在代码里。",
+  "version": "thresholds-v1",
+  "model_version": "unset",
+
+  "ear_closed_thresh": 0.18,
+  "eye_closed_alarm_s": 2.0,
+
+  "perclos_window_s": 60.0,
+  "perclos_min_span_s": 15.0,
+  "perclos_warn": 0.15,
+  "perclos_alarm": 0.30,
+
+  "mar_yawn_thresh": 0.6,
+  "yawn_min_s": 0.4,
+  "yawn_window_s": 120.0,
+  "yawn_count_warn": 3,
+
+  "head_down_pitch": 20.0,
+  "head_away_yaw": 35.0,
+  "head_off_alarm_s": 3.0,
+
+  "face_lost_grace_s": 2.0,
+  "stale_frame_s": 2.0
+}
