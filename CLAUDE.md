@@ -2,6 +2,7 @@
 
 > Claude Code 自动加载本文件，但**不**自动加载 `AGENTS.md`。
 > 仓库结构 / 构建 / 提交规范见 [`AGENTS.md`](AGENTS.md)——本文件只管**怎么干活**，不重复那些内容。
+> 本机可用的 skills / 子 agents 清单见 [`SKILLS.md`](SKILLS.md)，此处不重复。
 > 全局人格与 tagging 规则见 `~/.claude/CLAUDE.md`，此处不重复。
 
 ## 一事一会话 · 一事一分支

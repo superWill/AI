@@ -10,6 +10,14 @@ This repository is a personal research workspace. Top-level folders are independ
 - `embedded-gateway/`: embedded gateway research split by domain, including `heating/`, `fire-alarm/`, and shared `docs/`.
 - `tech-research/`, `resumes/`, and root scripts are supporting materials.
 
+## Available Skills & Agents
+
+`SKILLS.md` is the single source of truth for the AI capabilities available here — 7 custom skills, 11 machine-wide sub-agents, 4 project-scoped agents under `investment-research/`, and the bundled Claude Code plugins. Consult it before writing a workflow by hand; one may already exist.
+
+Most skill and agent files live under `~/.claude/`, outside this repository — `SKILLS.md` indexes them but does not back them up. The `investment-research/.claude/agents/` set is the exception and is versioned here.
+
+Claude Code invokes all of them by name. Other agents (Codex included) cannot call those tools, so read the referenced `SKILL.md` or agent file directly and follow it as a playbook. `SKILLS.md` lists the path for every entry.
+
 ## Build, Test, and Development Commands
 
 There is no root build system. Run commands from the relevant project directory.
