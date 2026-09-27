@@ -8,3 +8,7 @@ data/
 build/
 current_draft.json
 tests/_build_tmp*/
+# Go LCD HMI 交叉编译产物(hmi-go/build.sh 生成,push 前构建,不入库)
+hmic
+# gateway-go 交叉编译的 ARM 二进制(6MB,构建产物不入库)
+gateway-go/deploy/gatewayc-shadow-arm

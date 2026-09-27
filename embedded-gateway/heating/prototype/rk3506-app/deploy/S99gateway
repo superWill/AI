@@ -9,9 +9,13 @@ PY=$(command -v python3 || echo /usr/bin/python3)
 
 stop_conflicts() {
   # 释放屏幕:停掉厂家 LVGL demo(两种命名)
-  killall lv_demo rk3506_lvgl_test 2>/dev/null
-  # 停掉可能残留的老 energy-hmi(会占 8092 端口和屏幕)
-  for p in $(ps 2>/dev/null | grep -E 'serve_hmi|energy-hmi/drm_hmi' | grep -v grep | awk '{print $1}'); do
+  # /root/hmi_start.sh 会无限重启 hmi_lvgl，必须先杀守护脚本再杀子进程。
+  for p in $(ps 2>/dev/null | grep -E '/root/hmi_start\.sh|/root/hmi_lvgl' | grep -v grep | awk '{print $1}'); do
+    kill -9 "$p" 2>/dev/null
+  done
+  killall hmi_lvgl lv_demo rk3506_lvgl_test 2>/dev/null
+  # 停掉可能残留的旧后端/LCD。不能只相信 pid 文件：异常掉电或旧安装可能留下孤儿进程。
+  for p in $(ps 2>/dev/null | grep -E 'serve_hmi|energy-hmi/drm_hmi|rk3506-app/nexus_server.py|rk3506-app/drm_hmi_v[234].py' | grep -v grep | awk '{print $1}'); do
     kill "$p" 2>/dev/null
   done
 }
@@ -43,6 +47,9 @@ stop() {
       rm -f "$RUN/$p.pid"
     fi
   done
+  stop_conflicts
+  # 给 Python 释放 8092/DRM 的时间，避免 restart 紧接着启动时端口仍被占用。
+  sleep 1
   echo "gateway stopped"
 }
 

@@ -48,6 +48,7 @@
       "properties": {
         "bus_id": { "$ref": "#/$defs/id" },
         "type": { "type": "string", "enum": ["rs485", "tcp"] },
+        "serial": { "type": "string", "pattern": "^/dev/[A-Za-z0-9._/-]+$", "maxLength": 128 },
         "baud": { "type": "integer", "enum": [1200, 2400, 4800, 9600, 19200, 38400, 57600, 115200] },
         "parity": { "type": "string", "enum": ["N", "E", "O"] },
         "data_bits": { "type": "integer", "enum": [7, 8] },
@@ -56,7 +57,7 @@
       "allOf": [
         {
           "if": { "properties": { "type": { "const": "rs485" } } },
-          "then": { "required": ["baud", "parity", "data_bits", "stop_bits"] }
+          "then": { "required": ["serial", "baud", "parity", "data_bits", "stop_bits"] }
         }
       ]
     },

@@ -33,9 +33,17 @@ else
 fi
 
 echo "[push] 打包并推送 $NAME 经跳板 $JUMP_HOST 到板子 $BOARD_HOST ..."
+if [ -f "$SRC/hmic" ]; then
+  echo "[push] hmic 走 /tmp 增量通道，避免 16.7MB NAND 同时保存两个 5MB 二进制 ..."
+  run_board 'cat > /tmp/rk3506-hmic.new && chmod +x /tmp/rk3506-hmic.new' < "$SRC/hmic"
+fi
 tar -C "$PARENT" --exclude="$NAME/data" --exclude="$NAME/run" \
+    --exclude="$NAME/tests" --exclude="$NAME/gateway-go" \
+    --exclude="$NAME/hmi-go" --exclude="$NAME/hmic" \
+    --exclude="$NAME/design-*.png" --exclude="$NAME/board-*.png" \
+    --exclude="$NAME/design-qa.md" \
     --exclude="*/__pycache__" --exclude="*.pyc" -cf - "$NAME" \
-  | run_board 'mkdir -p /userdata/_stage && rm -rf /userdata/_stage/* && tar -C /userdata/_stage -xf - && sh /userdata/_stage/'"$NAME"'/deploy/install.sh'
+  | run_board 'mkdir -p /userdata/_stage && rm -rf /userdata/_stage/* && tar -C /userdata/_stage -xf - && sh /userdata/_stage/'"$NAME"'/deploy/install.sh && rm -rf /userdata/_stage/*'
 
 echo "[push] 完成。验证:"
 echo "  curl -s http://${BOARD_HOST}:8092/api/health   (经跳板或同网段)"

@@ -17,34 +17,71 @@ except ImportError:
     GLYPHS = {}
 
 W, H = 800, 480
-BG = (15, 23, 42)
-SIDEBAR = (12, 18, 33)
-CARD = (30, 41, 59)
-CARD2 = (23, 33, 52)
-LINE = (51, 65, 85)
-INK = (226, 232, 240)
-MUTED = (148, 163, 184)
-BLUE = (56, 189, 248)
+BG = (244, 248, 255)
+SIDEBAR = (255, 255, 255)
+CARD = (255, 255, 255)
+CARD2 = (247, 250, 255)
+LINE = (221, 230, 242)
+INK = (22, 34, 56)
+MUTED = (112, 130, 157)
+BLUE = (47, 128, 237)
 BLUE2 = (37, 99, 235)
 GREEN = (34, 197, 94)
 AMBER = (245, 158, 11)
 RED = (239, 68, 68)
-TRACK = (40, 52, 74)
+TRACK = (229, 236, 247)
+PALE_BLUE = (235, 244, 255)
+PALE_GREEN = (232, 249, 241)
+PALE_AMBER = (255, 246, 230)
+SHADOW = (232, 238, 248)
+
+THEMES = {
+    "light": {
+        "BG": (244, 248, 255), "SIDEBAR": (255, 255, 255),
+        "CARD": (255, 255, 255), "CARD2": (247, 250, 255),
+        "LINE": (221, 230, 242), "INK": (22, 34, 56),
+        "MUTED": (112, 130, 157), "TRACK": (229, 236, 247),
+        "PALE_BLUE": (235, 244, 255), "PALE_GREEN": (232, 249, 241),
+        "PALE_AMBER": (255, 246, 230), "SHADOW": (232, 238, 248),
+    },
+    "dark": {
+        "BG": (15, 23, 42), "SIDEBAR": (17, 24, 39),
+        "CARD": (30, 41, 59), "CARD2": (37, 50, 70),
+        "LINE": (55, 65, 81), "INK": (241, 245, 249),
+        "MUTED": (156, 163, 175), "TRACK": (55, 65, 81),
+        "PALE_BLUE": (30, 58, 95), "PALE_GREEN": (26, 67, 55),
+        "PALE_AMBER": (78, 55, 25), "SHADOW": (12, 18, 32),
+    },
+}
 
 NAV = [("overview", "总览"), ("monitor", "监控"), ("nodes", "设备"),
        ("control", "控制"), ("settings", "设置")]
 PAGE_TITLE = {"overview": "总览", "monitor": "数据监控", "nodes": "设备管理",
-              "control": "就地控制", "settings": "系统设置"}
+              "control": "就地控制", "settings": "系统设置",
+              "device_config": "离线设备配置"}
 
 CONTROLS = [
     ("二次供温", "sec_supply_temp", "sec_supply_temp_sp", 20, 75, 2, "℃", BLUE),
     ("阀位开度", "valve_open", "valve_open_sp", 0, 100, 5, "%", GREEN),
     ("循环泵频率", "pump_freq", "pump_freq_sp", 0, 50, 2, "Hz", AMBER),
 ]
+DEVICE_TYPE_LABELS = {
+    "other": "设备", "pump_vfd": "水泵", "temp_humidity_sensor": "温度传感器",
+    "pressure_sensor": "压力传感器", "heat_meter": "热量表",
+    "energy_meter": "电能表", "io_module": "IO 模块",
+}
 
 # 编译产物 display_model 驱动的卡片(监控页用)。空=回退到平铺点表。
 # 由 configure_display() 从 display_model.json 派生;page/card 模型在本地 HMI 才真正发挥。
 DISPLAY_CARDS = []
+_GLYPH_RUNS = {}
+
+
+def apply_theme(theme):
+    """Apply a process-wide palette before rendering a frame."""
+    name = theme if theme in THEMES else "light"
+    globals().update(THEMES[name])
+    return name
 
 
 def configure_display(display_model):
@@ -92,14 +129,21 @@ class FB:
             self.buf[i:i + 3] = bytes(c)
 
     def round_rect(self, x, y, w, h, c, r=8, border=None):
-        self.rect(x + r, y, w - 2 * r, h, c)
+        # Draw rounded corners as horizontal spans. The previous implementation
+        # visited every corner pixel in Python and allocated bytes for each one,
+        # which cost hundreds of milliseconds on RK3506.
+        r = max(0, min(r, w // 2, h // 2))
+        if not r:
+            self.rect(x, y, w, h, c)
+            return
         self.rect(x, y + r, w, h - 2 * r, c)
-        for cx, cy in ((x + r, y + r), (x + w - r - 1, y + r),
-                       (x + r, y + h - r - 1), (x + w - r - 1, y + h - r - 1)):
-            for dy in range(-r, r + 1):
-                for dx in range(-r, r + 1):
-                    if dx * dx + dy * dy <= r * r:
-                        self.px(cx + dx, cy + dy, c)
+        rr = r * r
+        for dy in range(r):
+            cy = r - dy
+            inset = r - int(math.sqrt(max(0, rr - cy * cy)))
+            span = w - inset * 2
+            self.rect(x + inset, y + dy, span, 1, c)
+            self.rect(x + inset, y + h - 1 - dy, span, 1, c)
         if border:
             self.hline(x + r, x + w - r, y, border)
             self.hline(x + r, x + w - r, y + h - 1, border)
@@ -130,13 +174,31 @@ class FB:
         bm = GLYPHS.get(ch)
         if bm is None:
             return 8 * scale
-        gw = 16 if len(bm) == 64 else 8
-        bpr = gw // 8
-        for ry in range(16):
-            val = int(bm[ry * bpr * 2:(ry + 1) * bpr * 2], 16)
-            for rx in range(gw):
-                if val & (1 << (gw - 1 - rx)):
-                    self.rect(x + rx * scale, y + ry * scale, scale, scale, c)
+        cached = _GLYPH_RUNS.get(ch)
+        if cached is None:
+            gw = 16 if len(bm) == 64 else 8
+            bpr = gw // 8
+            rows = []
+            for ry in range(16):
+                val = int(bm[ry * bpr * 2:(ry + 1) * bpr * 2], 16)
+                runs = []
+                rx = 0
+                while rx < gw:
+                    if not (val & (1 << (gw - 1 - rx))):
+                        rx += 1
+                        continue
+                    start = rx
+                    while rx < gw and val & (1 << (gw - 1 - rx)):
+                        rx += 1
+                    runs.append((start, rx))
+                rows.append(tuple(runs))
+            cached = (gw, tuple(rows))
+            _GLYPH_RUNS[ch] = cached
+        gw, rows = cached
+        for ry, runs in enumerate(rows):
+            for start, end in runs:
+                self.rect(x + start * scale, y + ry * scale,
+                          (end - start) * scale, scale, c)
         return gw * scale
 
     def text(self, s, x, y, scale, c):
@@ -206,38 +268,50 @@ def point_of(view, pid):
     return None
 
 
-# ---- 侧栏(可点导航) ----
-def draw_sidebar(fb, page, buttons):
-    fb.rect(0, 0, 76, H, SIDEBAR)
-    fb.round_rect(20, 12, 36, 32, BLUE2, r=8)
-    fb.text_center("N", 38, 18, 2, (255, 255, 255))
+def panel(fb, x, y, w, h, r=12, border=True):
+    """Reference-inspired white card with a restrained one-pixel shadow."""
+    fb.round_rect(x + 2, y + 3, w, h, SHADOW, r=r)
+    fb.round_rect(x, y, w, h, CARD, r=r, border=LINE if border else None)
+
+
+# ---- 顶栏与底部导航(适配 800x480 触摸屏) ----
+def draw_nav(fb, page, buttons):
+    y = 442
+    fb.rect(0, y, W, H - y, CARD)
+    fb.hline(0, W, y, LINE)
+    cell = 104
+    x0 = (W - cell * len(NAV)) // 2
     for i, (pid, label) in enumerate(NAV):
-        y = 66 + i * 78
-        active = (pid == page)
-        fb.round_rect(8, y, 60, 68, (19, 35, 58) if active else SIDEBAR, r=10,
-                      border=BLUE if active else None)
-        fb.round_rect(26, y + 8, 24, 24, BLUE2 if active else CARD2, r=6,
-                      border=None if active else LINE)
-        fb.rect(32, y + 14, 12, 3, (255, 255, 255) if active else MUTED)
-        fb.rect(32, y + 19, 12, 3, (255, 255, 255) if active else MUTED)
-        fb.text_center(label, 38, y + 40, 1, INK if active else MUTED)
-        buttons.append({"rect": (4, y, 68, 72), "nav": pid})
+        x = x0 + i * cell
+        active = pid == page or (page == "device_config" and pid == "nodes")
+        if active:
+            fb.round_rect(x + 7, y + 5, cell - 14, 28, PALE_BLUE, r=14)
+            fb.rect(x + 17, y + 16, 6, 6, BLUE)
+        fb.text_center(label, x + cell // 2 + (5 if active else 0), y + 10, 1,
+                       BLUE if active else MUTED)
+        buttons.append({"rect": (x, y, cell, H - y), "nav": pid})
 
 
 def draw_header(fb, view, clock, title):
-    fb.rect(76, 0, W - 76, 52, CARD2)
-    fb.hline(76, W, 52, LINE)
-    fb.text(title, 92, 16, 2, INK)
+    fb.rect(0, 0, W, 54, CARD)
+    fb.hline(0, W, 53, LINE)
+    # Compact EdgeAgent mark + product lockup. The mark is UI chrome, not a mascot asset.
+    fb.round_rect(16, 11, 32, 32, BLUE2, r=8)
+    fb.text_center("E", 32, 17, 2, (255, 255, 255))
+    fb.text("EdgeAgent", 58, 12, 1, INK)
+    fb.text("ONE", 58, 29, 1, BLUE)
+    fb.vline(12, 42, 142, LINE)
+    fb.text(title, 158, 18, 1, INK)
     devs = view.get("devices", [])
     online = sum(1 for d in devs if d.get("ok"))
     total = len(devs)
     clk_w = fb.text_w(clock, 1)
-    fb.text(clock, W - clk_w - 14, 18, 1, MUTED)
+    fb.text(clock, W - clk_w - 18, 19, 1, MUTED)
     pc = GREEN if (online == total and total) else AMBER
-    pl = "在线 %d/%d" % (online, total)
+    pl = "系统正常" if pc == GREEN else "设备 %d/%d" % (online, total)
     pw = fb.text_w(pl, 1) + 34
-    px = W - clk_w - 14 - pw - 14
-    fb.round_rect(px, 14, pw, 24, (20, 45, 30) if pc == GREEN else (50, 38, 16), r=12)
+    px = W - clk_w - 18 - pw - 20
+    fb.round_rect(px, 14, pw, 25, PALE_GREEN if pc == GREEN else PALE_AMBER, r=12)
     fb.rect(px + 12, 23, 7, 7, pc)
     fb.text(pl, px + 24, 17, 1, pc)
 
@@ -246,25 +320,31 @@ def _kpi_row(fb, view):
     devs = view.get("devices", [])
     online = sum(1 for d in devs if d.get("ok"))
     total = len(devs)
-    pts = sum(len(d.get("points") or {}) for d in devs)
-    cx0, cy0, cw, ch, gap = 88, 64, 168, 76, 12
-    kpis = [("接入设备", str(total), "台", BLUE),
-            ("在线", "%d/%d" % (online, total), "", GREEN if online == total else AMBER),
-            ("采集点位", str(pts), "点", BLUE),
-            ("上行 MQTT", "在线", "", GREEN)]
+    cx0, cy0, cw, ch, gap = 16, 132, 132, 104, 8
+    kpis = [("二次供温", fnum(pick(view, "sec_supply_temp")), "℃", BLUE),
+            ("供水压力", fnum(pick(view, "sec_supply_pressure"), 2), "MPa", BLUE),
+            ("循环泵频率", fnum(pick(view, "pump_freq")), "Hz", GREEN),
+            ("在线设备", "%d/%d" % (online, total), "", GREEN if online == total else AMBER)]
     for i, (label, val, unit, col) in enumerate(kpis):
         x = cx0 + i * (cw + gap)
-        fb.round_rect(x, cy0, cw, ch, CARD, r=10, border=LINE)
-        fb.text(label, x + 14, cy0 + 10, 1, MUTED)
-        vx = fb.text(val, x + 14, cy0 + 32, 3, col)
+        panel(fb, x, cy0, cw, ch)
+        fb.round_rect(x + 12, cy0 + 10, 24, 24,
+                      PALE_GREEN if col == GREEN else (PALE_AMBER if col == AMBER else PALE_BLUE), r=8)
+        fb.rect(x + 20, cy0 + 18, 8, 8, col)
+        fb.text(label, x + 44, cy0 + 14, 1, MUTED)
+        vx = fb.text(val, x + 14, cy0 + 43, 2, INK)
         if unit:
-            fb.text(unit, vx + 6, cy0 + 46, 1, MUTED)
+            fb.text(unit, vx + 5, cy0 + 52, 1, MUTED)
+        # Tiny bar sparkline, kept data-neutral because the snapshot has no history series.
+        bars = (5, 9, 7, 13, 8, 16, 11, 18, 13, 20, 14, 17)
+        for bi, bh in enumerate(bars):
+            fb.round_rect(x + 14 + bi * 8, cy0 + 91 - bh, 4, bh, col, r=2)
 
 
 def _device_list(fb, view, x, y, w, h):
     devs = view.get("devices", [])
     online = sum(1 for d in devs if d.get("ok"))
-    fb.round_rect(x, y, w, h, CARD, r=10, border=LINE)
+    panel(fb, x, y, w, h)
     fb.text("接入设备", x + 14, y + 12, 1, MUTED)
     fb.text_right("%d/%d 在线" % (online, len(devs)), x + w - 14, y + 12, 1, MUTED)
     ry = y + 36
@@ -275,40 +355,65 @@ def _device_list(fb, view, x, y, w, h):
         first = next((("%s %s" % (fnum(p["v"]), p.get("u", "")))
                       for p in (d.get("points") or {}).values() if p.get("v") is not None), "--")
         fb.text_right(first, x + w - 14, ry + 2, 1, INK if ok else MUTED)
-        fb.hline(x + 14, x + w - 14, ry + 26, (37, 47, 66))
+        fb.hline(x + 14, x + w - 14, ry + 26, LINE)
         ry += 28
 
 
 def _status_bar(fb, view):
-    by = 424
+    by = 394
     events = view.get("events", [])
     msg = events[0].get("detail") if events else None
     if msg:
-        fb.round_rect(88, by, W - 88 - 12, 44, CARD2, r=10)
-        fb.rect(104, by + 17, 8, 8, AMBER)
-        fb.text(("事件 " + msg)[:42], 124, by + 13, 1, INK)
+        fb.round_rect(16, by, 552, 36, CARD, r=10, border=LINE)
+        fb.rect(28, by + 14, 8, 8, AMBER)
+        fb.text(("事件 " + msg)[:38], 40, by + 10, 1, INK)
     else:
-        fb.round_rect(88, by, W - 88 - 12, 44, CARD2, r=10)
-        fb.rect(104, by + 17, 8, 8, GREEN)
-        fb.text("系统正常 · 采集与上行运行中", 124, by + 13, 1, GREEN)
+        fb.round_rect(16, by, 552, 36, CARD, r=10, border=LINE)
+        fb.rect(28, by + 14, 8, 8, GREEN)
+        fb.text("系统正常 · 本机采集与设备监控运行中", 46, by + 9, 1, GREEN)
 
 
 # ---- 各页面 ----
 def page_overview(fb, view, targets, buttons):
+    devs = view.get("devices", [])
+    online = sum(1 for d in devs if d.get("ok"))
+    fb.text("换热网关", 18, 70, 2, INK)
+    fb.text("换热系统", 18, 104, 1, MUTED)
+    fb.text("运行正常" if online == len(devs) else "设备异常", 118, 104, 1,
+            GREEN if online == len(devs) else AMBER)
     _kpi_row(fb, view)
-    gx0, gy = 88, 152
-    fb.round_rect(gx0, gy, 332, 252, CARD, r=10, border=LINE)
-    fb.text("关键运行参数", gx0 + 16, gy + 12, 1, MUTED)
-    gauges = [("二次供温", pick(view, "sec_supply_temp"), 0, 80, "℃", BLUE),
-              ("阀位开度", pick(view, "valve_open"), 0, 100, "%", GREEN),
-              ("泵频率", pick(view, "pump_freq"), 0, 50, "Hz", AMBER)]
-    for (label, val, lo, hi, unit, col), cxp in zip(gauges, (gx0 + 70, gx0 + 166, gx0 + 262)):
-        frac = 0 if val is None else (float(val) - lo) / (hi - lo)
-        fb.ring(cxp, gy + 120, 44, 33, frac, col)
-        fb.text_center(fnum(val, 0 if unit == "%" else 1), cxp, gy + 108, 2, INK)
-        fb.text_center(unit, cxp, gy + 128, 1, MUTED)
-        fb.text_center(label, cxp, gy + 178, 1, MUTED)
-    _device_list(fb, view, 432, gy, W - 432 - 12, 252)
+    # Device summary cards echo the product cards in the reference without fake product imagery.
+    cards = [("换热机组", "供温 %s℃" % fnum(pick(view, "sec_supply_temp")), BLUE),
+             ("循环水泵", "频率 %sHz" % fnum(pick(view, "pump_freq")), GREEN),
+             ("调节阀", "开度 %s%%" % fnum(pick(view, "valve_open"), 0), AMBER)]
+    for i, (name, detail, col) in enumerate(cards):
+        x, y, w, h = 16 + i * 184, 248, 176, 134
+        panel(fb, x, y, w, h)
+        fb.text(name, x + 14, y + 12, 1, INK)
+        fb.rect(x + w - 26, y + 17, 7, 7, GREEN)
+        fb.text("运行正常", x + 14, y + 37, 1, GREEN)
+        fb.round_rect(x + 14, y + 62, 48, 48,
+                      PALE_GREEN if col == GREEN else (PALE_AMBER if col == AMBER else PALE_BLUE), r=12)
+        fb.ring(x + 38, y + 86, 15, 10, .72, col, sweep=300, start=120)
+        fb.text(detail, x + 72, y + 79, 1, MUTED)
+
+    # Local duty rail: the cloud-agent metaphor is translated into observable local services.
+    x, y, w, h = 584, 66, 200, 364
+    panel(fb, x, y, w, h, r=14)
+    fb.text("本机监控中", x + 16, y + 16, 2, INK)
+    fb.text("离线可运行 · 就地监控", x + 16, y + 50, 1, MUTED)
+    fb.hline(x + 14, x + w - 14, y + 76, LINE)
+    duties = [("数据采集", "读取设备点位", GREEN),
+              ("设备运行", "%d/%d 在线" % (online, len(devs)), BLUE),
+              ("本机控制", "安全校验下发", BLUE),
+              ("云端上行", "本机运行正常", MUTED)]
+    for i, (name, desc, col) in enumerate(duties):
+        ry = y + 92 + i * 64
+        fb.ring(x + 24, ry + 10, 9, 6, 1 if col != MUTED else .35, col, sweep=360, start=0)
+        if i < len(duties) - 1:
+            fb.vline(ry + 20, ry + 58, x + 24, LINE)
+        fb.text(name, x + 44, ry, 1, col if col != MUTED else INK)
+        fb.text(desc, x + 44, ry + 23, 1, MUTED)
     _status_bar(fb, view)
 
 
@@ -320,35 +425,35 @@ def page_monitor(fb, view, targets, buttons):
     if DISPLAY_CARDS:
         return _page_monitor_cards(fb, view)
     pts = all_points(view)
-    fb.round_rect(88, 64, W - 88 - 12, 400, CARD, r=10, border=LINE)
-    fb.text("采集点表 · 共 %d 点" % len(pts), 104, 76, 1, MUTED)
-    col_w = (W - 88 - 12 - 24) // 2
-    per = 13
+    panel(fb, 16, 66, 768, 364, r=14)
+    fb.text("采集点表 · 共 %d 点" % len(pts), 34, 82, 1, MUTED)
+    col_w = 356
+    per = 11
     for idx, (dn, pid, v, u, q) in enumerate(pts[: per * 2]):
         col = idx // per
         row = idx % per
-        x = 104 + col * (col_w + 8)
-        ry = 102 + row * 27
+        x = 34 + col * (col_w + 22)
+        ry = 110 + row * 27
         fb.rect(x, ry + 5, 7, 7, _qcolor(q))
         fb.text(pid[:16], x + 14, ry, 1, INK)
         fb.text_right("%s %s" % (fnum(v), u), x + col_w - 6, ry, 1,
                       INK if q in ("good", "") else MUTED)
-        fb.hline(x, x + col_w - 6, ry + 22, (34, 44, 62))
+        fb.hline(x, x + col_w - 6, ry + 22, LINE)
 
 
 def _page_monitor_cards(fb, view):
     """display_model 驱动:按卡片分组渲染,2 列流式排布,超出可视高度的卡片截断。"""
-    col_w = (W - 88 - 12 - 12) // 2
-    colx = [88, 88 + col_w + 12]
-    coly = [64, 64]
+    col_w = 378
+    colx = [16, 406]
+    coly = [66, 66]
     for c in DISPLAY_CARDS:
         fields = c["fields"][:6]
         ch = 30 + len(fields) * 22 + 8
         ci = 0 if coly[0] <= coly[1] else 1
         x, y = colx[ci], coly[ci]
-        if y + ch > 466:
+        if y + ch > 430:
             continue
-        fb.round_rect(x, y, col_w, ch, CARD, r=10, border=LINE)
+        panel(fb, x, y, col_w, ch)
         fb.text(c["title"][:14], x + 14, y + 8, 1, MUTED)
         ry = y + 30
         for pid, label in fields:
@@ -364,46 +469,102 @@ def _page_monitor_cards(fb, view):
 
 def page_nodes(fb, view, targets, buttons):
     devs = view.get("devices", [])
-    cw, chh, gap = (W - 88 - 12 - 12) // 2, 92, 12
-    for i, d in enumerate(devs[:8]):
+    drafts = view.get("configured_nodes", [])
+    fb.text("运行 %d 台 · 接入配置 %d 台" % (len(devs), len(drafts)), 24, 76, 1, MUTED)
+    add = (500, 66, 132, 34)
+    fb.round_rect(*add, BLUE, r=8)
+    fb.text_center("设备接入", add[0] + add[2] // 2, add[1] + 9, 1, (255, 255, 255))
+    buttons.append({"rect": add, "action": "open_device_add"})
+    cfg = (646, 66, 138, 34)
+    fb.round_rect(*cfg, BLUE, r=8)
+    fb.text_center("设备配置", cfg[0] + cfg[2] // 2, cfg[1] + 9, 1, (255, 255, 255))
+    buttons.append({"rect": cfg, "action": "open_device_config"})
+    cw, chh, gap = 376, 72, 8
+    draft_count = min(2, len(drafts))
+    cards = [("runtime", d) for d in devs[:8 - draft_count]]
+    cards += [("draft", d) for d in drafts[:draft_count]]
+    for i, (kind, d) in enumerate(cards):
         col, row = i % 2, i // 2
-        x = 88 + col * (cw + gap)
-        y = 64 + row * (chh + gap)
-        ok = d.get("ok")
-        fb.round_rect(x, y, cw, chh, CARD, r=10, border=LINE)
-        fb.rect(x + 16, y + 18, 10, 10, GREEN if ok else RED)
+        x = 16 + col * (cw + 16)
+        y = 108 + row * (chh + gap)
+        is_draft = kind == "draft"
+        ok = d.get("ok") if not is_draft else None
+        panel(fb, x, y, cw, chh)
+        fb.rect(x + 16, y + 18, 10, 10, BLUE if is_draft else (GREEN if ok else RED))
         fb.text(d.get("name", "")[:12], x + 32, y + 12, 1, INK)
-        sc = GREEN if ok else RED
-        st = "在线" if ok else "离线"
-        fb.round_rect(x + cw - 64, y + 12, 50, 22, (20, 45, 30) if ok else (50, 24, 24), r=11)
+        sc = BLUE if is_draft else (GREEN if ok else RED)
+        st = "配置" if is_draft else ("在线" if ok else "离线")
+        badge = PALE_BLUE if is_draft else (PALE_GREEN if ok else (255, 238, 238))
+        fb.round_rect(x + cw - 64, y + 12, 50, 22, badge, r=11)
         fb.text_center(st, x + cw - 39, y + 15, 1, sc)
-        fb.text("类型 %s" % d.get("type", "-"), x + 16, y + 40, 1, MUTED)
-        fb.text("地址 %s · 点位 %d" % (d.get("addr", "-"), len(d.get("points") or {})),
-                x + 16, y + 62, 1, MUTED)
+        if is_draft:
+            dtype = d.get("deviceType", "other")
+            fb.text("类型 %s" % d.get("deviceTypeLabel", DEVICE_TYPE_LABELS.get(dtype, "设备")),
+                    x + 16, y + 36, 1, MUTED)
+            fb.text("串口 %s · 地址 %s" % (d.get("serialPort", d.get("endpoint", "-")),
+                                           d.get("slaveId", "-")), x + 16, y + 56, 1, MUTED)
+        else:
+            fb.text("类型 %s" % d.get("type", "-"), x + 16, y + 36, 1, MUTED)
+            fb.text("地址 %s · 点位 %d" % (d.get("addr", "-"), len(d.get("points") or {})),
+                    x + 16, y + 56, 1, MUTED)
+
+
+def page_device_config(fb, form, slot, count, message, buttons):
+    back = (16, 68, 86, 30)
+    fb.round_rect(*back, CARD2, r=8, border=LINE)
+    buttons.append({"rect": back, "action": "config_back"})
+    fb.text_center("返回", back[0] + back[2] // 2, back[1] + 7, 1, INK)
+    fb.text(("设备接入" if slot == 0 else "设备配置") + " · 离线配置", 120, 76, 1, BLUE)
+    rows = [
+        ("设备", "+ 设备" if slot == 0 else "设备 %d/%d" % (slot, count), "record"),
+        ("设备类型", form.get("deviceTypeLabel", "设备"), "deviceType"),
+        ("串口", form.get("serialPort", "/dev/ttyS1"), "serialPort"),
+        ("速率", str(form.get("baudRate", 9600)), "baudRate"),
+        ("校验", "8%s1" % {"none": "N", "even": "E", "odd": "O"}.get(form.get("parity"), "N"), "parity"),
+        ("地址", str(form.get("slaveId", 1)), "slaveId"),
+        ("采集", "%s ms" % form.get("pollInterval", 1000), "pollInterval"),
+    ]
+    for i, (label, value, field) in enumerate(rows):
+        y = 108 + i * 42
+        panel(fb, 16, y - 4, 768, 38, r=8)
+        fb.text(label, 34, y + 8, 1, MUTED)
+        fb.text_center(value, 430, y + 8, 1, INK)
+        minus, plus = (650, y, 48, 30), (718, y, 48, 30)
+        fb.round_rect(*minus, CARD2, r=7, border=LINE); fb.text_center("-", 674, y + 4, 2, MUTED)
+        fb.round_rect(*plus, CARD2, r=7, border=BLUE); fb.text_center("+", 742, y + 4, 2, BLUE)
+        buttons.append({"rect": minus, "action": "config_change", "field": field, "delta": -1})
+        buttons.append({"rect": plus, "action": "config_change", "field": field, "delta": 1})
+    save = (616, 406, 168, 30)
+    fb.round_rect(*save, BLUE, r=9)
+    fb.text_center("设备接入" if slot == 0 else "本机配置", 700, 413, 1, (255, 255, 255))
+    buttons.append({"rect": save, "action": "config_save"})
+    if message:
+        fb.text(message[:28], 24, 413, 1,
+                GREEN if message in ("配置正常", "设备已接入") else RED)
 
 
 def page_control(fb, view, targets, buttons):
-    fb.round_rect(88, 64, W - 88 - 12, 400, CARD, r=10, border=LINE)
-    fb.text("就地控制 · 点 −/+ 下发设定值(安全校验)", 104, 78, 1, MUTED)
+    panel(fb, 16, 66, 768, 364, r=14)
+    fb.text("就地控制 · 点 −/+ 下发设定值(安全校验)", 34, 82, 1, MUTED)
     for i, (label, fbid, spid, lo, hi, step, unit, col) in enumerate(CONTROLS):
-        ry = 116 + i * 106
+        ry = 112 + i * 100
         cur = pick(view, fbid)
         tgt = targets.get(fbid)
         if tgt is None:
             tgt = round(cur) if cur is not None else lo
-        fb.text(label, 116, ry, 2, INK)
+        fb.text(label, 38, ry, 2, INK)
         frac = 0 if cur is None else max(0.0, min(1.0, (float(cur) - lo) / (hi - lo)))
-        fb.rect(116, ry + 40, 300, 12, TRACK)
-        fb.rect(116, ry + 40, int(300 * frac), 12, col)
-        fb.text("当前 %s%s" % (fnum(cur, 0 if unit == "%" else 1), unit), 116, ry + 60, 1, MUTED)
-        bm = (470, ry, 70, 70)
-        bp = (650, ry, 70, 70)
+        fb.round_rect(38, ry + 40, 320, 10, TRACK, r=5)
+        fb.round_rect(38, ry + 40, int(320 * frac), 10, col, r=5)
+        fb.text("当前 %s%s" % (fnum(cur, 0 if unit == "%" else 1), unit), 38, ry + 60, 1, MUTED)
+        bm = (480, ry, 64, 64)
+        bp = (690, ry, 64, 64)
         fb.round_rect(*bm, CARD2, r=12, border=LINE)
         fb.text_center("-", bm[0] + 35, ry + 12, 3, MUTED)
-        fb.round_rect(*bp, (18, 38, 26) if col == GREEN else CARD2, r=12, border=col)
+        fb.round_rect(*bp, PALE_GREEN if col == GREEN else CARD2, r=12, border=col)
         fb.text_center("+", bp[0] + 35, ry + 12, 3, col)
-        fb.text_center(fnum(tgt, 0), 595, ry + 10, 3, INK)
-        fb.text_center("设定 " + unit, 595, ry + 58, 1, MUTED)
+        fb.text_center(fnum(tgt, 0), 617, ry + 10, 3, INK)
+        fb.text_center("设定 " + unit, 617, ry + 52, 1, MUTED)
         buttons.append({"rect": bm, "fb": fbid, "sp": spid, "delta": -step, "lo": lo, "hi": hi})
         buttons.append({"rect": bp, "fb": fbid, "sp": spid, "delta": step, "lo": lo, "hi": hi})
 
@@ -412,36 +573,71 @@ def page_settings(fb, view, targets, buttons):
     devs = view.get("devices", [])
     online = sum(1 for d in devs if d.get("ok"))
     pts = sum(len(d.get("points") or {}) for d in devs)
-    fb.round_rect(88, 64, W - 88 - 12, 400, CARD, r=10, border=LINE)
-    fb.text("系统信息", 104, 78, 1, MUTED)
-    rows = [("设备 ID", str(view.get("device_id", "rk3506-gw-01"))),
-            ("接入设备", "%d 台(在线 %d)" % (len(devs), online)),
-            ("采集点位", "%d 点" % pts),
-            ("上行链路", "MQTT 在线"),
-            ("本机地址", "192.168.1.10 : 8092"),
-            ("应用版本", "nexus-edge gateway v1"),
-            ("运行平台", "RK3506 · Buildroot · DRM")]
-    for i, (k, v) in enumerate(rows):
-        ry = 112 + i * 44
-        fb.text(k, 116, ry, 1, MUTED)
-        fb.text(v, 320, ry, 1, INK)
-        fb.hline(104, W - 24, ry + 28, (34, 44, 62))
+    settings = view.get("local_settings") or {}
+    brightness = max(10, min(100, int(settings.get("brightness", 80))))
+    theme = settings.get("theme", "light")
+    panel(fb, 16, 66, 768, 364, r=14)
+    fb.text("画面调节", 34, 82, 1, MUTED)
+
+    fb.round_rect(34, 108, 716, 76, CARD2, r=12, border=LINE)
+    fb.text("明度", 52, 126, 2, INK)
+    fb.text("10% - 100%", 52, 154, 1, MUTED)
+    minus = (466, 120, 68, 48)
+    plus = (664, 120, 68, 48)
+    fb.round_rect(*minus, CARD, r=10, border=LINE)
+    fb.text_center("-", minus[0] + minus[2] // 2, 128, 2, MUTED)
+    fb.text_center("%d%%" % brightness, 599, 128, 2, INK)
+    fb.round_rect(*plus, PALE_BLUE, r=10, border=BLUE)
+    fb.text_center("+", plus[0] + plus[2] // 2, 128, 2, BLUE)
+    buttons.append({"rect": minus, "action": "brightness_change", "delta": -10})
+    buttons.append({"rect": plus, "action": "brightness_change", "delta": 10})
+
+    fb.round_rect(34, 198, 716, 76, CARD2, r=12, border=LINE)
+    fb.text("风格", 52, 218, 2, INK)
+    fb.text("LIGHT / DARK", 52, 248, 1, MUTED)
+    light = (466, 212, 120, 48)
+    dark = (612, 212, 120, 48)
+    for rect, value, label in ((light, "light", "LIGHT"), (dark, "dark", "DARK")):
+        active = theme == value
+        fb.round_rect(*rect, PALE_BLUE if active else CARD, r=10,
+                      border=BLUE if active else LINE)
+        fb.text_center(label, rect[0] + rect[2] // 2, 228, 1,
+                       BLUE if active else MUTED)
+        buttons.append({"rect": rect, "action": "theme_set", "theme": value})
+
+    fb.text("系统信息", 34, 294, 1, MUTED)
+    rows = [
+        ("设备", "%d 台 · 在线 %d" % (len(devs), online)),
+        ("点位", "%d 点" % pts),
+        ("平台", "RK3506 · Buildroot · DRM"),
+    ]
+    for i, (key, value) in enumerate(rows):
+        ry = 320 + i * 32
+        fb.text(key, 52, ry, 1, MUTED)
+        fb.text(value, 220, ry, 1, INK)
+        if i < len(rows) - 1:
+            fb.hline(44, W - 44, ry + 22, LINE)
 
 
 PAGES = {"overview": page_overview, "monitor": page_monitor, "nodes": page_nodes,
          "control": page_control, "settings": page_settings}
 
 
-def render(view, clock="--:--:--", targets=None, page="overview"):
+def render(view, clock="--:--:--", targets=None, page="overview",
+           device_form=None, config_slot=0, config_message=""):
     targets = targets or {}
     buttons = []
     fb = FB()
     fb.clear(BG)
-    if page not in PAGES:
+    if page not in PAGES and page != "device_config":
         page = "overview"
-    draw_sidebar(fb, page, buttons)
     draw_header(fb, view, clock, PAGE_TITLE[page])
-    PAGES[page](fb, view, targets, buttons)
+    if page == "device_config":
+        page_device_config(fb, device_form or {}, config_slot,
+                           len(view.get("configured_nodes", [])), config_message, buttons)
+    else:
+        PAGES[page](fb, view, targets, buttons)
+    draw_nav(fb, page, buttons)
     return fb, buttons
 
 

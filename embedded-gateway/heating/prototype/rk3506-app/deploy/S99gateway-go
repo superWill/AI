@@ -1,0 +1,76 @@
+#!/bin/sh
+APP=/userdata/rk3506-app
+RUN=$APP/run
+PY=$(command -v python3 || echo /usr/bin/python3)
+mkdir -p "$RUN" "$APP/build"
+
+stop_legacy_hmi() {
+  # The vendor panel watchdog restarts hmi_lvgl forever. Stop the watchdog first,
+  # then its child, so the legacy screen cannot take DRM back after this service.
+  for p in $(ps w 2>/dev/null | awk '
+    $3 ~ /hmi_start\.sh/ || $3 ~ /hmi_lvgl$/ ||
+    $4 ~ /\/root\/hmi_start\.sh$/ || $4 ~ /\/root\/hmi_lvgl$/ {print $1}
+  '); do
+    kill -9 "$p" 2>/dev/null
+  done
+  killall hmi_lvgl lv_demo rk3506_lvgl_test 2>/dev/null || true
+}
+
+stop_all() {
+  stop_legacy_hmi
+  i=0
+  while [ $i -lt 6 ]; do
+    found=0
+    for p in $(ps w 2>/dev/null | awk '
+      $3 ~ /supervisor-go\.s/ || $3 ~ /supervisor\.sh/ ||
+      ($3 ~ /gatewayc$/ && ($4 == "run" || $4 == "ui")) ||
+      ($3 ~ /python3$/ && $4 ~ /(ui_config_proxy|drm_hmi_v4|nexus_server)\.py$/) ||
+      $3 ~ /hmic$/ {print $1}
+    '); do
+      kill -9 "$p" 2>/dev/null; found=1
+    done
+    [ "$found" = 0 ] && break
+    sleep 1; i=$((i+1))
+  done
+}
+
+rotate_logs() {
+  # NAND is tiny. Keep at most the current 64 KiB file and one previous file.
+  for f in sup.log sup.out gatewayc.log ui.log ui-proxy.log lcd.log app.log nexus.log; do
+    p="$RUN/$f"
+    [ -f "$p" ] || continue
+    size=$(wc -c < "$p" 2>/dev/null || echo 0)
+    if [ "$size" -gt 65536 ]; then
+      rm -f "$p.1"
+      mv "$p" "$p.1"
+    fi
+  done
+}
+
+start() {
+  stop_all
+  rotate_logs
+  TF="$RUN/control_token"
+  [ -s "$TF" ] || (head -c 18 /dev/urandom | base64 | tr -d '\n/+=' > "$TF"; chmod 600 "$TF")
+  export GATEWAYC_CONTROL_TOKEN=$(cat "$TF")
+  GATEWAYC="$APP/gatewayc" PROXY="$APP/ui_config_proxy.py" PY="$PY" \
+    BUILD="$APP/build" FALLBACK_CFG="$APP/app_config.json" DIST="$APP/nexus-dist" \
+    CORE=http://127.0.0.1:8091 RUN="$RUN" nohup "$APP/supervisor-go.sh" \
+    >>"$RUN/sup.out" 2>&1 &
+  # LCD:优先 Go 版 hmic,二进制缺席才回退 Python(镜像 gatewayc 的回退模式)
+  if [ -x "$APP/hmic" ]; then
+    nohup "$APP/hmic" 8091 --config-base http://127.0.0.1:8092 >>"$RUN/lcd.log" 2>&1 &
+    LCD_IMPL=hmic
+  else
+    nohup "$PY" "$APP/drm_hmi_v4.py" 8091 >>"$RUN/lcd.log" 2>&1 &
+    LCD_IMPL=python
+  fi
+  echo "[S99-go] core:8091 + ui:8093 + proxy:8092 + LCD($LCD_IMPL) 已启动"
+}
+
+case "$1" in
+  start) start ;;
+  stop) stop_all ;;
+  restart) stop_all; sleep 1; start ;;
+  *) echo "usage: $0 {start|stop|restart}"; exit 1 ;;
+esac
