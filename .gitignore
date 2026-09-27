@@ -38,3 +38,13 @@ secrets/
 # Hermes / 个人配置（即使误入也不进 commit）
 .hermes/
 auth.json
+
+# 本地 git worktree 目录（各自有分支，不入主树）
+_wt-*/
+
+# 前端依赖与构建产物
+**/node_modules/
+embedded-gateway/heating/prototype/threejs-building-status-prototype/dist/
+
+# build_html_site 误把坏掉的 x86 venv 渲染成了 HTML
+investment-research/site/.venv*/
