@@ -1,7 +1,7 @@
 # 现场总线基础:Modbus / RS485 / 总线仲裁
 
 > 面向网关采集层的"协议常识"。配套可跑代码:[`modbus_demo.py`](../../prototype/rk3506-bringup/modbus_demo.py)(纯标准库,板子上 `python3 modbus_demo.py` 即可看每帧字节)。
-> 相关:[网关可靠性与性能](../architecture/gateway-reliability-and-performance.md) · [常识清单 §3 §4](../embedded-common-sense.md)
+> 相关:[网关可靠性与性能](../architecture/gateway-reliability-and-performance.md) · [常识清单 §3 §4](../embedded-common-sense.md) · [RK3506 网关核心概念与 Modbus 操作 FAQ](rk3506-gateway-core-concepts-faq.md)
 
 ---
 

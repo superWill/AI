@@ -25,3 +25,11 @@ entry pointing at the Mac itself. The helper script only pins the RK3506 host
 route and ARP entry.
 
 RK3506 vendor SSH login is `root@192.168.1.10`, password `root`.
+
+## RK3506 local HMI memory
+
+For work involving the RK3506 physical LCD, DRM rendering, Goodix touch,
+bottom navigation, page switching, framebuffer caching, HMI performance, or
+`dashboard.py` / `drm_hmi_v4.py`, read
+`docs/architecture/rk3506-local-hmi-runtime-memory.md` first and preserve its
+measured performance constraints and cached-navigation invariants.
