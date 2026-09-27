@@ -473,7 +473,7 @@ def iter_markdown_files() -> list[Path]:
     files: list[Path] = []
     for path in ROOT.rglob("*.md"):
         rel = path.relative_to(ROOT)
-        if any(part in IGNORE_DIRS for part in rel.parts):
+        if any(part in IGNORE_DIRS or part.startswith(".venv") for part in rel.parts):
             continue
         files.append(path)
     return sorted(files)

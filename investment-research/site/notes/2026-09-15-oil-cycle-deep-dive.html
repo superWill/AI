@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2026 09 15 oil cycle deep dive</title>
+  <link rel="stylesheet" href="../_assets/style.css" />
+</head>
+<body>
+  <div class="site-shell">
+  <div class="page">
+    <div class="topbar">
+      <div class="nav-cluster">
+        <a class="back" href="../index.html">← 返回投研首页</a>
+        <a class="nav-link secondary" href="../all-docs.html">全部文档</a>
+      </div>
+      <div class="nav-cluster">
+        <a class="home-link" href="../notes.html">Notes</a>
+        <a class="home-link" href="../candidates.html">Candidates</a>
+        <a class="home-link" href="../tickers.html">Tickers</a>
+      </div>
+    </div>
+    <section class="hero">
+      <div class="doc-header-grid">
+        <div>
+          <div class="eyebrow">notes</div>
+          <h1>2026-09-15-oil-cycle-deep-dive</h1>
+          <p>市场、公司或主题研究的阶段性结论。</p>
+          <div class="meta-row">
+            <span class="pill">notes/2026-09-15-oil-cycle-deep-dive.md</span>
+            <span class="pill">1248 words</span>
+            <span class="pill">22 sections</span>
+          </div>
+        </div>
+        <div class="doc-stat-stack">
+          <div class="doc-stat">
+            <div class="doc-stat-label">Document Type</div>
+            <div class="doc-stat-value">Notes</div>
+          </div>
+          <div class="doc-stat">
+            <div class="doc-stat-label">Reading Mode</div>
+            <div class="doc-stat-value">Research Memo</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="doc-layout">
+      <article class="doc doc-main">
+<hr />
+<p>date: 2026-09-15 type: 主题研究 / 宏观传导 / 案例库 status: active data_source: yfinance（Brent/WTI 期货曲线、指数收盘，止于 2026-09-14/15）+ EIA STEO 2026-09 + EIA WPSR（截至 9/4 当周）+ Wikipedia 历史页 + Fed/BLS/FRED（子 agent 24+58 次检索）；两个子 agent（历史案例库 / 当前供需）因会话限额中途失败，历史案例部分由训练知识补齐并逐条标注 purpose: 回答三个问题——①这轮油价是「周期」还是「冲击」，处在冲击的哪个阶段；②历史上供给冲击型高峰怎么结束、多久；③油价→CPI→Fed→实际利率→半导体倍数这条链对本组合的真实传导系数是多少、什么才是见顶信号 related: notes/2026-08-19-semi-divergence-and-stagflation-jigsaw.md（滞胀拼图起点）· memory ai-capex-cycle-topsignal-watchlist（09-11 读数）· portfolios/2026-06-24-actual-holdings-snapshot.md（betaSOXX 0.32）· memory portfolio-soxx-factor-risk（记 0.89，已过期，见 §六）</p>
+<hr />
+<h1 id="石油周期深挖这不是周期是一道政治二元题">石油周期深挖：这不是周期，是一道政治二元题</h1>
+<h2 id="一句话">一句话</h2>
+<p><strong>本轮油价不是供给周期，是一次「物理封闭 + 政治二元」的冲击：期货曲线已经把「2027 年中重开」定价进去了（Dec-27 Brent $78 vs 现货 $107，贴水 27%），供给侧能做的（美国产量创纪录、SPR 放了 1.2 亿桶、炼厂开工 97.8%）已经做完，剩下的变量只有霍尔木兹开不开。</strong> 对组合而言，传导链的短板不在油→CPI（能算，约 1.0pp），在 Fed 反应函数和实际利率——半导体在 2026 年被实际利率打（周相关 −0.41），不是被油打（日相关 −0.21）。油价见顶不是买点，实际利率见顶才是。<code>[INFERRED, MED-HIGH]</code></p>
+<hr />
+<h2 id="一读数2026-09-1415">一、读数（2026-09-14/15）</h2>
+<h3 id="11-价格与曲线-computed-yfinance">1.1 价格与曲线 <code>[COMPUTED, yfinance]</code></h3>
+<table><thead><tr><th>合约</th><th>Brent</th><th>WTI</th></tr></thead><tbody><tr><td>近月（Nov-26）</td><td><strong>107.4</strong></td><td>103.2</td></tr><tr><td>Dec-26</td><td>102.3</td><td>93.9</td></tr><tr><td>Mar-27</td><td>90.6</td><td>—</td></tr><tr><td>Jun-27</td><td>84.3</td><td>77.7</td></tr><tr><td><strong>Dec-27</strong></td><td><strong>78.2</strong></td><td>72.4</td></tr><tr><td>Dec-28</td><td>73.6</td><td>68.6</td></tr><tr><td>近月 → Dec-27 贴水</td><td><strong>−27%</strong></td><td>−30%</td></tr></tbody></table>
+<p><strong>现货比期货更极端</strong>：FRED Dated Brent 4/7 峰值 $138、7/1 低点 $69（子 agent 读数），Wikipedia 记峰值 $126，期货近月同期 $118 / $71.6。三个数不一致是因为口径不同（现货 vs 近月），但方向一致：<strong>实货升水 = 物理短缺信号，是本轮和 2022 年最像的地方</strong>。<code>[KNOWN, MED；三源口径未统一]</code></p>
+<h3 id="12-供给侧-knowneia">1.2 供给侧 <code>[KNOWN，EIA]</code></h3>
+<table><thead><tr><th>项目</th><th>数值</th><th>含义</th></tr></thead><tbody><tr><td>霍尔木兹战前流量</td><td>~20 mb/d，占海运石油贸易 ~20-25%</td><td><a href="https://en.wikipedia.org/wiki/2026_Strait_of_Hormuz_crisis">Wikipedia 2026 Hormuz crisis</a></td></tr><tr><td>战后油轮通行</td><td>「接近零」，4/21 有 2,000 艘船被困湾内</td><td>同上</td></tr><tr><td>沙特东西管线（绕道红海，~5 mb/d）</td><td><strong>9/10-11 被伊拉克境内无人机打击后关闭</strong></td><td>第二波冲击的增量驱动</td></tr><tr><td>美国原油产量（9/4 当周）</td><td><strong>13.947 mb/d，历史新高</strong>，4 周均 +3.2% y/y</td><td><a href="https://ir.eia.gov/wpsr/overview.pdf">EIA WPSR</a></td></tr><tr><td>炼厂开工率</td><td><strong>97.8%</strong>（去年同期 94.9%）</td><td>同上</td></tr><tr><td>SPR</td><td><strong>285.4 mb，一年前 405.2，−119.9 mb（−29.6%）</strong></td><td>同上；已放出 1.2 亿桶，剩余量为 1980 年代以来最低 <code>[KNOWN, MED]</code></td></tr><tr><td>商业原油库存</td><td>424.1 mb，与去年持平</td><td>同上</td></tr><tr><td>原油+成品出口 4 周均</td><td>3.94 + 7.98 mb/d，分别 +6.4% / +14.5% y/y</td><td>美国在替世界补缺</td></tr><tr><td>EIA STEO 9 月：中东产量</td><td>「低于战前水平直到 2027 Q2」</td><td><a href="https://www.eia.gov/outlooks/steo/">EIA STEO</a></td></tr><tr><td>EIA STEO：全球库存</td><td>年内已降 4 亿桶，「持续下降到 2026 年底」</td><td>同上</td></tr><tr><td>EIA STEO：Brent 预测</td><td>Q4 2026 ~$90，<strong>2027 均价 $74</strong></td><td>同上；与期货曲线 Dec-27 $78 一致</td></tr><tr><td>EIA STEO：美国产量</td><td>2026 13.8 → 2027 14.3 mb/d</td><td>同上</td></tr></tbody></table>
+<h3 id="13-需求侧-knowneia-wpsr-4-周均">1.3 需求侧 <code>[KNOWN，EIA WPSR 4 周均]</code></h3>
+<table><thead><tr><th></th><th>y/y</th></tr></thead><tbody><tr><td>汽油 product supplied（8.80 mb/d）</td><td><strong>−1.4%</strong></td></tr><tr><td>馏分油（3.72 mb/d）</td><td><strong>−2.6%</strong></td></tr></tbody></table>
+<p>需求破坏已开始但温和。对照 1979-80：美国消费比 1978 峰只低 3.5%，但配合北海/阿拉斯加供给，五年把 OPEC 份额从 50% 打到 29%。本轮没有那种增量供给源。</p>
+<h3 id="14-判定处在哪个阶段-inferred-med-high">1.4 判定：处在哪个阶段 <code>[INFERRED, MED-HIGH]</code></h3>
+<p><strong>不是「供给响应已启动」——因为能响应的都响应完了</strong>：美国产量新高、炼厂满负荷、SPR 放了三成。OPEC+ 剩余产能大部分在湾内，<strong>被封在海峡后面等于零</strong>。这是本轮与所有历史案例的根本区别：历史上的供给响应（沙特增产、北海、页岩）总在冲击源之外，本轮沙特的绕道管线也被打掉了。</p>
+<p><strong>所以价格路径是二元的，不是周期的</strong>：</p>
+<ul>
+<li>重开 → 现货向曲线收敛（$107 → $75-85），且会很快：4/29→7/1 那次因 MOU 就跌了 39%，1990 年沙漠风暴开打当天油价 −33%。</li>
+<li>不开 → 曲线向现货抬升，EIA 的 2027 $74 作废，第二波变第三波。</li>
+</ul>
+<p>曲线已经给「重开」定了价。<strong>这意味着不对称：重开的好消息已经被 2027 合约吃掉一部分，不开的坏消息在曲线里几乎没定价。</strong></p>
+<hr />
+<h2 id="二历史案例库供给冲击型高峰怎么结束">二、历史案例库：供给冲击型高峰怎么结束</h2>
+<table><thead><tr><th>案例</th><th>中断量</th><th>价格：起→峰（用时）</th><th>回落 50% 用时</th><th>结束主因</th><th>Fed</th><th>标普</th></tr></thead><tbody><tr><td><strong>1973-74 禁运</strong></td><td>中东对西方出口 −60~70%（12 月产量降至 9 月的 25%）</td><td>$3 → $12（5 个月）</td><td><strong>没回落</strong>，价格永久重置</td><td>政治解决（3/18/74 费萨尔解除禁运，换阿以脱离接触）</td><td>Burns stop-go，FFR 13%→急降，预期脱锚</td><td><strong>−48%</strong>（1973-74）</td></tr><tr><td><strong>1979-80 伊朗革命+两伊战争</strong></td><td>全球 −4%，1980 再 −7%</td><td>$15.85 → $39.50（12 个月）</td><td><strong>~6 年</strong>（1986 崩到 $10）</td><td>需求破坏 + 非 OPEC 供给（北海/阿拉斯加）+ 沙特增产</td><td>Volcker FFR 20%</td><td>1980-82 双底衰退</td></tr><tr><td><strong>1990-91 海湾战争</strong></td><td>4.3 mb/d（伊+科）</td><td>$21 → $46（2.5 个月）</td><td><strong>~4 个月</strong>（1991-2 回到 ~$20）</td><td><strong>军事解决</strong>（沙漠风暴当天 −33%）+ 沙特增产 3 mb/d + SPR 首次紧急释放 1,700 万桶</td><td><strong>不加息</strong>，11 月起降</td><td>−16.9%（8/2→10/11），1991 +26%</td></tr><tr><td>2008 上半年</td><td>无供给中断（需求+金融）</td><td>$96 → $147（7 个月）</td><td>5 个月（−77%）</td><td>需求崩（金融危机）</td><td>按兵 2%</td><td>油峰后 SOX −51.7%</td></tr><tr><td>2011 利比亚</td><td>1.6 mb/d</td><td>$95 → $127（3 个月）</td><td><strong>没回落</strong>，$110 平台 3 年</td><td>IEA 释放 6,000 万桶 + 沙特补 + 中国需求撑住</td><td>零利率</td><td>影响小</td></tr><tr><td>2019 Abqaiq 袭击</td><td><strong>5.7 mb/d（全球 5%），史上最大单日中断</strong></td><td>单日 +15%（史上最大）</td><td><strong>~2 周</strong></td><td>沙特数周内恢复产能</td><td>—</td><td>无</td></tr><tr><td><strong>2022 俄乌</strong></td><td>名义 0（俄油改道印度/中国）</td><td>$78 → $128（2 个月，3/8）</td><td>~9 个月（12 月跌破 $80）</td><td>SPR 释放 1.8 亿桶 + 改道 + Fed 加息压需求 + 中国封控</td><td><strong>+425bp</strong></td><td>SOX −35.8%</td></tr><tr><td>对照：2014-16 页岩过剩</td><td>供给过剩 ~2 mb/d</td><td>$115 → $27</td><td>—</td><td>OPEC 价格战</td><td>—</td><td>—</td></tr><tr><td>对照：2020</td><td>需求 −20 mb/d</td><td>WTI −$37</td><td>—</td><td>疫情</td><td>—</td><td>—</td></tr></tbody></table>
+<p>来源：<a href="https://en.wikipedia.org/wiki/1973_oil_crisis">1973</a> · <a href="https://en.wikipedia.org/wiki/1979_oil_crisis">1979</a> · <a href="https://en.wikipedia.org/wiki/1990_oil_price_shock">1990</a>（已核）；2008/2011/2019/2022 为 <code>[KNOWN, HIGH]</code> 训练知识，未逐条 WebFetch 核对（子 agent 中途失败）。</p>
+<h3 id="21-1984-88-油轮战最接近的类比但方向相反-known-med-high">2.1 1984-88 油轮战：最接近的类比，但方向相反 <code>[KNOWN, MED-HIGH]</code></h3>
+<p>两伊战争期间伊拉克袭船 283 次、伊朗 168 次，美国 1987 年起为科威特油轮换旗护航（Operation Earnest Will）（<a href="https://en.wikipedia.org/wiki/Tanker_War">Wikipedia</a>）。<strong>但油价在整个油轮战期间是跌的</strong>（1985-86 从 $28 崩到 $10）。三个原因：①海峡<strong>从未真正关闭</strong>，通行量只是受扰；②1979 冲击造成的需求破坏 + 北海/阿拉斯加增产制造了 1980 年代大过剩；③沙特 1985 年底放弃 swing producer 角色抢份额。</p>
+<p><strong>本轮与油轮战的区别就是本轮的核心</strong>：通行量 −90%+ 是物理封闭，不是骚扰。史上没有先例，最接近的是 1973 的「禁运」——但那是卖方主动限量，不是航道被封。所以<strong>「史无前例」这个词在本轮是字面意义的</strong>，历史案例只能给「结束机制」的参考，给不了「持续时间」的参考。</p>
+<h3 id="22-跨案例不变量-inferred-high">2.2 跨案例不变量 <code>[INFERRED, HIGH]</code></h3>
+<ol>
+<li><strong>结束只有三条路，各自决定时长</strong>：政治/军事解决 = 数月（1973、1990）；供给替代 = 数年（1979）或数周（2019，取决于产能在不在冲击源之外）；需求崩 = 衰退（2008）。<strong>本轮供给替代这条路被物理封死，只剩政治解决和需求崩两条。</strong></li>
+<li><strong>解决日的价格反应是暴力的、一天完成的</strong>：1990 −33%，2026-04-07 停火 WTI −16.4%（2020 以来最大单日跌幅）。等确认再动，会错过大半。</li>
+<li><strong>SPR 缓冲逐轮变薄</strong>：1991 放 17 mb，2022 放 180 mb，2026 已放 120 mb 且剩 285 mb。下一轮再冲击，这张牌小了。</li>
+<li><strong>曲线贴水塌陷是最早的市场信号</strong>，比现货见顶早：2022 年 3 月贴水峰值后现货又撑了 3 个月，但 6 月次峰没能创新高。</li>
+<li><strong>油价见顶 ≠ 股票见底</strong>，取决于油是不是唯一变量（§四）。</li>
+</ol>
+<hr />
+<h2 id="三油价-cpi-fed传导系数">三、油价 → CPI → Fed：传导系数</h2>
+<table><thead><tr><th>项目</th><th>数值</th><th>来源</th></tr></thead><tbody><tr><td>油价永久 +10% → 总 CPI</td><td>≈ +0.4pp（一年内）</td><td><a href="https://www.schwab.com/learn/story/oil-inflation-from-gas-to-groceries">Fed via Schwab</a></td></tr><tr><td>油价 → 核心 CPI</td><td>直接效应「统计上 ≈ 0」；2014-16 油价 $100→$30 仅拖核心 −0.2pp/年</td><td><a href="https://www.federalreserve.gov/econres/notes/feds-notes/oil-price-pass-through-into-core-inflation-20171019.html">FEDS Note 2017</a></td></tr><tr><td>能源在 CPI 权重</td><td>6.3%（汽油 2.9 + 家用能源 3.4）</td><td><a href="https://www.bls.gov/cpi/factsheets/motor-fuel.htm">BLS</a></td></tr><tr><td>8 月 CPI 能源贡献</td><td>6.3% × 16.3% ≈ <strong>1.0pp</strong> = 总 3.4% − 核心 2.4%</td><td><code>[COMPUTED]</code> <a href="https://www.bls.gov/news.release/cpi.nr0.htm">BLS</a></td></tr><tr><td>核心里油的贡献</td><td>&lt; 0.1pp</td><td><code>[COMPUTED]</code></td></tr></tbody></table>
+<p><strong>关键结论</strong>：8 月核心 m/m 0.3%、PPI 5.4% <strong>不是油</strong>，是 Warsh 要的「广化」证据。他的判据三处原文（<a href="https://www.hoover.org/research/inflation-choice-kevin-warsh-fixing-federal-reserve">Hoover 2025-05</a>：供给冲击是一次性价格水平变化；<a href="https://www.federalreserve.gov/mediacenter/files/FOMCpresconf20260729.pdf">7/29 发布会</a>：「we&#x27;re not looking through them… to what extent are these shocks broadening」；<a href="https://www.federalreserve.gov/newsevents/speech/warsh20260828a.htm">Jackson Hole 8/28</a>：「committed to a discipline, not to a decision」）指向同一件事：<strong>9/16 加息是对核心广化的反应，油价是触发器不是理由。油价回落不会自动让他停手，核心 m/m 回到 0.2 才会。</strong> <code>[INFERRED, HIGH]</code></p>
+<p>Fed 对供给型通胀的四种模式里，<strong>倍数受伤最重的是 1973-74「容忍→脱锚」，不是加息本身</strong>；2022 的加息压倍数但保住锚，所以 2023 倍数回来了。Kilian-Lewis 的学术底线：Fed 没有对油价系统性反应，有也不改变结果（<a href="https://www.rba.gov.au/publications/confs/2009/kilian.html">RBA</a>）。</p>
+<hr />
+<h2 id="四对半导体的真实传导是实际利率不是油">四、对半导体的真实传导：是实际利率，不是油</h2>
+<h3 id="41-本轮实测-computed-yfinance">4.1 本轮实测 <code>[COMPUTED, yfinance]</code></h3>
+<table><thead><tr><th>窗口</th><th>Brent</th><th>SOXX</th><th>NVDA</th><th>MU</th><th>XLE</th><th>S&amp;P</th><th>10Y</th></tr></thead><tbody><tr><td>自开战前 2/27</td><td>+47.6%</td><td><strong>+49.6%</strong></td><td>+23.2%</td><td>+136.5%</td><td>+16.5%</td><td>+10.8%</td><td>+25.2%</td></tr><tr><td>油价回落期 4/29→7/1</td><td>−39.4%</td><td><strong>+33.3%</strong></td><td>−5.6%</td><td>+99.1%</td><td>−10.5%</td><td>+4.9%</td><td>+1.3%</td></tr><tr><td>油价第二波 7/1→9/14</td><td>+49.5%</td><td><strong>−12.1%</strong></td><td>+10.5%</td><td>−5.5%</td><td>+23.3%</td><td>+1.8%</td><td>+10.9%</td></tr></tbody></table>
+<table><thead><tr><th>Brent-SOXX 日收益相关</th><th>值</th></tr></thead><tbody><tr><td>开战前（2025-09 ~ 2026-02）</td><td>+0.04</td></tr><tr><td>开战后（2/27 起）</td><td><strong>−0.21</strong></td></tr><tr><td>Brent-10Y 开战后</td><td>+0.54</td></tr><tr><td>Brent-XLE 开战后</td><td>+0.65</td></tr></tbody></table>
+<table><thead><tr><th>SOX 周收益 vs 10Y TIPS 实际利率周变动</th><th>相关</th></tr></thead><tbody><tr><td>2019-26 全样本</td><td>−0.20</td></tr><tr><td>2022</td><td>−0.31</td></tr><tr><td>2023-25</td><td>−0.05</td></tr><tr><td><strong>2026 YTD</strong></td><td><strong>−0.41</strong></td></tr></tbody></table>
+<p><strong>读法</strong>：战争没有伤半导体的总账（自开战 +50%），伤的是第二波（7/1 后 −12%）；而第二波与第一波的区别不是油价水平（都到 $100+），是<strong>10Y 从 4.5% 走到 5%、实际利率 2.25→2.60</strong>。2023-25 半导体对实际利率几乎免疫（AI 盈利主导），2026 敏感度回到 2022 水平。<code>[INFERRED, HIGH]</code></p>
+<h3 id="42-倍数敏感度-computed子-agent-dcf5-年-25-5-年-10-永续-35r-10y-45">4.2 倍数敏感度 <code>[COMPUTED，子 agent DCF：5 年 25% + 5 年 10% + 永续 3.5%，r = 10Y + 4.5%]</code></h3>
+<table><thead><tr><th>10Y</th><th>4.0%</th><th>4.5%</th><th><strong>5.0%</strong></th><th>5.5%</th><th>6.0%</th></tr></thead><tbody><tr><td>价值 vs 4.5% 基准</td><td>+11%</td><td>0</td><td><strong>−9%</strong></td><td>−17%</td><td>−24%</td></tr></tbody></table>
+<p>高低增速档敏感度几乎一样（终值主导）→ 倍数差异来自增速风险不来自久期。NVDA 前瞻 P/E 17.5 → 盈利收益率 5.7% vs 10Y 4.96%，<strong>隐含 ERP 仅 ~0.75pp</strong>，这是薄的地方。</p>
+<h3 id="43-油价见顶-股票见底">4.3 油价见顶 ≠ 股票见底</h3>
+<table><thead><tr><th>案例</th><th>油峰</th><th>股底</th><th>时滞</th><th>之后 12 月</th></tr></thead><tbody><tr><td>1990</td><td>9/27</td><td>10/11</td><td><strong>2 周</strong></td><td>S&amp;P +26%，Nasdaq +57%</td></tr><tr><td>2008</td><td>7/3</td><td>2009-3</td><td>8 个月</td><td>SOX −26.6%</td></tr><tr><td>2022</td><td>3/8（次峰 6/8）</td><td>10/13</td><td>4-7 个月</td><td>SOX +16.4%，2023 +64.9%</td></tr></tbody></table>
+<p><strong>规则</strong>：油是唯一变量（1990）→ 油峰即买点；油是需求崩的症状（2008）→ 陷阱；油 + 加息（2022）→ <strong>等实际利率见顶</strong>（2022-10-24 DFII10 峰 1.66% → SOX 底 10/13）。本轮是第三种。</p>
+<hr />
+<h2 id="五油价一跌美国就打伊朗检验911-已做并入computed">五、「油价一跌美国就打伊朗」检验（9/11 已做，并入）<code>[COMPUTED]</code></h2>
+<p>停火期（4/8 起）7 次美军打击起始日里 6 次打击前 5 日 Brent 为负（基准率 50%，单侧 p ≈ 0.06）；但反向检验——Brent 5 日跌 ≥5% 后 5 个交易日内出现打击起始 = <strong>35% vs 无条件 32%</strong>——零信息。且至少 5/7 次的直接触发是伊朗先动手。<strong>因果链是「和谈进展→油跌→伊朗试探/谈崩→美军打→油涨」，油价是循环的结果不是触发器。</strong> 回看能凑出的模式，往前用不成立。</p>
+<hr />
+<h2 id="六对组合的含义">六、对组合的含义</h2>
+<h3 id="61-先纠一个数betasoxx-是-032-不是-089">6.1 先纠一个数：betaSOXX 是 0.32 不是 0.89</h3>
+<p>memory <code>portfolio-soxx-factor-risk</code> 和 7/23 卖 put 计划都引 0.89，但 <code>portfolios/2026-06-24-actual-holdings-snapshot.md</code> 明确记录 6/24 减 NVDA/TSM 换 BRK 后 <strong>betaSOXX 0.89 → 0.32，betaSPY 1.17</strong>。0.89 是 5 月 v2 的旧值。<strong>本文所有情景按 0.32 算；memory 已同步更正。</strong> <code>[KNOWN, HIGH]</code></p>
+<h3 id="62-对冲工具的客观评价-computed子-agent">6.2 对冲工具的客观评价 <code>[COMPUTED，子 agent]</code></h3>
+<table><thead><tr><th>工具</th><th>2022 全年</th><th>2026 7/1→9/11</th><th>与 SOXX 日相关（7/1 至今）</th><th>评价</th></tr></thead><tbody><tr><td>XLE</td><td>+57.6%</td><td>+23.3%</td><td><strong>−0.19</strong></td><td>只在供给型冲击里对冲；需求崩时与 SOX 同跌（2008 油峰后 XLE −52.9%、SOX −51.7%）</td></tr><tr><td>TIP</td><td>−17.6%</td><td>−2.2%</td><td>+0.17</td><td>通胀对冲不是利率对冲，2022 与 SOX 同向亏</td></tr><tr><td>短久期现金</td><td>~+1.5%</td><td>+0.1%</td><td>+0.15</td><td><strong>2022 和本轮唯一零相关不亏的腿；32% 现金已经是这个头寸</strong></td></tr><tr><td>BRK</td><td>+4%（2022，S&amp;P −18%）</td><td>+2.1%</td><td>—</td><td>「加息压倍数」情景是锚，「真衰退」情景不免疫（1974 −54%）</td></tr></tbody></table>
+<h3 id="63-三档情景-inferred-med">6.3 三档情景 <code>[INFERRED, MED]</code></h3>
+<table><thead><tr><th></th><th>重开：油回 $80</th><th>僵持：平台 $100-110</th><th>升级：$130+</th></tr></thead><tbody><tr><td>机制</td><td>政治解决，1990 模板，一天完成大半</td><td>油轮战常态化，曲线向现货抬升</td><td>第三波：波斯湾产能设施被打 / 沙特管线长期关闭</td></tr><tr><td>总 CPI（2 季内）</td><td>2.7-2.9%</td><td>3.3-3.6%</td><td>4.0-4.5%，核心向 3% 二轮</td></tr><tr><td>Fed</td><td>9/16 加 25 后停</td><td>9 月 + 12 月至 4.00-4.25</td><td>3-4 次或增长恐慌逼停</td></tr><tr><td>10Y / 实际</td><td>4.4-4.6 / 2.2-2.3</td><td>4.9-5.3 / 2.6-2.9</td><td>5.3-5.6 / 3%+；衰退定价反而下行（2008 型）</td></tr><tr><td>SOXX 倍数</td><td>+8-11%</td><td>−5-10%，盈利撑指数横盘</td><td>−15-25%，叠加 capex 融资断裂（信号⑥）</td></tr><tr><td>组合（betaSOXX 0.32）</td><td>+3-4% 因子贡献</td><td>−2-3%</td><td><strong>−5-8% 因子 + 个股尾部</strong></td></tr><tr><td>类比</td><td>1990-91</td><td>2023-H2</td><td>2022-H1 / 2008</td></tr></tbody></table>
+<p><strong>Fed 路径的关键变量不是油，是核心 m/m 能否回到 0.2。</strong> 三档里油价对组合的直接冲击都被 0.32 的 beta 和 32% 现金压到个位数，真正的尾部在「升级」档叠加 AI capex 融资断裂——那是信号⑥的事，不是油的事。</p>
+<h3 id="64-见顶信号清单盯这些不盯-brent-点位">6.4 见顶信号清单（盯这些，不盯 Brent 点位）</h3>
+<ol>
+<li><strong>Brent 近月 − Dec-27 价差收窄</strong>（当前 −$29）：贴水塌陷 = 最早的市场信号，比现货见顶早。</li>
+<li><strong>霍尔木兹周通行艘数</strong>（Kpler/Vortexa/IMO）：从「接近零」回到战前 10% 以上。</li>
+<li><strong>沙特东西管线复产</strong>：5 mb/d 绕道恢复 = 第二波驱动消失。</li>
+<li><strong>美国汽油需求 y/y &lt; −3%</strong>：需求破坏从温和转实质（当前 −1.4%）。</li>
+<li><strong>10Y TIPS 实际利率见顶</strong>：对半导体这才是买点信号（2022 模板）。</li>
+<li><strong>核心 CPI m/m 回到 0.2</strong>：Warsh 停手的条件。</li>
+<li>反面：<strong>波斯湾产能设施（Abqaiq/Ras Tanura/Fujairah）被打</strong>：从「航道封闭」升级为「产能损毁」，1979 模板启动，时长从月变年。</li>
+</ol>
+<h3 id="65-动作">6.5 动作</h3>
+<p><strong>不动。</strong> 32% 现金 + BRK 19.9% 已经是这道题的正确头寸（唯一零相关不亏的腿）。不加 XLE：它只对冲三档中的一档，且需求崩时同跌。不因油价跌买半导体：等实际利率。不因「跌了几天」或「叙事吓人」动，见 memory <code>dip-buy-trigger-signals-not-daycount</code>。</p>
+<hr />
+<h2 id="七我不知道的">七、我不知道的</h2>
+<ul>
+<li>IEA 9 月 OMR 和 OPEC MOMR 均 403/402 未取得；需求增速修订、OECD 库存 vs 五年均值<strong>未找到</strong>。</li>
+<li>Brent 期权隐含波动率/偏斜、CFTC 净多头<strong>未找到</strong>。</li>
+<li>投行情景目标（GS/MS「重开 vs 封闭到 2027」）<strong>未找到</strong>——WebSearch 配额在本文前已耗尽。</li>
+<li>现货 Brent 峰值三源不一致（$118/$126/$138），未统一口径。</li>
+<li>2008/2011/2019/2022 案例数字来自训练知识，未 WebFetch 核对。</li>
+<li>1984-88 油轮战期间的油价数据来自训练知识，Wikipedia 页无价格数据。</li>
+</ul>
+<p>[RULES I BROKE]: 无。两个子 agent 因会话限额失败后，历史案例部分由训练知识补齐，已逐条标 <code>[KNOWN]</code> 并在 §七 列明未核对项。</p>
+      </article>
+      <aside class="doc-sidebar">
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">文档导航</h3>
+          <ul class="toc-list"><li><a href="#一句话">一句话</a></li><li><a href="#一读数2026-09-1415">一、读数（2026-09-14/15）</a></li><li style="padding-left:14px"><a href="#11-价格与曲线-computed-yfinance">1.1 价格与曲线 `[COMPUTED, yfinance]`</a></li><li style="padding-left:14px"><a href="#12-供给侧-knowneia">1.2 供给侧 `[KNOWN，EIA]`</a></li><li style="padding-left:14px"><a href="#13-需求侧-knowneia-wpsr-4-周均">1.3 需求侧 `[KNOWN，EIA WPSR 4 周均]`</a></li><li style="padding-left:14px"><a href="#14-判定处在哪个阶段-inferred-med-high">1.4 判定：处在哪个阶段 `[INFERRED, MED-HIGH]`</a></li><li><a href="#二历史案例库供给冲击型高峰怎么结束">二、历史案例库：供给冲击型高峰怎么结束</a></li><li style="padding-left:14px"><a href="#21-1984-88-油轮战最接近的类比但方向相反-known-med-high">2.1 1984-88 油轮战：最接近的类比，但方向相反 `[KNOWN, MED-HIGH]`</a></li><li style="padding-left:14px"><a href="#22-跨案例不变量-inferred-high">2.2 跨案例不变量 `[INFERRED, HIGH]`</a></li><li><a href="#三油价-cpi-fed传导系数">三、油价 → CPI → Fed：传导系数</a></li><li><a href="#四对半导体的真实传导是实际利率不是油">四、对半导体的真实传导：是实际利率，不是油</a></li><li style="padding-left:14px"><a href="#41-本轮实测-computed-yfinance">4.1 本轮实测 `[COMPUTED, yfinance]`</a></li><li style="padding-left:14px"><a href="#42-倍数敏感度-computed子-agent-dcf5-年-25-5-年-10-永续-35r-10y-45">4.2 倍数敏感度 `[COMPUTED，子 agent DCF：5 年 25% + 5 年 10% + 永续 3.5%，r = 10Y + 4.5%]`</a></li><li style="padding-left:14px"><a href="#43-油价见顶-股票见底">4.3 油价见顶 ≠ 股票见底</a></li></ul>
+        </section>
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">阅读提示</h3>
+          <ul class="summary-list">
+            <li><span class="summary-label">先看什么</span><span class="summary-value">先读一段话结论，再看表格和风险点。</span></li>
+            <li><span class="summary-label">适合用途</span><span class="summary-value">复盘、比较、回查研究底稿。</span></li>
+            <li><span class="summary-label">建议动作</span><span class="summary-value">如果文档内容改变了 thesis，再回到候选池或组合页更新判断。</span></li>
+          </ul>
+        </section>
+      </aside>
+    </div>
+    <div class="footer">该页面由 Markdown 自动生成。原始文件：notes/2026-09-15-oil-cycle-deep-dive.md</div>
+  </div>
+  </div>
+</body>
+</html>

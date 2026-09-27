@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2026 09 22 ai agent landscape</title>
+  <link rel="stylesheet" href="../_assets/style.css" />
+</head>
+<body>
+  <div class="site-shell">
+  <div class="page">
+    <div class="topbar">
+      <div class="nav-cluster">
+        <a class="back" href="../index.html">← 返回投研首页</a>
+        <a class="nav-link secondary" href="../all-docs.html">全部文档</a>
+      </div>
+      <div class="nav-cluster">
+        <a class="home-link" href="../notes.html">Notes</a>
+        <a class="home-link" href="../candidates.html">Candidates</a>
+        <a class="home-link" href="../tickers.html">Tickers</a>
+      </div>
+    </div>
+    <section class="hero">
+      <div class="doc-header-grid">
+        <div>
+          <div class="eyebrow">notes</div>
+          <h1>2026-09-22-ai-agent-landscape</h1>
+          <p>市场、公司或主题研究的阶段性结论。</p>
+          <div class="meta-row">
+            <span class="pill">notes/2026-09-22-ai-agent-landscape.md</span>
+            <span class="pill">868 words</span>
+            <span class="pill">14 sections</span>
+          </div>
+        </div>
+        <div class="doc-stat-stack">
+          <div class="doc-stat">
+            <div class="doc-stat-label">Document Type</div>
+            <div class="doc-stat-value">Notes</div>
+          </div>
+          <div class="doc-stat">
+            <div class="doc-stat-label">Reading Mode</div>
+            <div class="doc-stat-value">Research Memo</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="doc-layout">
+      <article class="doc doc-main">
+<hr />
+<p>date: 2026-09-22 type: 产业地图 / agent 层 status: active data_source: 子 agent 50 次 WebSearch + ~30 次 WebFetch（2026-09-22）；一手：Alphabet Q2 财报、Microsoft FY26Q4、Salesforce Q2 FY27、ServiceNow Q2、Palantir Q2、Anthropic/Meta/Stripe 官方公告、Ramp AI Index 8 月、Menlo 消费者报告 9 月、SEC（SpaceX 换股）；Bloomberg/CNBC 多为 403 摘要，聚合站数字全部标 ⚠ purpose: 回答「现在的 AI agent 有哪些」，按真实采用而不是功能排；给 8/20 笔记「agent 层」补一张有数字的地图 related: notes/2026-08-20-ai-ipo-wave-and-agent-layer.md（Grok Bot 观察项）· notes/2026-06-24-token-is-electricity-value-chain.md（OpenRouter/Stripe）· memory market-adoption-leading-signal</p>
+<hr />
+<h1 id="ai-agent-地图2026-09-22采用集中在编码和企业客服消费级通用-agent-刚开局">AI Agent 地图（2026-09-22）：采用集中在编码和企业客服，消费级通用 agent 刚开局</h1>
+<h2 id="一句话">一句话</h2>
+<p><code>[INFERRED, HIGH]</code> 按「谁有真实采用」排，agent 只有两类已经成生意：<strong>编码 agent</strong>（Codex 20M WAU、Cursor $3B ARR、Claude Code $2.5B 年化、Antigravity 2.4M WAU）和<strong>企业客服/CRM agent</strong>（Agentforce $1.5B ARR、ServiceNow AI ACV $1B、Sierra $200M）。<strong>消费级「帮你做事」的通用 agent 2026 年三家大厂各砍过一次形态</strong>（OpenAI Atlas 8 月下线、Google Mariner 5 月关停、OpenAI Instant Checkout 3 月回退），Meta Muse 上线 12 天就被 Amazon 封，是这个品类最诚实的状态。</p>
+<h2 id="一总量锚点-known-high-除标注">一、总量锚点 <code>[KNOWN, HIGH]</code> 除标注</h2>
+<table><thead><tr><th></th><th>数字</th><th>来源</th></tr></thead><tbody><tr><td>Anthropic 年化收入</td><td><strong>$65B</strong>（7 月末；2 月 $14B → 5 月 $47B），估值 $965B，已秘密递交 IPO</td><td>Bloomberg via TechCrunch 8/17</td></tr><tr><td>OpenAI 年化收入</td><td>&gt;$40B（8 月）；coding + work 产品 20M WAU</td><td>Bloomberg 8/13 ⚠摘要</td></tr><tr><td>Gemini app</td><td><strong>950M MAU</strong>，AI Mode &gt;1B</td><td>Alphabet Q2 财报</td></tr><tr><td>M365 Copilot</td><td><strong>&gt;30M 付费席位</strong>（单季 +10M）</td><td>MSFT FY26Q4</td></tr><tr><td>企业付费份额（Ramp 8 月）</td><td><strong>Anthropic 43.5% / OpenAI 39.7% / xAI 4%</strong>；企业 AI 采用率 3 月首破 50%</td><td>Ramp AI Index</td></tr><tr><td>消费者（Menlo 9 月，n=5,067）</td><td>64% 美国成人用 AI；AI 用户中 41% 试过 agent、24% 常用、32% 允许不确认就行动；agent 份额 Codex 35% / Claude Code+Cowork 32% / Perplexity 24%</td><td>Menlo</td></tr><tr><td>流量份额（Similarweb）</td><td>ChatGPT 76% → 53%，Gemini 9% → 27%，Claude 2% → 9%（2025-06 → 2026-05）</td><td>⚠二手</td></tr></tbody></table>
+<h2 id="二按类别-有硬采用数据">二、按类别（★ = 有硬采用数据）</h2>
+<h3 id="1-编码-agent">1. 编码 agent ★★★</h3>
+<table><thead><tr><th>产品</th><th>采用</th><th>置信</th></tr></thead><tbody><tr><td>OpenAI Codex</td><td>5M WAU（6 月）→ 8M（7 月）；coding+work 20M WAU（8 月）</td><td>HIGH/MED</td></tr><tr><td>Cursor</td><td>ARR $3B（5 月，Bloomberg）；<strong>被 SpaceX 以 $60B 全股票收购，8/14 交割</strong>（SEC：换 3.89 亿股 SpaceX A 类）</td><td>HIGH</td></tr><tr><td>Claude Code</td><td>年化 $2.5B（2 月），8–9 月无更新</td><td>MED ⚠聚合站</td></tr><tr><td>Google Antigravity</td><td>2.4M WAU（Q2 财报），ADK 累计 70M 下载</td><td>HIGH</td></tr><tr><td>GitHub Copilot</td><td>4.7M 付费订阅（FY26Q2，+75%）</td><td>MED</td></tr><tr><td>Cognition（Devin + Windsurf）</td><td>ARR $492M（5 月），Series D $26B；「$900M」单源</td><td>MED/LOW</td></tr><tr><td>Replit / Lovable</td><td>ARR ~$525M / $400–500M</td><td>LOW-MED ⚠聚合站</td></tr></tbody></table>
+<h3 id="2-企业-工作流-agent">2. 企业 / 工作流 agent ★★★</h3>
+<ul>
+<li><strong>Salesforce Agentforce</strong>：ARR &gt;$1.5B（+240%），Agentforce + Data 360 $3.9B；累计 70 亿「Agentic Work Units」。⚠ 本季起口径并入 Slackbot 等，可比性打折。</li>
+<li><strong>ServiceNow</strong>：AI ACV 首破 $1B（+40% QoQ），agentic 生产部署 9 个月 9 倍。</li>
+<li><strong>Microsoft Agent 365</strong>：5/1 GA，两个月 ~40M agent 注册。</li>
+<li><strong>Google Gemini Enterprise</strong>：「~90% Fortune 100 在用」，客户数未披露。</li>
+<li><strong>Palantir</strong>：美国商业收入 $764M +149%（Q2），agent 专属数据无。</li>
+<li><strong>垂直 agent</strong>：Sierra ARR $200M / 估值 $15.8B（客服，按对话或按解决收费）；Decagon $100M / $4.5B；Harvey $400M / $15.5B（法律，$1,200/律师/月，1,500+ 客户）；Glean $300M（官方）。</li>
+<li><strong>定价形态在变</strong>：按对话、按解决结果、按 agent 用量（Workday Flex Credits）——从 seat 转向 outcome，这是 SaaS 估值模型要重算的地方。<code>[INFERRED, MED]</code></li>
+</ul>
+<h3 id="3-消费级通用-agent">3. 消费级通用 agent ★</h3>
+<ul>
+<li><strong>Meta Muse</strong>（9/8 上线）：Sensor Tower 902K / 6 天，9/18 登顶美区 App Store 超 ChatGPT；Apptopia 2.8M 全球 / 12 天、美国 DAU 642K（ChatGPT 同期 231K）、95% 用户同时是 Facebook 用户。跑在专属云 VM 里能开浏览器、填表、付款。<strong>9/20–21 Amazon 封杀</strong>（不自报 agent 身份、保留用户凭证）。META +11%。</li>
+<li><strong>Anthropic Claude in Chrome</strong>：8/26 GA，可自主执行；官方红队注入成功率 0–0.3%。用户数未披露。Claude Cowork（1 月桌面 agent）。</li>
+<li><strong>OpenAI</strong>：ChatGPT agent（2025-07）；Atlas 浏览器 2025-10 上线 → <strong>2026-08-09 下线</strong>，并回 ChatGPT + Codex「超级应用」；Jony Ive 硬件 H2 2026。</li>
+<li><strong>Google</strong>：Project Mariner <strong>5/4 关停</strong>，并入 Gemini Agent Mode；Gemini 950M MAU 是底盘。</li>
+<li><strong>Apple</strong>：WWDC 6/8「Siri AI」，重推理路由到 Gemini，消费者 beta 稍后，EU 延迟。</li>
+<li><strong>Amazon</strong>：5/13 Rufus 并入 Alexa+ 改名「Alexa for Shopping」，成美区默认 AI 层；Rufus 2025 年 300M+ 顾客用过；agent 功能 = 到价自动买、定期补货。<strong>Amazon 的策略是自己做 agent + 封别人的 agent。</strong></li>
+<li><strong>xAI（SpaceXAI）</strong>：Grok Bot 8/11 beta（$120–300/月档），见 8/20 笔记；企业付费份额 4%。</li>
+<li><strong>Perplexity Comet</strong>：MAU 3M vs 18M 两源冲突，UNKNOWN。</li>
+</ul>
+<h3 id="4-agentic-商务-支付">4. Agentic 商务 / 支付 ★</h3>
+<ul>
+<li>OpenAI Instant Checkout：2025-09 上线 → 2026-03 仅 ~30 家 Shopify 商户接入，错误多、无购物车 → <strong>回退为「商户控制结账」，AI 只管发现 + 意图</strong>。</li>
+<li>Stripe 收购 OpenRouter（8/16–19，$7–8B，冲突），8M 用户、400+ 模型——支付层买下路由层，见 6/24 笔记。</li>
+<li>Google AP2（60+ 伙伴）+ UCP（Shopify/Target/Walmart 背书）；Visa Intelligent Commerce 只披露「数百笔」试点交易。<strong>agent 支付的真实交易量 2026 年仍是零头。</strong></li>
+<li>反方向：Amazon 封 Muse + 数十个 agent；Cloudflare 9/15 起默认封混合用途爬虫、Pay Per Crawl 转 Pay Per Use。<strong>内容方和零售方在 2026 年集体收门票，agent 的「免费通行」时代结束。</strong><code>[INFERRED, HIGH]</code></li>
+</ul>
+<h3 id="5-基础设施-协议">5. 基础设施 / 协议</h3>
+<ul>
+<li>MCP：97M+ 月 SDK 下载、10K+ 公开 server（2025-12 官方），已捐 Linux Foundation；企业生产使用率 41%（Stacklok）vs 78%（聚合站），取 41%。</li>
+<li>Google ADK 70M 下载；A2A 采用数 NOT FOUND；LangChain $16M ARR（2025 旧数）。</li>
+</ul>
+<h3 id="6-中国">6. 中国</h3>
+<ul>
+<li>豆包 345M MAU（Q1，第一）；<strong>6 月上线订阅（¥68/200/500）当月掉 6.1M 用户</strong>——付费意愿的直接读数。</li>
+<li>Qwen app 100M（1 月）→ 167M（5 月），1 月打通淘宝购物。DeepSeek ~130M。Kimi 90M vs 10–15M 冲突，UNKNOWN。</li>
+<li>Manus：Meta 收购（2025-12，$2–3B）被发改委 4/27 叫停 → 8/11 宣布独立运营；ARR $125M（2025-12）。</li>
+<li>智谱 1 月港股 IPO，OpenRouter 份额 5.6%。</li>
+</ul>
+<h3 id="7-物理-agent一行">7. 物理 agent（一行）</h3>
+<p>Optimus 累计「低几百台」（V3 H2 量产为目标非实绩）；Figure「1 万台部署」疑夸大；NVIDIA GR00T N2 预览。全部 LOW。</p>
+<h2 id="三2026-年的摩擦事件比产品发布更有信息量">三、2026 年的摩擦事件（比产品发布更有信息量）</h2>
+<ol>
+<li>三家大厂各砍一次 agent 形态：Atlas 下线、Mariner 关停、Instant Checkout 回退。</li>
+<li>Amazon 封 Muse（9/20），把主流消费 agent 当未授权入侵者。</li>
+<li>豆包收费掉 6.1M 用户。</li>
+<li>PocketOS（4 月）：编码 agent 一次调用删掉生产库 + 备份（单源 MED-LOW）；LiteLLM PyPI 后门被自主攻击 bot 拉入 47K 下载（OWASP）。</li>
+<li>Gartner 4 月 Hype Cycle 把 Agentic AI 放在「期望膨胀顶峰」；预测 40%+ agentic 项目 2027 底前取消。McKinsey：仅 23% 企业在 scaling agent。</li>
+</ol>
+<h2 id="四投资含义-inferred-med">四、投资含义 <code>[INFERRED, MED]</code></h2>
+<ul>
+<li><strong>卖铲子的层级已经清楚</strong>：模型商（Anthropic/OpenAI，收入 $105B+ 合计年化）→ 编码 agent（最硬）→ 企业 agent 平台（CRM/ITSM 现有分发优势）→ 消费 agent（未验证）→ agent 支付（零头）。越往下越是故事。</li>
+<li><strong>上市可买的 agent 收入</strong>：CRM（Agentforce $1.5B）、NOW（AI ACV $1B）、MSFT（30M 席位）、GOOGL（Antigravity + Gemini Enterprise）、PLTR。私有的 Cursor/Cognition/Sierra/Harvey 全在一级市场，Cursor 已进 SpaceX。</li>
+<li><strong>Meta 是本周的变量</strong>：Muse 的 12 天数据是消费 agent 第一个像样的采用读数，但 Amazon 封杀说明分发权在零售商手里。Muse 若要付款，要么谈判要么走 Meta 自己的商务闭环——这是 META 而不是 AMZN 的问题。</li>
+<li><strong>对 8/20 笔记 Grok Bot 观察项</strong>：xAI 企业份额 4%，Grok Bot 无用户数，Cursor 并入 SpaceXAI 后 xAI 的 agent 入口是 Cursor 不是 Grok Bot。</li>
+<li><strong>不做的事</strong>：不因 agent 叙事买 NET（Cloudflare 收门票是防守不是增量）、不买 agent 支付概念（Visa 数百笔）。</li>
+</ul>
+<h2 id="冲突-待核实">冲突 / 待核实</h2>
+<p>Muse 下载三口径（Sensor Tower 902K/6d、730K/10d 美国、Apptopia 2.8M/12d）；Cursor ARR $3B vs $4B；Stripe-OpenRouter $7–8B；Comet MAU；Kimi MAU；MCP 企业采用率；Copilot 家族 MAU 150M vs 420M；Harvey 9 月轮 / Cognition $900M / Lovable $13.3B / Replit $525M 全部只有聚合站。Dia / Opera Neon / Jules / Kiro / 百度 / A2A 未查。</p>
+<h2 id="参考一手优先">参考（一手优先）</h2>
+<ul>
+<li><a href="https://blog.google/company-news/inside-google/message-ceo/alphabet-earnings-q2-2026/">Alphabet Q2 2026</a> · <a href="https://news.microsoft.com/source/2026/07/29/microsoft-cloud-and-ai-strength-fuels-fourth-quarter-results-4/">Microsoft FY26Q4</a> · <a href="https://www.salesforce.com/news/press-releases/2026/08/26/fy27-q2-earnings/">Salesforce Q2 FY27</a> · <a href="https://newsroom.servicenow.com/press-releases/details/2026/ServiceNow-Reports-Second-Quarter-2026-Financial-Results/default.aspx">ServiceNow Q2 2026</a> · <a href="https://www.businesswire.com/news/home/20260802523449/en/">Palantir Q2 2026</a></li>
+<li><a href="https://techcrunch.com/2026/08/17/anthropics-annualized-revenue-surges-to-65b/">Anthropic $65B（TechCrunch 8/17）</a> · <a href="https://claude.com/blog/claude-in-chrome-generally-available">Claude in Chrome GA</a> · <a href="https://about.fb.com/news/2026/09/introducing-muse-personal-ai-agent/">Meta Muse 发布</a> · <a href="https://techcrunch.com/2026/09/21/metas-muse-is-outpacing-chatgpts-early-mobile-launch/">Muse 超 ChatGPT（TechCrunch 9/21）</a> · <a href="https://siliconangle.com/2026/09/21/amazon-blocks-metas-muse-agent-from-shopping-on-users-behalf/">Amazon 封 Muse（SiliconANGLE）</a> · <a href="https://help.openai.com/en/articles/20001371-evolving-atlas-into-chatgpt-for-browser-based-agentic-work">Atlas 下线</a> · <a href="https://www.constellationr.com/insights/news/openai-touts-broadening-codex-usage-5-million-weekly-active-users">Codex 5M WAU</a> · <a href="https://en.wikipedia.org/wiki/Cursor_(company">Cursor 被 SpaceX 收购</a>) · <a href="https://www.microsoft.com/en-us/security/blog/2026/05/01/microsoft-agent-365-now-generally-available-expands-capabilities-and-integrations/">Agent 365 GA</a> · <a href="https://www.glean.com/press/glean-surpasses-300m-arr-unrivaled-enterprise-context-fuels-ai-adoption">Glean $300M</a></li>
+<li><a href="https://ramp.com/data/ai-index-august-2026">Ramp AI Index 8 月</a> · <a href="https://menlovc.com/perspective/2026-the-state-of-consumer-ai/">Menlo 消费者 AI 2026</a> · <a href="https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027">Gartner 40% 取消</a> · <a href="https://sacra.com/c/sierra/">Sacra：Sierra</a> · <a href="https://sacra.com/c/harvey/">Sacra：Harvey</a> · <a href="https://stripe.com/newsroom/news/stripe-agrees-to-acquire-openrouter">Stripe 收购 OpenRouter</a> · <a href="https://shopify.engineering/ucp">Shopify UCP</a> · <a href="https://techcrunch.com/2026/07/01/cloudflares-new-policy-pushes-ai-companies-to-pay-for-publishers-content/">Cloudflare 收费爬取</a> · <a href="https://www.scmp.com/tech/big-tech/article/3355782/china-ready-pay-ai-bytedances-doubao-loses-6-million-users">豆包掉用户（SCMP）</a> · <a href="https://en.wikipedia.org/wiki/Manus_(AI_agent">Manus 独立</a>) · <a href="https://genai.owasp.org/2026/04/14/owasp-genai-exploit-round-up-report-q1-2026/">OWASP Q1 2026</a></li>
+</ul>
+      </article>
+      <aside class="doc-sidebar">
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">文档导航</h3>
+          <ul class="toc-list"><li><a href="#一句话">一句话</a></li><li><a href="#一总量锚点-known-high-除标注">一、总量锚点 `[KNOWN, HIGH]` 除标注</a></li><li><a href="#二按类别-有硬采用数据">二、按类别（★ = 有硬采用数据）</a></li><li style="padding-left:14px"><a href="#1-编码-agent">1. 编码 agent ★★★</a></li><li style="padding-left:14px"><a href="#2-企业-工作流-agent">2. 企业 / 工作流 agent ★★★</a></li><li style="padding-left:14px"><a href="#3-消费级通用-agent">3. 消费级通用 agent ★</a></li><li style="padding-left:14px"><a href="#4-agentic-商务-支付">4. Agentic 商务 / 支付 ★</a></li><li style="padding-left:14px"><a href="#5-基础设施-协议">5. 基础设施 / 协议</a></li><li style="padding-left:14px"><a href="#6-中国">6. 中国</a></li><li style="padding-left:14px"><a href="#7-物理-agent一行">7. 物理 agent（一行）</a></li><li><a href="#三2026-年的摩擦事件比产品发布更有信息量">三、2026 年的摩擦事件（比产品发布更有信息量）</a></li><li><a href="#四投资含义-inferred-med">四、投资含义 `[INFERRED, MED]`</a></li><li><a href="#冲突-待核实">冲突 / 待核实</a></li><li><a href="#参考一手优先">参考（一手优先）</a></li></ul>
+        </section>
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">阅读提示</h3>
+          <ul class="summary-list">
+            <li><span class="summary-label">先看什么</span><span class="summary-value">先读一段话结论，再看表格和风险点。</span></li>
+            <li><span class="summary-label">适合用途</span><span class="summary-value">复盘、比较、回查研究底稿。</span></li>
+            <li><span class="summary-label">建议动作</span><span class="summary-value">如果文档内容改变了 thesis，再回到候选池或组合页更新判断。</span></li>
+          </ul>
+        </section>
+      </aside>
+    </div>
+    <div class="footer">该页面由 Markdown 自动生成。原始文件：notes/2026-09-22-ai-agent-landscape.md</div>
+  </div>
+  </div>
+</body>
+</html>

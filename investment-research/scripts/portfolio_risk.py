@@ -27,20 +27,17 @@ except ImportError:
 
 ROOT = Path(__file__).resolve().parent.parent
 
-# 当前 v2 组合（portfolios/2026-05-core-thematic-payoff.md）
+# 真实持仓（portfolios/2026-06-24-actual-holdings-snapshot.md §0b，2026-09-25 价格推算权重；现金 ~30.5% 不在字典内）
 PORTFOLIO = {
-    "VRT": 18,
-    "GLW": 12,
-    "MRVL": 12,
-    "GEV": 8,
-    "COHR": 8,
-    "MU": 7,
-    "IBM": 10,
-    "NET": 7,
-    "MP": 5,
-    "CAMT": 3,
-    "PLAB": 2,
-    "IONQ": 2,
+    "BRK-B": 19.5,
+    "GOOGL": 14.8,
+    "NVDA": 10.0,
+    "META": 6.6,
+    "CRCL": 6.3,
+    "AMZN": 4.5,
+    "TSM": 3.9,
+    "MRVL": 2.3,
+    "NFLX": 1.6,
 }
 BENCHMARK = "SPY"
 SOXX = "SOXX"
@@ -178,7 +175,7 @@ def write_md(path, df_ret, held, stats, corr, avg_corr, high_corr, pf_beta,
     L.append("---\n")
     L.append("# 组合相关性 + 真实 Beta + 压力测试\n")
     L.append("> 来源：`scripts/portfolio_risk.py`，yfinance adjclose 1y 日线。")
-    L.append("> 配合 `portfolios/2026-05-core-thematic-payoff.md` v2 仓位读。\n")
+    L.append("> 配合 `portfolios/2026-06-24-actual-holdings-snapshot.md` §0b（真实持仓，价格推算权重）读。\n")
 
     L.append("## 一、每只持仓 vs SPY\n")
     L.append("| Ticker | Weight | Beta(SPY) | 1y Return | Ann. Vol |")
@@ -191,7 +188,7 @@ def write_md(path, df_ret, held, stats, corr, avg_corr, high_corr, pf_beta,
 
     L.append("## 二、组合加权 Beta\n")
     L.append(f"**加权 beta = {pf_beta:.2f}**（held 权重 "
-             f"{sum(PORTFOLIO[t] for t in held)}%，现金 6% 不计入）\n")
+             f"{sum(PORTFOLIO[t] for t in held):.1f}%，现金 {100-sum(PORTFOLIO.values()):.1f}% 不计入；组合口径 beta ≈ {pf_beta*sum(PORTFOLIO[t] for t in held)/100:.2f}）\n")
     if pf_beta > 1.3:
         L.append(f"> ⚠️ 加权 beta {pf_beta:.2f} 显著高于 1.0 —— 市场跌 1%，"
                  f"组合预期跌 {pf_beta:.2f}%。\n")

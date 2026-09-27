@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BE</title>
+  <link rel="stylesheet" href="../_assets/style.css" />
+</head>
+<body>
+  <div class="site-shell">
+  <div class="page">
+    <div class="topbar">
+      <div class="nav-cluster">
+        <a class="back" href="../index.html">← 返回投研首页</a>
+        <a class="nav-link secondary" href="../all-docs.html">全部文档</a>
+      </div>
+      <div class="nav-cluster">
+        <a class="home-link" href="../notes.html">Notes</a>
+        <a class="home-link" href="../candidates.html">Candidates</a>
+        <a class="home-link" href="../tickers.html">Tickers</a>
+      </div>
+    </div>
+    <section class="hero">
+      <div class="doc-header-grid">
+        <div>
+          <div class="eyebrow">tickers</div>
+          <h1>BE</h1>
+          <p>单只股票的研究卡、跟踪信号和估值框架。</p>
+          <div class="meta-row">
+            <span class="pill">tickers/BE.md</span>
+            <span class="pill">2020 words</span>
+            <span class="pill">16 sections</span>
+          </div>
+        </div>
+        <div class="doc-stat-stack">
+          <div class="doc-stat">
+            <div class="doc-stat-label">Document Type</div>
+            <div class="doc-stat-value">Tickers</div>
+          </div>
+          <div class="doc-stat">
+            <div class="doc-stat-label">Reading Mode</div>
+            <div class="doc-stat-value">Research Memo</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="doc-layout">
+      <article class="doc doc-main">
+<hr />
+<p>ticker: BE name: Bloom Energy sector: AI 数据中心现场供电 / 固体氧化物燃料电池（SOFC） layer: Layer 6 — AI 基础设施（电力）：并网排队与燃机交期卡点的「速度溢价」卖方 position_type: thematic（候选，未持有） status: watching last_updated: 2026-09-25 data_source: 实测行情 2026-09-15（scripts/fetch_quotes.py）+ SEC 10-K FY2025 / 10-Q Q1–Q2&#x27;26 / 8-K（可转债、Hunterbrook 回应、S&amp;P 纳入）+ 电话会转录（Motley Fool / Investing.com）+ SemiAnalysis 2025-12-30 &amp; 2026-09-10 + Hunterbrook 做空报告两篇 + GEV/Siemens/CAT 财报 + IRS Notice 2026-15 + EIA STEO；两个研究子 agent 2026-09-16 拉取（WebSearch 配额耗尽，NOT FOUND 项见文末）</p>
+<hr />
+<h1 id="bloom-energy-be">Bloom Energy (BE)</h1>
+<h2 id="一句话定位">一句话定位</h2>
+<p>卖的不是燃料电池，是<strong>时间</strong>：并网排队 5–7 年、燃气轮机槽位排到 2029–30，Bloom 55–90 天出电。2026 年靠 Oracle（最多 2.8 GW）、AEP（1 GW）、Nebius、Brookfield $25B 融资架子把它从「韩国补贴依赖的边缘玩家」变成 AI 现场供电的近独占者（燃料电池赛道内 Bloom 3.8 GW vs 其他 0.03 GW）。营收一年翻倍、毛利 28%→34%、9/21 进 S&amp;P 500。<strong>但 $76B 市值 = 24.6x 销售，已经把 2031 年 40–57% 的营收 CAGR 定价进去了</strong>；单一客户占上半年营收 73%，保修计提半年翻 7 倍，内部人 2026 卖出 $1.1 亿零买入，做空报告直指钪供应链和电堆寿命。这是组合最不需要的东西：一只 beta 3.8 的 AI capex 纯多头。</p>
+<h2 id="关键数据基准-2026-09-15-收盘scriptsfetchquotespy-实测-stockanalysiscom-交叉">关键数据（基准 2026-09-15 收盘，scripts/fetch_quotes.py 实测 + stockanalysis.com 交叉）</h2>
+<table><thead><tr><th>指标</th><th>数据</th><th>备注</th></tr></thead><tbody><tr><td>股价</td><td><strong>$266.65</strong>（9/24 收，force majeure 日 −3.1%；9/15 $259.35）</td><td>距 6/25 历史高点 $351.28 <strong>−26%</strong>；7/29 曾跌至 $157（−52%）后 V 型回来 <code>[KNOWN]</code></td></tr><tr><td>市值</td><td><strong>$76.4B</strong></td><td>EV ≈ $76.2–76.5B（现金 $2.67B ≈ 追索债务 $2.48B）<code>[KNOWN]</code></td></tr><tr><td>TTM PE</td><td><strong>332</strong>（yfinance）/ 292（stockanalysis）</td><td>TTM 净利 $245M，口径无意义</td></tr><tr><td>Forward PE</td><td><strong>52.6</strong>（FY27E $4.93）/ 95.7（FY26E $2.71）</td><td><code>[COMPUTED]</code></td></tr><tr><td>Forward P/S</td><td><strong>18.6x</strong>（FY26E $4.12B）/ 11.3x（FY27E $6.79B）</td><td>TTM P/S 24.5x；EV/EBITDA TTM 183x，2026E ~45x</td></tr><tr><td>52 周区间</td><td>$61.37 – $351.28</td><td>一年 <strong>+286%</strong>；2026 YTD 约 +150–220%（年初价口径不一，<code>(待核实)</code>）</td></tr><tr><td>Beta</td><td><strong>3.81</strong></td><td>5 年对 SPY。对组合的 SOXX 因子是<strong>加杠杆</strong>，不是分散 <code>[INFERRED]</code> HIGH</td></tr><tr><td>股数</td><td>294.5M（2026-07-22）</td><td>2024-02 225.0M → <strong>+27.8%</strong>；转债 $2.5B @ $194.97 已在价内 <code>[KNOWN]</code></td></tr><tr><td>空头</td><td>19.2M 股 / 6.6% float</td><td>1.5 天回补，借券成本 0.3%，不算拥挤 <code>[KNOWN]</code></td></tr><tr><td>股息</td><td>无</td><td></td></tr></tbody></table>
+<h2 id="财务fy2025截至-2025-12-31sec-10-k-8-k-2026-02-05">财务（FY2025，截至 2025-12-31；SEC 10-K + 8-K 2026-02-05）</h2>
+<table><thead><tr><th>项目</th><th>FY2025</th><th>FY2024</th><th>同比</th></tr></thead><tbody><tr><td>总营收</td><td><strong>$2,024M</strong></td><td>$1,474M</td><td>+37.3%</td></tr><tr><td>其中产品 / 安装 / 服务 / 售电</td><td>$1,531M / $204M / $228M / $60M</td><td></td><td>产品占 76%</td></tr><tr><td>毛利率 GAAP / non-GAAP</td><td>29.0% / 30.3%</td><td>27.5% / 28.7%</td><td>+150 bps</td></tr><tr><td>服务毛利率（GAAP，Q4）</td><td><strong>16.9%</strong></td><td>−1.7%</td><td>十年首次持续转正</td></tr><tr><td>营业利润 GAAP / non-GAAP</td><td>$72.8M / $221.0M</td><td>$22.9M / $107.6M</td><td>non-GAAP 翻倍</td></tr><tr><td>Adj. EBITDA</td><td>$271.6M</td><td>$160.7M</td><td>2021 年 $14M → 5 年 19 倍</td></tr><tr><td>GAAP 净利 / EPS</td><td><strong>−$88.4M / −$0.37</strong></td><td></td><td>全年 GAAP 仍亏（转债置换 + SBC）</td></tr><tr><td>non-GAAP EPS（摊薄）</td><td>$0.76</td><td></td><td></td></tr><tr><td>OCF / Capex / FCF</td><td>$113.9M / $56.8M / <strong>$57.1M</strong> <code>[COMPUTED]</code></td><td></td><td>第二年 FCF 为正；Q4 单季 OCF $418M</td></tr><tr><td>SBC</td><td>$139.4M</td><td></td><td>= 6.9% 营收</td></tr><tr><td>现金 / 追索债务</td><td>$2,454M / $2,614M</td><td></td><td>净现金 ≈ 0</td></tr><tr><td>Backlog（公司口径）</td><td><strong>~$20B</strong>：产品 ~$6B + 服务 ~$14B</td><td></td><td>⚠️ 见「Backlog vs RPO」</td></tr><tr><td>年初指引 vs 实际</td><td>营收 $1.65–1.85B → $2.02B；OI $135–165M → $221M</td><td></td><td>超上限 9%，2025 年每季上调</td></tr></tbody></table>
+<h2 id="财务2026-q1q2-指引演变q3-财报约-102729公司未确认">财务（2026 Q1–Q2 + 指引演变；Q3 财报约 10/27–29，公司未确认）</h2>
+<table><thead><tr><th>项目</th><th>Q1&#x27;26（至 3/31）</th><th>Q2&#x27;26（至 6/30）</th></tr></thead><tbody><tr><td>营收</td><td><strong>$751M（+130%）</strong></td><td><strong>$1,065M（+166%，环比 +42%）</strong></td></tr><tr><td>产品收入</td><td>$653M（+208%）</td><td>$935M（+215%）= 88% 营收</td></tr><tr><td>毛利率 GAAP / non-GAAP</td><td>30.0% / 31.5%</td><td><strong>33.4% / 34.3%</strong>（+668 bps YoY）</td></tr><tr><td>分部毛利（non-GAAP）</td><td>产品 35.3% / 服务 18.0%</td><td>产品 37.2% / 安装 −1.4% / 服务 22.0%</td></tr><tr><td>营业利润 GAAP / non-GAAP</td><td>$72M / $130M（17.3%）</td><td><strong>$182M / $240M</strong>（22.5%）</td></tr><tr><td>GAAP 净利 / 摊薄 EPS</td><td>$70.7M / $0.23</td><td><strong>$196.3M / $0.62</strong></td></tr><tr><td>non-GAAP EPS vs 共识</td><td>$0.44 vs $0.13</td><td>$0.78 vs $0.39–0.41</td></tr><tr><td>营收 vs 共识</td><td>$751M vs $530M（+42%）</td><td>$1,065M vs $827M（+29%）</td></tr><tr><td>OCF / Capex / FCF</td><td>$73.6M / $26.2M / $47.4M</td><td>$226.4M / $51.6M / <strong>$174.8M</strong></td></tr><tr><td>现金 / 追索债务</td><td>$2,491M / $2,599M</td><td>$2,667M / $2,471M</td></tr><tr><td><strong>应计保修</strong></td><td>—</td><td><strong>$20.0M（12/31）→ $77.8M（6/30）</strong>；Q2 计提 = 产品收入 4.22%（去年 0.58%）</td></tr><tr><td>性能保证付款</td><td>—</td><td>H1 $13.8M，公司归因「fleet degradation」</td></tr><tr><td>客户集中</td><td>两客户 ~50% + ~12%</td><td><strong>H1 单一非关联客户 73%</strong>；Q2 两客户 44% + 21%（后者关联方）</td></tr><tr><td>关联方收入</td><td>—</td><td>H1 $376M = 20.7%（Brookfield JV）</td></tr><tr><td>RPO（10-Q 未履行履约义务）</td><td>—</td><td><strong>$442M</strong> 产品+安装 + $52M 服务</td></tr><tr><td>股价反应</td><td>盘后 −3.5% → 次日 +22.5%</td><td>当日 −11%（Hunterbrook 第二篇）→ 盘后 +12% → 次日回吐至 −2%</td></tr></tbody></table>
+<p><strong>FY2026 指引三次上调</strong> <code>[KNOWN]</code> HIGH：</p>
+<ul>
+<li>2/5：营收 $3.1–3.3B / GM ~32% / non-GAAP OI $425–475M / EPS $1.33–1.48</li>
+<li>4/28：$3.4–3.8B / ~34% / $600–750M / $1.85–2.25</li>
+<li>7/28：<strong>$3.9–4.2B（中值 +100% YoY）/ ~34% / $800–900M / $2.55–2.85</strong>；OCF「$375M+」</li>
+<li>Sridhar Q1 原话：「not order constrained and not capacity constrained. The pace of our revenue growth is decided by how fast our customers can build their greenfield sites」→ 增速的约束在<strong>客户的土建</strong>，不在 Bloom。</li>
+</ul>
+<h2 id="技术与单位经济为什么它能卖时间">技术与单位经济（为什么它能卖时间）</h2>
+<p><code>[KNOWN]</code> MED，来源 ES 5.5 数据表 / 10-K / SemiAnalysis</p>
+<ul>
+<li><strong>产品</strong>：330 kW 撬块，天然气 SOFC，电效率 BOL 65% → 全寿命 53%（LHV），公司口径「~60%」，比燃机省 15–20% 燃料。CO2 679–833 lb/MWh（CCGT 750–900，开式燃机 1,100+）：<strong>对 CCGT 碳优势很小，对开式循环/往复机明显</strong>。NOx 0.0017 lb/MWh ≈ 零，<strong>不耗水，加州免空气许可</strong>，Jupiter 走 minor source 路线。</li>
+<li><strong>部署</strong>：Oracle 首站 55 天；Power Connect（2026-08）再降现场安装 40%+；全线 800V DC ready。</li>
+<li><strong>成本</strong>：2023 末产品成本 ≈ $2,100/kW <code>[COMPUTED]</code>，2024 起不再披露。售价 $3,000–4,000/kW（SemiAnalysis）vs 航改燃机 $1,700–2,000 / 工业燃机 $1,500–1,800 / 往复机 $1,700–2,000——<strong>Bloom 贵一倍，卖的是交期</strong>。AEP $2.65B/1 GW ≈ $2,650/kW（含 20 年 offtake，口径不明）<code>(待核实)</code>。</li>
+<li><strong>LCOE</strong>：~$0.09–0.10/kWh（Oracle 侧引述，单源 LOW）vs 微燃机 $0.07–0.08；燃料成本 ≈ $0.022/kWh @ Henry Hub $3.43 <code>[COMPUTED]</code>。</li>
+<li><strong>电堆寿命 = 服务毛利的分母</strong>：公司称 2014–15 批次中位 4.9 年、最长 7.7 年；SemiAnalysis 估 5–6 年更换。<strong>Hunterbrook（2026-07-30）用 NYSERDA/特拉华 PSC/加州 SGIP/EIA 公开监管数据称</strong>：纽约 37 台中位 &lt;3 年触及更换阈值、20 个月跌破 46.9% 效率保证线；特拉华 156 个月中 152 个月低于 95% 出力保证。做空方利益相关，<strong>但数据源可复核，且 10-Q 保修计提翻 7 倍与之方向一致</strong>。公司未回应第二篇。<code>[INFERRED]</code> MED</li>
+<li><strong>负荷跟随是多 GW 级的未验证项</strong>：SOFC 靠超级电容吃阶跃负荷，SemiAnalysis 估 Jupiter 2.45 GW 需 ~1.6 GW 超容，现有先例仅 58 MW。「数百组电堆 + 超容 + BESS 的配置从未在此规模做过」。</li>
+<li><strong>氢已退出叙事</strong>：SOEC 官网最新新闻 2021-07；2026 两次电话会未提氢。这只票 2026 年是纯天然气故事。<code>[INFERRED]</code> HIGH</li>
+</ul>
+<h2 id="护城河类型">护城河类型</h2>
+<p><strong>时间窗口 + 认证壁垒，不是技术垄断</strong> <code>[INFERRED]</code> HIGH</p>
+<ul>
+<li>真护城河：① 1.5 GW / 1,200 台的运行记录，hyperscaler 的供应商认证周期 1–2 年（Q2 PR：「所有美国主要 hyperscaler 及十余家 neocloud 已验证」）；② 燃料电池赛道内独占（Doosan 50 MW/年、FCEL/Plug 加起来 0.03 GW 订单）；③ 非燃烧 → 空气许可和水权两条监管路径比燃机短。</li>
+<li>假护城河：「速度」。速度溢价存在的前提是燃机交期 3–5 年。GEV 产能 20 GW/年 → 24 GW（2028）→ 30 GW（2030），Siemens/MHI 同步扩产，<strong>2028–29 若交期回到 12–18 个月，$3,000–4,000/kW 对 $1,500–2,000 的两倍价差失去支撑</strong>。GEV CEO Strazik 已说「燃机其实不是卡点」。</li>
+<li>为什么 3 年内追不上：不是别人做不出 SOFC，是<strong>hyperscaler 不会在 2026–28 这个窗口换新供应商做认证</strong>。窗口之后护城河要靠服务粘性（100% attach、5–20 年 O&amp;M）和电堆更换收入，而这正是 Hunterbrook 攻击的地方。</li>
+</ul>
+<h2 id="竞争格局2026">竞争格局（2026）</h2>
+<table><thead><tr><th>方案</th><th>交期</th><th>$/kW</th><th>2026 状态</th></tr></thead><tbody><tr><td><strong>Bloom SOFC</strong></td><td>55–90 天</td><td>$3,000–4,000</td><td>3.8 GW 订单；Oracle/AEP/Nebius/Equinix</td></tr><tr><td>GEV / Siemens / MHI 燃机</td><td>2029–30 槽位</td><td>$1,500–2,000（涨价中，2027 或 $600/kW 裸机 ×3）</td><td>GEV backlog 116 GW，年底 ≥125 GW</td></tr><tr><td>CAT / Wärtsilä / Jenbacher 往复机</td><td>CAT 3600 系列 ~107 周</td><td>$1,700–2,000</td><td>CAT backlog $63B；2 GW 供 Monarch</td></tr><tr><td>电池（Megapack / Fluence）</td><td>短</td><td>只能做桥</td><td>Google「强烈偏好作并网过渡桥」；SpaceX Q2 买 $295M Megapack</td></tr><tr><td>SMR</td><td>2028+（Oklo）</td><td>—</td><td>十年尺度</td></tr><tr><td>其他燃料电池</td><td>—</td><td>—</td><td>0.03 GW，非对手</td></tr></tbody></table>
+<p><code>[KNOWN]</code> MED，来源 SemiAnalysis 2026-09-10 / power-eng / Utility Dive。</p>
+<ul>
+<li>2025 年的大项目（xAI Colossus、Abilene、Meta Socrates、Vantage）<strong>全用燃机/往复机，无 Bloom</strong>；2026 起逆转（Oracle Jupiter 弃燃机+柴油改 Bloom，Nebius 取消燃机订单）。逆转的原因是<strong>交期和许可</strong>，不是 LCOE。</li>
+<li>直接表态：Microsoft/Meta/Google 对燃料电池的公开表态 NOT FOUND；AWS 经 AEP Ohio 6 年合同 + Cologix 15 年间接使用。「Google 怀俄明 900 MW」仅 SemiAnalysis 单源，疑为 Crusoe/Tallgrass 项目的租户 <code>(待核实)</code>。</li>
+</ul>
+<h2 id="商业合同已披露">商业合同（已披露）</h2>
+<p><code>[KNOWN]</code> HIGH 除标注</p>
+<ul>
+<li><strong>Oracle</strong>：2025-07 首签（无规模）→ 2026-04-13 MSA <strong>最多 2.8 GW，已签 1.2 GW</strong>，部署至 2027；Project Jupiter 2.45 GW 独家供电，Oracle 承担全部能源成本。Oracle 持 3.53M 股权证 @ $113.28（已行权 2.15M 股，公允值 $324M 冲减收入）。<strong>H1&#x27;26 那家 73% 的客户极可能是 Oracle</strong>（公司未确认）<code>[INFERRED]</code> HIGH。</li>
+<li><strong>Brookfield</strong>：2025-10 $5B → <strong>2026-06-30 $25B</strong>（Brookfield $100B AI 基础设施基金内），模式是 Brookfield 买资产做 PPA、Bloom 签客户 → Bloom 部分持股的 JV 是关联方，H1 关联方收入 20.7%。已部署 GW / 欧洲首站 NOT FOUND。</li>
+<li><strong>AEP</strong>：2024-11 最多 1 GW，首单 100 MW；「$2.65B / 20 年 offtake」仅二手（Simply Wall St / fuelcellsworks），Bloom IR 无稿 <code>(待核实)</code>。已交付 MW NOT FOUND。</li>
+<li><strong>Nebius</strong>：2026-05-20 首项目 328 MW（2026 投运）；CNBC 称 10 年 $2.6B 主协议（正文 403，单源）<code>(待核实)</code>。Industrial Development Funding（Oaktree/MUFG/MS）承诺 $2.6B 项目融资。</li>
+<li><strong>Equinix</strong> &gt;100 MW（2025-02）；<strong>CoreWeave</strong>（Chirisa，2025 Q3 投运，规模未披露）；<strong>SK ecoplant</strong> 500 MW 至 2027（2023 协议），<strong>已于 2026-04 清仓全部 Bloom 股份</strong>，韩国占比被稀释到 ~10%（美国营收占比 Q1&#x27;25 56% → H1&#x27;26 90%）。</li>
+<li><strong>Backlog vs RPO 的 45 倍差</strong>：公司口径 ~$20B（产品 $6B + 服务 $14B）；10-Q 不可撤销履约义务只有 <strong>$0.49B</strong>。服务合同按 5–20 年计入 backlog 但含年度便利终止条款（Hunterbrook 指控）。<strong>Backlog 是营销数字，RPO 是会计数字，两者差 45 倍是这只票信息质量的度量。</strong><code>[INFERRED]</code> HIGH</li>
+</ul>
+<h2 id="政策">政策</h2>
+<p><code>[KNOWN]</code> MED</p>
+<ul>
+<li><strong>48E ITC</strong>：OBBBA（2025-07-04）给燃料电池 <strong>30% ITC、取消 GHG 要求</strong>，2025-12-31 后开工适用，2033 后退坡至 2036 归零。这是 2025 年 7 月 JPM 上调、股价起飞的起点。<strong>Bloom 的经济性含 30% 补贴</strong>。</li>
+<li><strong>FEOC / 材料援助（IRS Notice 2026-15）</strong>：MACR 门槛 2026 40% → 2030 60%。燃料电池 ITC 生效日与 FEOC 规则生效日相同，<strong>Hunterbrook 的中国钪路径若成立直接触及 ITC 资格</strong> <code>[INFERRED]</code> MED。公司 8-K 回应「不依赖中国」「25 GW/年供应链可见度」，未逐条反驳。</li>
+<li><strong>韩国</strong>：CHPS 2026 招标量 −30%，政府称 LNG 制灰氢燃料电池「不符合脱碳政策」→ 韩国这条腿在萎缩，已被美国 DC 替代。</li>
+<li><strong>天然气</strong>：EIA STEO Henry Hub 2026 $3.43 / 2027 $3.28，库存高于五年均 5%。燃料由谁承担合同条款 NOT FOUND（Jupiter 由 Oracle 承担）。</li>
+<li><strong>接入规则</strong>：FERC 2025-12 令 PJM 重写共址规则；德州 SB6 2026-07 首例裁定紧急切负荷不以 BTM 容量为上限。方向对现场供电有利。EPA 2026-01 燃机 NSPS 新增「临时」子类，对燃机松绑 → 对 Bloom 相对不利 <code>[INFERRED]</code> LOW。</li>
+</ul>
+<h2 id="2026-09-24oracle-对-project-jupiter-发-force-majeure-退出条件的前兆-核实-2026-09-25techcrunch-924">⭐ 2026-09-24：Oracle 对 Project Jupiter 发 force majeure —— 退出条件①的前兆 <code>[核实 2026-09-25，TechCrunch 9/24]</code></h2>
+<ul>
+<li><strong>事件</strong>：Oracle 就 Project Jupiter（新墨西哥 Stargate 园区，<strong>2.45 GW，Bloom 独家供电</strong>，媒体称 $165B）向出资方 Blue Owl 发不可抗力通知。原因两条：① Energy Transfer 天然气管道许可被拒，延至 <strong>2027-02-01</strong>；② <strong>Bloom 燃料电池的空气许可待批</strong>（州限 11/23）。条款允许 2028 上线延误时<strong>延付款项</strong>，不退租。Oracle：「按计划」；Blue Owl：「财务承诺不变」。</li>
+<li><strong>股价</strong>：ORCL −3.47%、<strong>BE −3.10%</strong>、GEV 受累（Barron&#x27;s）。</li>
+<li><strong>对本档</strong>：Jupiter 是 Oracle 1.2 GW 已签量的核心，也是 H1&#x27;26 那家 73% 客户的主要交付地。档案退出条件①「Oracle 或 Brookfield 任一公告缩减/延后 GW 承诺」——<strong>这次是「延后付款」不是「缩减承诺」，前兆而非触发</strong>。但它验证了两条风险：a) 「速度溢价」的前提是 55–90 天出电，而<strong>电出不来的原因不在 Bloom 产能，在燃气管道许可和空气许可</strong>——Bloom 的「免空气区许可」优势是加州口径，新墨西哥要批；b) Hunterbrook 引 SemiAnalysis 说的「Jupiter 首电 2027→2029」从做空方单源变成了 Oracle 自己的通知。</li>
+<li><strong>对 watchlist 信号⑥</strong>：此前三形态都是钱（⑥-a 发股、⑥-b 卖方扛信用、⑥-c 买方预付）。<strong>这是第一个「实体交付不了」的形态：不是融资断，是电/许可断，付款条款随之后移。</strong> 归为 ⑥-d。<code>[INFERRED, HIGH]</code></li>
+<li><strong>跟踪</strong>：11/23 新墨西哥空气许可裁决；Q3 财报（10 月底）Oracle 相关 RPO 与客户集中度是否变化；GEV 燃机是否因此获得 Jupiter 替代订单（若是，速度溢价论点直接受损）。</li>
+</ul>
+<h2 id="风险">风险</h2>
+<ul>
+<li><strong>估值风险（主）</strong>：EV/Sales 24.6x、FY27E PE 53x。三档情景（见估值锚）基准 IRR <strong>−14%</strong>，乐观才 +6%；要拿 15% IRR 需 2031 营收 $22–38B（CAGR 40–57%）。7 月已示范过 −52% 回撤后 V 型收复，这是 beta 3.8 的日常。<code>[COMPUTED]</code> HIGH</li>
+<li><strong>AI capex 周期</strong>：敞口 ~100%，且是<strong>晚周期品种</strong>——客户是「等不到并网/燃机」的人，capex 骤停时它是第一个被砍的可选项。Sridhar Q2 自己说 AI 投资节奏「I do not know for sure」。与组合 SOXX 因子同向且放大（见 memory <code>ai-capex-cycle-topsignal-watchlist</code> ⑥ 融资结构信号：Brookfield 融资架子 = 买方资本替卖方出，和 NVDA vendor financing 是同一根线）。<code>[INFERRED]</code> HIGH</li>
+<li><strong>客户集中</strong>：H1 单客 73%。Oracle 自身在 2026 年靠发债/租赁融资 capex（见 OCI 相关笔记），Oracle 的融资能力就是 Bloom 的营收能力。</li>
+<li><strong>电堆寿命 / 保修</strong>：应计保修半年 $20M → $78M，Q2 计提率 4.22%（7 倍）；性能保证付款 $13.8M。若 Hunterbrook 的 &lt;3 年更换周期成立，$14B 服务 backlog 的毛利模型（现 22%）要重算。</li>
+<li><strong>稀释</strong>：股数两年半 +28%；$2.5B 0% 转债 @ $194.97 已价内（≈12.8M 股，10-Q 一处写 19.6M 股 <code>(待核实)</code>）；Oracle 权证；SBC 6.9% 营收。<strong>内部人 2026 卖出 ≈ $110M+，零买入</strong>；CEO 5 年 20 卖 0 买，持股 5%。</li>
+<li><strong>做空 / 诉讼史</strong>：Hindenburg 2019 → 2020-02 财务重述（MSA 收入确认）；Hunterbrook 2026-07 两篇；证券集体诉讼集体期 2025-02-27 ~ 2026-07-08，首席原告截止 2026-09-28。</li>
+<li><strong>供应链</strong>：钪氧化物。空头称 5 GW/年需 ~220 吨 vs 全球供给 ~240 吨；公司称 25 GW 可见度，未给吨数。<strong>两边都没给可核实的数字。</strong></li>
+<li><strong>执行</strong>：多 GW 级 SOFC 阵列 + 超容 + BESS 从未做过；Jupiter 首电 2027→2029、AEP 怀俄明 2028→2030 的延期说法仅做空方引 SemiAnalysis <code>(待核实)</code>。</li>
+<li><strong>燃机正常化</strong>（2028–29）：见护城河节。这是终局风险，不是 2026 风险。</li>
+</ul>
+<h2 id="估值锚">估值锚</h2>
+<ul>
+<li><strong>类比</strong>：GEV（forward PE ~46x，backlog 排到 2030，年营收 $40B+）、VRT（DC 电源）、CEG（核电 PPA）。BE 对 GEV 的 EV/Sales 溢价约 3 倍，理由是增速（+100% vs +15%），代价是能见度（RPO $0.49B vs GEV backlog $125 GW）。<code>[COMPUTED]</code></li>
+<li><strong>一致预期</strong>（Yahoo/stockanalysis 2026-09）：FY26 营收 $4.12B / EPS $2.71（近 30 日 24 上修 0 下修）；<strong>FY27 营收 $6.79B（$5.3–9.6B，离散度极大）/ EPS $4.93（$2.95–7.01）</strong>。评级 29 人：15 买 / 12 持 / 2 卖；目标价均值 $276（$97–390）。<strong>记录卖方分布，不给目标价。</strong></li>
+<li><strong>三档情景 5 年 IRR</strong>（<code>[COMPUTED]</code> 入场 $259.35，FY26 营收中值 $4.05B，2031 摊薄股数 330M）：</li>
+</ul>
+<table><thead><tr><th>情景</th><th>营收 CAGR</th><th>FY31 营收</th><th>净利率</th><th>退出 PE</th><th>FY31 股价</th><th>年化 IRR</th></tr></thead><tbody><tr><td>悲观（燃机正常化 + 电堆更换成本坐实）</td><td>5%</td><td>$5.2B</td><td>10%</td><td>15x</td><td>~$23</td><td><strong>−38%</strong></td></tr><tr><td>基准（DC 供电份额稳住，增速回落到行业水平）</td><td>20%</td><td>$10.1B</td><td>16%</td><td>25x</td><td>~$122</td><td><strong>−14%</strong></td></tr><tr><td>乐观（Oracle 2.8 GW + Brookfield $25B 全部兑现，成第二个 GEV）</td><td>32%</td><td>$16.2B</td><td>20%</td><td>35x</td><td>~$344</td><td><strong>+5.8%</strong></td></tr></tbody></table>
+<ul>
+<li><strong>当前价隐含</strong>：要 15% IRR，FY31 营收需 $22–38B，即 5 年 CAGR <strong>40–57%</strong>，且退出时仍给 25–35x。作为参照，GEV 现在年营收 $40B。<strong>市场把 Bloom 定价成了 2031 年的 GEV 一半规模。</strong></li>
+<li><strong>反推</strong>：基准情景 10% IRR 入场价 ≈ <strong>$76</strong>，15% ≈ <strong>$61</strong>——恰好是 52 周低点 $61.37。换句话说，一年前的价格才配得上基准情景的机会成本。这不是目标价，是「多少钱这只票的赔率才对得起风险」。</li>
+<li><strong>结论</strong>：论点（速度溢价、认证壁垒、独占赛道）<strong>成立</strong>；价格不成立。这是「对的故事、错的价格、错的因子」三合一：故事对，价格已透支两年，因子和组合最大风险同向。</li>
+</ul>
+<h2 id="退出条件">退出条件</h2>
+<p>（未持有，以下是「进入 / 不进入」和若持有的规则）</p>
+<ul>
+<li><strong>不进入的硬条件</strong>（任一成立即不看价格）：① 组合 betaSOXX &gt; 0.5 时不加任何 AI 电力纯多头（现 0.32，见 memory <code>portfolio-soxx-factor-risk</code>）；② H1/FY 单客户集中 &gt; 50%；③ RPO / 公司 backlog &lt; 5%。<strong>三条现在全部成立。</strong></li>
+<li><strong>进入门槛</strong>（三条解除后）：股价 ≤ $76（基准 10% IRR）<strong>且</strong>保修计提率回到产品收入 &lt; 2%、关联方收入 &lt; 15%、Q 客户集中 &lt; 40%。到价复核，到价 ≠ 扳机。</li>
+<li><strong>触发减仓（若持有）</strong>：FY 指引首次<strong>不上调</strong>或下调；产品毛利率环比降 &gt; 200 bps；保修计提率连续两季 &gt; 4%。</li>
+<li><strong>触发卖出（若持有）</strong>：① Oracle 或 Brookfield 任一公告缩减/延后 GW 承诺；② 10-Q 披露 FEOC/MACR 不合规风险或 ITC 资格被质疑；③ 电堆更换周期被公司自己下修至 &lt; 4 年；④ AI capex 四大触发器 ≥ 2/4 转红（见 watchlist）。</li>
+<li><strong>持有阈值</strong>：只在「速度溢价窗口」（燃机交期 &gt; 24 个月）内持有；GEV/Siemens 交期回到 18 个月以内即为窗口关闭信号，无论股价。</li>
+</ul>
+<h2 id="跟踪信号">跟踪信号</h2>
+<ul>
+<li><strong>财报关注项</strong>（每季 10-Q + 电话会）：</li>
+</ul>
+<ol>
+<li><strong>应计保修余额与计提率</strong>（$77.8M / 4.22%）——这是电堆寿命争议唯一的会计侧证；</li>
+<li><strong>RPO</strong>（$442M + $52M）vs 公司 backlog——比值 &lt; 5% 持续 = 信息质量问题未解；</li>
+<li>客户集中（73%）与关联方收入占比（20.7%）；</li>
+<li>产品毛利率（37.2%）——「为客户时间牺牲成本」的取舍是否侵蚀；</li>
+<li>股数与转债转股进度（294.5M，转债 12.8M 股价内）；</li>
+<li>FY 指引方向（三次上调后，第一次「维持」就是拐点信号）；</li>
+<li>出货 MW（公司 2025 起停披露 acceptances，若恢复披露看 $/kW 趋势）。</li>
+</ol>
+<ul>
+<li><strong>行业领先指标</strong>：</li>
+<li><strong>GEV 燃机交期与 2029–30 槽位</strong>（现 ~10 GW 剩余，产能 20→30 GW）——交期是速度溢价的分母；</li>
+<li>SemiAnalysis BTM 供电项目追踪（Bloom 3.8 GW vs 其他）；</li>
+<li>Henry Hub（$3.43）——燃料是 LCOE 的 20–25%；</li>
+<li>IRS FEOC 拟议法规（PFE 身份认定）发布时间与内容；</li>
+<li>Oracle 融资动作（OCI capex 的资金来源 = Bloom 73% 客户的付款能力）。</li>
+<li><strong>重大事件日历</strong>：</li>
+<li><strong>2026-09-21</strong> S&amp;P 500 纳入生效（被动买盘一次性，之后没有）；</li>
+<li><strong>2026-09-28</strong> 证券集体诉讼首席原告截止；</li>
+<li><strong>2026-10-27/29</strong> Q3&#x27;26 财报（共识营收 $1.06B / EPS $0.67；注意共识环比<strong>持平</strong>于 Q2，管理层会否第四次上调）；</li>
+<li>2026-12 底 2 GW/年产能是否如期；</li>
+<li>2027 Oracle 1.2 GW 已签部分交付进度、Jupiter 首电时间；</li>
+<li>Hunterbrook 第三篇（做空方通常在财报前后出）。</li>
+</ul>
+<h2 id="仓位与历史">仓位与历史</h2>
+<table><thead><tr><th>日期</th><th>操作</th><th>价格</th><th>仓位</th><th>备注</th></tr></thead><tbody><tr><td>2026-09-16</td><td>建档观察，<strong>不进入</strong></td><td>$259.35</td><td>—</td><td>论点成立、价格透支、因子与组合最大风险同向；三条硬条件全部成立；基准情景 10% IRR 入场 ≈ $76</td></tr></tbody></table>
+<blockquote><strong>期权备注</strong>：BE 不在内存/SOXX 减仓腿名单，但它是 <strong>beta 3.8 的 AI capex 纯多头</strong>，对它卖 put 等于用期权放大 SOXX 敞口，触犯 playbook 禁区第四条（见 memory <code>ibkr-options-playbook</code> / <a href="../portfolios/2026-07-23-put-selling-plan.html"><code>put-selling-plan</code></a>）。IV 高不是理由——IV 高是因为它该高。<strong>不做。</strong></blockquote>
+<h2 id="参考">参考</h2>
+<ul>
+<li><strong>一手</strong>：<a href="https://www.sec.gov/Archives/edgar/data/1664703/000162828026006516/be-20251231.htm">FY2025 10-K</a> · <a href="https://investor.bloomenergy.com/press-releases/press-release-details/2026/Bloom-Energy-Reports-Fourth-Quarter-and-Full-Year-2025-Financial-Results-with-Record-Full-Year-Revenues/default.aspx">Q4/FY25 业绩稿 2026-02-05</a> · <a href="https://www.sec.gov/Archives/edgar/data/1664703/000162828026027913/ex991_q126financialresults.htm">Q1&#x27;26 8-K</a> · <a href="https://www.sec.gov/Archives/edgar/data/0001664703/000162828026028021/be-20260331.htm">Q1&#x27;26 10-Q</a> · <a href="https://www.sec.gov/Archives/edgar/data/1664703/000162828026050150/ex991_q226financialresults.htm">Q2&#x27;26 8-K</a> · <a href="https://www.sec.gov/Archives/edgar/data/0001664703/000162828026050247/be-20260630.htm">Q2&#x27;26 10-Q</a> · <a href="https://www.sec.gov/Archives/edgar/data/0001664703/000162828026050150/ex992q226supplementalfin.htm">Q2&#x27;26 补充材料（EBITDA 历史）</a> · <a href="https://www.sec.gov/Archives/edgar/data/1664703/000162828026047734/be-20260709.htm">8-K 回应 Hunterbrook 2026-07-09</a> · <a href="https://investor.bloomenergy.com/press-releases/press-release-details/2025/Bloom-Energy-Corporation-Prices-Upsized-2-2-Billion-Convertible-Senior-Notes-Offering/default.aspx">2030 可转债定价 2025-10-30</a> · <a href="https://bloomenergy.m3iworks.com/wp-content/uploads/bloom-energy-server-datasheet-2023.pdf">ES 5.5 数据表</a></li>
+<li><strong>电话会</strong>：<a href="https://www.fool.com/earnings/call-transcripts/2026/02/05/bloom-energy-be-q4-2025-earnings-call-transcript/">Q4&#x27;25</a> · <a href="https://www.fool.com/earnings/call-transcripts/2026/04/28/bloom-energy-be-q1-2026-earnings-transcript/">Q1&#x27;26</a> · <a href="https://www.investing.com/news/transcripts/earnings-call-transcript-bloom-energy-tops-q2-2026-forecasts-shares-jump-after-hours-93CH-4818294">Q2&#x27;26</a></li>
+<li><strong>合同</strong>：<a href="https://investor.bloomenergy.com/press-releases/press-release-details/2026/Bloom-Energy-and-Oracle-Expand-Strategic-Partnership-to-Deploy-up-to-2-8-GW-to-Accelerate-AI-Infrastructure-Build-Out/default.aspx">Oracle 2.8 GW 2026-04-13</a> · <a href="https://www.prnewswire.com/news-releases/oracle-borderplex-and-bloom-energy-to-power-project-jupiter-with-cleaner-water-efficient-fuel-cell-technology-302754698.html">Oracle Jupiter 2026-04-27</a> · <a href="https://investor.bloomenergy.com/press-releases/press-release-details/2026/Brookfield-and-Bloom-Energy-Expand-AI-Infrastructure-Partnership-to-25-Billion-Fivefold-Increase-to-Build-and-Finance-Rapid-Power-for-AI-Infrastructure/default.aspx">Brookfield $25B 2026-06-30</a> · <a href="https://investor.bloomenergy.com/press-releases/press-release-details/2024/Bloom-Energy-Announces-Gigawatt-Fuel-Cell-Procurement-Agreement-with-AEP-to-Power-AI-Data-Centers/default.aspx">AEP 1 GW 2024-11</a> · <a href="https://nebius.com/newsroom/nebius-and-bloom-energy-partner-to-power-ai-infrastructure-build-out">Nebius 328 MW 2026-05-20</a> · <a href="https://investor.bloomenergy.com/press-releases/press-release-details/2025/Bloom-Energy-Expands-Data-Center-Power-Agreement-with-Equinix-Surpassing-100MW/default.aspx">Equinix &gt;100 MW</a> · <a href="https://press.spglobal.com/2026-09-04-Bloom-Energy,-Illumina,-and-Everpure-Set-to-Join-S-P-500-Others-to-Join-S-P-100,-S-P-MidCap-400,-and-S-P-SmallCap-600">S&amp;P 500 纳入 2026-09-04</a></li>
+<li><strong>竞争 / 技术</strong>：<a href="https://newsletter.semianalysis.com/p/what-is-so-hard-about-behind-the">SemiAnalysis：BTM 供电为什么难 2026-09-10</a> · <a href="https://newsletter.semianalysis.com/p/how-ai-labs-are-solving-the-power">SemiAnalysis：AI lab 如何解电力 2025-12-30</a> · <a href="https://www.power-eng.com/gas/turbines/data-centers-drive-record-surge-in-ge-vernova-power-equipment-orders-as-turbine-slots-tighten-through-2030/">GEV 燃机槽位 2026-04</a> · <a href="https://www.turbomachinerymag.com/view/ge-vernova-gas-turbine-backlog-hits-116-gw-as-power-orders-more-than-double">GEV backlog 116 GW</a> · <a href="https://www.spglobal.com/energy/en/news-research/latest-news/electric-power/063026-siemens-energy-lifts-global-gas-turbine-outlook-on-data-center-demand">Siemens Energy 2026-06</a> · <a href="https://www.investing.com/news/analyst-ratings/caterpillar-engine-lead-times-extend-as-data-center-demand-surges-93CH-4435497">CAT 交期 107 周</a> · <a href="https://www.utilitydive.com/news/bloom-energy-says-its-on-track-for-2-gw-annual-production-capacity/804291/">Utility Dive：2 GW 产能 2025-10</a></li>
+<li><strong>做空 / 争议</strong>：<a href="https://hntrbrk.com/investigations/bloom">Hunterbrook 一：Bloom&#x27;s Big Lie 2026-07-08</a> · <a href="https://hntrbrk.com/investigations/bloom-2">Hunterbrook 二：电堆性能 2026-07-30</a> · <a href="https://hindenburgresearch.com/bloom-energy-a-clean-energy-darling-wilting-to-its-demise/">Hindenburg 2019</a> · <a href="https://analysis.org/bloom-energy-be-q2-2026-warranty-accruals-hit-4-2-of-product-revenue-seven-times-last-years-rate/">保修计提分析 2026-07-29</a> · <a href="https://www.prnewswire.com/news-releases/be-deadline-levi--korsinsky-reminds-bloom-energy-corporation-investors-of-upcoming-securities-class-action-deadline-302860226.html">集体诉讼截止 2026-09-28</a> · <a href="https://finance.yahoo.com/markets/stocks/articles/bloom-energy-insiders-sold-us-120007429.html">内部人卖出 2026-05</a> · <a href="https://www.secform4.com/insider-trading/1664703.htm">Form 4 汇总</a></li>
+<li><strong>政策</strong>：<a href="https://natlawreview.com/article/congress-phases-out-energy-tax-credits">OBBBA 燃料电池 ITC（NatLawReview）</a> · <a href="https://www.irs.gov/newsroom/treasury-irs-provide-guidance-for-certain-energy-tax-credits-regarding-material-assistance-provided-by-prohibited-foreign-entities-under-the-one-big-beautiful-bill">IRS Notice 2026-15 FEOC</a> · <a href="https://en.sedaily.com/finance/2026/06/09/korea-cuts-hydrogen-power-auction-volume-30-percent">韩国 CHPS 减量 2026-06</a> · <a href="https://www.eia.gov/outlooks/steo/report/natgas.php">EIA STEO 天然气 2026-09</a> · <a href="https://www.ferc.gov/news-events/news/ferc-directs-nations-largest-grid-operator-create-new-rules-embrace-innovation-and">FERC PJM 令 2025-12</a> · <a href="https://www.whitecase.com/insight-alert/puct-affirms-curtailment-authority-over-co-located-data-centers-first-net-metering">德州 SB6 首例裁定</a></li>
+<li><strong>估值 / 预期</strong>：<a href="https://stockanalysis.com/stocks/be/statistics/">stockanalysis 统计</a> · <a href="https://finance.yahoo.com/quote/BE/analysis/">Yahoo 分析师预期</a> · <a href="https://www.fool.com/investing/2026/09/14/bloom-energy-is-up-x-this-year-heres-the-math-behi/">Fool：涨幅背后的算术 2026-09-14</a> · <a href="https://www.statmuse.com/money/ask/bloom-energy-stock-price-history-by-year">股价年度史</a></li>
+<li><strong>组合关联</strong>：<a href="GEV.html">GEV</a>（燃机交期 = 本票速度溢价的分母）· <a href="VRT.html">VRT</a>（同层 DC 电源）· <a href="CEG.html">CEG</a>（核电 PPA，另一种「卖确定性」）· <a href="NVDA.html">NVDA</a>（vendor financing 与 Brookfield 融资架子同源）· 主题笔记 <a href="../notes/2026-06-29-ai-bottleneck-profit-pool-migration.html">AI 瓶颈利润池迁移</a> · <a href="../notes/2026-06-24-token-is-electricity-value-chain.html">token 即电力价值链</a></li>
+<li><strong>NOT FOUND（子 agent 配额耗尽未补）</strong>：FY2025 acceptances MW；官方 $/kW；Brookfield 已部署金额；AEP 已交付 MW；Q3 财报日公司确认；Microsoft/Meta/Google 对燃料电池的直接表态；CFO Berenbaum 2026-04 离任原因；转债 capped call 条款。</li>
+</ul>
+      </article>
+      <aside class="doc-sidebar">
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">文档导航</h3>
+          <ul class="toc-list"><li><a href="#一句话定位">一句话定位</a></li><li><a href="#关键数据基准-2026-09-15-收盘scriptsfetchquotespy-实测-stockanalysiscom-交叉">关键数据（基准 2026-09-15 收盘，scripts/fetch_quotes.py 实测 + stockanalysis.com 交叉）</a></li><li><a href="#财务fy2025截至-2025-12-31sec-10-k-8-k-2026-02-05">财务（FY2025，截至 2025-12-31；SEC 10-K + 8-K 2026-02-05）</a></li><li><a href="#财务2026-q1q2-指引演变q3-财报约-102729公司未确认">财务（2026 Q1–Q2 + 指引演变；Q3 财报约 10/27–29，公司未确认）</a></li><li><a href="#技术与单位经济为什么它能卖时间">技术与单位经济（为什么它能卖时间）</a></li><li><a href="#护城河类型">护城河类型</a></li><li><a href="#竞争格局2026">竞争格局（2026）</a></li><li><a href="#商业合同已披露">商业合同（已披露）</a></li><li><a href="#政策">政策</a></li><li><a href="#2026-09-24oracle-对-project-jupiter-发-force-majeure-退出条件的前兆-核实-2026-09-25techcrunch-924">⭐ 2026-09-24：Oracle 对 Project Jupiter 发 force majeure —— 退出条件①的前兆 `[核实 2026-09-25，TechCrunch 9/24]`</a></li><li><a href="#风险">风险</a></li><li><a href="#估值锚">估值锚</a></li><li><a href="#退出条件">退出条件</a></li><li><a href="#跟踪信号">跟踪信号</a></li></ul>
+        </section>
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">阅读提示</h3>
+          <ul class="summary-list">
+            <li><span class="summary-label">先看什么</span><span class="summary-value">先读一段话结论，再看表格和风险点。</span></li>
+            <li><span class="summary-label">适合用途</span><span class="summary-value">复盘、比较、回查研究底稿。</span></li>
+            <li><span class="summary-label">建议动作</span><span class="summary-value">如果文档内容改变了 thesis，再回到候选池或组合页更新判断。</span></li>
+          </ul>
+        </section>
+      </aside>
+    </div>
+    <div class="footer">该页面由 Markdown 自动生成。原始文件：tickers/BE.md</div>
+  </div>
+  </div>
+</body>
+</html>

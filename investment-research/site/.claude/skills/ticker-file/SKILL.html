@@ -28,7 +28,7 @@
           <p>研究文档。</p>
           <div class="meta-row">
             <span class="pill">.claude/skills/ticker-file/SKILL.md</span>
-            <span class="pill">255 words</span>
+            <span class="pill">266 words</span>
             <span class="pill">6 sections</span>
           </div>
         </div>
@@ -96,7 +96,8 @@ grep -qx &quot;$T&quot; scripts/tickers.txt || echo &quot;$T&quot; &gt;&gt; scri
 .venv/bin/python scripts/audit_notes.py --threshold 20 | grep -- &quot;$T&quot;   # 3. 必须看到对比结果，不是&quot;无快照数据&quot;
 grep -cE &quot;待核实&quot; tickers/$T.md                                          # 4. 允许有，但你要知道有几个
 grep -E &quot;^(ticker|last_updated):&quot; tickers/$T.md                         # 5. frontmatter 没漏</code></pre>
-<p><strong>⑩ ⚠️ <code>audit_notes.py --snapshot</code> 只接受绝对路径。</strong> 传相对路径会在 <code>audit_notes.py:133</code> 的 <code>snap_path.relative_to(ROOT)</code> 抛 <code>ValueError</code> 崩掉（2026-08-06 实测），脚本 docstring 里写的相对路径用法是坏的。</p>
+<p><strong>⑩ ⚠️ <code>audit_notes.py --snapshot</code> 只接受绝对路径，且必须在仓库根目录之内。</strong> 指到 scratchpad（<code>/private/tmp/...</code>）会在 <code>relative_to(ROOT)</code> 抛 <code>not in the subpath</code> 崩掉（2026-09-16 实测）——所以 <code>--out</code> 也要落在 <code>$PWD/data/_tmp-quotes.csv</code>，用完 <code>rm</code>。 传相对路径会在 <code>audit_notes.py:133</code> 的 <code>snap_path.relative_to(ROOT)</code> 抛 <code>ValueError</code> 崩掉（2026-08-06 实测），脚本 docstring 里写的相对路径用法是坏的。</p>
+<p><strong>⑪ ⚠️ 快照里的 <code>forwardPE</code> 对亏损/微利/转盈公司是坏数据。</strong> 2026-09-23 实测：CRCL 快照 fwd PE 8.9，一致预期 FY26 EPS $1.15 → 真实 76–82x；COIN 快照 8.8，FY26 EPS −$2.03 → 无意义。yfinance 的 forward EPS 口径不明且不校验。<strong>PE 一律用「现价 / 一致预期 EPS」自己算，快照的 PE 列只当占位。</strong> 这次差点把「fwd PE 8.9 便宜」写进加仓讨论。</p>
 <p><code>audit_notes.py</code> 报 drift 时不要调高阈值绕过——那是在关掉这个仓库唯一的机器校验。</p>
 <h2 id="相关">相关</h2>
 <ul>
