@@ -5,11 +5,44 @@
 > 固件：Ubuntu 20.04  
 > 默认 ETH1 IP：`192.168.1.110`
 
+## 0. 已确认硬件基线
+
+以下配置来自北莱原厂 `ARMxy BL410 Series Datasheet V1.0` 和
+`ARMxy Series BL410 User Manual V1.1` 的型号选型表，不是根据
+`aarch64` 架构或外观推测：
+
+| 层级 | 当前型号 | 已确认配置 |
+|---|---|---|
+| 主机 | `BL412B` | 3 路 10/100M Ethernet、2 路 USB 2.0 Host、1 路 HDMI、1 个 20PIN X 板插槽、2 个 Y 板插槽，`48 x 83 x 110mm` |
+| 核心板 | `SOM412` | Rockchip RK3568J、4 核 Cortex-A55、1.8GHz、1 TOPS NPU、4GB LPDDR4X、32GB eMMC、工业级 `-40~85°C` |
+| X 板 | `X23` | 4 路 RS232/RS485、4 路 DI、4 路 DO |
+| Y1 板 | `Y31` | 4 路单端 AI，支持 `0~20mA` / `4~20mA` |
+| Y2 板 | `Y41` | 4 路 AO，支持 `0~20mA` / `4~20mA` |
+
+因此，当前设备不是待确认的泛化 ARM 工业机，而是已经确认的
+`RK3568J + 4GB RAM + 32GB eMMC + 1 TOPS NPU` 工业计算机。
+
+BL410 系列原厂资料还给出以下平台能力：
+
+| 能力 | 原厂规格 | 对当前设备的意义 |
+|---|---|---|
+| GPU | Mali-G52-2EE | 可承担图形显示，但不应替代 NPU 做主要神经网络推理 |
+| 视频 | H.264/H.265 最高 4K@60 解码、1080p@60 编码 | 单路 1080p 网络摄像机硬件解码在芯片能力范围内 |
+| HDMI | 最高 4096x2160@60 | 可接本地显示器；与摄像机输入链路无关 |
+| 网络 | 3 路 100M RJ45，自适应 MDI/MDIX | 可规划摄像机、控制网和上联网分口；实际隔离方式由系统网络配置决定 |
+| 看门狗 | 独立硬件看门狗 | 适合无人值守恢复；量产前需验证当前驱动和喂狗策略 |
+| RTC | 外置 RTC | 可用于断网事件时间戳；需配置系统时钟同步 |
+| 供电 | 12~24VDC，反接保护 | 摄像机仍需按其规格独立供电或使用合规 PoE 方案 |
+
+原厂数据表把 `Encoder`/`Decoder` 标签和后面的英文能力描述写反。
+本文按能力描述和 RK3568 平台能力记录为“4K@60 解码、1080p@60 编码”，
+不沿用错误标签。
+
 ## 1. 型号含义
 
 ```text
 BL412B   ARM 工业计算机主机型号
-SOM412   核心板配置
+SOM412   RK3568J / 4GB LPDDR4X / 32GB eMMC 工业级核心板
 X23      X 系列 I/O 板
 Y31      Y 系列 I/O 板，4 路模拟量输入
 Y41      Y 系列 I/O 板，4 路模拟量输出
@@ -421,3 +454,85 @@ Y31 AI1=9.485810 mA, temp=34.29 degC
 ```
 
 常温约 `26degC`，用手捂探头后升至约 `34degC`，说明变送器、Y31 输入和换算链路已跑通。
+
+## 10. 网络摄像机与本地视觉 AI
+
+当前 `BL412B-SOM412` 可以作为单路网络摄像机视觉分析主机。摄像机应通过
+Ethernet/RTSP 接入，不接 X23/Y31/Y41，也不需要额外增加一块 RK3568 开发板。
+
+推荐物理连接：
+
+```text
+12/24VDC power supply
+  |
+  +-- BL412B power input
+  |
+  +-- camera 12V input (按摄像机规格独立稳压/保护)
+
+camera RJ45/adapter
+  |
+  +-- BL412B Ethernet port 1: camera subnet
+
+BL412B Ethernet port 2: control/device subnet
+BL412B Ethernet port 3: uplink/MQTT/maintenance subnet
+```
+
+推荐软件数据链：
+
+```text
+RTSP H.264/H.265
+  -> Rockchip MPP hardware decode
+  -> RGA resize/crop
+  -> RKNN face detection / facial landmark model on NPU
+  -> CPU computes EAR / MAR / PERCLOS / head pose / alert state
+  -> local alarm, HMI, event log and MQTT
+```
+
+能力判断：
+
+- 单路 `1920x1080@25fps` H.264/H.265 输入低于平台标称解码上限。
+- 1 TOPS NPU 可以作为轻量人脸检测和关键点模型的验证目标，但资料不足以证明目标帧率，最终帧率、精度和温升必须实测。
+- 原始 Python + MediaPipe CPU 路线不会自动使用 RK3568 NPU，不能因为设备含 NPU 就假设性能达标。
+- 面向量产应使用 MPP/RGA/RKNN 数据链，避免 CPU 软解码和整帧图像的多次内存复制。
+- 100M Ethernet 对单路摄像机码流足够，但摄像机网、控制网和上联网应尽量分口，避免广播和视频突发流量干扰控制通信。
+- 疲劳检测属于辅助告警，不能替代车辆安全控制；夜间红外、眼镜、遮挡、逆光、网络断开和模型失效必须进入验收用例。
+
+当前还需要在实机确认的软件条件：
+
+```bash
+cat /proc/device-tree/compatible | tr '\0' '\n'
+ls -l /dev/rknpu /dev/mpp_service /dev/dri 2>/dev/null
+ldconfig -p | grep -Ei 'rknn|rockchip_mpp|rga'
+dmesg | grep -Ei 'rknpu|rga|mpp'
+```
+
+判定标准：
+
+| 检查项 | 通过条件 | 不通过时的影响 |
+|---|---|---|
+| SoC 设备树 | 出现 `rockchip,rk3568` | 镜像或设备树身份异常，需要厂家确认 |
+| NPU 驱动 | `/dev/rknpu` 存在且无驱动错误 | 无法使用 RKNN NPU，只能退回 CPU |
+| MPP | 设备节点和运行库可用 | RTSP 只能软解码，CPU 压力明显增加 |
+| RGA | 驱动和运行库可用 | 缩放/色彩转换落到 CPU，增加复制和延迟 |
+| RKNN runtime | 能加载目标 `.rknn` 并完成推理 | 模型转换完成也无法在设备执行 |
+
+## 11. 原厂资料
+
+本文件的主机、SOM、接口和平台能力基线来自：
+
+1. `ARMxyBL410DatasheetV10.pdf`
+   - 标题：`ARMxy Embedded Computer Datasheet - ARMxy BL410 Series`
+   - 版本：V1.0
+   - 重点页：PDF 第 3 页产品概述、第 5~6 页软硬件规格、第 9~10 页主机和 SOM 型号表
+2. `BLIIOTARMxySeriesBL410UserManualV11.pdf`
+   - 标题：`ARMxy Series Embedded Computers - BL410 User Manual`
+   - 版本：V1.1
+   - 日期：2026-03-19
+   - 重点页：PDF 第 6~8 页技术规格、第 9~11 页主机/SOM/X/Y 选型、第 26~33 页网络、HDMI、看门狗和 RTC
+
+原始文件当前保存在开发机：
+
+```text
+/Users/songzijian/Downloads/Books and PDFs/ARMxyBL410DatasheetV10.pdf
+/Users/songzijian/Downloads/Books and PDFs/BLIIOTARMxySeriesBL410UserManualV11.pdf
+```
