@@ -1,0 +1,13 @@
+{
+  "name": "threejs-building-status-prototype",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node server.mjs",
+    "check": "node --check src/main.js && node --check server.mjs"
+  },
+  "dependencies": {
+    "three": "^0.185.1"
+  }
+}
