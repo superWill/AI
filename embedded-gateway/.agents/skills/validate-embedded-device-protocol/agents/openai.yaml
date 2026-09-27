@@ -1,0 +1,4 @@
+interface:
+  display_name: "嵌入式设备协议接入检查"
+  short_description: "审查设备通信手册、串口参数、点表解析与写入安全门禁"
+  default_prompt: "使用 $validate-embedded-device-protocol 检查这个设备是否具备可实施、可验证的协议接入条件。"
