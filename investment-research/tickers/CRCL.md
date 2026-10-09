@@ -5,7 +5,7 @@ sector: Fintech / Stablecoin Infrastructure
 layer: N/A             # 不属于半导体 9 层产业链；本质是"稳定币储备净息差"宏观利率敞口
 position_type: thematic / payoff   # 监管落地 + 利率路径双驱动
 status: watching
-last_updated: 2026-09-23
+last_updated: 2026-10-10
 ---
 
 # Circle Internet Group (CRCL)
@@ -54,7 +54,20 @@ USDC 发行方。商业模式本质 = **拿用户的稳定币储备去买短债�
 2. **利率 = 顺风**:Fed higher-for-longer 是储备息利好;降息才是对手盘,但当前环境有利。
 3. **⭐ take-rate 竞争性去中介化 = 真 B(最大,2026-07 兑现)**:venue 截息(Hyperliquid)→ **OUSD 140 家联盟分息标准**。"谁都能发合规稳定币、谁持币谁想吃息"这个结构才是真正咬 franchise 的——**既不是 BTC 也不是利率**。本卡 6/25 把 venue 截息标"最重要"是对的,只是兑现得比预期快/大(见顶部 ⭐ 段)。
 
-## 关键数据（基准 2026-09-23，scripts/fetch_quotes.py 实测；7/1 旧值见 ⭐ 节纠错）
+## 关键数据（基准 2026-10-09，yfinance 收盘 + DefiLlama + 一致预期 WebSearch；9/23 旧值在备注列）
+
+| 指标 | 数据 | 备注 |
+|---|---|---|
+| 股价 | **$84.51** | 9/23 $94.59 → **−10.7%**；10/7 加密爆仓日前后 −5%；10/9 +4.5%（当日「OCC 批准」报道是 7/10 旧闻回炉，不是新催化） |
+| 市值 | **$21.5B**（yfinance 10/10 快照） | 按 9/23 口径价格折算应为 $23.1B，差 7% = 股数口径差 `(待核实)`；10/10 起已加入 `scripts/tickers.txt` |
+| **forward PE（自算）** | **90.9x（FY26 共识 EPS $0.93）/ 52.5x（FY27 $1.61）** | 9/23 共识是 $1.15 / $1.53 → **FY26 被下修 19%**、FY27 上修；快照 fwd PE 一律不用（坑 ⑪） |
+| Q3'26 共识 | 营收 $769M / EPS $0.34 | 财报 **2026-11-04** 盘前 |
+| USDC 流通（DefiLlama） | **$73.27B（10/09）**；Q3 末 9/30 **$74.58B**；Q2 末 6/30 $73.78B | **Q3 末环比 +1.1%**（公司口径 11/4 才给）；**10 月以来 −$1.3B** |
+| OUSD 流通（DefiLlama） | **$0.79B（10/09，上线 9 天）** | 9/30 上线；10/2 $668M；创始伙伴承诺 $1B 种子流动性 |
+| 稳定币格局 | USDT $183B / USDC $73B / USDG $3.05B / PYUSD $2.9B / OUSD $0.79B | USDC 份额按 DefiLlama 总量口径约 24%（9/23 24.1%） |
+| 内部人 | 只卖不买（9/8 Allaire 10b5-1 续卖） | 无新买入 |
+
+<details><summary>2026-09-23 旧表（保留判断轨迹）</summary>
 
 | 指标 | 数据 | 备注 |
 |---|---|---|
@@ -64,6 +77,8 @@ USDC 发行方。商业模式本质 = **拿用户的稳定币储备去买短债�
 | Q1'26 净利 | **$55.3M,YoY -15%** | **净利率 11%→8%**——营收+20% 净利却降 = 分润已吃 margin |
 | USDC 流通 | $77B(+28% YoY,**QoQ 走平**) | float 增长已停滞(OUSD 前就裂) |
 | 内部人 | **94:0 全卖**(6 个月) | CEO/总裁都卖,$75 无人买 |
+
+</details>
 
 ## 护城河类型
 
@@ -108,6 +123,30 @@ USDC 发行方。商业模式本质 = **拿用户的稳定币储备去买短债�
 
 **对论点**：8 月裁决点落地为「不坏」（分发伙伴没反水），不是「变好」（分成 48.6% 锁定、OUSD 悬着、流通量季度口径首次下滑、CLARITY 失败）。**论点第二条腿（护城河）从「断」改判为「受损未断」，第一条腿（利率）在变强，但那条腿 7/1 已判定不该用 CRCL 表达。** 卖出触发器计数 1/2。`[INFERRED, MED]`
 
+## ⭐ 2026-10-10：OUSD 上线（9/30）= 7/1 写死的证伪线开始计分；USDC Q3 末环比小增、10 月转降；FY26 共识下修 `[核实 2026-10-10，DefiLlama API + Fool/ThePaypers/CoinShares + Circle 新闻稿 + WebSearch]`
+
+> **判定：第二条腿（护城河）的「受损未断」维持，但对手现在有了真实流通量，不再是纸面威胁。卖出触发器 1/2 不变（Q3 末 DefiLlama 口径 +1.1%，未计第二季），11/4 公司口径定案。** `[INFERRED, MED]`
+
+**OUSD 实际上线** `[KNOWN，多源，HIGH]`：9/30 上线，发行方 Bridge（Stripe 子公司），储备在 BlackRock / Lead Bank / BNY；Coinbase、Mastercard、Shopify、Stripe、Visa 五家创始伙伴承诺 >$1B 种子流动性；零费用铸赎（经 BVNK / Stripe / Visa 稳定币平台）；原生四链（Base / Ethereum / Solana / Tempo）；上线即在 Coinbase、Kraken、Uniswap 交易。**模式=几乎全部储备收益分给推动采用的伙伴**——正是 6/25 点名、7/1 升级的「take-rate 去中介化」。
+
+**采用曲线第一读数** `[COMPUTED，DefiLlama 10/09]`：
+
+| | 流通量 | 备注 |
+|---|---|---|
+| OUSD | **$0.79B（9 天）** | 已达 Paxos USDG（约 2 年）$3.05B 的 26%；但 $1B 种子里有多少是伙伴自铸、多少是真实需求，**分不开** `(待核实)` |
+| USDC 9/30 → 10/09 | $74.58B → **$73.27B（−$1.3B）** | 与 OUSD 增量同期同量级，**相关不等于因果**（10/7 加密爆仓也在缩总盘） |
+| USDC Q2 末 → Q3 末 | $73.78B → $74.58B（**+1.1%**） | 退出条件「连续 2 季环比下滑」**未计第二季**；公司口径 11/4 |
+
+**7/1 定的 OUSD 硬跟踪项，现在给可执行阈值**（写进退出条件）：参照基准是 USDG（2 年 $3.05B，判为「联盟币失败」）。OUSD **2027-03-31 前 >$5B 且 USDC 同期绝对量下降** = 联盟币真起来了 = 护城河实质破，触发卖出；OUSD 停在 <$2B 且 USDC 回增 = 这次和 USDG 一样，威胁解除一半。
+
+**其他 10 月事件** `[KNOWN, MED-HIGH]`：
+- 10/7 与 SAP 合作（SAP 应用内收付 USDC/EURC，Arc 为首选链），**当日 −5%**：市场不给「集成公告」付钱，和 x402 那条判断一致（行业级利好非 CRCL 专属）。
+- Extended（永续合约平台）10/19 当周把结算迁到 Arc —— Arc 首批真实结算流量，量级待看。
+- 10/7 加密全市场爆仓 $5.5 亿、BTC −32% 距高；CRCL 作为 crypto-beta 同跌。组合层面 BTC 没有规定动作。
+- **FY26 一致预期 EPS $1.15 → $0.93**（−19%）：分母缩、倍数涨到 90x；FY27 $1.53 → $1.61 小升。**估值锚继续坏**。
+
+**仓位** `[INFERRED, MED]`：9/23 估 5.6–6.7%（按 $94.59），按价格比例折算现在约 **5.0–6.0%**——**仍贴着或略超 5% 硬上限**，不能靠跌回去解决；真相源 `portfolios/` 需要新快照。规则不变：**不加仓**。
+
 ## 风险
 
 - **基本面风险**：**USDC 流通量 Q1'26 环比基本走平**（YoY +28% 但 QoQ flat）——核心利润引擎的增长出现裂缝，是当前最大软点。
@@ -132,12 +171,14 @@ USDC 发行方。商业模式本质 = **拿用户的稳定币储备去买短债�
   - **采用曲线**:OUSD 上线后 6–12 个月抢到的 float / 支付集成(参照 Paxos USDG 失败基准——若 OUSD 明显跑赢 USDG = 联盟币这次真起来了 = 护城河实质破);
   - **8 月 Coinbase 分润续约结果**:分润比恶化 / Coinbase 明确倾斜 OUSD = 分发伙伴反水坐实;
   - **USDC 份额 vs OUSD + USDT**:USDC 绝对流通掉头向下 = 从"停滞"变"萎缩",触发卖出。
+  - **⭐ 2026-10-10 量化版**（OUSD 已于 9/30 上线，DefiLlama 口径）：**2027-03-31 前 OUSD >$5B 且 USDC 季末绝对量低于 $73.3B** → 触发卖出；OUSD <$2B 且 USDC 季末回增 → 威胁按 USDG 基准降级。中间状态继续按「连续 2 季环比下滑」计数（当前 1/2）。
 
 ## 跟踪信号
 
 - 财报关注项：**USDC 流通量环比**（不是 YoY）、RLDC 利润率（指引 38–40%）、储备收益率、Coinbase 分润比例、ARC/Arc 对指引的增量。
 - 行业领先指标：**美联储利率路径**（详见下方宏观）、稳定币总市值、USDC vs USDT 份额、**venue 截息扩散**（多少大平台跟 Hyperliquid 学用收益型稳定币截储备息）。
-- 重大事件日历：**Circle–Coinbase 分润协议 2026/8 续约**（硬日期催化）、下次财报（更新 ARC/Arc 指引）、FOMC 会议、稳定币立法进展。
+- 重大事件日历：~~Circle–Coinbase 分润协议 2026/8 续约~~（已按原条款续约）、**Q3'26 财报 2026-11-04**（看公司口径 USDC 季末量、RLDC margin、FY26 指引是否随共识下修）、FOMC 会议、稳定币立法进展（CLARITY 二次尝试）。
+- **OUSD 周度流通量**（DefiLlama `stablecoins.llama.fi`）vs USDC 同期变化：每次更新档案记一行，直到 2027-03-31 阈值日。
 
 ## 宏观：利率路径（2026-06 更新）
 
@@ -155,6 +196,7 @@ USDC 发行方。商业模式本质 = **拿用户的稳定币储备去买短债�
 | 2026-06-25 | 更新观察 | ~$70.98（距顶 -70%）| — | 加密复合体血洗(BTC-51%/MSTR-79%/COIN-64%);corr COIN 0.71/BTC 0.55,BTC-S&P 0.96=杠杆风险非对冲；资本保全口径第一顺位砍 |
 | 2026-07-01 | 更新观察 | ~$74.7（距顶 -65%）| — | **OUSD 联盟(Coinbase/Visa/MC/BlackRock/Stripe+140家)= 护城河 B 类损伤**;论点断护城河腿,只剩利率交易;take-rate 去中介化确认为真 B(非BTC非利率) |
 | 2026-09-23 | **不加仓**（规则明文禁止）；回填 8 月证伪线 | $94.59 | 5%（06-25 快照，估算已漂到 5.6–6.7%，待更新快照） | 分润原样续约=护城河「受损未断」；USDC Q2 环比 −4.8% 卖出计数 1/2；CLARITY 失败；内部人只卖不买；yfinance fwd PE 8.9 是坏数据（真实 76–82x） |
+| 2026-10-10 | **不加仓**；OUSD 证伪线开始计分 | $84.51 | 估 5.0–6.0%（按价格折算，待 `portfolios/` 新快照） | OUSD 9/30 上线、9 天 $0.79B；USDC Q3 末 +1.1%（计数仍 1/2）、10 月 −$1.3B；FY26 共识 EPS 下修 19% → fwd 90x；SAP 合作 −5%；Q3 财报 11/4 |
 
 ## 参考
 
@@ -166,3 +208,11 @@ USDC 发行方。商业模式本质 = **拿用户的稳定币储备去买短债�
 - **OUSD 联盟(Stripe/Coinbase/MC/Visa/BlackRock+140家)分享储备收益,CRCL -17%** — https://www.coindesk.com/business/2026/06/30/circle-slides-8-as-stripe-coinbase-and-blackrock-back-rival-stablecoin-network
 - OUSD 采用面临陡峭上坡 / Paxos USDG 前车之鉴 — https://www.coindesk.com/business/2026/06/30/why-the-openusd-s-real-threat-that-tanked-circle-stock-still-faces-a-steep-uphill-battle-for-adoption
 - Q1'26 净利 $55.3M -15% / 净利率 11%→8% — https://www.businesswire.com/news/home/20260511188445/en/Circle-Reports-First-Quarter-2026-Results
+- OUSD 上线（Fool，2026-10-05）— https://www.fool.com/investing/2026/10/05/new-stablecoin-open-usd-ousd-goes-live-with-plans/
+- OUSD 五家创始伙伴 $1B 种子（The Paypers）— https://thepaypers.com/crypto-web3-and-cbdc/news/open-standard-launches-ousd-stablecoin-with-five-founding-partners
+- OUSD 机制解读（CoinShares）— https://coinshares.com/us/insights/research-data/what-is-open-usd-and-what-does-it-mean-for-stablecoins/
+- Circle Q3'26 财报日期 11/04 — https://www.circle.com/pressroom/circle-to-announce-q3-2026-financial-results-on-november-4-2026
+- SAP 合作 / 当日 −5% — https://thecoinrepublic.com/2026/10/07/circle-stock-drops-by-5-as-company-announces-sap-pay-stablecoin-push
+- Extended 迁移结算到 Arc（10/19 当周）— https://kucoin.com/news/flash/extended-to-migrate-settlement-to-arc-blockchain-in-october-2026
+- 一致预期 EPS（FY26 $0.93 / FY27 $1.61，Q3 $0.34）— https://stockanalysis.com/stocks/crcl/forecast/
+- USDC / OUSD 流通量 — https://stablecoins.llama.fi/stablecoin/2（DefiLlama API，2026-10-09 读数）
