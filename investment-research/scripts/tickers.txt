@@ -87,3 +87,4 @@ BRK-B
 COST
 BE
 CRCL    # Circle — USDC 稳定币发行；持仓标的，2026-10-10 纳入校验 universe
+SPCX    # SpaceX+xAI+X — 短 put 敞口标的，2026-10-12 纳入校验 universe

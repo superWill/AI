@@ -4,9 +4,9 @@ name: Space Exploration Technologies Corp.（含 xAI / X，2026-02 合并）
 sector: 卫星宽带（Starlink）+ 航天发射 + 大模型/社交（xAI、Grok、X）
 layer: 未归层——三业务混合体，无法用单一产业链位置描述
 position_type: 期权敞口（短 put，非股票持仓）
-status: ⚠️ 标的识别曾出错，已重写；本档为第 2 版
-last_updated: 2026-07-29
-data_source: 网络调研 2026-07-28/29 + S-1 二手拆解 + 两个独立 agent 审查。**未读 S-1 原文**
+status: 第 2 版 + 2026-10-12 回填 8/04 检验点与解禁级联结果
+last_updated: 2026-10-12
+data_source: 网络调研 2026-07-28/29 + S-1 二手拆解 + 两个独立 agent 审查（**未读 S-1 原文**）；2026-10-12 加 Q2'26 8-K（二手转述）+ yfinance 价格路径 + 期权链 + Anthropic 官方公告
 ---
 
 # SPCX（SpaceX + xAI + X）
@@ -27,6 +27,17 @@ data_source: 网络调研 2026-07-28/29 + S-1 二手拆解 + 两个独立 agent 
 ⚠️ **另一处口径警告**：2025 财报是**同一控制下合并的追溯重述**，不是 SpaceX 的独立经营历史。**任何 2025 vs 更早的同比都要当心口径。**
 
 ---
+
+## 关键数据（基准 2026-10-10，scripts/fetch_quotes.py 快照 2026-10-12 + yfinance）
+
+| 指标 | 数据 | 备注 |
+|---|---|---|
+| 股价 | **$162.57**（10/09 收盘） | IPO $135（6/12）；高 $211.39（6/16）；低 $108.27（8/05）；7/29 建档 $112.55 |
+| 市值 | **$2143B** | 约 $2.14 万亿；流通股 76.96 亿 |
+| P/S | 93（快照 TTM，口径含并表失真） | 按 Q2 年化 $312 亿收入 ≈ 69× |
+| forward PE | 81.7（快照，FCF 为负时无意义） | Morningstar S-1 DCF $7,800 亿 ≈ 现价 36% |
+| 52 周区间 | $104.8 – $225.6 | 50DMA $144 / 200DMA $145 |
+| 下次财报 | Q3'26：**11/03 或 11/17（未公告）** | 财报 +2 日触发 28% 解禁批次 |
 
 ## 一、分部结构（2025）`[KNOWN, MED-HIGH]`
 
@@ -194,6 +205,8 @@ FCF 负到 2029（S&P 预计）→ 标准 FCF 反向 DCF 无意义，改用终�
 
 > **做对的一条**：100% 现金担保、零杠杆 → 对追保/强平免疫，最坏结局是难受不是被强平。**这条在一笔破了四条规则的交易里守住了，是本案唯一无争议的正确决策。**
 
+**2026-10-12 读数** `[COMPUTED, yfinance 周末期权链，流动性字段待核实]`：现价 $162.57 高于行权价 **41%**；12/18 $115 put 最新成交 **$1.21**（bid/ask 周末为 0，OI 显示 0，数据不可全信）。权利金 $2,300 已实现约 **95%**。剩余风险 = 12/08 最后一批解禁（到期前 10 天）。**可选动作（非建议）**：按 `ibkr-options-playbook` 的「权利金吃到 80–90% 后买回、不为最后 5% 扛尾部」口径，$121 + 佣金买回可以把 12/08 的尾部清掉；或持有到期。两者 EV 差 $100 量级，纪律优先于 EV。
+
 ---
 
 ## ⭐ 八、8/04 检验点（可一次性定胜负）
@@ -220,9 +233,51 @@ FCF 负到 2029（S&P 预计）→ 标准 FCF 反向 DCF 无意义，改用终�
 
 ---
 
+## ⭐ 2026-10-12：8/04 检验点回填 —— 空头论点两条被证伪、一条成立；解禁级联被消化 `[核实 2026-10-12，Q2 8-K（二手）+ yfinance + Anthropic 官方]`
+
+> **判定：第二节「Starlink 增长二阶导断了」被 Q2 证伪一半；第三节「8–12 月被供给持续压制」被价格路径证伪；第四、五节「市值 70–87% 是期权 + AI capex 加杠杆」继续成立且加强。本档的方向判断（不是分散腿、不该加）不变，节奏判断（Q1 是趋势）错了。** `[INFERRED, MED-HIGH]`
+
+**检验点逐条打分**：
+
+| 7/29 写死的判据 | Q2 实际 | 判读 |
+|---|---|---|
+| Starlink 分部经营利润 YoY > +40% 且利润率 ≥ 40% → 空头证伪 | **$16.6 亿，+79% YoY；利润率 38.6%**（$43 亿收入 +66%） | **增速过线、利润率差 1.4pp**。Q1 的 +15.5% 是低点不是趋势，「二阶导断了」撤回；「ARPU 下行 → 利润率缓降」保留（ARPU −22% YoY） |
+| Space 分部盈亏矛盾（−$6.57 亿 vs「仍盈利」） | Q2 收入 $9.62 亿 +29%，**经营亏 $5.42 亿** | **矛盾解决：亏，Starship 研发是原因**。「发射垄断收过路费」不成立，发射是 Starlink 的成本中心 |
+| AI 分部亏损曲线 | 收入 $25.6 亿 +247%（云服务协议驱动）、**亏 $12.6 亿**；合并 capex **$184 亿/季** | 收入靠 Anthropic 合同起量，亏损收窄但 capex 年化 $700 亿量级 |
+| 合并 | 收入 $78 亿 +92%（含 xAI 并表，同比口径失真）、净亏 $5.41 亿、调整 EBITDA $35 亿 | |
+
+**解禁级联的吸收度（第三节的检验）** `[COMPUTED, yfinance]`：
+
+| 日期 | 收盘 | 事件 |
+|---|---|---|
+| 6/16 | $211.39 | IPO 后高点 |
+| 7/29 | $112.55 | 建档价 |
+| 8/04 | $125.33 | 财报日盘中 +10% |
+| **8/05** | **$108.27** | 财报次日 **−13.6%，上市以来最低** |
+| 8/06 | $114.92 | **首批 20% 解禁日反涨 +6.1%** |
+| 8/31 / 9/30 / 10/09 | $143.69 / $150.86 / **$162.57** | 自低点 **+50%**，穿过 7%×5 批解禁 |
+
+- 按第三节自己定的判据「8/6 跌但 3 日内收复 = 被消化」：**被消化**，而且是最强形态（解禁日即涨）。「供给压制到 12 月」被证伪。
+- **$175.50 触发批次**：IPO 后 ≥$175.50 只有 4 个交易日（6/15–6/18），未满 5/10 日条件，**未触发**，提前证伪线未动。
+- 剩余：Q3 财报 +2 日的 28%、**12/08 全部 180 天股**。Q3 财报日期未确认（11/3 或 11/17 两个口径）。
+
+**Anthropic 合同升级为硬事实** `[KNOWN，Anthropic 官方公告 + CNBC，HIGH]`：5/06 公告，三年近 **$450 亿**、**$12.5 亿/月至 2029-05**，Colossus 1 全部 300 MW 归 Anthropic。第五节标的「待核实（单一来源）」撤销。含义不变：这是 AI 分部收入 +247% 的来源，也是第五节「反身性融资」的教科书样本——**xAI 的直接竞争对手在给 xAI 的 capex 付钱**。
+
+**估值阶梯更新** `[COMPUTED]`：
+
+| 股价 | 市值 | P/S（FY25 $187 亿） | P/S（Q2 年化 $312 亿） |
+|---|---|---|---|
+| **$162.57（10/09）** | **$2.14 万亿** | 114× | **69×** |
+| $113.50（7/29 建档） | $1.50 万亿 | 80× | 48× |
+| $92（put 平衡价） | $1.21 万亿 | 65× | 39× |
+
+Morningstar S-1 DCF $7,800 亿 = 现价 36%。市值 / Starlink 年化经营利润（$66 亿）≈ **320 倍**。第四节「约 70–87% 是期权」在 $162 下变成 **>85%**。
+
+**对组合的含义不变、加强**：Q2 capex $184 亿/季 + Anthropic 合同 = SPCX 和 CRWV/ORCL 同在「债务融资的 AI capex」那张表上（见 memory `ai-capex-cycle-topsignal-watchlist` 信号⑥）。它涨 50% 的同时 10 月 CRWV/ORCL 利差走阔，**它现在是 AI capex 周期里被市场豁免的那个，豁免理由是 Starlink 现金流 + 发行后稀缺性，不是 AI 分部变好了。**
+
 ## 九、待研究（重列——第 1 版的清单作废）
 
-1. **读 S-1 原文** — [SEC EDGAR](https://www.sec.gov/Archives/edgar/data/1181412/000162828026036936/)。最该核的三个数：**Space 分部经营利润**、**AI 分部 −$63.55 亿**、**Anthropic $12.5 亿/月且 90 天可终止**
+1. **读 S-1 原文** — [SEC EDGAR](https://www.sec.gov/Archives/edgar/data/1181412/000162828026036936/)。~~Space 分部经营利润~~（Q2 已证实亏损）、~~AI 分部 −$63.55 亿~~（多源确认）、~~Anthropic $12.5 亿/月~~（官方公告确认）；**仍待核：「90 天可终止」条款是否存在**
 2. **Starlink 分部 Q1'25 基数**（$10.3 亿经营利润 / ARPU $86）— 全档最重的论据，目前是二手转述
 3. **段间转移定价** — 发射按什么价卖给 Starlink？**38.8% 利润率的真实性无法独立验证**，这是最大估值不确定性
 4. Anthropic 合同当前履约状态与在 Q1'26 收入中的确认额
@@ -234,8 +289,9 @@ FCF 负到 2029（S&P 预计）→ 标准 FCF 反向 DCF 无意义，改用终�
 
 ## 十、我不知道的
 
-- **未读 S-1 原文。** 分部表、Anthropic 合同、Valor 租赁全部来自二手拆解。两个独立 agent 交叉一致，**但它们印证了同一个结论 → 按 `single-source-confirming-thesis-low-confidence` 必须降级**
-- **Space 分部盈亏矛盾未解**（−$6.57 亿 vs "remains in profit"）
+- **未读 S-1 原文。** 分部表、Valor 租赁仍来自二手拆解（Anthropic 合同已由官方公告确认）。两个独立 agent 交叉一致，**但它们印证了同一个结论 → 按 `single-source-confirming-thesis-low-confidence` 必须降级**
+- **Q3 财报日期**：11/3 与 11/17 两个口径，公司未公告。28% 解禁批次挂在财报 +2 日，日期不定则该批次日期不定。
+- ~~**Space 分部盈亏矛盾未解**~~ → 2026-10-12 解决：Q2 亏 $5.42 亿，发射是成本中心
 - **组合占比**：目标 300 股 ≈ $3.4 万占净值几成 — 未知，故永久损失来源第 3 条（单一赌注过度集中）无法判定
 - Morgan Stanley 的"2026 收入 $450 亿"判定为坏数据（Q1'26 实际 $46.94 亿，后三季需做 $403 亿，算术上接近不可能），未采用
 
@@ -249,3 +305,4 @@ FCF 负到 2029（S&P 预计）→ 标准 FCF 反向 DCF 无意义，改用终�
 - [Forbes — 债与股权风险](https://www.forbes.com/sites/petercohan/2026/07/10/spacex-stock-down-25-inside-the-debt-and-equity-risks/) · [ZeroHedge/HSBC — 解禁地图](https://www.zerohedge.com/markets/mapping-spacexs-lockup-expirations-hsbc-calculates-when-shares-could-hit-market)
 - [Dealroom — ARPU 下滑威胁利润](https://app.dealroom.co/news/feed/spacex-ipo-at-1-7t-starlink-s-falling-arpu-threatens-profit-as-user-base-hits-10m) · [TechCrunch — Starship 可复用路径存疑](https://techcrunch.com/2026/05/26/starships-path-to-reusability-looks-murky-after-spacexs-s-1/)
 - 相关：[`put-selling-plan`](../portfolios/2026-07-23-put-selling-plan.md) · [`ibkr-options-playbook`](../notes/2026-07-23-ibkr-options-playbook.md) · [`PLTR`](PLTR.md)（增长二阶导判据的对照组）
+- 2026-10-12 新增：[SpaceX Q2'26 8-K（SEC）](https://www.sec.gov/Archives/edgar/data/0001181412/000162828026052515/earningsreleaseq22608042.htm) · [Yahoo — Q2 营收 beat、盘后下跌](https://finance.yahoo.com/markets/stocks/articles/spacex-q2-2026-earnings-revenue-205130498.html) · [CNBC — Q2 实时](https://www.cnbc.com/2026/08/04/spacex-spcx-earnings-live-updates-q2-2026.html) · [Anthropic 官方 — SpaceX 算力协议](https://www.anthropic.com/news/higher-limits-spacex) · [CNBC — Anthropic/SpaceX 算力协议 5/06](https://www.cnbc.com/2026/05/06/anthropic-spacex-data-center-capacity.html) · [Forbes 8/14 — 近 10 亿股尚未到账](https://www.forbes.com/sites/zennonkapron/2026/08/14/retail-investors-think-they-beat-the-spacex-lockup-nearly-a-billion-shares-havent-arrived-yet/) · [Fortune — SpaceX 算力出租业务](https://fortune.com/2026/07/19/spacex-ai-compute-renting-business-google-anthropic-pentagon-deals-revenue-valuation-elon-musk-colossus-data-centers/)
