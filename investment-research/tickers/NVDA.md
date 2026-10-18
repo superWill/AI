@@ -5,7 +5,7 @@ sector: Semiconductors / AI 算力 + 机器人平台
 layer: Layer 3 — AI 加速计算平台（算力+软件+仿真垄断）
 position_type: core
 status: watching
-last_updated: 2026-09-05
+last_updated: 2026-10-18
 data_source: 网络调研 2026-06-20；2026-07-27 vendor financing 事件更新；2026-09-05 Q2 FY27 财报读数（NVIDIA 官方新闻稿 + SEC 8-K q2fy27pr.htm，发布 2026-08-26）
 ---
 
@@ -144,6 +144,28 @@ Q2 把 7/27 记录的「厂商融资」风险从新闻层面变成了**表内可
 - 对华出口管制政策
 - Jetson Thor / GR00T 在人形量产中的采用（身体端兑现节奏）
 
+## 2026-10-18：对 CoreWeave 的敞口到底多大（CRWV CDS >1,100bp 之后）
+
+`[KNOWN, NVDA 13F 2026-06-30 + NVDA 10-Q 2026-07-26 + CRWV 10-Q 2026-06-30, HIGH]`
+
+| 敞口 | 数字 | 占比 / 判断 |
+|---|---|---|
+| ① 股权 | **47,213,353 股**（13F 6/30 估值 $4.70B）；10/16 收 $61.39 → **$2.90B** | 市值 ~$5.2T 的 0.06%；公开股权投资 $47.7B 的 ~6%（Intel $30B、SpaceX $21B 更大）。成本：2026-01 私募 ~23M 股 @ $87.20 = $2.0B（现浮亏 ~$0.6B）+ 2023 年 B 轮 ~24M 股（成本低）|
+| ② 剩余算力购买义务 | **≤$6.3B**，到 2032-04-13（CRWV 2025-09 8-K；2023 年签）| 是**负债性承诺**不是资产：CRWV 卖不掉的算力 NVDA 兜底买。属于 10-Q 披露的 **$36B「AI cloud agreements」**（6 年期；条款写明 AI 云「可单方面停止向我们供给、转卖给第三方」；满足条件 NVDA 分成）。年均 ~$1.1B ≈ 收入 0.3%，且用于自家 R&D，不是纯损失 |
+| ③ 收入 | CRWV 2026 capex $35–39B，「今天所有 GPU 都是 NVIDIA」；NVDA 含量按 capex 的 50–65% 估 → **$18–25B/年** `[INFERRED, MED-LOW]` | FY27 收入 ≈ $400B（81.6+96.2+108 指引+~115）→ **4–6%**。走 OEM（CRWV 2025 前三供应商 23/20/17%），所以藏在 NVDA「直接客户 16%」里。CRWV capex 若 2027 砍半 ≈ 收入 −2.5pt，FY28 +70% 变 +67%，不改论点 |
+| ④ 土地/电力/外壳担保 | 「select AI cloud partners」最大 $3.5B，合作方押 $712M 托管 | **是否含 CRWV 未披露**，`[UNKNOWN]` |
+
+**直接敞口合计**：资产负债表 ~$2.9B + 或有 ≤$6.3B（+ ≤$3.5B 若含）；收入 4–6%。**CRWV 归零也不是 NVDA 的生存问题。** 老黄 10/15「不需要 backstop」在措辞上不实（②就是已签的 backstop），在量级上对。
+
+**真正的敞口不在 CRWV，在 CRWV 是整条 vendor-financing 链的定价点** `[INFERRED, MED-HIGH]`：
+- 同一份 10-Q：AI cloud 承诺 **$36B** + 第三方数据中心租约 $20B + 非上市股权 **$47.9B** + 股权投资承诺 $25B + AI 云担保 $3.5B + **2026-08 新签 SB Energy/OpenAI 担保上限 $105B**（俄亥俄 PORTS 园区 4.25GW、九期、FY2029 起生效、20 年租约、OpenAI 违约时触发）。担保簿一个季度从 $3.5B 跳到 $108.5B 上限——这是信号 ⑥-c 的正式披露版，7/27 那条「待核实法律结构」现在有答案了：是**担保（credit derivative）**，表外，公允价值「不重大」。
+- CRWV 无担保债 15% = 二线 AI 云的无担保融资关门。Oracle 2032 债 7.2%、Nebius、Lambda、SpaceX AI 段同一条链。NVDA Data Center 里 Hyperscale 之外的 ACIE（AI 云/企业/主权）Q1 FY27 约 $37B/季，其中 AI 云占比未披露 `[GUESS, LOW]`——这才是要盯的数：**ACIE 增速是否在 Q3（11 月）掉头**。
+- 10-Q 还提到 Q2 把「一家公司」从 ACIE 重分类到 Hyperscale（商业模式变化）——是谁未披露。
+
+**对仓位**：不动（9.2%）。CRWV 单点不构成触发器；触发器 0/4 不变。新增跟踪：NVDA Q3 FY27（11 月）的 ACIE 增速、担保簿总额、AI cloud 承诺是否再涨、DSO。禁区不变：不对 NVDA 卖 put。
+
+来源：[NVDA 13F 2026-06-30 信息表](https://www.sec.gov/Archives/edgar/data/1045810/000104581026000065/xslForm13F_X02/information_table.xml) · [NVDA 10-Q 2026-07-26](https://www.sec.gov/Archives/edgar/data/1045810/000104581026000075/nvda-20260726.htm) · [CRWV 10-Q 2026-06-30](https://www.sec.gov/Archives/edgar/data/1769628/000176962826000366/crwv-20260630.htm) · [CNBC 2025-09-15 $6.3B 剩余算力协议](https://www.cnbc.com/2025/09/15/coreweave-stock-jumps-on-disclosure-of-6point3-billion-order-from-nvidia.html) · [ROIC 2026-10-15 黄仁勋「不需要 backstop」](https://www.roic.ai/news/nvidias-huang-says-no-backstop-needed-for-coreweave-as-ai-debt-fears-mount-10-15-2026) · [CRWV 债务专项](CRWV.md)
+
 ## 仓位与历史
 
 | 日期 | 操作 | 价格 | 仓位 | 备注 |
@@ -152,6 +174,7 @@ Q2 把 7/27 记录的「厂商融资」风险从新闻层面变成了**表内可
 | 2026-06-25 | 减仓（卖 3/5） | — | 23.0% → **9.2%** | 换 BRK-B 锚；理由是 SIZE 不是 OWN（单票 41% 风险过重）|
 | 2026-07-27 | **不动**，转重点观察 | 当日 −5% | 9.2% | vendor financing / CDS 创新高 = 新风险类别；但触发器 0/4，未到减仓条件 |
 | 2026-09-05 | **不动**，读 Q2 FY27 | — | 9.2% | 财报 beat（营收 +106%）+ FY28 指引 +70%；但 DSO 45→60、OCF/净利 40% = vendor financing 表内证据；触发器仍 0/4，未到减仓条件 |
+| 2026-10-18 | **不动**，核 CRWV 敞口 | $214.13 | 9.2% | CRWV 直接敞口 $2.9B 股权 + ≤$6.3B 算力兜底 + 收入 4–6%，不致命；10-Q 披露 SB Energy/OpenAI 担保上限 $105B = ⑥-c 正式化；盯 11 月 ACIE 增速 |
 
 > **禁区提醒**：NVDA 属于「正在减仓的内存/SOXX 腿」，**不得对其卖 put**（见 memory `ibkr-options-playbook` / [`put-selling-plan`](../portfolios/2026-07-23-put-selling-plan.md)）。
 
