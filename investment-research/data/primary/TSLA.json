@@ -1,0 +1,1950 @@
+{
+ "ticker": "TSLA",
+ "cik": "0001318605",
+ "fetched": "2026-10-20",
+ "data": {
+  "xbrl": {
+   "收入": {
+    "tag": "Revenues",
+    "unit": "USD",
+    "rows": [
+     {
+      "end": "2024-09-30",
+      "fy": 2025,
+      "fp": "Q3",
+      "val": 25182000000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2024-12-31",
+      "fy": 2025,
+      "fp": "FY",
+      "val": 25707000000,
+      "derived": true,
+      "form": "10-K",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-03-31",
+      "fy": 2026,
+      "fp": "Q1",
+      "val": 19335000000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 22496000000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-09-30",
+      "fy": 2025,
+      "fp": "Q3",
+      "val": 28095000000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-12-31",
+      "fy": 2025,
+      "fp": "FY",
+      "val": 24901000000,
+      "derived": true,
+      "form": "10-K",
+      "basis": "Q"
+     },
+     {
+      "end": "2026-03-31",
+      "fy": 2026,
+      "fp": "Q1",
+      "val": 22387000000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2026-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 28236000000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     }
+    ]
+   },
+   "毛利": {
+    "tag": "GrossProfit",
+    "unit": "USD",
+    "rows": [
+     {
+      "end": "2024-09-30",
+      "fy": 2025,
+      "fp": "Q3",
+      "val": 4997000000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2024-12-31",
+      "fy": 2025,
+      "fp": "FY",
+      "val": 4179000000,
+      "derived": true,
+      "form": "10-K",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-03-31",
+      "fy": 2026,
+      "fp": "Q1",
+      "val": 3153000000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 3878000000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-09-30",
+      "fy": 2025,
+      "fp": "Q3",
+      "val": 5054000000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-12-31",
+      "fy": 2025,
+      "fp": "FY",
+      "val": 5009000000,
+      "derived": true,
+      "form": "10-K",
+      "basis": "Q"
+     },
+     {
+      "end": "2026-03-31",
+      "fy": 2026,
+      "fp": "Q1",
+      "val": 4720000000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2026-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 4751000000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     }
+    ]
+   },
+   "经营利润": {
+    "tag": "OperatingIncomeLoss",
+    "unit": "USD",
+    "rows": [
+     {
+      "end": "2024-09-30",
+      "fy": 2025,
+      "fp": "Q3",
+      "val": 2717000000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2024-12-31",
+      "fy": 2025,
+      "fp": "FY",
+      "val": 1583000000,
+      "derived": true,
+      "form": "10-K",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-03-31",
+      "fy": 2026,
+      "fp": "Q1",
+      "val": 399000000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 923000000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-09-30",
+      "fy": 2025,
+      "fp": "Q3",
+      "val": 1624000000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-12-31",
+      "fy": 2025,
+      "fp": "FY",
+      "val": 1409000000,
+      "derived": true,
+      "form": "10-K",
+      "basis": "Q"
+     },
+     {
+      "end": "2026-03-31",
+      "fy": 2026,
+      "fp": "Q1",
+      "val": 941000000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2026-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 398000000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     }
+    ]
+   },
+   "净利润": {
+    "tag": "NetIncomeLoss",
+    "unit": "USD",
+    "rows": [
+     {
+      "end": "2024-09-30",
+      "fy": 2025,
+      "fp": "Q3",
+      "val": 2173000000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2024-12-31",
+      "fy": 2025,
+      "fp": "FY",
+      "val": 2128000000,
+      "derived": true,
+      "form": "10-K",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-03-31",
+      "fy": 2026,
+      "fp": "Q1",
+      "val": 409000000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 1172000000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-09-30",
+      "fy": 2025,
+      "fp": "Q3",
+      "val": 1373000000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-12-31",
+      "fy": 2025,
+      "fp": "FY",
+      "val": 840000000,
+      "derived": true,
+      "form": "10-K",
+      "basis": "Q"
+     },
+     {
+      "end": "2026-03-31",
+      "fy": 2026,
+      "fp": "Q1",
+      "val": 477000000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2026-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 1114000000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     }
+    ]
+   },
+   "经营现金流": {
+    "tag": "NetCashProvidedByUsedInOperatingActivities",
+    "unit": "USD",
+    "rows": [
+     {
+      "end": "2024-09-30",
+      "fy": 2025,
+      "fp": "Q3",
+      "val": 6255000000,
+      "derived": true,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2024-12-31",
+      "fy": 2025,
+      "fp": "FY",
+      "val": 4814000000,
+      "derived": true,
+      "form": "10-K",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-03-31",
+      "fy": 2026,
+      "fp": "Q1",
+      "val": 2156000000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 2540000000,
+      "derived": true,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-09-30",
+      "fy": 2025,
+      "fp": "Q3",
+      "val": 6238000000,
+      "derived": true,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-12-31",
+      "fy": 2025,
+      "fp": "FY",
+      "val": 3813000000,
+      "derived": true,
+      "form": "10-K",
+      "basis": "Q"
+     },
+     {
+      "end": "2026-03-31",
+      "fy": 2026,
+      "fp": "Q1",
+      "val": 3937000000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2026-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 4697000000,
+      "derived": true,
+      "form": "10-Q",
+      "basis": "Q"
+     }
+    ]
+   },
+   "资本开支": {
+    "tag": "PaymentsToAcquirePropertyPlantAndEquipment",
+    "unit": "USD",
+    "rows": [
+     {
+      "end": "2024-09-30",
+      "fy": 2025,
+      "fp": "Q3",
+      "val": 3513000000,
+      "derived": true,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2024-12-31",
+      "fy": 2025,
+      "fp": "FY",
+      "val": 2780000000,
+      "derived": true,
+      "form": "10-K",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-03-31",
+      "fy": 2026,
+      "fp": "Q1",
+      "val": 1492000000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 2394000000,
+      "derived": true,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-09-30",
+      "fy": 2025,
+      "fp": "Q3",
+      "val": 2248000000,
+      "derived": true,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-12-31",
+      "fy": 2025,
+      "fp": "FY",
+      "val": 2393000000,
+      "derived": true,
+      "form": "10-K",
+      "basis": "Q"
+     },
+     {
+      "end": "2026-03-31",
+      "fy": 2026,
+      "fp": "Q1",
+      "val": 2493000000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2026-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 5789000000,
+      "derived": true,
+      "form": "10-Q",
+      "basis": "Q"
+     }
+    ]
+   },
+   "现金及等价物": {
+    "tag": "CashAndCashEquivalentsAtCarryingValue",
+    "unit": "USD",
+    "rows": [
+     {
+      "end": "2025-06-30",
+      "fy": 2025,
+      "fp": "Q2",
+      "val": 15587000000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2025-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 15587000000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2025-09-30",
+      "fy": 2025,
+      "fp": "Q3",
+      "val": 18289000000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2025-12-31",
+      "fy": 2025,
+      "fp": "FY",
+      "val": 16513000000,
+      "derived": false,
+      "form": "10-K"
+     },
+     {
+      "end": "2025-12-31",
+      "fy": 2026,
+      "fp": "Q1",
+      "val": 16513000000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2025-12-31",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 16513000000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2026-03-31",
+      "fy": 2026,
+      "fp": "Q1",
+      "val": 16603000000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2026-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 15219000000,
+      "derived": false,
+      "form": "10-Q"
+     }
+    ]
+   },
+   "长期债务": {
+    "tag": "LongTermDebt",
+    "unit": "USD",
+    "rows": [
+     {
+      "end": "2025-03-31",
+      "fy": 2025,
+      "fp": "Q1",
+      "val": 5080000000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2025-06-30",
+      "fy": 2025,
+      "fp": "Q2",
+      "val": 4994000000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2025-09-30",
+      "fy": 2025,
+      "fp": "Q3",
+      "val": 5609000000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2025-12-31",
+      "fy": 2025,
+      "fp": "FY",
+      "val": 6584000000,
+      "derived": false,
+      "form": "10-K"
+     },
+     {
+      "end": "2025-12-31",
+      "fy": 2026,
+      "fp": "Q1",
+      "val": 6584000000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2025-12-31",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 6584000000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2026-03-31",
+      "fy": 2026,
+      "fp": "Q1",
+      "val": 7645000000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2026-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 7721000000,
+      "derived": false,
+      "form": "10-Q"
+     }
+    ]
+   },
+   "总债务(含流动)": {
+    "tag": "DebtCurrent",
+    "unit": "USD",
+    "rows": [
+     {
+      "end": "2025-03-31",
+      "fy": 2025,
+      "fp": "Q1",
+      "val": 2164000000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2025-06-30",
+      "fy": 2025,
+      "fp": "Q2",
+      "val": 1962000000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2025-09-30",
+      "fy": 2025,
+      "fp": "Q3",
+      "val": 1852000000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2025-12-31",
+      "fy": 2025,
+      "fp": "FY",
+      "val": 1569000000,
+      "derived": false,
+      "form": "10-K"
+     },
+     {
+      "end": "2025-12-31",
+      "fy": 2026,
+      "fp": "Q1",
+      "val": 1569000000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2025-12-31",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 1569000000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2026-03-31",
+      "fy": 2026,
+      "fp": "Q1",
+      "val": 1374000000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2026-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 1340000000,
+      "derived": false,
+      "form": "10-Q"
+     }
+    ]
+   },
+   "股份数": {
+    "tag": "CommonStockSharesOutstanding",
+    "unit": "shares",
+    "rows": [
+     {
+      "end": "2025-03-31",
+      "fy": 2025,
+      "fp": "Q1",
+      "val": 3220000000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2025-06-30",
+      "fy": 2025,
+      "fp": "Q2",
+      "val": 3224000000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2025-09-30",
+      "fy": 2025,
+      "fp": "Q3",
+      "val": 3324000000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2025-12-31",
+      "fy": 2025,
+      "fp": "FY",
+      "val": 3751000000,
+      "derived": false,
+      "form": "10-K"
+     },
+     {
+      "end": "2025-12-31",
+      "fy": 2026,
+      "fp": "Q1",
+      "val": 3751000000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2025-12-31",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 3751000000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2026-03-31",
+      "fy": 2026,
+      "fp": "Q1",
+      "val": 3755000000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2026-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 3949000000,
+      "derived": false,
+      "form": "10-Q"
+     }
+    ]
+   },
+   "股权激励费用": {
+    "tag": "ShareBasedCompensation",
+    "unit": "USD",
+    "rows": [
+     {
+      "end": "2024-09-30",
+      "fy": 2025,
+      "fp": "Q3",
+      "val": 457000000,
+      "derived": true,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2024-12-31",
+      "fy": 2025,
+      "fp": "FY",
+      "val": 579000000,
+      "derived": true,
+      "form": "10-K",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-03-31",
+      "fy": 2026,
+      "fp": "Q1",
+      "val": 573000000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 635000000,
+      "derived": true,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-09-30",
+      "fy": 2025,
+      "fp": "Q3",
+      "val": 663000000,
+      "derived": true,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-12-31",
+      "fy": 2025,
+      "fp": "FY",
+      "val": 954000000,
+      "derived": true,
+      "form": "10-K",
+      "basis": "Q"
+     },
+     {
+      "end": "2026-03-31",
+      "fy": 2026,
+      "fp": "Q1",
+      "val": 1030000000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2026-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 1151000000,
+      "derived": true,
+      "form": "10-Q",
+      "basis": "Q"
+     }
+    ]
+   }
+  },
+  "edgar": [
+   {
+    "form": "DEFA14A",
+    "title": "DEFA14A - Additional definitive proxy soliciting materials and Rule 14(a)(12) material",
+    "date": "2026-10-19",
+    "url": "https://www.sec.gov/Archives/edgar/data/1318605/000110465926116948/0001104659-26-116948-index.htm"
+   },
+   {
+    "form": "ARS",
+    "title": "ARS - Annual Report to Security Holders",
+    "date": "2026-10-19",
+    "url": "https://www.sec.gov/Archives/edgar/data/1318605/000110465926116718/0001104659-26-116718-index.htm"
+   },
+   {
+    "form": "DEFA14A",
+    "title": "DEFA14A - Additional definitive proxy soliciting materials and Rule 14(a)(12) material",
+    "date": "2026-10-19",
+    "url": "https://www.sec.gov/Archives/edgar/data/1318605/000110465926116716/0001104659-26-116716-index.htm"
+   },
+   {
+    "form": "DEFA14A",
+    "title": "DEFA14A - Additional definitive proxy soliciting materials and Rule 14(a)(12) material",
+    "date": "2026-10-19",
+    "url": "https://www.sec.gov/Archives/edgar/data/1318605/000110465926116713/0001104659-26-116713-index.htm"
+   },
+   {
+    "form": "DEFA14A",
+    "title": "DEFA14A - Additional definitive proxy soliciting materials and Rule 14(a)(12) material",
+    "date": "2026-10-19",
+    "url": "https://www.sec.gov/Archives/edgar/data/1318605/000110465926116707/0001104659-26-116707-index.htm"
+   },
+   {
+    "form": "DEF 14A",
+    "title": "DEF 14A - Other definitive proxy statements",
+    "date": "2026-10-19",
+    "url": "https://www.sec.gov/Archives/edgar/data/1318605/000110465926116700/0001104659-26-116700-index.htm"
+   },
+   {
+    "form": "8-K",
+    "title": "8-K - Current report",
+    "date": "2026-10-02",
+    "url": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026064366/0001628280-26-064366-index.htm"
+   },
+   {
+    "form": "8-K",
+    "title": "8-K - Current report",
+    "date": "2026-09-29",
+    "url": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026063820/0001628280-26-063820-index.htm"
+   },
+   {
+    "form": "4",
+    "title": "4 - Statement of changes in beneficial ownership of securities",
+    "date": "2026-09-09",
+    "url": "https://www.sec.gov/Archives/edgar/data/1318605/000110465926106432/0001104659-26-106432-index.htm"
+   },
+   {
+    "form": "144",
+    "title": "144 - Report of proposed sale of securities",
+    "date": "2026-09-08",
+    "url": "https://www.sec.gov/Archives/edgar/data/1318605/000195004726009212/0001950047-26-009212-index.htm"
+   },
+   {
+    "form": "10-Q",
+    "title": "10-Q - Quarterly report [Sections 13 or 15(d)]",
+    "date": "2026-07-22",
+    "url": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026049270/0001628280-26-049270-index.htm"
+   },
+   {
+    "form": "8-K",
+    "title": "8-K - Current report",
+    "date": "2026-07-22",
+    "url": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026049213/0001628280-26-049213-index.htm"
+   },
+   {
+    "form": "8-K",
+    "title": "8-K - Current report",
+    "date": "2026-07-02",
+    "url": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026046717/0001628280-26-046717-index.htm"
+   },
+   {
+    "form": "4",
+    "title": "4 - Statement of changes in beneficial ownership of securities",
+    "date": "2026-06-17",
+    "url": "https://www.sec.gov/Archives/edgar/data/1318605/000110465926075213/0001104659-26-075213-index.htm"
+   },
+   {
+    "form": "SCHEDULE 13G/A",
+    "title": "SCHEDULE 13G/A [Amend] - Statement of Beneficial Ownership by Certain Investors",
+    "date": "2026-06-17",
+    "url": "https://www.sec.gov/Archives/edgar/data/1318605/000110465926075203/0001104659-26-075203-index.htm"
+   },
+   {
+    "form": "4",
+    "title": "4 - Statement of changes in beneficial ownership of securities",
+    "date": "2026-06-09",
+    "url": "https://www.sec.gov/Archives/edgar/data/1318605/000110465926071970/0001104659-26-071970-index.htm"
+   },
+   {
+    "form": "144",
+    "title": "144 - Report of proposed sale of securities",
+    "date": "2026-06-08",
+    "url": "https://www.sec.gov/Archives/edgar/data/1318605/000195004726005795/0001950047-26-005795-index.htm"
+   },
+   {
+    "form": "SD",
+    "title": "SD - Specialized disclosure report",
+    "date": "2026-05-29",
+    "url": "https://www.sec.gov/Archives/edgar/data/1318605/000110465926068275/0001104659-26-068275-index.htm"
+   },
+   {
+    "form": "4",
+    "title": "4 - Statement of changes in beneficial ownership of securities",
+    "date": "2026-05-15",
+    "url": "https://www.sec.gov/Archives/edgar/data/1318605/000110465926062860/0001104659-26-062860-index.htm"
+   },
+   {
+    "form": "144",
+    "title": "144 - Report of proposed sale of securities",
+    "date": "2026-05-13",
+    "url": "https://www.sec.gov/Archives/edgar/data/1318605/000195004726004463/0001950047-26-004463-index.htm"
+   },
+   {
+    "form": "4",
+    "title": "4 - Statement of changes in beneficial ownership of securities",
+    "date": "2026-05-04",
+    "url": "https://www.sec.gov/Archives/edgar/data/1318605/000110465926055079/0001104659-26-055079-index.htm"
+   },
+   {
+    "form": "10-K/A",
+    "title": "10-K/A [Amend] - Annual report [Section 13 and 15(d), not S-K Item 405]",
+    "date": "2026-04-30",
+    "url": "https://www.sec.gov/Archives/edgar/data/1318605/000110465926053166/0001104659-26-053166-index.htm"
+   },
+   {
+    "form": "144",
+    "title": "144 - Report of proposed sale of securities",
+    "date": "2026-04-30",
+    "url": "https://www.sec.gov/Archives/edgar/data/1318605/000195004726003863/0001950047-26-003863-index.htm"
+   },
+   {
+    "form": "SCHEDULE 13G",
+    "title": "SCHEDULE 13G - Statement of Beneficial Ownership by Certain Investors",
+    "date": "2026-04-30",
+    "url": "https://www.sec.gov/Archives/edgar/data/1318605/000210011926001134/0002100119-26-001134-index.htm"
+   },
+   {
+    "form": "S-8",
+    "title": "S-8 - Securities to be offered to employees in employee benefit plans",
+    "date": "2026-04-24",
+    "url": "https://www.sec.gov/Archives/edgar/data/1318605/000110465926048779/0001104659-26-048779-index.htm"
+   },
+   {
+    "form": "SCHEDULE 13G/A",
+    "title": "SCHEDULE 13G/A [Amend] - Statement of Beneficial Ownership by Certain Investors",
+    "date": "2026-04-23",
+    "url": "https://www.sec.gov/Archives/edgar/data/1318605/000110465926047683/0001104659-26-047683-index.htm"
+   },
+   {
+    "form": "4",
+    "title": "4 - Statement of changes in beneficial ownership of securities",
+    "date": "2026-04-23",
+    "url": "https://www.sec.gov/Archives/edgar/data/1318605/000110465926047678/0001104659-26-047678-index.htm"
+   },
+   {
+    "form": "10-Q",
+    "title": "10-Q - Quarterly report [Sections 13 or 15(d)]",
+    "date": "2026-04-22",
+    "url": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026026673/0001628280-26-026673-index.htm"
+   },
+   {
+    "form": "8-K",
+    "title": "8-K - Current report",
+    "date": "2026-04-22",
+    "url": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026026551/0001628280-26-026551-index.htm"
+   },
+   {
+    "form": "4",
+    "title": "4 - Statement of changes in beneficial ownership of securities",
+    "date": "2026-04-02",
+    "url": "https://www.sec.gov/Archives/edgar/data/1318605/000197292826000002/0001972928-26-000002-index.htm"
+   },
+   {
+    "form": "8-K",
+    "title": "8-K - Current report",
+    "date": "2026-04-02",
+    "url": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026022956/0001628280-26-022956-index.htm"
+   },
+   {
+    "form": "4",
+    "title": "4 - Statement of changes in beneficial ownership of securities",
+    "date": "2026-04-01",
+    "url": "https://www.sec.gov/Archives/edgar/data/1318605/000110465926038682/0001104659-26-038682-index.htm"
+   },
+   {
+    "form": "144",
+    "title": "144 - Report of proposed sale of securities",
+    "date": "2026-03-30",
+    "url": "https://www.sec.gov/Archives/edgar/data/1318605/000195004726003078/0001950047-26-003078-index.htm"
+   },
+   {
+    "form": "SCHEDULE 13G/A",
+    "title": "SCHEDULE 13G/A [Amend] - Statement of Beneficial Ownership by Certain Investors",
+    "date": "2026-03-27",
+    "url": "https://www.sec.gov/Archives/edgar/data/1318605/000010290926002479/0000102909-26-002479-index.htm"
+   },
+   {
+    "form": "4",
+    "title": "4 - Statement of changes in beneficial ownership of securities",
+    "date": "2026-03-09",
+    "url": "https://www.sec.gov/Archives/edgar/data/1318605/000110465926025379/0001104659-26-025379-index.htm"
+   },
+   {
+    "form": "144",
+    "title": "144 - Report of proposed sale of securities",
+    "date": "2026-03-06",
+    "url": "https://www.sec.gov/Archives/edgar/data/1318605/000195004726002335/0001950047-26-002335-index.htm"
+   },
+   {
+    "form": "4",
+    "title": "4 - Statement of changes in beneficial ownership of securities",
+    "date": "2026-02-27",
+    "url": "https://www.sec.gov/Archives/edgar/data/1318605/000110465926021746/0001104659-26-021746-index.htm"
+   },
+   {
+    "form": "144",
+    "title": "144 - Report of proposed sale of securities",
+    "date": "2026-02-25",
+    "url": "https://www.sec.gov/Archives/edgar/data/1318605/000195004726001763/0001950047-26-001763-index.htm"
+   },
+   {
+    "form": "10-K",
+    "title": "10-K - Annual report [Section 13 and 15(d), not S-K Item 405]",
+    "date": "2026-01-28",
+    "url": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026003952/0001628280-26-003952-index.htm"
+   },
+   {
+    "form": "8-K",
+    "title": "8-K - Current report",
+    "date": "2026-01-28",
+    "url": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026003837/0001628280-26-003837-index.htm"
+   }
+  ],
+  "usaspending": {
+   "query": [
+    "TESLA"
+   ],
+   "window": [
+    "2021-10-01",
+    "2026-10-20"
+   ],
+   "rows": [
+    {
+     "internal_id": 357311080,
+     "Award ID": "80KSC026F0004",
+     "Recipient Name": "TESLA LABORATORIES INC.",
+     "Award Amount": 14056334.48,
+     "Total Outlays": 147826.48,
+     "Awarding Agency": "National Aeronautics and Space Administration",
+     "Awarding Sub Agency": "National Aeronautics and Space Administration",
+     "Start Date": "2026-05-04",
+     "End Date": "2030-09-30",
+     "Description": "PROVIDE ENGINEERING SUPPORT TO SPECIAL PROJECTS",
+     "awarding_agency_id": 862,
+     "agency_slug": "national-aeronautics-and-space-administration",
+     "generated_internal_id": "CONT_AWD_80KSC026F0004_8000_80KSC025A0010_8000"
+    },
+    {
+     "internal_id": 277581507,
+     "Award ID": "1305M218FNWWG0205",
+     "Recipient Name": "TESLA LABORATORIES INC.",
+     "Award Amount": 7766507.32,
+     "Total Outlays": 0.0,
+     "Awarding Agency": "Department of Commerce",
+     "Awarding Sub Agency": "National Oceanic and Atmospheric Administration",
+     "Start Date": "2018-09-04",
+     "End Date": "2022-09-18",
+     "Description": "NWS ASOS SLEP SUPPORT",
+     "awarding_agency_id": 183,
+     "agency_slug": "department-of-commerce",
+     "generated_internal_id": "CONT_AWD_1305M218FNWWG0205_1330_GS23F0208S_4730"
+    },
+    {
+     "internal_id": 291813153,
+     "Award ID": "80KSC025F0013",
+     "Recipient Name": "TESLA LABORATORIES INC.",
+     "Award Amount": 7394586.72,
+     "Total Outlays": 4127824.32,
+     "Awarding Agency": "National Aeronautics and Space Administration",
+     "Awarding Sub Agency": "National Aeronautics and Space Administration",
+     "Start Date": "2025-10-01",
+     "End Date": "2027-09-30",
+     "Description": "ESTABLISH FY26 INCREMENTALLY FUNDED TASK ORDER FOR KENNEDY   FACILITIES ENGINEERING SERVICES IV (KFESS IV)",
+     "awarding_agency_id": 862,
+     "agency_slug": "national-aeronautics-and-space-administration",
+     "generated_internal_id": "CONT_AWD_80KSC025F0013_8000_80KSC025A0010_8000"
+    },
+    {
+     "internal_id": 277585129,
+     "Award ID": "1305M222FNWWG0080",
+     "Recipient Name": "TESLA LABORATORIES INC.",
+     "Award Amount": 5692722.1,
+     "Total Outlays": 2862999.51,
+     "Awarding Agency": "Department of Commerce",
+     "Awarding Sub Agency": "National Oceanic and Atmospheric Administration",
+     "Start Date": "2022-09-19",
+     "End Date": "2025-09-18",
+     "Description": "ASOS SLEP ENGINEERING SUPPORT SERVICES",
+     "awarding_agency_id": 183,
+     "agency_slug": "department-of-commerce",
+     "generated_internal_id": "CONT_AWD_1305M222FNWWG0080_1330_1305M420DNWWA0069_1330"
+    },
+    {
+     "internal_id": 291813042,
+     "Award ID": "80KSC024F0060",
+     "Recipient Name": "TESLA LABORATORIES INC.",
+     "Award Amount": 2890329.6,
+     "Total Outlays": 2890329.6,
+     "Awarding Agency": "National Aeronautics and Space Administration",
+     "Awarding Sub Agency": "National Aeronautics and Space Administration",
+     "Start Date": "2024-10-01",
+     "End Date": "2025-09-30",
+     "Description": "KENNEDY FACILITIES ENGINEERING SUPPORT SERVICES III (KFESS III) FISCAL YEAR 25 INCREMENTALLY FUNDED TASK ORDER.",
+     "awarding_agency_id": 862,
+     "agency_slug": "national-aeronautics-and-space-administration",
+     "generated_internal_id": "CONT_AWD_80KSC024F0060_8000_80KSC021A0002_8000"
+    },
+    {
+     "internal_id": 291812623,
+     "Award ID": "80KSC021F0186",
+     "Recipient Name": "TESLA LABORATORIES INC.",
+     "Award Amount": 2668336.64,
+     "Total Outlays": 2668336.64,
+     "Awarding Agency": "National Aeronautics and Space Administration",
+     "Awarding Sub Agency": "National Aeronautics and Space Administration",
+     "Start Date": "2021-10-01",
+     "End Date": "2022-09-30",
+     "Description": "KENNEDY FACILITIES ENGINEERING SUPPORT SERVICES FOR 10/01/2021 - 09/30/2022.",
+     "awarding_agency_id": 862,
+     "agency_slug": "national-aeronautics-and-space-administration",
+     "generated_internal_id": "CONT_AWD_80KSC021F0186_8000_80KSC021A0002_8000"
+    },
+    {
+     "internal_id": 291812912,
+     "Award ID": "80KSC023F0088",
+     "Recipient Name": "TESLA LABORATORIES INC.",
+     "Award Amount": 2598993.44,
+     "Total Outlays": 2575895.2,
+     "Awarding Agency": "National Aeronautics and Space Administration",
+     "Awarding Sub Agency": "National Aeronautics and Space Administration",
+     "Start Date": "2023-10-01",
+     "End Date": "2024-09-30",
+     "Description": "KENNEDY FACILITIES ENGINEERING SUPPORT SERVICES III (KFESS III) FISCAL YEAR 24 FUNDING.",
+     "awarding_agency_id": 862,
+     "agency_slug": "national-aeronautics-and-space-administration",
+     "generated_internal_id": "CONT_AWD_80KSC023F0088_8000_80KSC021A0002_8000"
+    },
+    {
+     "internal_id": 291812747,
+     "Award ID": "80KSC022F0087",
+     "Recipient Name": "TESLA LABORATORIES INC.",
+     "Award Amount": 2588006.08,
+     "Total Outlays": 2588006.08,
+     "Awarding Agency": "National Aeronautics and Space Administration",
+     "Awarding Sub Agency": "National Aeronautics and Space Administration",
+     "Start Date": "2022-10-01",
+     "End Date": "2023-09-30",
+     "Description": "KENNEDY FACILITIES ENGINEERING SUPPORT SERVICES (KFESS) III FISCAL YEAR 23 FUNDING AWARD.",
+     "awarding_agency_id": 862,
+     "agency_slug": "national-aeronautics-and-space-administration",
+     "generated_internal_id": "CONT_AWD_80KSC022F0087_8000_80KSC021A0002_8000"
+    },
+    {
+     "internal_id": 291265195,
+     "Award ID": "70Z02320FVCV00100",
+     "Recipient Name": "TESLA LABORATORIES INC.",
+     "Award Amount": 2427211.27,
+     "Total Outlays": 0.0,
+     "Awarding Agency": "Department of Homeland Security",
+     "Awarding Sub Agency": "U.S. Coast Guard",
+     "Start Date": "2020-03-31",
+     "End Date": "2023-03-29",
+     "Description": "TASK ORDER TO OBTAIN SERVICES FOR FINANCIAL ACCOUNTING, PAYMENT PROCESSING, AND ADMINISTRATIVE FUNCTIONS WITHIN THE COAST GUARD FINANCE CENTER OPERATIONS DIVISION.",
+     "awarding_agency_id": 766,
+     "agency_slug": "department-of-homeland-security",
+     "generated_internal_id": "CONT_AWD_70Z02320FVCV00100_7008_47QRAD18D000W_4732"
+    },
+    {
+     "internal_id": 291251883,
+     "Award ID": "70T01021F6400N001",
+     "Recipient Name": "TESLA LABORATORIES INC.",
+     "Award Amount": 1615677.3,
+     "Total Outlays": 1321293.05,
+     "Awarding Agency": "Department of Homeland Security",
+     "Awarding Sub Agency": "Transportation Security Administration",
+     "Start Date": "2021-11-01",
+     "End Date": "2026-08-31",
+     "Description": "THE PURPOSE OF TASK ORDER NO. 70T01021F6400N001 IS TO PROVIDE REVENUE SUPPORT SERVICES FOR THE TSA CHIEF FINANCE OFFICE, REVENUE DIVISION.",
+     "awarding_agency_id": 766,
+     "agency_slug": "department-of-homeland-security",
+     "generated_internal_id": "CONT_AWD_70T01021F6400N001_7013_47QRAD18D000W_4732"
+    },
+    {
+     "internal_id": 279973503,
+     "Award ID": "36C10E20N0208",
+     "Recipient Name": "TESLA LABORATORIES INC.",
+     "Award Amount": 1500000.0,
+     "Total Outlays": 1333333.32,
+     "Awarding Agency": "Department of Veterans Affairs",
+     "Awarding Sub Agency": "Department of Veterans Affairs",
+     "Start Date": "2020-09-09",
+     "End Date": "2023-09-08",
+     "Description": "PROGRAM MANAGEMENT SUPPORT SERVICES FOR FACILITIES DIVISION, VBA",
+     "awarding_agency_id": 561,
+     "agency_slug": "department-of-veterans-affairs",
+     "generated_internal_id": "CONT_AWD_36C10E20N0208_3600_GS23F0208S_4730"
+    },
+    {
+     "internal_id": 278738485,
+     "Award ID": "19AQMM21P1371",
+     "Recipient Name": "TESLA GOVERNMENT INC.",
+     "Award Amount": 1034998.48,
+     "Total Outlays": null,
+     "Awarding Agency": "Department of State",
+     "Awarding Sub Agency": "Department of State",
+     "Start Date": "2021-09-30",
+     "End Date": "2027-03-29",
+     "Description": "OPERATION, SUSTAINMENT, QUARTERLY UPDATES, AND ENHANCED FEATURE DEVELOPMENT FOR THE BOUNDARIES AND SOVEREIGNTY ENCYCLOPEDIA",
+     "awarding_agency_id": 315,
+     "agency_slug": "department-of-state",
+     "generated_internal_id": "CONT_AWD_19AQMM21P1371_1900_-NONE-_-NONE-"
+    },
+    {
+     "internal_id": 280326899,
+     "Award ID": "36C25922F0481",
+     "Recipient Name": "TESLA LABORATORIES INC.",
+     "Award Amount": 973238.58,
+     "Total Outlays": null,
+     "Awarding Agency": "Department of Veterans Affairs",
+     "Awarding Sub Agency": "Department of Veterans Affairs",
+     "Start Date": "2022-09-30",
+     "End Date": "2025-09-29",
+     "Description": "CONSTRUCTION MANAGEMENT SERVICES",
+     "awarding_agency_id": 561,
+     "agency_slug": "department-of-veterans-affairs",
+     "generated_internal_id": "CONT_AWD_36C25922F0481_3600_GS23F0208S_4730"
+    },
+    {
+     "internal_id": 291332082,
+     "Award ID": "70Z08223FCEUM0011",
+     "Recipient Name": "TESLA LABORATORIES INC.",
+     "Award Amount": 585071.34,
+     "Total Outlays": 121764.85,
+     "Awarding Agency": "Department of Homeland Security",
+     "Awarding Sub Agency": "U.S. Coast Guard",
+     "Start Date": "2023-09-04",
+     "End Date": "2027-09-03",
+     "Description": "CAD OPERATOR II AND IV SERVICES AT USCG CEU MIAMI",
+     "awarding_agency_id": 766,
+     "agency_slug": "department-of-homeland-security",
+     "generated_internal_id": "CONT_AWD_70Z08223FCEUM0011_7008_GS23F0208S_4730"
+    },
+    {
+     "internal_id": 277583321,
+     "Award ID": "1305M220FNWWH0253",
+     "Recipient Name": "TESLA LABORATORIES INC.",
+     "Award Amount": 485660.8,
+     "Total Outlays": 34624.0,
+     "Awarding Agency": "Department of Commerce",
+     "Awarding Sub Agency": "National Oceanic and Atmospheric Administration",
+     "Start Date": "2020-09-17",
+     "End Date": "2023-09-16",
+     "Description": "OPG ENGINEERING SUPPORT SERVICES",
+     "awarding_agency_id": 183,
+     "agency_slug": "department-of-commerce",
+     "generated_internal_id": "CONT_AWD_1305M220FNWWH0253_1330_1305M420DNWWA0069_1330"
+    }
+   ],
+   "top_n_total": 54277674.14999999,
+   "note": "Award Amount = 合同上限/义务额，不是当期收入；Total Outlays = 已实际支付"
+  },
+  "polymarket": [
+   {
+    "title": "Tesla and SpaceX merger officially announced by...?",
+    "slug": "tesla-and-spacex-merger-officially-announced-by-june-30",
+    "end": "2028-01-01",
+    "volume": 1464333.666943,
+    "liquidity": 46036.4071,
+    "markets": [
+     {
+      "question": "Tesla and SpaceX merger officially announced by December 31?",
+      "outcomes": {
+       "Yes": "0.155",
+       "No": "0.845"
+      },
+      "volume": 292271.36429500004,
+      "liquidity": 13807.2818
+     },
+     {
+      "question": "Tesla and SpaceX merger officially announced by January 31, 2027?",
+      "outcomes": {
+       "Yes": "0.315",
+       "No": "0.685"
+      },
+      "volume": 26501.524893,
+      "liquidity": 7036.081
+     },
+     {
+      "question": "Tesla and SpaceX merger officially announced by December 31, 2027?",
+      "outcomes": {
+       "Yes": "0.645",
+       "No": "0.355"
+      },
+      "volume": 47709.114309,
+      "liquidity": 7877.9503
+     },
+     {
+      "question": "Tesla and SpaceX merger officially announced by February 28, 2027?",
+      "outcomes": {
+       "Yes": "0.355",
+       "No": "0.645"
+      },
+      "volume": 25014.687453000002,
+      "liquidity": 7250.7468
+     },
+     {
+      "question": "Tesla and SpaceX merger officially announced by June 30, 2027?",
+      "outcomes": {
+       "Yes": "0.53",
+       "No": "0.47"
+      },
+      "volume": 50245.996318,
+      "liquidity": 10660.6616
+     }
+    ]
+   },
+   {
+    "title": "Will Tesla release Optimus by...?",
+    "slug": "will-tesla-release-optimus-by-june-30-2026",
+    "end": "2027-01-01",
+    "volume": 133022.72589600013,
+    "liquidity": 6646.16842,
+    "markets": [
+     {
+      "question": "Will Tesla release Optimus by December 31, 2026?",
+      "outcomes": {
+       "Yes": "0.1015",
+       "No": "0.8985"
+      },
+      "volume": 36528.253795,
+      "liquidity": 5623.94513
+     }
+    ]
+   },
+   {
+    "title": "Will Tesla sell a Cybercab for 30k or less in 2026?",
+    "slug": "will-tesla-sell-a-cybercab-for-30k-or-less-in-2026",
+    "end": "2027-01-01",
+    "volume": 65674.791215,
+    "liquidity": 2131.7542,
+    "markets": [
+     {
+      "question": "Will Tesla sell a Cybercab for 30k or less in 2026?",
+      "outcomes": {
+       "Yes": "0.135",
+       "No": "0.865"
+      },
+      "volume": 65674.791215,
+      "liquidity": 2131.7542
+     }
+    ]
+   },
+   {
+    "title": "Will Tesla open orders for the Robovan before 2027?",
+    "slug": "will-tesla-open-orders-for-the-robovan-before-2027",
+    "end": "2027-01-01",
+    "volume": 32588.382303,
+    "liquidity": 223.7804,
+    "markets": [
+     {
+      "question": "Will Tesla open orders for the Robovan before 2027?",
+      "outcomes": {
+       "Yes": "0.125",
+       "No": "0.875"
+      },
+      "volume": 32588.382303,
+      "liquidity": 226.2278
+     }
+    ]
+   },
+   {
+    "title": "Musk out as Tesla CEO before 2027?",
+    "slug": "musk-out-as-tesla-ceo-before-2027",
+    "end": "2027-01-01",
+    "volume": 17850.283214999996,
+    "liquidity": 251.34796,
+    "markets": [
+     {
+      "question": "Musk out as Tesla CEO before 2027?",
+      "outcomes": {
+       "Yes": "0.033",
+       "No": "0.967"
+      },
+      "volume": 17850.283214999996,
+      "liquidity": 251.86091
+     }
+    ]
+   },
+   {
+    "title": "Will Tesla launch robotaxis in California by December 31?",
+    "slug": "will-tesla-launch-robotaxis-in-california-by-december-31-20260630142749586",
+    "end": "2027-01-01",
+    "volume": 9614.029015,
+    "liquidity": 2367.2902,
+    "markets": [
+     {
+      "question": "Will Tesla launch robotaxis in California by December 31?",
+      "outcomes": {
+       "Yes": "0.185",
+       "No": "0.815"
+      },
+      "volume": 9614.029015,
+      "liquidity": 2367.2902
+     }
+    ]
+   },
+   {
+    "title": "What will Tesla say during their next earnings call?",
+    "slug": "what-will-tesla-say-during-their-next-earnings-call-october-21",
+    "end": "2026-10-22",
+    "volume": 1381.528353,
+    "liquidity": 3894.24038,
+    "markets": [
+     {
+      "question": "Will Tesla say \"AI\" / \"Artificial Intelligence\" 10+ times during earnings call?",
+      "outcomes": {
+       "Yes": "0.71",
+       "No": "0.29"
+      },
+      "volume": 71.59,
+      "liquidity": 91.7484
+     },
+     {
+      "question": "Will Tesla say \"Robotaxi\" 5+ times during earnings call?",
+      "outcomes": {
+       "Yes": "0.94",
+       "No": "0.06"
+      },
+      "volume": 127,
+      "liquidity": 287.7804
+     },
+     {
+      "question": "Will Tesla say \"Roadster\" 5+ times during earnings call?",
+      "outcomes": {
+       "Yes": "0.415",
+       "No": "0.585"
+      },
+      "volume": 108.477611,
+      "liquidity": 71.8602
+     },
+     {
+      "question": "Will Tesla say \"SI\" / \"Super Intelligence\" during earnings call?",
+      "outcomes": {
+       "Yes": "0.745",
+       "No": "0.255"
+      },
+      "volume": 140.3075,
+      "liquidity": 375.7237
+     },
+     {
+      "question": "Will Tesla say \"Flying Car\" during earnings call?",
+      "outcomes": {
+       "Yes": "0.555",
+       "No": "0.445"
+      },
+      "volume": 133.82,
+      "liquidity": 53.7286
+     },
+     {
+      "question": "Will Tesla say \"James Bond\" during earnings call?",
+      "outcomes": {
+       "Yes": "0.205",
+       "No": "0.795"
+      },
+      "volume": null,
+      "liquidity": 112.2841
+     },
+     {
+      "question": "Will Tesla say \"Street Legal\" during earnings call?",
+      "outcomes": {
+       "Yes": "0.145",
+       "No": "0.855"
+      },
+      "volume": null,
+      "liquidity": 100.9022
+     },
+     {
+      "question": "Will Tesla say \"SpaceX\" during earnings call?",
+      "outcomes": {
+       "Yes": "0.82",
+       "No": "0.18"
+      },
+      "volume": 356.12381600000003,
+      "liquidity": 291.7717
+     }
+    ]
+   },
+   {
+    "title": "Will Tesla perform another live stunt with the Roadster by...?",
+    "slug": "will-tesla-perform-another-live-stunt-with-the-roadster-by",
+    "end": "2027-05-01",
+    "volume": 998.024551,
+    "liquidity": 1042.8177,
+    "markets": [
+     {
+      "question": "Will Tesla perform another live stunt with the Roadster by December 31, 2026?",
+      "outcomes": {
+       "Yes": "0.235",
+       "No": "0.765"
+      },
+      "volume": 73.997884,
+      "liquidity": 425.439
+     },
+     {
+      "question": "Will Tesla perform another live stunt with the Roadster by April 30, 2027?",
+      "outcomes": {
+       "Yes": "0.38",
+       "No": "0.62"
+      },
+      "volume": 924.026667,
+      "liquidity": 598.3787
+     }
+    ]
+   }
+  ],
+  "kalshi": [
+   {
+    "title": "Tesla total production in 2026",
+    "event_ticker": "KXTSLAA-28JANPROD",
+    "category": "Companies",
+    "markets": [
+     {
+      "ticker": "KXTSLAA-28JANPROD-1700000.0",
+      "subtitle": "Above 1.7 million",
+      "yes_bid": 87,
+      "yes_ask": 89,
+      "last": 88,
+      "volume": 1129,
+      "oi": 1005,
+      "close": "2028-03-31"
+     },
+     {
+      "ticker": "KXTSLAA-28JANPROD-1850000.0",
+      "subtitle": "Above 1.85 million",
+      "yes_bid": 45,
+      "yes_ask": 54,
+      "last": 52,
+      "volume": 2017,
+      "oi": 552,
+      "close": "2028-03-31"
+     },
+     {
+      "ticker": "KXTSLAA-28JANPROD-1550000.0",
+      "subtitle": "Above 1.55 million",
+      "yes_bid": 96,
+      "yes_ask": 99,
+      "last": 99,
+      "volume": 39,
+      "oi": 25,
+      "close": "2028-03-31"
+     },
+     {
+      "ticker": "KXTSLAA-28JANPROD-1650000.0",
+      "subtitle": "Above 1.65 million",
+      "yes_bid": 90,
+      "yes_ask": 93,
+      "last": 93,
+      "volume": 2439,
+      "oi": 516,
+      "close": "2028-03-31"
+     },
+     {
+      "ticker": "KXTSLAA-28JANPROD-1800000.0",
+      "subtitle": "Above 1.8 million",
+      "yes_bid": 80,
+      "yes_ask": 88,
+      "last": 80,
+      "volume": 1889,
+      "oi": 1439,
+      "close": "2028-03-31"
+     },
+     {
+      "ticker": "KXTSLAA-28JANPROD-1600000.0",
+      "subtitle": "Above 1.6 million",
+      "yes_bid": 93,
+      "yes_ask": 99,
+      "last": 88,
+      "volume": 61,
+      "oi": 17,
+      "close": "2028-03-31"
+     },
+     {
+      "ticker": "KXTSLAA-28JANPROD-1900000.0",
+      "subtitle": "Above 1.9 million",
+      "yes_bid": 21,
+      "yes_ask": 31,
+      "last": 31,
+      "volume": 3975,
+      "oi": 305,
+      "close": "2028-03-31"
+     },
+     {
+      "ticker": "KXTSLAA-28JANPROD-1500000.0",
+      "subtitle": "Above 1.5 million",
+      "yes_bid": 98,
+      "yes_ask": 99,
+      "last": 99,
+      "volume": 202,
+      "oi": 168,
+      "close": "2028-03-31"
+     },
+     {
+      "ticker": "KXTSLAA-28JANPROD-1750000.0",
+      "subtitle": "Above 1.75 million",
+      "yes_bid": 83,
+      "yes_ask": 92,
+      "last": 82,
+      "volume": 1056,
+      "oi": 884,
+      "close": "2028-03-31"
+     }
+    ]
+   },
+   {
+    "title": "Tesla total deliveries in 2026",
+    "event_ticker": "KXTSLAA-28JANDEL",
+    "category": "Companies",
+    "markets": [
+     {
+      "ticker": "KXTSLAA-28JANDEL-1600000.0",
+      "subtitle": "Above 1.6 million",
+      "yes_bid": 94,
+      "yes_ask": 99,
+      "last": 99,
+      "volume": 6741,
+      "oi": 967,
+      "close": "2028-03-31"
+     },
+     {
+      "ticker": "KXTSLAA-28JANDEL-1700000.0",
+      "subtitle": "Above 1.7 million",
+      "yes_bid": 88,
+      "yes_ask": 90,
+      "last": 87,
+      "volume": 9214,
+      "oi": 703,
+      "close": "2028-03-31"
+     },
+     {
+      "ticker": "KXTSLAA-28JANDEL-1650000.0",
+      "subtitle": "Above 1.65 million",
+      "yes_bid": 92,
+      "yes_ask": 98,
+      "last": 95,
+      "volume": 5618,
+      "oi": 2133,
+      "close": "2028-03-31"
+     },
+     {
+      "ticker": "KXTSLAA-28JANDEL-1750000.0",
+      "subtitle": "Above 1.75 million",
+      "yes_bid": 88,
+      "yes_ask": 92,
+      "last": 88,
+      "volume": 14371,
+      "oi": 2623,
+      "close": "2028-03-31"
+     },
+     {
+      "ticker": "KXTSLAA-28JANDEL-1850000.0",
+      "subtitle": "Above 1.85 million",
+      "yes_bid": 14,
+      "yes_ask": 21,
+      "last": 19,
+      "volume": 2061,
+      "oi": 1148,
+      "close": "2028-03-31"
+     },
+     {
+      "ticker": "KXTSLAA-28JANDEL-1900000.0",
+      "subtitle": "Above 1.9 million",
+      "yes_bid": 6,
+      "yes_ask": 11,
+      "last": 13,
+      "volume": 9440,
+      "oi": 1832,
+      "close": "2028-03-31"
+     },
+     {
+      "ticker": "KXTSLAA-28JANDEL-1500000.0",
+      "subtitle": "Above 1.5 million",
+      "yes_bid": 95,
+      "yes_ask": 100,
+      "last": 93,
+      "volume": 7539,
+      "oi": 2614,
+      "close": "2028-03-31"
+     },
+     {
+      "ticker": "KXTSLAA-28JANDEL-1800000.0",
+      "subtitle": "Above 1.8 million",
+      "yes_bid": 67,
+      "yes_ask": 76,
+      "last": 75,
+      "volume": 3555,
+      "oi": 1771,
+      "close": "2028-03-31"
+     },
+     {
+      "ticker": "KXTSLAA-28JANDEL-1550000.0",
+      "subtitle": "Above 1.55 million",
+      "yes_bid": 97,
+      "yes_ask": 100,
+      "last": 96,
+      "volume": 6021,
+      "oi": 725,
+      "close": "2028-03-31"
+     }
+    ]
+   },
+   {
+    "title": "Tesla headcount in 2026",
+    "event_ticker": "KXTSLAA-28JANHEAD",
+    "category": "Companies",
+    "markets": [
+     {
+      "ticker": "KXTSLAA-28JANHEAD-125000",
+      "subtitle": "Above 125000",
+      "yes_bid": 89,
+      "yes_ask": 99,
+      "last": 89,
+      "volume": 303,
+      "oi": 111,
+      "close": "2028-03-31"
+     },
+     {
+      "ticker": "KXTSLAA-28JANHEAD-140000",
+      "subtitle": "Above 140000",
+      "yes_bid": 42,
+      "yes_ask": 51,
+      "last": 47,
+      "volume": 3681,
+      "oi": 725,
+      "close": "2028-03-31"
+     },
+     {
+      "ticker": "KXTSLAA-28JANHEAD-130000",
+      "subtitle": "Above 130000",
+      "yes_bid": 81,
+      "yes_ask": 91,
+      "last": 90,
+      "volume": 4124,
+      "oi": 1002,
+      "close": "2028-03-31"
+     },
+     {
+      "ticker": "KXTSLAA-28JANHEAD-120000",
+      "subtitle": "Above 120000",
+      "yes_bid": 91,
+      "yes_ask": 99,
+      "last": 92,
+      "volume": 194,
+      "oi": 121,
+      "close": "2028-03-31"
+     },
+     {
+      "ticker": "KXTSLAA-28JANHEAD-135000",
+      "subtitle": "Above 135000",
+      "yes_bid": 76,
+      "yes_ask": 84,
+      "last": 74,
+      "volume": 2513,
+      "oi": 439,
+      "close": "2028-03-31"
+     },
+     {
+      "ticker": "KXTSLAA-28JANHEAD-145000",
+      "subtitle": "Above 145000",
+      "yes_bid": 11,
+      "yes_ask": 20,
+      "last": 19,
+      "volume": 2457,
+      "oi": 282,
+      "close": "2028-03-31"
+     }
+    ]
+   },
+   {
+    "title": "How much will the Tesla Roadster cost?",
+    "event_ticker": "KXROADSTERPRICE-28",
+    "category": "Financials",
+    "markets": [
+     {
+      "ticker": "KXROADSTERPRICE-28-175000",
+      "subtitle": "At least $175,000",
+      "yes_bid": 95,
+      "yes_ask": 97,
+      "last": 99,
+      "volume": 16,
+      "oi": 16,
+      "close": "2028-01-01"
+     },
+     {
+      "ticker": "KXROADSTERPRICE-28-200000",
+      "subtitle": "At least $200,000",
+      "yes_bid": 92,
+      "yes_ask": 93,
+      "last": 99,
+      "volume": 483,
+      "oi": 270,
+      "close": "2028-01-01"
+     },
+     {
+      "ticker": "KXROADSTERPRICE-28-300000",
+      "subtitle": "At least $300,000",
+      "yes_bid": 61,
+      "yes_ask": 63,
+      "last": 67,
+      "volume": 1567,
+      "oi": 841,
+      "close": "2028-01-01"
+     },
+     {
+      "ticker": "KXROADSTERPRICE-28-250000",
+      "subtitle": "At least $250,000",
+      "yes_bid": 81,
+      "yes_ask": 83,
+      "last": 87,
+      "volume": 1983,
+      "oi": 1723,
+      "close": "2028-01-01"
+     },
+     {
+      "ticker": "KXROADSTERPRICE-28-350000",
+      "subtitle": "At least $350,000",
+      "yes_bid": 38,
+      "yes_ask": 46,
+      "last": 49,
+      "volume": 10,
+      "oi": 10,
+      "close": "2028-01-01"
+     },
+     {
+      "ticker": "KXROADSTERPRICE-28-375000",
+      "subtitle": "At least $375,000",
+      "yes_bid": 27,
+      "yes_ask": 36,
+      "last": 0,
+      "volume": 0,
+      "oi": 0,
+      "close": "2028-01-01"
+     },
+     {
+      "ticker": "KXROADSTERPRICE-28-275000",
+      "subtitle": "At least $275,000",
+      "yes_bid": 64,
+      "yes_ask": 73,
+      "last": 77,
+      "volume": 365,
+      "oi": 261,
+      "close": "2028-01-01"
+     },
+     {
+      "ticker": "KXROADSTERPRICE-28-150000",
+      "subtitle": "At least $150,000",
+      "yes_bid": 89,
+      "yes_ask": 97,
+      "last": 95,
+      "volume": 659,
+      "oi": 247,
+      "close": "2028-01-01"
+     },
+     {
+      "ticker": "KXROADSTERPRICE-28-225000",
+      "subtitle": "At least $225,000",
+      "yes_bid": 83,
+      "yes_ask": 90,
+      "last": 95,
+      "volume": 827,
+      "oi": 566,
+      "close": "2028-01-01"
+     },
+     {
+      "ticker": "KXROADSTERPRICE-28-325000",
+      "subtitle": "At least $325,000",
+      "yes_bid": 45,
+      "yes_ask": 54,
+      "last": 47,
+      "volume": 141,
+      "oi": 42,
+      "close": "2028-01-01"
+     },
+     {
+      "ticker": "KXROADSTERPRICE-28-400000",
+      "subtitle": "At least $400,000",
+      "yes_bid": 17,
+      "yes_ask": 25,
+      "last": 19,
+      "volume": 666,
+      "oi": 567,
+      "close": "2028-01-01"
+     }
+    ]
+   }
+  ]
+ },
+ "errors": {}
+}

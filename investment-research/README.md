@@ -58,6 +58,11 @@ python3 -m venv .venv
 .venv/bin/python scripts/fetch_history.py --tickers LITE AEHR --period 1y
 # → data/prices/<TICKER>.csv（每只一份 OHLCV）
 
+# 2b. 一手源（财报对账用；不经任何转述）：SEC XBRL 机读财务 + EDGAR 申报 + USAspending 联邦合同 + Polymarket/Kalshi 盘口
+.venv/bin/python scripts/fetch_primary.py SPCX RKLB --json
+# → data/primary/<TICKER>.md（覆盖）；--json 另存原始数据；--only xbrl,edgar 只跑部分源
+# XBRL 表里 `△` = 「本期 YTD − 上期 YTD」拆出的单季；`(YTD)` = 没拆成（缺上一期），查原件
+
 # 3. 审计：对比 ticker 文档里的市值数据 vs 最新快照，标记偏差
 .venv/bin/python scripts/audit_notes.py
 # 阈值默认 ±20%，可加 --threshold 30 调整

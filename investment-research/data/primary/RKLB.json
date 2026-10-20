@@ -1,0 +1,1490 @@
+{
+ "ticker": "RKLB",
+ "cik": "0001819994",
+ "fetched": "2026-10-20",
+ "data": {
+  "xbrl": {
+   "收入": {
+    "tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+    "unit": "USD",
+    "rows": [
+     {
+      "end": "2024-09-30",
+      "fy": 2025,
+      "fp": "Q3",
+      "val": 104808000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2024-12-31",
+      "fy": 2025,
+      "fp": "FY",
+      "val": 132388000,
+      "derived": true,
+      "form": "10-K",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-03-31",
+      "fy": 2026,
+      "fp": "Q1",
+      "val": 122569000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 144498000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-09-30",
+      "fy": 2025,
+      "fp": "Q3",
+      "val": 155080000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-12-31",
+      "fy": 2025,
+      "fp": "FY",
+      "val": 179652000,
+      "derived": true,
+      "form": "10-K",
+      "basis": "Q"
+     },
+     {
+      "end": "2026-03-31",
+      "fy": 2026,
+      "fp": "Q1",
+      "val": 200348000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2026-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 234066000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     }
+    ]
+   },
+   "毛利": {
+    "tag": "GrossProfit",
+    "unit": "USD",
+    "rows": [
+     {
+      "end": "2024-09-30",
+      "fy": 2025,
+      "fp": "Q3",
+      "val": 27996000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2024-12-31",
+      "fy": 2025,
+      "fp": "FY",
+      "val": 36817000,
+      "derived": true,
+      "form": "10-K",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-03-31",
+      "fy": 2026,
+      "fp": "Q1",
+      "val": 35247000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 46388000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-09-30",
+      "fy": 2025,
+      "fp": "Q3",
+      "val": 57314000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-12-31",
+      "fy": 2025,
+      "fp": "FY",
+      "val": 68232000,
+      "derived": true,
+      "form": "10-K",
+      "basis": "Q"
+     },
+     {
+      "end": "2026-03-31",
+      "fy": 2026,
+      "fp": "Q1",
+      "val": 76493000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2026-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 84576000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     }
+    ]
+   },
+   "经营利润": {
+    "tag": "OperatingIncomeLoss",
+    "unit": "USD",
+    "rows": [
+     {
+      "end": "2024-09-30",
+      "fy": 2025,
+      "fp": "Q3",
+      "val": -51899000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2024-12-31",
+      "fy": 2025,
+      "fp": "FY",
+      "val": -51549000,
+      "derived": true,
+      "form": "10-K",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-03-31",
+      "fy": 2026,
+      "fp": "Q1",
+      "val": -59188000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": -59639000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-09-30",
+      "fy": 2025,
+      "fp": "Q3",
+      "val": -58969000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-12-31",
+      "fy": 2025,
+      "fp": "FY",
+      "val": -51042000,
+      "derived": true,
+      "form": "10-K",
+      "basis": "Q"
+     },
+     {
+      "end": "2026-03-31",
+      "fy": 2026,
+      "fp": "Q1",
+      "val": -55969000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2026-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": -57514000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     }
+    ]
+   },
+   "净利润": {
+    "tag": "NetIncomeLoss",
+    "unit": "USD",
+    "rows": [
+     {
+      "end": "2024-09-30",
+      "fy": 2025,
+      "fp": "Q3",
+      "val": -51939000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2024-12-31",
+      "fy": 2025,
+      "fp": "FY",
+      "val": -52345000,
+      "derived": true,
+      "form": "10-K",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-03-31",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": -60616000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": -66414000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-09-30",
+      "fy": 2025,
+      "fp": "Q3",
+      "val": -18257000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-12-31",
+      "fy": 2025,
+      "fp": "FY",
+      "val": -52922000,
+      "derived": true,
+      "form": "10-K",
+      "basis": "Q"
+     },
+     {
+      "end": "2026-03-31",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": -45022000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2026-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": -49258000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     }
+    ]
+   },
+   "经营现金流": {
+    "tag": "NetCashProvidedByUsedInOperatingActivities",
+    "unit": "USD",
+    "rows": [
+     {
+      "end": "2024-09-30",
+      "fy": 2025,
+      "fp": "Q3",
+      "val": -30915000,
+      "derived": true,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2024-12-31",
+      "fy": 2025,
+      "fp": "FY",
+      "val": -2387000,
+      "derived": true,
+      "form": "10-K",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-03-31",
+      "fy": 2026,
+      "fp": "Q1",
+      "val": -54225000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": -23242000,
+      "derived": true,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-09-30",
+      "fy": 2025,
+      "fp": "Q3",
+      "val": -23523000,
+      "derived": true,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-12-31",
+      "fy": 2025,
+      "fp": "FY",
+      "val": -64531000,
+      "derived": true,
+      "form": "10-K",
+      "basis": "Q"
+     },
+     {
+      "end": "2026-03-31",
+      "fy": 2026,
+      "fp": "Q1",
+      "val": -50332000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2026-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": -84075000,
+      "derived": true,
+      "form": "10-Q",
+      "basis": "Q"
+     }
+    ]
+   },
+   "资本开支": {
+    "tag": "PaymentsToAcquirePropertyPlantAndEquipment",
+    "unit": "USD",
+    "rows": [
+     {
+      "end": "2024-09-30",
+      "fy": 2025,
+      "fp": "Q3",
+      "val": 11018000,
+      "derived": true,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2024-12-31",
+      "fy": 2025,
+      "fp": "FY",
+      "val": 21554000,
+      "derived": true,
+      "form": "10-K",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-03-31",
+      "fy": 2026,
+      "fp": "Q1",
+      "val": 28677000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 32042000,
+      "derived": true,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-09-30",
+      "fy": 2025,
+      "fp": "Q3",
+      "val": 45912000,
+      "derived": true,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-12-31",
+      "fy": 2025,
+      "fp": "FY",
+      "val": 49654000,
+      "derived": true,
+      "form": "10-K",
+      "basis": "Q"
+     },
+     {
+      "end": "2026-03-31",
+      "fy": 2026,
+      "fp": "Q1",
+      "val": 27065000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2026-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 26047000,
+      "derived": true,
+      "form": "10-Q",
+      "basis": "Q"
+     }
+    ]
+   },
+   "现金及等价物": {
+    "tag": "CashAndCashEquivalentsAtCarryingValue",
+    "unit": "USD",
+    "rows": [
+     {
+      "end": "2025-03-31",
+      "fy": 2025,
+      "fp": "Q1",
+      "val": 303149000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2025-06-30",
+      "fy": 2025,
+      "fp": "Q2",
+      "val": 564081000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2025-09-30",
+      "fy": 2025,
+      "fp": "Q3",
+      "val": 807875000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2025-12-31",
+      "fy": 2025,
+      "fp": "FY",
+      "val": 828660000,
+      "derived": false,
+      "form": "10-K"
+     },
+     {
+      "end": "2025-12-31",
+      "fy": 2026,
+      "fp": "Q1",
+      "val": 828660000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2025-12-31",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 828660000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2026-03-31",
+      "fy": 2026,
+      "fp": "Q1",
+      "val": 1205499000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2026-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 2129485000,
+      "derived": false,
+      "form": "10-Q"
+     }
+    ]
+   },
+   "长期债务": {
+    "tag": "LongTermDebt",
+    "unit": "USD",
+    "rows": [
+     {
+      "end": "2025-03-31",
+      "fy": 2025,
+      "fp": "Q1",
+      "val": 345926000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2025-06-30",
+      "fy": 2025,
+      "fp": "Q2",
+      "val": 346466000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2025-09-30",
+      "fy": 2025,
+      "fp": "Q3",
+      "val": 347014000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2025-12-31",
+      "fy": 2025,
+      "fp": "FY",
+      "val": 152395000,
+      "derived": false,
+      "form": "10-K"
+     },
+     {
+      "end": "2025-12-31",
+      "fy": 2026,
+      "fp": "Q1",
+      "val": 152395000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2025-12-31",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 152395000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2026-03-31",
+      "fy": 2026,
+      "fp": "Q1",
+      "val": 36869000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2026-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 13129000,
+      "derived": false,
+      "form": "10-Q"
+     }
+    ]
+   },
+   "总债务(含流动)": {
+    "tag": "LongTermDebtCurrent",
+    "unit": "USD",
+    "rows": [
+     {
+      "end": "2024-12-31",
+      "fy": 2025,
+      "fp": "Q1",
+      "val": 12045000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2024-12-31",
+      "fy": 2025,
+      "fp": "Q2",
+      "val": 12045000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2024-12-31",
+      "fy": 2025,
+      "fp": "Q3",
+      "val": 12045000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2024-12-31",
+      "fy": 2025,
+      "fp": "FY",
+      "val": 12045000,
+      "derived": false,
+      "form": "10-K"
+     },
+     {
+      "end": "2025-03-31",
+      "fy": 2025,
+      "fp": "Q1",
+      "val": 20490000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2025-06-30",
+      "fy": 2025,
+      "fp": "Q2",
+      "val": 16503000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2025-09-30",
+      "fy": 2025,
+      "fp": "Q3",
+      "val": 17090000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2025-12-31",
+      "fy": 2025,
+      "fp": "FY",
+      "val": 0,
+      "derived": false,
+      "form": "10-K"
+     }
+    ]
+   },
+   "股份数": {
+    "tag": "CommonStockSharesOutstanding",
+    "unit": "shares",
+    "rows": [
+     {
+      "end": "2025-03-31",
+      "fy": 2025,
+      "fp": "Q1",
+      "val": 460540981,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2025-06-30",
+      "fy": 2025,
+      "fp": "Q2",
+      "val": 479326649,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2025-09-30",
+      "fy": 2025,
+      "fp": "Q3",
+      "val": 496224616,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2025-12-31",
+      "fy": 2025,
+      "fp": "FY",
+      "val": 543574552,
+      "derived": false,
+      "form": "10-K"
+     },
+     {
+      "end": "2025-12-31",
+      "fy": 2026,
+      "fp": "Q1",
+      "val": 543574552,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2025-12-31",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 543574552,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2026-03-31",
+      "fy": 2026,
+      "fp": "Q1",
+      "val": 575767500,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2026-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 598180438,
+      "derived": false,
+      "form": "10-Q"
+     }
+    ]
+   },
+   "股权激励费用": {
+    "tag": "ShareBasedCompensation",
+    "unit": "USD",
+    "rows": [
+     {
+      "end": "2024-09-30",
+      "fy": 2025,
+      "fp": "Q3",
+      "val": 12896000,
+      "derived": true,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2024-12-31",
+      "fy": 2025,
+      "fp": "FY",
+      "val": 16872000,
+      "derived": true,
+      "form": "10-K",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-03-31",
+      "fy": 2026,
+      "fp": "Q1",
+      "val": 19234000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 17933000,
+      "derived": true,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-09-30",
+      "fy": 2025,
+      "fp": "Q3",
+      "val": 15727000,
+      "derived": true,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2025-12-31",
+      "fy": 2025,
+      "fp": "FY",
+      "val": 18205000,
+      "derived": true,
+      "form": "10-K",
+      "basis": "Q"
+     },
+     {
+      "end": "2026-03-31",
+      "fy": 2026,
+      "fp": "Q1",
+      "val": 28116000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2026-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 19561000,
+      "derived": true,
+      "form": "10-Q",
+      "basis": "Q"
+     }
+    ]
+   }
+  },
+  "edgar": [
+   {
+    "form": "8-K",
+    "title": "8-K - Current report",
+    "date": "2026-10-14",
+    "url": "https://www.sec.gov/Archives/edgar/data/1819994/000181999426000067/0001819994-26-000067-index.htm"
+   },
+   {
+    "form": "4",
+    "title": "4 - Statement of changes in beneficial ownership of securities",
+    "date": "2026-10-02",
+    "url": "https://www.sec.gov/Archives/edgar/data/1819994/000200101126000143/0002001011-26-000143-index.htm"
+   },
+   {
+    "form": "144",
+    "title": "144 - Report of proposed sale of securities",
+    "date": "2026-10-01",
+    "url": "https://www.sec.gov/Archives/edgar/data/1819994/000195004726009944/0001950047-26-009944-index.htm"
+   },
+   {
+    "form": "425",
+    "title": "425 - Prospectuses and communications, business combinations",
+    "date": "2026-09-15",
+    "url": "https://www.sec.gov/Archives/edgar/data/1819994/000175392626001771/0001753926-26-001771-index.htm"
+   },
+   {
+    "form": "8-K",
+    "title": "8-K - Current report",
+    "date": "2026-09-15",
+    "url": "https://www.sec.gov/Archives/edgar/data/1819994/000175392626001769/0001753926-26-001769-index.htm"
+   },
+   {
+    "form": "4",
+    "title": "4 - Statement of changes in beneficial ownership of securities",
+    "date": "2026-09-04",
+    "url": "https://www.sec.gov/Archives/edgar/data/1819994/000200101126000136/0002001011-26-000136-index.htm"
+   },
+   {
+    "form": "4",
+    "title": "4 - Statement of changes in beneficial ownership of securities",
+    "date": "2026-09-02",
+    "url": "https://www.sec.gov/Archives/edgar/data/1819994/000200101126000135/0002001011-26-000135-index.htm"
+   },
+   {
+    "form": "144",
+    "title": "144 - Report of proposed sale of securities",
+    "date": "2026-09-02",
+    "url": "https://www.sec.gov/Archives/edgar/data/1819994/000195004726009032/0001950047-26-009032-index.htm"
+   },
+   {
+    "form": "4",
+    "title": "4 - Statement of changes in beneficial ownership of securities",
+    "date": "2026-08-28",
+    "url": "https://www.sec.gov/Archives/edgar/data/1819994/000200101126000133/0002001011-26-000133-index.htm"
+   },
+   {
+    "form": "4",
+    "title": "4 - Statement of changes in beneficial ownership of securities",
+    "date": "2026-08-28",
+    "url": "https://www.sec.gov/Archives/edgar/data/1819994/000200101126000132/0002001011-26-000132-index.htm"
+   },
+   {
+    "form": "144",
+    "title": "144 - Report of proposed sale of securities",
+    "date": "2026-08-27",
+    "url": "https://www.sec.gov/Archives/edgar/data/1819994/000195004726008763/0001950047-26-008763-index.htm"
+   },
+   {
+    "form": "144",
+    "title": "144 - Report of proposed sale of securities",
+    "date": "2026-08-27",
+    "url": "https://www.sec.gov/Archives/edgar/data/1819994/000195004726008756/0001950047-26-008756-index.htm"
+   },
+   {
+    "form": "EFFECT",
+    "title": "EFFECT - Notice of Effectiveness",
+    "date": "2026-08-27",
+    "url": "https://www.sec.gov/Archives/edgar/data/1819994/999999999526002771/9999999995-26-002771-index.htm"
+   },
+   {
+    "form": "4",
+    "title": "4 - Statement of changes in beneficial ownership of securities",
+    "date": "2026-08-26",
+    "url": "https://www.sec.gov/Archives/edgar/data/1819994/000200101126000129/0002001011-26-000129-index.htm"
+   },
+   {
+    "form": "4",
+    "title": "4 - Statement of changes in beneficial ownership of securities",
+    "date": "2026-08-26",
+    "url": "https://www.sec.gov/Archives/edgar/data/1819994/000200101126000128/0002001011-26-000128-index.htm"
+   },
+   {
+    "form": "4",
+    "title": "4 - Statement of changes in beneficial ownership of securities",
+    "date": "2026-08-26",
+    "url": "https://www.sec.gov/Archives/edgar/data/1819994/000200101126000127/0002001011-26-000127-index.htm"
+   },
+   {
+    "form": "4",
+    "title": "4 - Statement of changes in beneficial ownership of securities",
+    "date": "2026-08-26",
+    "url": "https://www.sec.gov/Archives/edgar/data/1819994/000200101126000126/0002001011-26-000126-index.htm"
+   },
+   {
+    "form": "4",
+    "title": "4 - Statement of changes in beneficial ownership of securities",
+    "date": "2026-08-26",
+    "url": "https://www.sec.gov/Archives/edgar/data/1819994/000200101126000125/0002001011-26-000125-index.htm"
+   },
+   {
+    "form": "424B3",
+    "title": "424B3 - Prospectus [Rule 424(b)(3)]",
+    "date": "2026-08-26",
+    "url": "https://www.sec.gov/Archives/edgar/data/1819994/000175392626001639/0001753926-26-001639-index.htm"
+   },
+   {
+    "form": "144",
+    "title": "144 - Report of proposed sale of securities",
+    "date": "2026-08-24",
+    "url": "https://www.sec.gov/Archives/edgar/data/1819994/000200101126000124/0002001011-26-000124-index.htm"
+   },
+   {
+    "form": "144",
+    "title": "144 - Report of proposed sale of securities",
+    "date": "2026-08-24",
+    "url": "https://www.sec.gov/Archives/edgar/data/1819994/000200101126000123/0002001011-26-000123-index.htm"
+   },
+   {
+    "form": "144",
+    "title": "144 - Report of proposed sale of securities",
+    "date": "2026-08-24",
+    "url": "https://www.sec.gov/Archives/edgar/data/1819994/000200101126000122/0002001011-26-000122-index.htm"
+   },
+   {
+    "form": "144",
+    "title": "144 - Report of proposed sale of securities",
+    "date": "2026-08-24",
+    "url": "https://www.sec.gov/Archives/edgar/data/1819994/000200101126000121/0002001011-26-000121-index.htm"
+   },
+   {
+    "form": "S-4/A",
+    "title": "S-4/A [Amend] - Registration of securities, business combinations",
+    "date": "2026-08-24",
+    "url": "https://www.sec.gov/Archives/edgar/data/1819994/000175392626001606/0001753926-26-001606-index.htm"
+   },
+   {
+    "form": "4",
+    "title": "4 - Statement of changes in beneficial ownership of securities",
+    "date": "2026-08-18",
+    "url": "https://www.sec.gov/Archives/edgar/data/1819994/000200101126000116/0002001011-26-000116-index.htm"
+   },
+   {
+    "form": "425",
+    "title": "425 - Prospectuses and communications, business combinations",
+    "date": "2026-08-13",
+    "url": "https://www.sec.gov/Archives/edgar/data/1819994/000175392626001465/0001753926-26-001465-index.htm"
+   },
+   {
+    "form": "8-K",
+    "title": "8-K - Current report",
+    "date": "2026-08-13",
+    "url": "https://www.sec.gov/Archives/edgar/data/1819994/000175392626001463/0001753926-26-001463-index.htm"
+   },
+   {
+    "form": "424B5",
+    "title": "424B5 - Prospectus [Rule 424(b)(5)]",
+    "date": "2026-08-13",
+    "url": "https://www.sec.gov/Archives/edgar/data/1819994/000175392626001459/0001753926-26-001459-index.htm"
+   },
+   {
+    "form": "425",
+    "title": "425 - Prospectuses and communications, business combinations",
+    "date": "2026-08-13",
+    "url": "https://www.sec.gov/Archives/edgar/data/1819994/000175392626001456/0001753926-26-001456-index.htm"
+   },
+   {
+    "form": "8-K",
+    "title": "8-K - Current report",
+    "date": "2026-08-13",
+    "url": "https://www.sec.gov/Archives/edgar/data/1819994/000175392626001454/0001753926-26-001454-index.htm"
+   },
+   {
+    "form": "S-4",
+    "title": "S-4 - Registration of securities, business combinations",
+    "date": "2026-08-13",
+    "url": "https://www.sec.gov/Archives/edgar/data/1819994/000175392626001452/0001753926-26-001452-index.htm"
+   },
+   {
+    "form": "425",
+    "title": "425 - Prospectuses and communications, business combinations",
+    "date": "2026-08-11",
+    "url": "https://www.sec.gov/Archives/edgar/data/1819994/000175392626001394/0001753926-26-001394-index.htm"
+   },
+   {
+    "form": "10-Q",
+    "title": "10-Q - Quarterly report [Sections 13 or 15(d)]",
+    "date": "2026-08-10",
+    "url": "https://www.sec.gov/Archives/edgar/data/1819994/000181999426000062/0001819994-26-000062-index.htm"
+   },
+   {
+    "form": "8-K",
+    "title": "8-K - Current report",
+    "date": "2026-08-10",
+    "url": "https://www.sec.gov/Archives/edgar/data/1819994/000181999426000061/0001819994-26-000061-index.htm"
+   },
+   {
+    "form": "SCHEDULE 13G",
+    "title": "SCHEDULE 13G - Statement of Beneficial Ownership by Certain Investors",
+    "date": "2026-07-31",
+    "url": "https://www.sec.gov/Archives/edgar/data/1819994/000210011926001449/0002100119-26-001449-index.htm"
+   },
+   {
+    "form": "4",
+    "title": "4 - Statement of changes in beneficial ownership of securities",
+    "date": "2026-07-08",
+    "url": "https://www.sec.gov/Archives/edgar/data/1819994/000200101126000109/0002001011-26-000109-index.htm"
+   },
+   {
+    "form": "144",
+    "title": "144 - Report of proposed sale of securities",
+    "date": "2026-07-06",
+    "url": "https://www.sec.gov/Archives/edgar/data/1819994/000195824426000433/0001958244-26-000433-index.htm"
+   },
+   {
+    "form": "425",
+    "title": "425 - Prospectuses and communications, business combinations",
+    "date": "2026-06-29",
+    "url": "https://www.sec.gov/Archives/edgar/data/1819994/000175392626001103/0001753926-26-001103-index.htm"
+   },
+   {
+    "form": "425",
+    "title": "425 - Prospectuses and communications, business combinations",
+    "date": "2026-06-29",
+    "url": "https://www.sec.gov/Archives/edgar/data/1819994/000175392626001101/0001753926-26-001101-index.htm"
+   },
+   {
+    "form": "425",
+    "title": "425 - Prospectuses and communications, business combinations",
+    "date": "2026-06-29",
+    "url": "https://www.sec.gov/Archives/edgar/data/1819994/000175392626001099/0001753926-26-001099-index.htm"
+   }
+  ],
+  "usaspending": {
+   "query": [
+    "ROCKET LAB"
+   ],
+   "window": [
+    "2021-10-01",
+    "2026-10-20"
+   ],
+   "rows": [
+    {
+     "internal_id": 291812945,
+     "Award ID": "80KSC023FA107",
+     "Recipient Name": "ROCKET LAB USA INC",
+     "Award Amount": 51598522.0,
+     "Total Outlays": 25752522.0,
+     "Awarding Agency": "National Aeronautics and Space Administration",
+     "Awarding Sub Agency": "National Aeronautics and Space Administration",
+     "Start Date": "2023-03-29",
+     "End Date": "2032-01-27",
+     "Description": "VENTURE-CLASS ACQUISITION OF DEDICATED AND RIDESHARE (VADR) UMBRELLA TASK ORDER",
+     "awarding_agency_id": 862,
+     "agency_slug": "national-aeronautics-and-space-administration",
+     "generated_internal_id": "CONT_AWD_80KSC023FA107_8000_80KSC022DA107_8000"
+    },
+    {
+     "internal_id": 298616212,
+     "Award ID": "FA881824FB016",
+     "Recipient Name": "ROCKET LAB USA INC",
+     "Award Amount": 14496100.0,
+     "Total Outlays": null,
+     "Awarding Agency": "Department of Defense",
+     "Awarding Sub Agency": "Department of the Air Force",
+     "Start Date": "2024-04-08",
+     "End Date": "2026-05-08",
+     "Description": "THE OBJECTIVE OF THE STP-S30 MISSION IS TO DELIVER SCIENTIFIC RESEARCH AND DEVELOPMENT EXPERIMENTS TO SPACE THAT MATURE EXISTING CAPABILITIES AND DEMONSTRATE NEXT-GENERATION TECHNOLOGY IN THE SPACE DOMAIN TO ENSURE A FUTURE OF SPACE DOMINANCE.",
+     "awarding_agency_id": 1173,
+     "agency_slug": "department-of-defense",
+     "generated_internal_id": "CONT_AWD_FA881824FB016_9700_FA881820D0008_9700"
+    },
+    {
+     "internal_id": 291812301,
+     "Award ID": "80KSC020C0002",
+     "Recipient Name": "ROCKET LAB USA INC",
+     "Award Amount": 10065500.0,
+     "Total Outlays": 10065500.0,
+     "Awarding Agency": "National Aeronautics and Space Administration",
+     "Awarding Sub Agency": "National Aeronautics and Space Administration",
+     "Start Date": "2020-02-18",
+     "End Date": "2023-08-16",
+     "Description": "CISLUNAR AUTONOMOUS POSITIONING SYSTEM TECHNOLOGY OPERATIONS AND NAVIGATION EXPERIMENT (CAPSTONE) LAUNCH SERVICE",
+     "awarding_agency_id": 862,
+     "agency_slug": "national-aeronautics-and-space-administration",
+     "generated_internal_id": "CONT_AWD_80KSC020C0002_8000_-NONE-_-NONE-"
+    },
+    {
+     "internal_id": 298615816,
+     "Award ID": "FA881125FB007",
+     "Recipient Name": "ROCKET LAB NATIONAL SECURITY LLC",
+     "Award Amount": 5000000.0,
+     "Total Outlays": null,
+     "Awarding Agency": "Department of Defense",
+     "Awarding Sub Agency": "Department of the Air Force",
+     "Start Date": "2025-03-28",
+     "End Date": "2026-03-28",
+     "Description": "NATIONAL SECURITY SPACE LAUNCH (NSSL) PHASE 3 LANE 1 LAUNCH SERVICES PROCUREMENT",
+     "awarding_agency_id": 1173,
+     "agency_slug": "department-of-defense",
+     "generated_internal_id": "CONT_AWD_FA881125FB007_9700_FA881125DB007_9700"
+    },
+    {
+     "internal_id": 291833131,
+     "Award ID": "80NSSC21C0042",
+     "Recipient Name": "ROCKET LAB USA INC",
+     "Award Amount": 2591350.0,
+     "Total Outlays": 2591350.0,
+     "Awarding Agency": "National Aeronautics and Space Administration",
+     "Awarding Sub Agency": "National Aeronautics and Space Administration",
+     "Start Date": "2021-09-02",
+     "End Date": "2024-06-15",
+     "Description": "LOW COST EXPENDABLE LAUNCH TECHNOLOGY",
+     "awarding_agency_id": 862,
+     "agency_slug": "national-aeronautics-and-space-administration",
+     "generated_internal_id": "CONT_AWD_80NSSC21C0042_8000_-NONE-_-NONE-"
+    },
+    {
+     "internal_id": 298626270,
+     "Award ID": "FA930024C6007",
+     "Recipient Name": "ROCKET LAB USA INC",
+     "Award Amount": 960000.0,
+     "Total Outlays": null,
+     "Awarding Agency": "Department of Defense",
+     "Awarding Sub Agency": "Department of the Air Force",
+     "Start Date": "2024-09-09",
+     "End Date": "2026-01-21",
+     "Description": "DIGITAL ENGINEERING APPROACH FOR ARCHIMEDES ENGINE DEVELOPMENT",
+     "awarding_agency_id": 1173,
+     "agency_slug": "department-of-defense",
+     "generated_internal_id": "CONT_AWD_FA930024C6007_9700_-NONE-_-NONE-"
+    },
+    {
+     "internal_id": 291809161,
+     "Award ID": "80HQTR24CA009",
+     "Recipient Name": "ROCKET LAB USA INC",
+     "Award Amount": 625000.0,
+     "Total Outlays": 625000.0,
+     "Awarding Agency": "National Aeronautics and Space Administration",
+     "Awarding Sub Agency": "National Aeronautics and Space Administration",
+     "Start Date": "2024-09-27",
+     "End Date": "2024-12-26",
+     "Description": "CONTRACTOR TO PROVIDE RAPID STUDIES FOR THE MARS SAMPLE RETURN (MSR) PROGRAM.",
+     "awarding_agency_id": 862,
+     "agency_slug": "national-aeronautics-and-space-administration",
+     "generated_internal_id": "CONT_AWD_80HQTR24CA009_8000_-NONE-_-NONE-"
+    },
+    {
+     "internal_id": 291803190,
+     "Award ID": "80AFRC25FA060",
+     "Recipient Name": "ROCKET LAB USA INC",
+     "Award Amount": 546480.0,
+     "Total Outlays": 546480.0,
+     "Awarding Agency": "National Aeronautics and Space Administration",
+     "Awarding Sub Agency": "National Aeronautics and Space Administration",
+     "Start Date": "2025-09-26",
+     "End Date": "2026-03-13",
+     "Description": "THE CONTRACTOR SHALL DEVELOP GEN 1 SOLAR SAIL MISSION CONCEPTS THAT WILL ADDRESS THE OBJECTIVES OF A FUTURE IMPLEMENTATION PLAN IN ACCORDANCE WITH THE MANIFEST REQUIREMENTS DOCUMENT (MRD) TITLED T0412 GEN1 SOLAR SAIL DEMONSTRATION",
+     "awarding_agency_id": 862,
+     "agency_slug": "national-aeronautics-and-space-administration",
+     "generated_internal_id": "CONT_AWD_80AFRC25FA060_8000_80AFRC24DA014_8000"
+    },
+    {
+     "internal_id": 358832963,
+     "Award ID": "80AFRC26FA041",
+     "Recipient Name": "ROCKET LAB USA INC",
+     "Award Amount": 432665.0,
+     "Total Outlays": 0.0,
+     "Awarding Agency": "National Aeronautics and Space Administration",
+     "Awarding Sub Agency": "National Aeronautics and Space Administration",
+     "Start Date": "2026-05-28",
+     "End Date": "2026-07-31",
+     "Description": "DEVELOP GEOSPACE DYNAMICS CONSTELLATION (GDC) TRAILBLAZER MISSION CONCEPTS THAT WILL ADDRESS THE OBJECTIVES OF A FUTURE IMPLEMENTATION PLAN IN ACCORDANCE WITH THE MANIFEST REQUIREMENTS DOCUMENT (MRD) TITLED T0433 GDC TRAILBLAZER",
+     "awarding_agency_id": 862,
+     "agency_slug": "national-aeronautics-and-space-administration",
+     "generated_internal_id": "CONT_AWD_80AFRC26FA041_8000_80AFRC24DA014_8000"
+    },
+    {
+     "internal_id": 355589555,
+     "Award ID": "80GSFC26C0008",
+     "Recipient Name": "ROCKET LAB USA INC",
+     "Award Amount": 390936.0,
+     "Total Outlays": 390936.0,
+     "Awarding Agency": "National Aeronautics and Space Administration",
+     "Awarding Sub Agency": "National Aeronautics and Space Administration",
+     "Start Date": "2026-02-23",
+     "End Date": "2026-05-24",
+     "Description": "MARS END-TO-END COMMUNICATION SERVICE ARCHITECTURES: STUDIES TO ADVANCE END-TO-END COMMUNICATION SOLUTIONS FOR MARS EXPLORATION, IDENTIFYING PERFORMANCE NEEDS AND COMMERCIAL SERVICE OPPORTUNITIES.",
+     "awarding_agency_id": 862,
+     "agency_slug": "national-aeronautics-and-space-administration",
+     "generated_internal_id": "CONT_AWD_80GSFC26C0008_8000_-NONE-_-NONE-"
+    },
+    {
+     "internal_id": 298616181,
+     "Award ID": "FA881823F0023",
+     "Recipient Name": "ROCKET LAB USA INC",
+     "Award Amount": 261500.0,
+     "Total Outlays": null,
+     "Awarding Agency": "Department of Defense",
+     "Awarding Sub Agency": "Department of the Air Force",
+     "Start Date": "2023-05-04",
+     "End Date": "2025-05-16",
+     "Description": "ROCKET LAB QUINTESSENTIAL STUDIES",
+     "awarding_agency_id": 1173,
+     "agency_slug": "department-of-defense",
+     "generated_internal_id": "CONT_AWD_FA881823F0023_9700_FA881820D0008_9700"
+    },
+    {
+     "internal_id": 291803116,
+     "Award ID": "80AFRC24FA027",
+     "Recipient Name": "ROCKET LAB USA INC",
+     "Award Amount": 25000.0,
+     "Total Outlays": 0.0,
+     "Awarding Agency": "National Aeronautics and Space Administration",
+     "Awarding Sub Agency": "National Aeronautics and Space Administration",
+     "Start Date": "2024-04-25",
+     "End Date": "2026-01-31",
+     "Description": "MINIMUM GUARANTEED",
+     "awarding_agency_id": 862,
+     "agency_slug": "national-aeronautics-and-space-administration",
+     "generated_internal_id": "CONT_AWD_80AFRC24FA027_8000_80AFRC24DA014_8000"
+    },
+    {
+     "internal_id": 298580318,
+     "Award ID": "FA865625FB071",
+     "Recipient Name": "ROCKET LAB USA INC",
+     "Award Amount": 1000.0,
+     "Total Outlays": null,
+     "Awarding Agency": "Department of Defense",
+     "Awarding Sub Agency": "Department of the Air Force",
+     "Start Date": "2025-04-09",
+     "End Date": "2025-04-14",
+     "Description": "FOURTH ON-RAMP FOR EGLIN WIDE AGILE ACQUISITION CONTRACT (EWAAC) VEHICLE.",
+     "awarding_agency_id": 1173,
+     "agency_slug": "department-of-defense",
+     "generated_internal_id": "CONT_AWD_FA865625FB071_9700_FA865625DB071_9700"
+    },
+    {
+     "internal_id": 355818172,
+     "Award ID": "HQ085926FE799",
+     "Recipient Name": "ROCKET LAB USA INC",
+     "Award Amount": 500.0,
+     "Total Outlays": 0.0,
+     "Awarding Agency": "Department of Defense",
+     "Awarding Sub Agency": "Missile Defense Agency",
+     "Start Date": "2025-12-29",
+     "End Date": "2035-12-28",
+     "Description": "SCALABLE HOMELAND INNOVATIVE ENTERPRISE LAYERED DEFENSE (SHIELD) INITIAL ORDER.",
+     "awarding_agency_id": 1173,
+     "agency_slug": "department-of-defense",
+     "generated_internal_id": "CONT_AWD_HQ085926FE799_9700_HQ085926DF472_9700"
+    },
+    {
+     "internal_id": 291812925,
+     "Award ID": "80KSC023FA021",
+     "Recipient Name": "ROCKET LAB USA INC",
+     "Award Amount": 0.0,
+     "Total Outlays": 9093000.0,
+     "Awarding Agency": "National Aeronautics and Space Administration",
+     "Awarding Sub Agency": "National Aeronautics and Space Administration",
+     "Start Date": "2022-11-22",
+     "End Date": "2023-09-23",
+     "Description": "TIME-RESOLVED OBSERVATIONS OF PRECIPITATION STRUCTURE AND STORM INTENSITY WITH A CONSTELLATION OF SMALLSATS (TROPICS) LAUNCH SERVICES TASK ORDER (LSTO).",
+     "awarding_agency_id": 862,
+     "agency_slug": "national-aeronautics-and-space-administration",
+     "generated_internal_id": "CONT_AWD_80KSC023FA021_8000_80KSC022DA107_8000"
+    }
+   ],
+   "top_n_total": 86994553.0,
+   "note": "Award Amount = 合同上限/义务额，不是当期收入；Total Outlays = 已实际支付"
+  },
+  "polymarket": [
+   {
+    "title": "What will Rocket Lab USA, Inc. (RKLB) hit in October 2026?",
+    "slug": "what-price-will-rklb-hit-in-october-2026",
+    "end": "2026-11-01",
+    "volume": 53506.239386,
+    "liquidity": 13124.58356,
+    "markets": [
+     {
+      "question": "Will Rocket Lab USA, Inc. (RKLB) hit (HIGH) $100 in October?",
+      "outcomes": {
+       "Yes": "0.0085",
+       "No": "0.9915"
+      },
+      "volume": 410.12,
+      "liquidity": 695.51139
+     },
+     {
+      "question": "Will Rocket Lab USA, Inc. (RKLB) hit (HIGH) $96 in October?",
+      "outcomes": {
+       "Yes": "0.012",
+       "No": "0.988"
+      },
+      "volume": 1027.855703,
+      "liquidity": 877.01795
+     },
+     {
+      "question": "Will Rocket Lab USA, Inc. (RKLB) hit (HIGH) $92 in October?",
+      "outcomes": {
+       "Yes": "0.006",
+       "No": "0.994"
+      },
+      "volume": 2373.983334,
+      "liquidity": 949.05072
+     },
+     {
+      "question": "Will Rocket Lab USA, Inc. (RKLB) hit (HIGH) $88 in October?",
+      "outcomes": {
+       "Yes": "0.0055",
+       "No": "0.9945"
+      },
+      "volume": 2799.87,
+      "liquidity": 967.63397
+     },
+     {
+      "question": "Will Rocket Lab USA, Inc. (RKLB) hit (HIGH) $84 in October?",
+      "outcomes": {
+       "Yes": "0.0075",
+       "No": "0.9925"
+      },
+      "volume": 2785.5358229999997,
+      "liquidity": 1066.37836
+     },
+     {
+      "question": "Will Rocket Lab USA, Inc. (RKLB) hit (HIGH) $80 in October?",
+      "outcomes": {
+       "Yes": "0.0065",
+       "No": "0.9935"
+      },
+      "volume": 3398.1185189999997,
+      "liquidity": 863.07015
+     }
+    ]
+   },
+   {
+    "title": "Rocket Lab’s Neutron Rocket Launch by December 31?",
+    "slug": "rocket-labs-neutron-rocket-launch-by-december-31-691",
+    "end": "2027-01-01",
+    "volume": 12408.954805000001,
+    "liquidity": 5313.11737,
+    "markets": [
+     {
+      "question": "Rocket Lab’s Neutron Rocket Launch by December 31?",
+      "outcomes": {
+       "Yes": "0.0325",
+       "No": "0.9675"
+      },
+      "volume": 12408.954805000001,
+      "liquidity": 5313.11737
+     }
+    ]
+   },
+   {
+    "title": "What will Rocket Lab USA, Inc. (RKLB) hit Week of October 19 2026?",
+    "slug": "will-rklb-hit-week-of-october-19-2026",
+    "end": "2026-10-23",
+    "volume": 5062.726156,
+    "liquidity": 10665.79656,
+    "markets": [
+     {
+      "question": "Will Rocket Lab USA, Inc. (RKLB) hit (HIGH) $64 Week of October 19 2026?",
+      "outcomes": {
+       "Yes": "0.055",
+       "No": "0.945"
+      },
+      "volume": null,
+      "liquidity": 833.476
+     },
+     {
+      "question": "Will Rocket Lab USA, Inc. (RKLB) hit (HIGH) $62 Week of October 19 2026?",
+      "outcomes": {
+       "Yes": "0.055",
+       "No": "0.945"
+      },
+      "volume": null,
+      "liquidity": 772.66
+     },
+     {
+      "question": "Will Rocket Lab USA, Inc. (RKLB) hit (HIGH) $60 Week of October 19 2026?",
+      "outcomes": {
+       "Yes": "0.052",
+       "No": "0.948"
+      },
+      "volume": 200,
+      "liquidity": 111.562
+     },
+     {
+      "question": "Will Rocket Lab USA, Inc. (RKLB) hit (HIGH) $58 Week of October 19 2026?",
+      "outcomes": {
+       "Yes": "0.09",
+       "No": "0.91"
+      },
+      "volume": 812.2355560000001,
+      "liquidity": 1512.3378
+     },
+     {
+      "question": "Will Rocket Lab USA, Inc. (RKLB) hit (HIGH) $56 Week of October 19 2026?",
+      "outcomes": {
+       "Yes": "0.22",
+       "No": "0.78"
+      },
+      "volume": 532.180862,
+      "liquidity": 1980.816
+     },
+     {
+      "question": "Will Rocket Lab USA, Inc. (RKLB) hit (HIGH) $54 Week of October 19 2026?",
+      "outcomes": {
+       "Yes": "0.42",
+       "No": "0.58"
+      },
+      "volume": 290,
+      "liquidity": 590.5
+     },
+     {
+      "question": "Will Rocket Lab USA, Inc. (RKLB) hit (LOW) $50 Week of October 19 2026?",
+      "outcomes": {
+       "Yes": "0.83",
+       "No": "0.17"
+      },
+      "volume": 288.70243100000005,
+      "liquidity": 968.26
+     }
+    ]
+   },
+   {
+    "title": "Rocket Lab (RKLB) Up or Down on October 20?",
+    "slug": "rklb-up-or-down-on-october-20-2026",
+    "end": "2026-10-20",
+    "volume": 1324.585366,
+    "liquidity": 676.0996,
+    "markets": [
+     {
+      "question": "Rocket Lab (RKLB) Up or Down on October 20?",
+      "outcomes": {
+       "Up": "0.41",
+       "Down": "0.59"
+      },
+      "volume": 1324.585366,
+      "liquidity": 876.4745
+     }
+    ]
+   }
+  ],
+  "kalshi": []
+ },
+ "errors": {}
+}

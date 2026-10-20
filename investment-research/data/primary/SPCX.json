@@ -1,0 +1,1228 @@
+{
+ "ticker": "SPCX",
+ "cik": "0001181412",
+ "fetched": "2026-10-20",
+ "data": {
+  "xbrl": {
+   "收入": {
+    "tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+    "unit": "USD",
+    "rows": [
+     {
+      "end": "2025-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 4071000000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2026-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 7814000000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     }
+    ]
+   },
+   "经营利润": {
+    "tag": "OperatingIncomeLoss",
+    "unit": "USD",
+    "rows": [
+     {
+      "end": "2025-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": -970000000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2026-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": -143000000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     }
+    ]
+   },
+   "净利润": {
+    "tag": "NetIncomeLoss",
+    "unit": "USD",
+    "rows": [
+     {
+      "end": "2025-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": -1008000000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     },
+     {
+      "end": "2026-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": -541000000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "Q"
+     }
+    ]
+   },
+   "经营现金流": {
+    "tag": "NetCashProvidedByUsedInOperatingActivities",
+    "unit": "USD",
+    "rows": [
+     {
+      "end": "2025-06-30",
+      "fy": 2026,
+      "fp": "Q2(YTD)",
+      "val": 351000000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "YTD"
+     },
+     {
+      "end": "2026-06-30",
+      "fy": 2026,
+      "fp": "Q2(YTD)",
+      "val": 3466000000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "YTD"
+     }
+    ]
+   },
+   "资本开支": {
+    "tag": "PaymentsToAcquirePropertyPlantAndEquipment",
+    "unit": "USD",
+    "rows": [
+     {
+      "end": "2025-06-30",
+      "fy": 2026,
+      "fp": "Q2(YTD)",
+      "val": 6965000000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "YTD"
+     },
+     {
+      "end": "2026-06-30",
+      "fy": 2026,
+      "fp": "Q2(YTD)",
+      "val": 28476000000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "YTD"
+     }
+    ]
+   },
+   "现金及等价物": {
+    "tag": "CashAndCashEquivalentsAtCarryingValue",
+    "unit": "USD",
+    "rows": [
+     {
+      "end": "2025-12-31",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 24747000000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2026-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 93522000000,
+      "derived": false,
+      "form": "10-Q"
+     }
+    ]
+   },
+   "长期债务": {
+    "tag": "LongTermDebt",
+    "unit": "USD",
+    "rows": [
+     {
+      "end": "2025-12-31",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 21659000000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2026-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 38285000000,
+      "derived": false,
+      "form": "10-Q"
+     }
+    ]
+   },
+   "股份数": {
+    "tag": "WeightedAverageNumberOfDilutedSharesOutstanding",
+    "unit": "shares",
+    "rows": [
+     {
+      "end": "2025-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 2902000000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2025-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 2929000000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2026-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 4879000000,
+      "derived": false,
+      "form": "10-Q"
+     },
+     {
+      "end": "2026-06-30",
+      "fy": 2026,
+      "fp": "Q2",
+      "val": 5864000000,
+      "derived": false,
+      "form": "10-Q"
+     }
+    ]
+   },
+   "股权激励费用": {
+    "tag": "ShareBasedCompensation",
+    "unit": "USD",
+    "rows": [
+     {
+      "end": "2025-06-30",
+      "fy": 2026,
+      "fp": "Q2(YTD)",
+      "val": 694000000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "YTD"
+     },
+     {
+      "end": "2026-06-30",
+      "fy": 2026,
+      "fp": "Q2(YTD)",
+      "val": 1470000000,
+      "derived": false,
+      "form": "10-Q",
+      "basis": "YTD"
+     }
+    ]
+   }
+  },
+  "edgar": [
+   {
+    "form": "4/A",
+    "title": "4/A [Amend] - Statement of changes in beneficial ownership of securities",
+    "date": "2026-09-30",
+    "url": "https://www.sec.gov/Archives/edgar/data/1181412/000121390026105393/0001213900-26-105393-index.htm"
+   },
+   {
+    "form": "4",
+    "title": "4 - Statement of changes in beneficial ownership of securities",
+    "date": "2026-09-24",
+    "url": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026063378/0001628280-26-063378-index.htm"
+   },
+   {
+    "form": "144",
+    "title": "144 - Report of proposed sale of securities",
+    "date": "2026-09-22",
+    "url": "https://www.sec.gov/Archives/edgar/data/1181412/000195004726009740/0001950047-26-009740-index.htm"
+   },
+   {
+    "form": "4",
+    "title": "4 - Statement of changes in beneficial ownership of securities",
+    "date": "2026-09-15",
+    "url": "https://www.sec.gov/Archives/edgar/data/1181412/000121390026100186/0001213900-26-100186-index.htm"
+   },
+   {
+    "form": "SCHEDULE 13G",
+    "title": "SCHEDULE 13G - Statement of Beneficial Ownership by Certain Investors",
+    "date": "2026-08-14",
+    "url": "https://www.sec.gov/Archives/edgar/data/1181412/000142601226000004/0001426012-26-000004-index.htm"
+   },
+   {
+    "form": "SCHEDULE 13G",
+    "title": "SCHEDULE 13G - Statement of Beneficial Ownership by Certain Investors",
+    "date": "2026-08-14",
+    "url": "https://www.sec.gov/Archives/edgar/data/1181412/000119312526352289/0001193125-26-352289-index.htm"
+   },
+   {
+    "form": "8-K",
+    "title": "8-K - Current report",
+    "date": "2026-08-14",
+    "url": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026056945/0001628280-26-056945-index.htm"
+   },
+   {
+    "form": "SCHEDULE 13G",
+    "title": "SCHEDULE 13G - Statement of Beneficial Ownership by Certain Investors",
+    "date": "2026-08-13",
+    "url": "https://www.sec.gov/Archives/edgar/data/1181412/000110465926095936/0001104659-26-095936-index.htm"
+   },
+   {
+    "form": "SCHEDULE 13G",
+    "title": "SCHEDULE 13G - Statement of Beneficial Ownership by Certain Investors",
+    "date": "2026-08-11",
+    "url": "https://www.sec.gov/Archives/edgar/data/1181412/000121390026087780/0001213900-26-087780-index.htm"
+   },
+   {
+    "form": "S-8",
+    "title": "S-8 - Securities to be offered to employees in employee benefit plans",
+    "date": "2026-08-04",
+    "url": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026052715/0001628280-26-052715-index.htm"
+   },
+   {
+    "form": "S-8",
+    "title": "S-8 - Securities to be offered to employees in employee benefit plans",
+    "date": "2026-08-04",
+    "url": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026052712/0001628280-26-052712-index.htm"
+   },
+   {
+    "form": "10-Q",
+    "title": "10-Q - Quarterly report [Sections 13 or 15(d)]",
+    "date": "2026-08-04",
+    "url": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026052535/0001628280-26-052535-index.htm"
+   },
+   {
+    "form": "8-K",
+    "title": "8-K - Current report",
+    "date": "2026-08-04",
+    "url": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026052515/0001628280-26-052515-index.htm"
+   },
+   {
+    "form": "8-K",
+    "title": "8-K - Current report",
+    "date": "2026-06-26",
+    "url": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026045763/0001628280-26-045763-index.htm"
+   },
+   {
+    "form": "8-K",
+    "title": "8-K - Current report",
+    "date": "2026-06-23",
+    "url": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026044955/0001628280-26-044955-index.htm"
+   },
+   {
+    "form": "8-K",
+    "title": "8-K - Current report",
+    "date": "2026-06-22",
+    "url": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026044489/0001628280-26-044489-index.htm"
+   },
+   {
+    "form": "3",
+    "title": "3 - Initial statement of beneficial ownership of securities",
+    "date": "2026-06-18",
+    "url": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026044455/0001628280-26-044455-index.htm"
+   },
+   {
+    "form": "4",
+    "title": "4 - Statement of changes in beneficial ownership of securities",
+    "date": "2026-06-17",
+    "url": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026044069/0001628280-26-044069-index.htm"
+   },
+   {
+    "form": "8-K",
+    "title": "8-K - Current report",
+    "date": "2026-06-17",
+    "url": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026043865/0001628280-26-043865-index.htm"
+   },
+   {
+    "form": "8-K",
+    "title": "8-K - Current report",
+    "date": "2026-06-16",
+    "url": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026043411/0001628280-26-043411-index.htm"
+   },
+   {
+    "form": "8-K",
+    "title": "8-K - Current report",
+    "date": "2026-06-15",
+    "url": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026043288/0001628280-26-043288-index.htm"
+   },
+   {
+    "form": "S-8",
+    "title": "S-8 - Securities to be offered to employees in employee benefit plans",
+    "date": "2026-06-12",
+    "url": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026042832/0001628280-26-042832-index.htm"
+   },
+   {
+    "form": "424B4",
+    "title": "424B4 - Prospectus [Rule 424(b)(4)]",
+    "date": "2026-06-12",
+    "url": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026042639/0001628280-26-042639-index.htm"
+   },
+   {
+    "form": "EFFECT",
+    "title": "EFFECT - Notice of Effectiveness",
+    "date": "2026-06-12",
+    "url": "https://www.sec.gov/Archives/edgar/data/1181412/999999999526001968/9999999995-26-001968-index.htm"
+   },
+   {
+    "form": "3",
+    "title": "3 - Initial statement of beneficial ownership of securities",
+    "date": "2026-06-11",
+    "url": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026042636/0001628280-26-042636-index.htm"
+   },
+   {
+    "form": "3",
+    "title": "3 - Initial statement of beneficial ownership of securities",
+    "date": "2026-06-11",
+    "url": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026042635/0001628280-26-042635-index.htm"
+   },
+   {
+    "form": "3",
+    "title": "3 - Initial statement of beneficial ownership of securities",
+    "date": "2026-06-11",
+    "url": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026042634/0001628280-26-042634-index.htm"
+   },
+   {
+    "form": "3",
+    "title": "3 - Initial statement of beneficial ownership of securities",
+    "date": "2026-06-11",
+    "url": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026042633/0001628280-26-042633-index.htm"
+   },
+   {
+    "form": "3",
+    "title": "3 - Initial statement of beneficial ownership of securities",
+    "date": "2026-06-11",
+    "url": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026042632/0001628280-26-042632-index.htm"
+   },
+   {
+    "form": "3",
+    "title": "3 - Initial statement of beneficial ownership of securities",
+    "date": "2026-06-11",
+    "url": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026042631/0001628280-26-042631-index.htm"
+   },
+   {
+    "form": "3",
+    "title": "3 - Initial statement of beneficial ownership of securities",
+    "date": "2026-06-11",
+    "url": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026042630/0001628280-26-042630-index.htm"
+   },
+   {
+    "form": "3",
+    "title": "3 - Initial statement of beneficial ownership of securities",
+    "date": "2026-06-11",
+    "url": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026042629/0001628280-26-042629-index.htm"
+   },
+   {
+    "form": "3",
+    "title": "3 - Initial statement of beneficial ownership of securities",
+    "date": "2026-06-11",
+    "url": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026042628/0001628280-26-042628-index.htm"
+   },
+   {
+    "form": "FWP",
+    "title": "FWP - Filing under Securities Act Rules 163/433 of free writing prospectuses",
+    "date": "2026-06-11",
+    "url": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026042466/0001628280-26-042466-index.htm"
+   },
+   {
+    "form": "CERT",
+    "title": "CERT - Certification by an exchange approving securities for listing",
+    "date": "2026-06-10",
+    "url": "https://www.sec.gov/Archives/edgar/data/1181412/000087679626000014/0000876796-26-000014-index.htm"
+   },
+   {
+    "form": "CERT",
+    "title": "CERT - Certification by an exchange approving securities for listing",
+    "date": "2026-06-10",
+    "url": "https://www.sec.gov/Archives/edgar/data/1181412/000135445726000562/0001354457-26-000562-index.htm"
+   },
+   {
+    "form": "8-A12B",
+    "title": "8-A12B - Registration of securities [Section 12(b)]",
+    "date": "2026-06-10",
+    "url": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026042109/0001628280-26-042109-index.htm"
+   },
+   {
+    "form": "8-A12B",
+    "title": "8-A12B - Registration of securities [Section 12(b)]",
+    "date": "2026-06-10",
+    "url": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026042107/0001628280-26-042107-index.htm"
+   },
+   {
+    "form": "CORRESP [Cover]",
+    "title": "CORRESP [Cover] - Correspondence",
+    "date": "2026-06-09",
+    "url": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026041808/0001628280-26-041808-index.htm"
+   },
+   {
+    "form": "CORRESP [Cover]",
+    "title": "CORRESP [Cover] - Correspondence",
+    "date": "2026-06-09",
+    "url": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026041806/0001628280-26-041806-index.htm"
+   }
+  ],
+  "usaspending": {
+   "query": [
+    "SPACE EXPLORATION TECHNOLOGIES"
+   ],
+   "window": [
+    "2021-10-01",
+    "2026-10-20"
+   ],
+   "rows": [
+    {
+     "internal_id": 311405785,
+     "Award ID": "NNK17MA01T",
+     "Recipient Name": "SPACE EXPLORATION TECHNOLOGIES CORP.",
+     "Award Amount": 3549243793.0,
+     "Total Outlays": 2772879533.0,
+     "Awarding Agency": "National Aeronautics and Space Administration",
+     "Awarding Sub Agency": "National Aeronautics and Space Administration",
+     "Start Date": "2016-12-30",
+     "End Date": "2030-12-31",
+     "Description": "IGF::OT::IGF THE COMMERCIAL CREW PROGRAM (CCP) COMMERCIAL CREW TRANSPORTATION CAPABILITY (CCTCAP) CONTRACT WILL PROVIDE COMPLETION OF THE DESIGN, DEVELOPMENT, TEST, EVALUATION, AND CERTIFICATION OF AN INTEGRATED CREW TRANSPORTATION SYSTEM (CTS) CAPABLE OF TRANSPORTING NASA CREW TO AND FROM THE ISS, IN ACCORDANCE WITH THE DESIGN REFERENCE MISSIONS AND NASA'S CERTIFICATION STANDARDS AND REQUIREMENTS.  CERTIFICATION OF THE CTS WILL BE DETERMINED BY NASA.  NASA PLANS TO ISSUE TASK ORDERS FOR POST CERTIFICATION MISSIONS (PCM) TO AND FROM ISS THAT INCLUDE GROUND, LAUNCH, LIFEBOAT, ON-ORBIT, RETURN AND RECOVERY OPERATIONS. THE MINIMUM QUANTITY OF MISSIONS TO BE ORDERED IS TWO (2) AND THE MAXIMUM POTENTIAL QUANTITY OF MISSIONS WHICH MAY BE ORDERED IS SIX (6).  IN ADDITION, NASA MAY ISSUE TASK ORDERS FOR SPECIAL STUDIES USED FOR RISK REDUCTION AND OTHER PURPOSES RELATED TO THE CTS.      NASA CERTIFICATION UNDER CLIN 001 IS COMPLETE WHEN THE CONTRACTOR'S CREW TRANSPORTATION SYSTEM (CTS) HAS MET NASA'S REQUIREMENTS FOR SAFELY TRANSPORTING CREW TO AND FROM THE INTERNATIONAL SPACE STATION (ISS) IN ACCORDANCE WITH DOCUMENTS IDENTIFIED IN SECTION C.1, SPECIFICATIONS/STATEMENT OF WORK. SUBCLINS 001A AND 001B, IDENTIFIED IN TABLE B.3,DDTE/CERTIFICATION SUBCLINS, ARE DELIVERY MILESTONES THAT REPRESENT COMPLETION OF REQUIRED WORK NECESSARY TO ACHIEVE NASA CERTIFICATION. DELIVERY PAYMENT FOR THE ISS DESIGN CERTIFICATION REVIEW (DCR) FOR THE CREWED FLIGHT TO THE ISS INCLUDES ALL WORK UNDER THIS CLIN THAT OCCURS FROM THE CONTRACT EFFECTIVE DATE THROUGH THE ISS DCR COMPLETION. THE DELIVERY PAYMENT FOR THE CERTIFICATION REVIEW (CR) WILL INCLUDE ALL WORK THAT OCCURS FROM THE ISS DCR DELIVERY DATE THROUGH THE END OF THE DDTE/CERTIFICATION CLIN 001.  IN ACCORDANCE WITH CLAUSE C.1, SPECIFICATION/STATEMENT OF WORK, THE TASK ORDERING PROCEDURES AND OTHER TERMS AND CONDITIONS IN THE CONTRACT, THE CONTRACTING OFFICER MAY ISSUE POST CERTIFICATION MISSION (PCM) TASK ORDERS. THE CONTRACTOR SHALL USE THE MISSION PRICING RATES SHOWN IN TABLE B.4.1, POST CERTIFICATION MISSION PRICES. THE PER MISSION PRICES ARE FOR A SINGLE ORDER AT THE PRICE STATED PER THE CALENDAR YEAR (CY) BASED ON THE NUMBER OF MISSIONS ORDERED. CTS FULL MISSION CAPABILITY PRICES SHALL BE BASED ON (1) FULFILLMENT OF THE DESIGN REFERENCE MISSION TO THE ISS FOUND IN CCT-DRM-1110, CREW TRANSPORTATION SYSTEM DESIGN REFERENCE MISSIONS, ATTACHMENT J-03, CONTRACT PERFORMANCE WORK STATEMENT, AND OTHER TERMS AND CONDITIONS IN THE CONTRACT AND (2) ALL INHERENT CTS CAPABILITIES THAT ARE WITHIN THE PROPOSED MISSION PRICES.  IN ACCORDANCE WITH ATTACHMENT J-03, CONTRACT PERFORMANCE WORK STATEMENT, THE TASK ORDERING PROCEDURES AND OTHER TERMS AND CONDITIONS IN THE CONTRACT, THE CONTRACTOR SHALL PERFORM SPECIAL STUDIES, TEST AND ANALYSES, AS INITIATED BY WRITTEN DIRECTION FROM THE CONTRACTING OFFICER.  SPACEX CCTCAP POST CERTIFICATION MISSIONS 3-6(PCM-3-6) TASK ORDER AGAINST NNK14MA74C CLIN 002, AS DESCRIBED IN CLAUSE B.4 POST CERTIFICATION MISSIONS (IDIQ)(CLIN 002) AND ALL OTHER APPLICABLE TERMS AND CONDITIONS.",
+     "awarding_agency_id": 862,
+     "agency_slug": "national-aeronautics-and-space-administration",
+     "generated_internal_id": "CONT_AWD_NNK17MA01T_8000_NNK14MA74C_8000"
+    },
+    {
+     "internal_id": 291816084,
+     "Award ID": "80MSFC20C0034",
+     "Recipient Name": "SPACE EXPLORATION TECHNOLOGIES CORP.",
+     "Award Amount": 3229285063.07,
+     "Total Outlays": 2895827556.11,
+     "Awarding Agency": "National Aeronautics and Space Administration",
+     "Awarding Sub Agency": "National Aeronautics and Space Administration",
+     "Start Date": "2020-05-13",
+     "End Date": "2033-07-29",
+     "Description": "WORK REQUIRED FOR THE DESIGN, DEVELOPMENT, MANUFACTURE, TEST, LAUNCH, DEMONSTRATION, AND ENGINEERING SUPPORT OF THE HUMAN LANDING SYSTEM (HLS) INTEGRATED LANDER.",
+     "awarding_agency_id": 862,
+     "agency_slug": "national-aeronautics-and-space-administration",
+     "generated_internal_id": "CONT_AWD_80MSFC20C0034_8000_-NONE-_-NONE-"
+    },
+    {
+     "internal_id": 298615810,
+     "Award ID": "FA881125FB001",
+     "Recipient Name": "SPACE EXPLORATION TECHNOLOGIES CORP.",
+     "Award Amount": 540731341.0,
+     "Total Outlays": null,
+     "Awarding Agency": "Department of Defense",
+     "Awarding Sub Agency": "Department of the Air Force",
+     "Start Date": "2024-10-18",
+     "End Date": "2027-08-31",
+     "Description": "NATIONAL SECURITY SPACE LAUNCH PHASE 3 LANE 1",
+     "awarding_agency_id": 1173,
+     "agency_slug": "department-of-defense",
+     "generated_internal_id": "CONT_AWD_FA881125FB001_9700_FA881124DB003_9700"
+    },
+    {
+     "internal_id": 291811116,
+     "Award ID": "80JSC024CA002",
+     "Recipient Name": "SPACE EXPLORATION TECHNOLOGIES CORP.",
+     "Award Amount": 425568844.14,
+     "Total Outlays": 133587562.66,
+     "Awarding Agency": "National Aeronautics and Space Administration",
+     "Awarding Sub Agency": "National Aeronautics and Space Administration",
+     "Start Date": "2024-06-26",
+     "End Date": "2031-03-31",
+     "Description": "DESIGN, DEVELOP, MANUFACTURE, TEST, INTEGRATE, ACHIEVE NASA ACCEPTANCE, DELIVER, AND SUSTAIN ITS UNITED STATES DEORBIT VEHICLE (USDV) SUCH THAT THE USDV CAN PERFORM THE FINAL DEORBIT OF THE INTERNATIONAL SPACE STATION (ISS)",
+     "awarding_agency_id": 862,
+     "agency_slug": "national-aeronautics-and-space-administration",
+     "generated_internal_id": "CONT_AWD_80JSC024CA002_8000_-NONE-_-NONE-"
+    },
+    {
+     "internal_id": 298615643,
+     "Award ID": "FA881119C0004",
+     "Recipient Name": "SPACE EXPLORATION TECHNOLOGIES CORP.",
+     "Award Amount": 313795536.3,
+     "Total Outlays": 5466487.6,
+     "Awarding Agency": "Department of Defense",
+     "Awarding Sub Agency": "Department of the Air Force",
+     "Start Date": "2019-02-21",
+     "End Date": "2023-04-13",
+     "Description": "EVOLVED EXPENDABLE LAUNCH VEHICLE 1A-6 LAUNCH SERVICES",
+     "awarding_agency_id": 1173,
+     "agency_slug": "department-of-defense",
+     "generated_internal_id": "CONT_AWD_FA881119C0004_9700_-NONE-_-NONE-"
+    },
+    {
+     "internal_id": 298615635,
+     "Award ID": "FA881118C0001",
+     "Recipient Name": "SPACE EXPLORATION TECHNOLOGIES CORP.",
+     "Award Amount": 243999312.05,
+     "Total Outlays": 0.0,
+     "Awarding Agency": "Department of Defense",
+     "Awarding Sub Agency": "Defense Contract Management Agency",
+     "Start Date": "2018-03-14",
+     "End Date": "2021-08-17",
+     "Description": "IGF::OT::IGF EVOLVED EXPENDABLE LAUNCH VEHICLE GLOBAL POSITIONING SYSTEM III LAUNCH SERVICES",
+     "awarding_agency_id": 1173,
+     "agency_slug": "department-of-defense",
+     "generated_internal_id": "CONT_AWD_FA881118C0001_9700_-NONE-_-NONE-"
+    },
+    {
+     "internal_id": 356949332,
+     "Award ID": "FA881126FB006",
+     "Recipient Name": "SPACE EXPLORATION TECHNOLOGIES CORP.",
+     "Award Amount": 204618632.0,
+     "Total Outlays": null,
+     "Awarding Agency": "Department of Defense",
+     "Awarding Sub Agency": "Department of the Air Force",
+     "Start Date": "2026-01-09",
+     "End Date": "2027-01-09",
+     "Description": "PHASE 3 LANE 1 LAUNCH SERVICE TASK ORDER (LSTO) FOR NTO-5",
+     "awarding_agency_id": 1173,
+     "agency_slug": "department-of-defense",
+     "generated_internal_id": "CONT_AWD_FA881126FB006_9700_FA881124DB003_9700"
+    },
+    {
+     "internal_id": 306454818,
+     "Award ID": "HC101324F0144",
+     "Recipient Name": "SPACE EXPLORATION TECHNOLOGIES CORP.",
+     "Award Amount": 198580260.0,
+     "Total Outlays": null,
+     "Awarding Agency": "Department of Defense",
+     "Awarding Sub Agency": "Defense Information Systems Agency",
+     "Start Date": "2024-09-11",
+     "End Date": "2026-09-29",
+     "Description": "SBS003512 BEST EFFORT",
+     "awarding_agency_id": 1173,
+     "agency_slug": "department-of-defense",
+     "generated_internal_id": "CONT_AWD_HC101324F0144_9700_HC101323D9000_9700"
+    },
+    {
+     "internal_id": 298615799,
+     "Award ID": "FA881124FB023",
+     "Recipient Name": "SPACE EXPLORATION TECHNOLOGIES CORP.",
+     "Award Amount": 183438742.0,
+     "Total Outlays": null,
+     "Awarding Agency": "Department of Defense",
+     "Awarding Sub Agency": "Department of the Air Force",
+     "Start Date": "2024-07-25",
+     "End Date": "2028-01-29",
+     "Description": "NATIONAL SECURITY SPACE LAUNCH PHASE 2 LAUNCH SERVICES",
+     "awarding_agency_id": 1173,
+     "agency_slug": "department-of-defense",
+     "generated_internal_id": "CONT_AWD_FA881124FB023_9700_FA881120D0002_9700"
+    },
+    {
+     "internal_id": 298615656,
+     "Award ID": "FA881120F0007",
+     "Recipient Name": "SPACE EXPLORATION TECHNOLOGIES CORP.",
+     "Award Amount": 183179377.49,
+     "Total Outlays": 0.0,
+     "Awarding Agency": "Department of Defense",
+     "Awarding Sub Agency": "Department of the Air Force",
+     "Start Date": "2020-08-18",
+     "End Date": "2023-03-10",
+     "Description": "UNITED STATES SPACE FORCE 67 LAUNCH SERVICE",
+     "awarding_agency_id": 1173,
+     "agency_slug": "department-of-defense",
+     "generated_internal_id": "CONT_AWD_FA881120F0007_9700_FA881120D0002_9700"
+    },
+    {
+     "internal_id": 298615818,
+     "Award ID": "FA881125FB010",
+     "Recipient Name": "SPACE EXPLORATION TECHNOLOGIES CORP.",
+     "Award Amount": 181650000.0,
+     "Total Outlays": null,
+     "Awarding Agency": "Department of Defense",
+     "Awarding Sub Agency": "Department of the Air Force",
+     "Start Date": "2025-04-14",
+     "End Date": "2027-04-13",
+     "Description": "SEE ATTACHMENT 1, PERFORMANCE WORK STATEMENT (PWS)",
+     "awarding_agency_id": 1173,
+     "agency_slug": "department-of-defense",
+     "generated_internal_id": "CONT_AWD_FA881125FB010_9700_FA881125DB002_9700"
+    },
+    {
+     "internal_id": 291812487,
+     "Award ID": "80KSC021CA006",
+     "Recipient Name": "SPACE EXPLORATION TECHNOLOGIES CORP.",
+     "Award Amount": 179375085.7,
+     "Total Outlays": 179375085.7,
+     "Awarding Agency": "National Aeronautics and Space Administration",
+     "Awarding Sub Agency": "National Aeronautics and Space Administration",
+     "Start Date": "2021-07-23",
+     "End Date": "2025-01-31",
+     "Description": "EUROPA CLIPPER LAUNCH SERVICE",
+     "awarding_agency_id": 862,
+     "agency_slug": "national-aeronautics-and-space-administration",
+     "generated_internal_id": "CONT_AWD_80KSC021CA006_8000_-NONE-_-NONE-"
+    },
+    {
+     "internal_id": 357095142,
+     "Award ID": "FA881126FB004",
+     "Recipient Name": "SPACE EXPLORATION TECHNOLOGIES CORP.",
+     "Award Amount": 173715980.0,
+     "Total Outlays": null,
+     "Awarding Agency": "Department of Defense",
+     "Awarding Sub Agency": "Department of the Air Force",
+     "Start Date": "2028-01-13",
+     "End Date": "2028-06-11",
+     "Description": "NATIONAL SECURITY SPACE LAUNCH SERVICES PHASE 3, LANE 2",
+     "awarding_agency_id": 1173,
+     "agency_slug": "department-of-defense",
+     "generated_internal_id": "CONT_AWD_FA881126FB004_9700_FA881125DB002_9700"
+    },
+    {
+     "internal_id": 361012308,
+     "Award ID": "FA881126FB011",
+     "Recipient Name": "SPACE EXPLORATION TECHNOLOGIES CORP.",
+     "Award Amount": 170267970.0,
+     "Total Outlays": null,
+     "Awarding Agency": "Department of Defense",
+     "Awarding Sub Agency": "Department of the Air Force",
+     "Start Date": "2026-05-04",
+     "End Date": "2027-06-02",
+     "Description": "NATIONAL SECURITY SPACE LAUNCH (NSSL) PHASE 3 LANE 2 LAUNCH SERVICES PROCUREMENT",
+     "awarding_agency_id": 1173,
+     "agency_slug": "department-of-defense",
+     "generated_internal_id": "CONT_AWD_FA881126FB011_9700_FA881125DB002_9700"
+    },
+    {
+     "internal_id": 298615707,
+     "Award ID": "FA881122F0024",
+     "Recipient Name": "SPACE EXPLORATION TECHNOLOGIES CORP.",
+     "Award Amount": 160716178.63,
+     "Total Outlays": null,
+     "Awarding Agency": "Department of Defense",
+     "Awarding Sub Agency": "Department of the Air Force",
+     "Start Date": "2022-08-19",
+     "End Date": "2023-08-18",
+     "Description": "NATIONAL SECURITY SPACE LAUNCH PHASE 2 LAUNCH SERVICES",
+     "awarding_agency_id": 1173,
+     "agency_slug": "department-of-defense",
+     "generated_internal_id": "CONT_AWD_FA881122F0024_9700_FA881120D0002_9700"
+    }
+   ],
+   "top_n_total": 9938166115.380001,
+   "note": "Award Amount = 合同上限/义务额，不是当期收入；Total Outlays = 已实际支付"
+  },
+  "polymarket": [
+   {
+    "title": "Tesla and SpaceX merger officially announced by...?",
+    "slug": "tesla-and-spacex-merger-officially-announced-by-june-30",
+    "end": "2028-01-01",
+    "volume": 1464333.666943,
+    "liquidity": 46639.2743,
+    "markets": [
+     {
+      "question": "Tesla and SpaceX merger officially announced by December 31?",
+      "outcomes": {
+       "Yes": "0.155",
+       "No": "0.845"
+      },
+      "volume": 292271.36429500004,
+      "liquidity": 13718.2158
+     },
+     {
+      "question": "Tesla and SpaceX merger officially announced by January 31, 2027?",
+      "outcomes": {
+       "Yes": "0.315",
+       "No": "0.685"
+      },
+      "volume": 26501.524893,
+      "liquidity": 7050.363
+     },
+     {
+      "question": "Tesla and SpaceX merger officially announced by December 31, 2027?",
+      "outcomes": {
+       "Yes": "0.645",
+       "No": "0.355"
+      },
+      "volume": 47709.114309,
+      "liquidity": 7867.3028
+     },
+     {
+      "question": "Tesla and SpaceX merger officially announced by February 28, 2027?",
+      "outcomes": {
+       "Yes": "0.355",
+       "No": "0.645"
+      },
+      "volume": 25014.687453000002,
+      "liquidity": 7165.6544
+     },
+     {
+      "question": "Tesla and SpaceX merger officially announced by June 30, 2027?",
+      "outcomes": {
+       "Yes": "0.53",
+       "No": "0.47"
+      },
+      "volume": 50245.996318,
+      "liquidity": 10234.8711
+     }
+    ]
+   },
+   {
+    "title": "How many SpaceX Starship launches reach space in 2026?",
+    "slug": "how-many-spacex-starship-launches-reach-space-in-2026",
+    "end": "2027-01-01",
+    "volume": 525093.190499,
+    "liquidity": 12817.75564,
+    "markets": [
+     {
+      "question": "Will less than 5 SpaceX Starship launches successfully reach Space in 2026?",
+      "outcomes": {
+       "Yes": "0.525",
+       "No": "0.475"
+      },
+      "volume": 104657.815912,
+      "liquidity": 795.6286
+     },
+     {
+      "question": "Will 5-6 SpaceX Starship launches successfully reach Space in 2026?",
+      "outcomes": {
+       "Yes": "0.415",
+       "No": "0.585"
+      },
+      "volume": 119685.525113,
+      "liquidity": 670.2528
+     },
+     {
+      "question": "Will 7-8 SpaceX Starship launches successfully reach Space in 2026?",
+      "outcomes": {
+       "Yes": "0.011",
+       "No": "0.989"
+      },
+      "volume": 164717.36707699997,
+      "liquidity": 1703.25427
+     },
+     {
+      "question": "Will 9-10 SpaceX Starship launches successfully reach Space in 2026?",
+      "outcomes": {
+       "Yes": "0.006",
+       "No": "0.994"
+      },
+      "volume": 66311.91786000002,
+      "liquidity": 1274.24555
+     },
+     {
+      "question": "Will 11-12 SpaceX Starship launches successfully reach Space in 2026?",
+      "outcomes": {
+       "Yes": "0.0015",
+       "No": "0.9985"
+      },
+      "volume": 11333.071758999999,
+      "liquidity": 1891.58017
+     },
+     {
+      "question": "Will 13-14 SpaceX Starship launches successfully reach Space in 2026?",
+      "outcomes": {
+       "Yes": "0.0005",
+       "No": "0.9995"
+      },
+      "volume": 11071.391004000003,
+      "liquidity": 2156.69832
+     },
+     {
+      "question": "Will 15-16 SpaceX Starship launches successfully reach Space in 2026?",
+      "outcomes": {
+       "Yes": "0.0005",
+       "No": "0.9995"
+      },
+      "volume": 32052.025278,
+      "liquidity": 2618.14494
+     },
+     {
+      "question": "Will more than 16 SpaceX Starship launches successfully reach Space in 2026?",
+      "outcomes": {
+       "Yes": "0.004",
+       "No": "0.996"
+      },
+      "volume": 15264.076496000001,
+      "liquidity": 1826.84029
+     }
+    ]
+   },
+   {
+    "title": "How many SpaceX launches in 2026?",
+    "slug": "how-many-spacex-launches-in-2026",
+    "end": "2027-01-01",
+    "volume": 336704.428387,
+    "liquidity": 7589.16275,
+    "markets": [
+     {
+      "question": "Will SpaceX have between 100-119 launches in 2026?",
+      "outcomes": {
+       "Yes": "0.0085",
+       "No": "0.9915"
+      },
+      "volume": 3633.509814,
+      "liquidity": 1465.21626
+     },
+     {
+      "question": "Will SpaceX have between 120-139 launches in 2026?",
+      "outcomes": {
+       "Yes": "0.09",
+       "No": "0.91"
+      },
+      "volume": 5428.926046,
+      "liquidity": 690.25739
+     },
+     {
+      "question": "Will SpaceX have between 140-159 launches in 2026?",
+      "outcomes": {
+       "Yes": "0.708",
+       "No": "0.292"
+      },
+      "volume": 50337.39350300001,
+      "liquidity": 801.68777
+     },
+     {
+      "question": "Will SpaceX have between 160-179 launches in 2026?",
+      "outcomes": {
+       "Yes": "0.0205",
+       "No": "0.9795"
+      },
+      "volume": 102511.13665999999,
+      "liquidity": 2248.05617
+     },
+     {
+      "question": "Will SpaceX have between 180-199 launches in 2026?",
+      "outcomes": {
+       "Yes": "0.05",
+       "No": "0.95"
+      },
+      "volume": 61722.513596,
+      "liquidity": 1013.15707
+     },
+     {
+      "question": "Will SpaceX have 200 or more launches in 2026?",
+      "outcomes": {
+       "Yes": "0.037",
+       "No": "0.963"
+      },
+      "volume": 107255.54753899998,
+      "liquidity": 1488.11382
+     }
+    ]
+   },
+   {
+    "title": "Two SpaceX Starships dock together by…?",
+    "slug": "two-spacex-starships-dock-together-by",
+    "end": "2028-01-01",
+    "volume": 75236.466511,
+    "liquidity": 22454.72461,
+    "markets": [
+     {
+      "question": "Will two SpaceX Starships dock together by December 31, 2026?",
+      "outcomes": {
+       "Yes": "0.0265",
+       "No": "0.9735"
+      },
+      "volume": 47718.73546900001,
+      "liquidity": 19894.66858
+     },
+     {
+      "question": "Will two SpaceX Starships dock together by December 31, 2027?",
+      "outcomes": {
+       "Yes": "0.645",
+       "No": "0.355"
+      },
+      "volume": 27517.731041999996,
+      "liquidity": 2404.7697
+     }
+    ]
+   },
+   {
+    "title": "SpaceX Starship Flight Test 15?",
+    "slug": "spacex-starship-flight-test-15",
+    "end": "2027-07-01",
+    "volume": 35240.964475,
+    "liquidity": 6049.55322,
+    "markets": [
+     {
+      "question": "Will SpaceX Starship Flight Test 15 launch by October 31, 2026?",
+      "outcomes": {
+       "Yes": "0.0085",
+       "No": "0.9915"
+      },
+      "volume": 11367.460666,
+      "liquidity": 3297.34522
+     },
+     {
+      "question": "Will SpaceX Starship Flight Test 15 launch by November 30, 2026?",
+      "outcomes": {
+       "Yes": "0.71",
+       "No": "0.29"
+      },
+      "volume": 6135.448538,
+      "liquidity": 979.6476
+     },
+     {
+      "question": "Will the SpaceX Starship Flight Test 15 Super Heavy booster explode?",
+      "outcomes": {
+       "Yes": "0.455",
+       "No": "0.545"
+      },
+      "volume": 2039.6875410000002,
+      "liquidity": 218.8057
+     },
+     {
+      "question": "Will the chopsticks catch SpaceX Starship Flight Test 15 Super Heavy booster?",
+      "outcomes": {
+       "Yes": "0.605",
+       "No": "0.395"
+      },
+      "volume": 4448.534207000001,
+      "liquidity": 623.24
+     },
+     {
+      "question": "Will the chopsticks catch the Starship for SpaceX Starship Flight Test 15?",
+      "outcomes": {
+       "Yes": "0.455",
+       "No": "0.545"
+      },
+      "volume": 6068.10189,
+      "liquidity": 915.1014
+     },
+     {
+      "question": "Will the Starship for SpaceX Starship Flight Test 15 achieve a successful splashdown?",
+      "outcomes": {
+       "Yes": "0.305",
+       "No": "0.695"
+      },
+      "volume": 840.310525,
+      "liquidity": 207.8599
+     },
+     {
+      "question": "Will SpaceX Starship Flight Test 15 launch by November 15, 2026?",
+      "outcomes": {
+       "Yes": "0.105",
+       "No": "0.895"
+      },
+      "volume": 4341.4211080000005,
+      "liquidity": 445.4362
+     }
+    ]
+   },
+   {
+    "title": "Google x SpaceX agree to put data centers in space by...?",
+    "slug": "google-x-spacex-agree-to-put-data-centers-in-space-by-june-30",
+    "end": "2027-01-01",
+    "volume": 29095.432235000146,
+    "liquidity": 405.4104,
+    "markets": [
+     {
+      "question": "Google x SpaceX agree to put data centers in space by December 31?",
+      "outcomes": {
+       "Yes": "0.285",
+       "No": "0.715"
+      },
+      "volume": 5436.422395,
+      "liquidity": 330.241
+     }
+    ]
+   },
+   {
+    "title": "SpaceX becomes a US mobile carrier by ___?",
+    "slug": "spacex-becomes-a-us-mobile-carrier-by",
+    "end": "2028-01-01",
+    "volume": 18087.819316,
+    "liquidity": 5843.9715,
+    "markets": [
+     {
+      "question": "SpaceX becomes a US mobile carrier by June 30, 2027?",
+      "outcomes": {
+       "Yes": "0.085",
+       "No": "0.915"
+      },
+      "volume": 10674.906744,
+      "liquidity": 4305.0432
+     },
+     {
+      "question": "SpaceX becomes a US mobile carrier by December 31, 2027?",
+      "outcomes": {
+       "Yes": "0.245",
+       "No": "0.755"
+      },
+      "volume": 7412.912572000001,
+      "liquidity": 1619.0947
+     }
+    ]
+   },
+   {
+    "title": "SpaceX Starship Florida Launch by…?",
+    "slug": "spacex-starship-florida-launch-by-20260617154757803",
+    "end": "2027-07-01",
+    "volume": 11084.956477,
+    "liquidity": 3210.0223,
+    "markets": [
+     {
+      "question": "Will the SpaceX Starship launch from Florida by December 31, 2026?",
+      "outcomes": {
+       "Yes": "0.24",
+       "No": "0.76"
+      },
+      "volume": 8661.731654,
+      "liquidity": 963.5407
+     },
+     {
+      "question": "Will the SpaceX Starship launch from Florida by June 30, 2027?",
+      "outcomes": {
+       "Yes": "0.871",
+       "No": "0.129"
+      },
+      "volume": 628.812648,
+      "liquidity": 2244.96154
+     }
+    ]
+   },
+   {
+    "title": "How many SpaceX launches in October 2026?",
+    "slug": "how-many-spacex-launches-in-october-2026-20260928t160000000z",
+    "end": "2026-11-01",
+    "volume": 1584.221223,
+    "liquidity": 5656.11644,
+    "markets": [
+     {
+      "question": "Will SpaceX have fewer than 14 launches in October 2026?",
+      "outcomes": {
+       "Yes": "0.929",
+       "No": "0.071"
+      },
+      "volume": 1079.876223,
+      "liquidity": 171.15986
+     },
+     {
+      "question": "Will SpaceX have exactly 14 launches in October 2026?",
+      "outcomes": {
+       "Yes": "0.0715",
+       "No": "0.9285"
+      },
+      "volume": 115,
+      "liquidity": 152.68332
+     },
+     {
+      "question": "Will SpaceX have exactly 15 launches in October 2026?",
+      "outcomes": {
+       "Yes": "0.155",
+       "No": "0.845"
+      },
+      "volume": 122.32,
+      "liquidity": 153.98334
+     },
+     {
+      "question": "Will SpaceX have exactly 16 launches in October 2026?",
+      "outcomes": {
+       "Yes": "0.1275",
+       "No": "0.8725"
+      },
+      "volume": 115,
+      "liquidity": 167.19055
+     },
+     {
+      "question": "Will SpaceX have 17+ launches in October 2026?",
+      "outcomes": {
+       "Yes": "0.0155",
+       "No": "0.9845"
+      },
+      "volume": 152.025,
+      "liquidity": 5086.39111
+     }
+    ]
+   }
+  ],
+  "kalshi": [
+   {
+    "title": "Will SpaceX land anything successfully on Mars before 2030?",
+    "event_ticker": "KXSPACEXMARS-30",
+    "category": "Science and Technology",
+    "markets": [
+     {
+      "ticker": "KXSPACEXMARS-30",
+      "subtitle": "Before 2030",
+      "yes_bid": 19,
+      "yes_ask": 20,
+      "last": 19,
+      "volume": 96789,
+      "oi": 28749,
+      "close": "2030-01-01"
+     }
+    ]
+   },
+   {
+    "title": "Will Blue Origin land on the moon before SpaceX?",
+    "event_ticker": "KXBLUESPACEX-30",
+    "category": "Science and Technology",
+    "markets": [
+     {
+      "ticker": "KXBLUESPACEX-30",
+      "subtitle": "Before 2030",
+      "yes_bid": 60,
+      "yes_ask": 63,
+      "last": 59,
+      "volume": 95813,
+      "oi": 34464,
+      "close": "2030-01-01"
+     }
+    ]
+   },
+   {
+    "title": "Starship launches humans to Mars before 2030?",
+    "event_ticker": "STARSHIPMARS",
+    "category": "Companies",
+    "markets": [
+     {
+      "ticker": "STARSHIPMARS-29DEC31",
+      "subtitle": "Before 2030",
+      "yes_bid": 14,
+      "yes_ask": 17,
+      "last": 17,
+      "volume": 54630,
+      "oi": 9976,
+      "close": "2030-01-01"
+     }
+    ]
+   },
+   {
+    "title": "Will two SpaceX Starships dock together before 2028?",
+    "event_ticker": "KXSTARSHIPDOCK-28",
+    "category": "Science and Technology",
+    "markets": [
+     {
+      "ticker": "KXSTARSHIPDOCK-28",
+      "subtitle": "Before 2028",
+      "yes_bid": 66,
+      "yes_ask": 67,
+      "last": 67,
+      "volume": 67110,
+      "oi": 33914,
+      "close": "2028-01-01"
+     }
+    ]
+   },
+   {
+    "title": "Will SpaceX acquire any major U.S. telecom business before 2028?",
+    "event_ticker": "KXACQANNOUNCESPACEX-28JAN01",
+    "category": "Financials",
+    "markets": [
+     {
+      "ticker": "KXACQANNOUNCESPACEX-28JAN01",
+      "subtitle": "Yes",
+      "yes_bid": 27,
+      "yes_ask": 31,
+      "last": 31,
+      "volume": 15290,
+      "oi": 2920,
+      "close": "2028-01-01"
+     }
+    ]
+   }
+  ]
+ },
+ "errors": {}
+}
