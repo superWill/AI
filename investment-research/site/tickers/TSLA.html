@@ -28,8 +28,8 @@
           <p>单只股票的研究卡、跟踪信号和估值框架。</p>
           <div class="meta-row">
             <span class="pill">tickers/TSLA.md</span>
-            <span class="pill">300 words</span>
-            <span class="pill">6 sections</span>
+            <span class="pill">836 words</span>
+            <span class="pill">14 sections</span>
           </div>
         </div>
         <div class="doc-stat-stack">
@@ -47,7 +47,7 @@
     <div class="doc-layout">
       <article class="doc doc-main">
 <hr />
-<p>ticker: TSLA name: Tesla sector: EV + 自动驾驶/机器人（robotaxi/Optimus 期权） layer: 观察名——不在持仓、不在 SOXX 因子 position_type: watch（观察，非持仓） status: watching last_updated: 2026-07-26 data_source: 2026-07-22 Q2&#x27;26 财报 + 2026-07-26 robotaxi 现状(WebSearch)。价格待核(yfinance 自相矛盾)</p>
+<p>ticker: TSLA name: Tesla sector: EV + 自动驾驶/机器人（robotaxi/Optimus 期权） layer: 观察名——不在持仓、不在 SOXX 因子 position_type: watch（观察，非持仓） status: watching last_updated: 2026-10-22 data_source: 2026-07-22 Q2&#x27;26 财报 + 2026-07-26 robotaxi 现状(WebSearch)。价格待核(yfinance 自相矛盾)；2026-10-22 Q3&#x27;26 财报对账（一手 8-K）+ 价格刷新</p>
 <hr />
 <h1 id="tesla-tsla">Tesla (TSLA)</h1>
 <h2 id="为什么在这本册子里先说清定位">为什么在这本册子里（先说清定位）</h2>
@@ -57,7 +57,51 @@
 <li><strong>叙事股定价的活标本</strong>：营收创纪录但利润崩（Q2 调整 EPS $0.33 vs 预期 $0.53，miss ~38%；经营利润率 4.1%→1.4%），股价却几乎不动——<strong>市场给 TSLA 定价的是 robotaxi/Optimus 期权,不是当期汽车利润</strong>。「坏消息砸不动」是「好消息卖不动」（TSM/GOOGL）的镜像。</li>
 </ol>
 <h2 id="关键数据">关键数据</h2>
-<table><thead><tr><th>指标</th><th>数据</th><th>备注</th></tr></thead><tbody><tr><td>股价</td><td><strong>待核</strong></td><td>yfinance 自相矛盾:spot $313 vs marketCap $1.24T 反推 ~$385,且与 7/24 的 ~$374 冲突。用前在 IBKR 核实</td></tr><tr><td>Trailing / Forward PE</td><td>~285x / ~141x（口径待核）</td><td>无论哪个数都是<strong>天价倍数=纯期权定价</strong>,当期盈利支撑不了</td></tr><tr><td>Beta</td><td>~1.8</td><td></td></tr><tr><td>52 周区间</td><td>~$298–499（待核）</td><td></td></tr><tr><td>段永平成本锚</td><td><strong>~$372</strong>（Q1&#x27;26 建仓 340.9 万股/$12.67 亿）</td><td>现价大致平进平出;他买的也是期权不是当期基本面</td></tr></tbody></table>
+<table><thead><tr><th>指标</th><th>数据</th><th>备注</th></tr></thead><tbody><tr><td>股价</td><td><strong>$386.47</strong>（2026-10-21 收；盘后 ~$377）</td><td>市值 <strong>$1350B</strong>（按摊薄 ~35.8 亿股推算，待核）；Yahoo 5 分钟线</td></tr><tr><td>Trailing PE</td><td>GAAP TTM ~420x / 非 GAAP TTM ~220x（2026-10-22 算）</td><td>天价倍数=纯期权定价,当期盈利支撑不了</td></tr><tr><td>Beta</td><td>~1.8</td><td></td></tr><tr><td>52 周区间</td><td>~$298–499（待核）</td><td></td></tr><tr><td>段永平成本锚</td><td><strong>~$372</strong>（Q1&#x27;26 建仓 340.9 万股/$12.67 亿）</td><td>现价大致平进平出;他买的也是期权不是当期基本面</td></tr></tbody></table>
+<h2 id="2026-10-22q326-财报对账一手-8-k-q3-update2026-10-21-盘后">⭐ 2026-10-22：Q3&#x27;26 财报对账（一手 8-K Q3 Update，2026-10-21 盘后）</h2>
+<blockquote>一手源：<a href="https://www.sec.gov/Archives/edgar/data/1318605/000162828026066738/exhibit9914.htm">8-K EX-99.1 Q3 2026 Update（SEC）</a>，原文存本机 scratchpad <code>tsla_q3/ex991.txt</code>。电话会内容（capex 指引、Optimus、合并）为 2 手（Yahoo Finance / Shacknews 直播笔记），标 <code>[KNOWN-2手]</code>。一致预期来自 Bloomberg（Yahoo 引）与 Electrek，各家不同。</blockquote>
+<h3 id="对账一致预期-vs-实际-known-high">对账：一致预期 vs 实际 <code>[KNOWN, HIGH]</code></h3>
+<table><thead><tr><th>指标</th><th>一致预期（2手）</th><th><strong>Q3 实际</strong></th><th>YoY / QoQ</th></tr></thead><tbody><tr><td>总收入</td><td>$280.6–281.3 亿</td><td><strong>$280.5 亿</strong></td><td>持平 YoY（Q2 $282.4 亿）</td></tr><tr><td>├ 汽车</td><td>—</td><td>$205.6 亿</td><td>−3%；监管积分仅 <strong>$1.13 亿</strong>（−73%）</td></tr><tr><td>├ 储能</td><td>—</td><td>$28.8 亿</td><td><strong>−16%</strong>，「关税相关客户退款」</td></tr><tr><td>└ 服务及其他</td><td>—</td><td>$46.1 亿</td><td><strong>+33%</strong>，FSD 订阅驱动</td></tr><tr><td>总毛利率</td><td>—</td><td><strong>19.6%</strong></td><td>Q3&#x27;25 18.0%、Q2 16.8%</td></tr><tr><td>汽车毛利率（剔积分）</td><td>~17.7%</td><td><strong>18.1%</strong></td><td>Q2 16.3%</td></tr><tr><td>经营费用</td><td>—</td><td>$47.8 亿（+39%；R&amp;D $27.6 亿 +69%）</td><td>SI / Optimus / Cybercab / SBC</td></tr><tr><td>经营利润</td><td>—</td><td><strong>$7.18 亿</strong>（−56%），利润率 <strong>2.6%</strong></td><td>Q2 1.4%</td></tr><tr><td>非 GAAP EPS</td><td>$0.44–0.45</td><td><strong>$0.48</strong></td><td>Q3&#x27;25 $0.50</td></tr><tr><td>GAAP 净利 / EPS</td><td>—</td><td>$7.87 亿 / <strong>$0.22</strong></td><td>含 BTC +$2.88 亿、SpaceX 持股 −$1.42 亿</td></tr><tr><td>经营现金流</td><td>—</td><td><strong>$62.6 亿</strong></td><td>Q2 $47.0 亿</td></tr><tr><td>capex</td><td><strong>$79.6 亿</strong></td><td><strong>$47.3 亿</strong></td><td>Q2 $57.9 亿</td></tr><tr><td>FCF</td><td><strong>−$49.2 亿</strong></td><td><strong>+$15.3 亿</strong></td><td>Q2 <strong>−$10.9 亿</strong>（首负）→ 转正</td></tr><tr><td>现金+短投</td><td>—</td><td>$454 亿（+$19 亿）</td><td></td></tr><tr><td>交付</td><td>463k</td><td><strong>486,532</strong>（−2%）</td><td>10/2 已公布；库存 11 天</td></tr><tr><td>储能部署</td><td>15.9 GWh</td><td><strong>13.7 GWh</strong></td><td>miss</td></tr><tr><td>FSD 活跃订阅</td><td>—</td><td><strong>174 万</strong>（+67%）</td><td>北美新车附着率 &gt;75%</td></tr><tr><td>Robotaxi 无监督累计里程</td><td>—</td><td><strong>≈200 万英里</strong>（季内 8×）</td><td>7 月时 38 万</td></tr></tbody></table>
+<p><strong>指引 / 口径变化</strong> <code>[KNOWN-2手, MED]</code></p>
+<ul>
+<li><strong>FY26 capex：$250 亿+ → $200 亿</strong>（CFO Taneja，电话会；信里没写）。前九月 $130 亿 → Q4 隐含 ~$70 亿。CFO：主要用经营现金流付。</li>
+<li>无销量指引（「产能最大利用率」，电池供应是约束；乘用车 backlog 四年最大）。</li>
+<li>SI 训练算力：Cortex 1+2 &gt;225 MW 在产，<strong>年底 400 MW</strong>。</li>
+<li>时间表（Musk / Ashok / Lars，2手）：消费者车无监督 FSD <strong>~2027 Q2</strong>；Optimus 外部交付 <strong>2027 年底</strong>、年化 100 万台「至少一年、可能更久」，Musk 主动说「要给 Optimus 降温」；AI5 进 Optimus ~2027-04；Terrafab 可用芯片 2028；Cybercab 客户自购「2027 左右」，车队以 Tesla 自有为主。</li>
+<li>SpaceX 合并：「昨天该说的都说了」，分析师被告知不许问。<code>[KNOWN-2手, MED]</code></li>
+</ul>
+<h3 id="现金流-vs-利润-computed-high">现金流 vs 利润 <code>[COMPUTED, HIGH]</code></h3>
+<ul>
+<li>FCF 转正 $15.3 亿不是利润来的：净利 $8.0 亿 + 折旧 $18.5 亿 + SBC $11.7 亿 ≈ $38 亿，经营现金流 $62.6 亿，差额 ~$24 亿来自营运资本/递延税等；再加 <strong>capex 环比少花 $10.6 亿</strong>。TTM FCF $33 亿（Q1 时 $70 亿），TTM capex $154 亿。</li>
+<li>非 GAAP 净利 $17.0 亿里 <strong>SBC（含 2025 CEO 奖励）剔除了 $9.8 亿</strong>，占 58%。看 GAAP 经营利润 $7.2 亿更干净：汽车+储能+服务三块毛利 $54.9 亿，被 $47.8 亿费用吃掉。</li>
+<li>储能收入 −16% 归因「客户退款」，但储能毛利率反升到 33%（Q2 20%）——退款减收入、关税退税减成本，两头都过了一次账，Q4 看不到退款后的真实毛利率。(待核实，10-Q)</li>
+</ul>
+<h3 id="对本仓库信号的读数-inferred-med-high">对本仓库信号的读数 <code>[INFERRED, MED-HIGH]</code></h3>
+<ol>
+<li><strong>信号 ⑥（FCF 首负 n=2）这一样本回正了，但方式是砍 capex 指引 $50 亿，不是赚出来。</strong> 这是 AI 链样本里<strong>第一个主动下调年度 capex 指引的公司</strong>。它不是 hyperscaler、规模 $200 亿、原因是自身现金约束，所以只记为触发器 ④（capex 骤停）的 n=1 旁证，不计入 X/4。Q4 capex $70 亿若兑现，仍是 TSLA 史上最大季。</li>
+<li><strong>NVDA 需求端</strong>：Cortex 400 MW ≈ 行业 $15–20B/GW 口径下 $60–80 亿设备，capex 砍的 $50 亿里多少是算力不知道。(待核实)</li>
+<li><strong>叙事股定价第三次确证</strong>：GAAP TTM 净利 $32 亿，市值 ≈ $1.35T → <strong>~420×</strong>；非 GAAP TTM $60.6 亿 → ~220×。经营利润率 2.6%，股价 +3.4% 收。市场仍只给 robotaxi/Optimus 期权定价。</li>
+</ol>
+<h3 id="股价归因-known-highyahoo-5-分钟线">股价归因 <code>[KNOWN, HIGH]</code>（Yahoo 5 分钟线）</h3>
+<ul>
+<li>10/21 常规收 <strong>$386.47（+3.4%）</strong>，是 SPCX 财报日的连带涨。</li>
+<li>盘后财报一出冲到 <strong>$393.8</strong>（FCF/capex 远好于预期），电话会期间回落到 <strong>~$377（−2.4%）</strong>。<strong>数字是正的，电话会是负的</strong>：Optimus 降温 + 合并不答 + capex 砍（市场读成「算力/机器人投入退坡」而非「纪律」）。</li>
+</ul>
+<h3 id="论点变化相对-07-26-段">论点变化（相对 07-26 ⭐ 段）</h3>
+<ul>
+<li>Robotaxi：无监督里程 38 万 → ~200 万（3 个月 5×），6 城，Austin 到午夜。07-26 写的「3,800 万英里 = 期权兑现」标尺走到 <strong>5%</strong>。车队「10×」没给基数，仍是玩具级到小规模之间。<code>[INFERRED, MED]</code></li>
+<li><strong>新的硬数据是 FSD 订阅</strong>：174 万 × ~$99/月 ≈ <strong>年化 $21 亿</strong>软件收入，+67%，附着率 &gt;75%。这是当期财报里唯一在兑现的「软件/车队利润」，也是服务毛利 $7.3 亿创纪录的来源。<code>[COMPUTED, MED]</code></li>
+<li>Optimus 2027 收入 ≈ 0（外部交付年底才开始）；Musk 自己降温，按 <code>[Musk 口径校准]</code> D 类（3 年+新业务）÷5–30。</li>
+<li>汽车本业：交付 −2% 但毛利率回到 18.1%、积分归零仍能赚 → 单车成本在降；储能被关税扰动。本业不塌，但也不是估值来源。</li>
+</ul>
+<h3 id="可选动作">可选动作</h3>
+<ul>
+<li>非持仓，不动。对组合的用处仍是两条：触发器 ④/⑥ 的样本、NVDA 需求端 400 MW 读数。</li>
+<li>下一个可证伪点：<strong>Q4 capex 是否 ~$70 亿</strong>（砍指引是真纪律还是推迟）；<strong>2027-01 的 FY27 capex 口径</strong>；Optimus 一个月内的演示视频 vs 实际量产节奏。</li>
+<li>SPCX $115 put 不受影响：合并只有「特别委员会」没有条款。</li>
+</ul>
+<h3 id="三档12-个月对期权是否兑现而非价格guess">三档（12 个月，对「期权是否兑现」而非价格）<code>[GUESS]</code></h3>
+<table><thead><tr><th>档</th><th>概率</th><th>情景</th></tr></thead><tbody><tr><td>悲观</td><td>35%</td><td>无监督 FSD 消费者版再推、Optimus 外部交付推到 2028；capex 继续砍 → 触发器 ④ 的 n 从 1 变多</td></tr><tr><td>基准</td><td>45%</td><td>Q2&#x27;27 有限城市无监督上线、Optimus 2027 底小批量；FSD 订阅 250 万+；期权倍数维持</td></tr><tr><td>乐观</td><td>20%</td><td>无监督里程 &gt;2,000 万、车队千辆级、FSD 订阅 300 万；市场开始按车队利润算</td></tr></tbody></table>
 <h2 id="2026-07-26robotaxi-fsd-现状">⭐ 2026-07-26：Robotaxi / FSD 现状</h2>
 <p><strong>一句话：技术跨过「车里没人」这道坎（新城市首日即无安全员），但规模仍是玩具级——~40 辆 vs Waymo 3,000+，叙事跑在运营前面很远。</strong> <code>[KNOWN 2026-07, 规模数字为第三方估算 MED-HIGH]</code></p>
 <p><strong>运营：</strong></p>
@@ -89,6 +133,7 @@
 </ul>
 <h2 id="参考">参考</h2>
 <ul>
+<li><a href="https://www.sec.gov/Archives/edgar/data/1318605/000162828026066738/exhibit9914.htm">Tesla Q3 2026 Update（8-K EX-99.1，SEC）</a></li>
 <li><a href="../notes/2026-06-25-top-signals-and-panic-discipline.html">顶部信号 note</a>（第⑥信号 n=2）</li>
 <li>Smart Cities Dive – 四城运营/安全 · Not a Tesla App – 38万英里/FSD v15 · Benzinga – 落后 Waymo(Gary Black) · Basenor – 乘客反馈 · TechTimes – Miami 雨季测试（均 WebSearch 2026-07-26）</li>
 </ul>
@@ -96,7 +141,7 @@
       <aside class="doc-sidebar">
         <section class="sidebar-card">
           <h3 class="sidebar-title">文档导航</h3>
-          <ul class="toc-list"><li><a href="#为什么在这本册子里先说清定位">为什么在这本册子里（先说清定位）</a></li><li><a href="#关键数据">关键数据</a></li><li><a href="#2026-07-26robotaxi-fsd-现状">⭐ 2026-07-26：Robotaxi / FSD 现状</a></li><li><a href="#多空核心">多空核心</a></li><li><a href="#跟踪信号">跟踪信号</a></li><li><a href="#参考">参考</a></li></ul>
+          <ul class="toc-list"><li><a href="#为什么在这本册子里先说清定位">为什么在这本册子里（先说清定位）</a></li><li><a href="#关键数据">关键数据</a></li><li><a href="#2026-10-22q326-财报对账一手-8-k-q3-update2026-10-21-盘后">⭐ 2026-10-22：Q3&#x27;26 财报对账（一手 8-K Q3 Update，2026-10-21 盘后）</a></li><li style="padding-left:14px"><a href="#对账一致预期-vs-实际-known-high">对账：一致预期 vs 实际 `[KNOWN, HIGH]`</a></li><li style="padding-left:14px"><a href="#现金流-vs-利润-computed-high">现金流 vs 利润 `[COMPUTED, HIGH]`</a></li><li style="padding-left:14px"><a href="#对本仓库信号的读数-inferred-med-high">对本仓库信号的读数 `[INFERRED, MED-HIGH]`</a></li><li style="padding-left:14px"><a href="#股价归因-known-highyahoo-5-分钟线">股价归因 `[KNOWN, HIGH]`（Yahoo 5 分钟线）</a></li><li style="padding-left:14px"><a href="#论点变化相对-07-26-段">论点变化（相对 07-26 ⭐ 段）</a></li><li style="padding-left:14px"><a href="#可选动作">可选动作</a></li><li style="padding-left:14px"><a href="#三档12-个月对期权是否兑现而非价格guess">三档（12 个月，对「期权是否兑现」而非价格）`[GUESS]`</a></li><li><a href="#2026-07-26robotaxi-fsd-现状">⭐ 2026-07-26：Robotaxi / FSD 现状</a></li><li><a href="#多空核心">多空核心</a></li><li><a href="#跟踪信号">跟踪信号</a></li><li><a href="#参考">参考</a></li></ul>
         </section>
         <section class="sidebar-card">
           <h3 class="sidebar-title">阅读提示</h3>
