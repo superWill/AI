@@ -70,6 +70,8 @@ QUARTERLY_META = [
     ("STARLINK_NET_ADDS", "Starlink 单季净增", "百万 · 170→160 已下降一季"),
     ("STARLINK_ARPU", "Starlink 消费 ARPU", "$/月 · Q3 环比 +5%"),
     ("SPCX_NAMEPLATE_GW", "SPCX 铭牌算力", "GW · 年底指引 2.5–3，2027 +10"),
+    ("META_CAPEX", "META capex（含融资租赁本金）", "$B/季 · 2026 指引 $135–145B，Q4 隐含 $49–59B；Q3 FCF 首负 −$2.1B"),
+    ("TSLA_CAPEX", "TSLA capex", "$B/季 · FY26 指引 $25B+→$20B = 链内首个下调，Q4 隐含 ~$7B"),
     ("CRWV_REV", "CoreWeave 收入", "$B/季"),
     ("ORCL_RPO_QOQ_ADD", "Oracle RPO 环比增量", "$B · 85→26 已下降一季；连续两季 <30 升级"),
     ("DRAM_CONTRACT_QOQ", "DRAM 合约价环比", "% · TrendForce 中值；内存腿二阶导"),

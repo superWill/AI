@@ -28,8 +28,8 @@
           <p>单只股票的研究卡、跟踪信号和估值框架。</p>
           <div class="meta-row">
             <span class="pill">tickers/IBM.md</span>
-            <span class="pill">312 words</span>
-            <span class="pill">10 sections</span>
+            <span class="pill">1780 words</span>
+            <span class="pill">20 sections</span>
           </div>
         </div>
         <div class="doc-stat-stack">
@@ -47,14 +47,79 @@
     <div class="doc-layout">
       <article class="doc doc-main">
 <hr />
-<p>ticker: IBM name: International Business Machines sector: Enterprise Software / Quantum layer: Layer 6–7 — AI 平台 + 量子整合 position_type: thematic status: watching last_updated: 2026-05-07 data_source: scripts/fetch_quotes.py snapshot 2026-05-07</p>
+<p>ticker: IBM name: International Business Machines sector: Enterprise Software / Quantum layer: Layer 6–7 — AI 平台 + 量子整合 position_type: thematic status: watching last_updated: 2026-10-22 data_source: scripts/fetch_quotes.py snapshot 2026-05-07；2026-10-22 Q3&#x27;26 财报对账（一手 8-K EX-99.1/99.2 + IBM 投资者关系图表/预备发言 PDF）+ Yahoo 1d/5m 盘后价</p>
 <hr />
 <h1 id="ibm">IBM</h1>
 <h2 id="一句话定位">一句话定位</h2>
 <p>全美股<strong>唯一一家把 AI 和量子作为两条并列业务线销售的大公司</strong>。卖给银行和政府&quot;AI + 量子整合平台&quot;。</p>
-<h2 id="关键数据基准日-2026-05-07yfinance-实时">关键数据（基准日 2026-05-07，yfinance 实时）</h2>
-<table><thead><tr><th>指标</th><th>数据</th></tr></thead><tbody><tr><td>股价</td><td><strong>$225.74</strong></td></tr><tr><td>市值</td><td><strong>$212.2B</strong></td></tr><tr><td>TTM PE</td><td>19.96</td></tr><tr><td>Forward PE</td><td>16.78</td></tr><tr><td>Forward P/S</td><td>3.08</td></tr><tr><td>52 周区间</td><td>$220.72 → $324.90</td></tr><tr><td>50 日均线</td><td>$242.67</td></tr><tr><td>200 日均线</td><td>$271.95</td></tr><tr><td>股息率</td><td><strong>2.99%</strong></td></tr><tr><td>Beta</td><td><strong>0.581</strong>（防御性）</td></tr></tbody></table>
-<table><thead><tr><th>基本面（财报口径，与 yfinance 行情独立）</th><th></th></tr></thead><tbody><tr><td>2026 自由现金流指引</td><td>~$157 亿</td></tr><tr><td>GenAI 订单</td><td>$125 亿（$20 亿软件 + $105 亿咨询）</td></tr><tr><td>Q4 2025 营收增长</td><td>12%（超预期）</td></tr></tbody></table>
+<h2 id="2026-10-22q326-财报对账一手-8-k2026-10-21-盘后-收入-6-cc-是34-有机-confluent-并表-q2-滑单回补三块拼的fcf-指引上调genai-book-of-business-这个-kpi-消失了">⭐ 2026-10-22：Q3&#x27;26 财报对账（一手 8-K，2026-10-21 盘后）—— 收入 +6% CC 是「3–4% 有机 + Confluent 并表 + Q2 滑单回补」三块拼的；FCF 指引上调；GenAI book of business 这个 KPI 消失了</h2>
+<blockquote>一手源：<a href="https://www.sec.gov/Archives/edgar/data/51143/000005114326000093/0000051143-26-000093-index.htm">8-K 索引（SEC）</a> → <a href="https://www.sec.gov/Archives/edgar/data/51143/000005114326000093/ibm-20261021xex991.htm">EX-99.1 新闻稿 + 全套报表</a>、<a href="https://www.sec.gov/Archives/edgar/data/51143/000005114326000093/ibm-20261021xex992.htm">EX-99.2 非 GAAP 口径定义</a>；IBM 投资者页 <a href="https://www.ibm.com/investor/events/earnings-3q26">earnings-3q26</a> 的图表 PDF 与<strong>预备发言 PDF</strong>（本机 scratchpad <code>ibm_q3/dl_17f55bddaac4eb7e.txt</code>、<code>dl_17f55bddaac4eb80.txt</code>）。对比基准：<a href="https://www.sec.gov/Archives/edgar/data/51143/000005114326000004/ibm-20260128xex991.htm">Q4&#x27;25 8-K（2026-01-28）</a>、<a href="https://www.sec.gov/Archives/edgar/data/51143/000005114326000077/ibm-20260722xex991.htm">Q2&#x27;26 8-K（2026-07-22）</a>。一致预期、Q&amp;A 原话、盘后报价的新闻口径为二手（CNBC / Investing.com / Seeking Alpha），标 <code>[KNOWN-2手]</code>。 本档 5/7 之后没录 Q2&#x27;26：Q2 实际一并从 7 月 8-K 补——收入 $172 亿 +1%、软件 +5%、交易处理 −9% CC、IBM Z −42%、Q2 FCF $25 亿（−$3 亿）、全年收入指引从「&gt;5% CC」砍到「4–5%」。</blockquote>
+<h3 id="对账指引-一致预期-vs-实际-known-high">对账：指引 / 一致预期 vs 实际 <code>[KNOWN, HIGH]</code></h3>
+<table><thead><tr><th>指标</th><th>7 月口径 / 一致预期</th><th><strong>Q3 实际</strong></th><th>偏差</th></tr></thead><tbody><tr><td>收入</td><td>全年 4–5% CC，base 4%；一致预期 ≈ $168.4 亿（SA：「超 $2.6 亿」，2手）</td><td><strong>$171.03 亿</strong>，+4.7% 报告 / <strong>+6% CC</strong></td><td>beat ~1.5%；CC 增速从 Q2 的 ~1% 跳到 6%</td></tr><tr><td>软件</td><td>一致预期 $76.6 亿（2手）</td><td><strong>$78.04 亿</strong>，+8.2% / <strong>+9% CC</strong></td><td>beat 1.8%</td></tr><tr><td>咨询</td><td>—</td><td>$53.35 亿，+0.2% / +2% CC；签约 $50 亿 <strong>−2%</strong>，TTM book-to-bill 1.04</td><td>持平</td></tr><tr><td>基础设施</td><td>—</td><td>$37.07 亿，+4.2% / +5% CC</td><td></td></tr><tr><td>运营（非 GAAP）EPS</td><td>$2.86（CNBC/Investing，2手）</td><td><strong>$2.95</strong>，+11%</td><td>+3%</td></tr><tr><td>GAAP EPS</td><td>—</td><td>$2.31，+26%</td><td>其中税率 11.9% vs 去年 28.2% 贡献大半</td></tr><tr><td>运营毛利率</td><td>59.3%（Investing，2手）</td><td><strong>58.5%</strong>，−0.2 pt</td><td><strong>miss 0.8 pt</strong></td></tr><tr><td>运营税前利润率</td><td>全年 +100 bp</td><td>19.3%，<strong>+0.7 pt</strong></td><td></td></tr><tr><td>Q3 FCF</td><td>—</td><td><strong>$30.27 亿</strong>（+$6.5 亿）</td><td>9M $77.87 亿 +8.4%</td></tr></tbody></table>
+<table><thead><tr><th>指引</th><th>1 月（Q4&#x27;25）</th><th>7 月（Q2&#x27;26）</th><th><strong>10 月（本次）</strong></th><th>变化</th></tr></thead><tbody><tr><td>全年收入 CC 增速</td><td><strong>&gt;5%</strong></td><td>4–5%（base 4%）</td><td><strong>4–5%（base 仍 4%）</strong></td><td>不变；Q3 的 6% 没换来上调</td></tr><tr><td>全年 FCF</td><td>FY25 $147 亿 + 约 $10 亿 ≈ <strong>$157 亿</strong></td><td>约 +$10 亿（不变）</td><td><strong>+「&gt;$10 亿」→ &gt;$157 亿</strong></td><td>微升，没给数</td></tr><tr><td>运营税前利润率扩张</td><td>—</td><td>「改善」</td><td><strong>+100 bp</strong></td><td>不变</td></tr><tr><td>软件全年</td><td>—</td><td>—</td><td><strong>7–8%，base 7%</strong>；Hybrid Cloud 双位数、Data mid-teens、自动化低个位、<strong>交易处理上调至持平</strong></td><td>新给</td></tr><tr><td>基础设施 / 咨询全年</td><td>—</td><td>—</td><td>低个位 / 低到中个位</td><td></td></tr><tr><td>汇率</td><td>+0.5 pt 顺风</td><td>中性</td><td>中性（Q4 −1 至 −1.5 pt，<strong>FY27 −1 pt</strong>）</td><td>走弱</td></tr><tr><td>2027 长期软件目标 / 资本结构</td><td>—</td><td>—</td><td>「1 月再说」</td><td></td></tr></tbody></table>
+<p>Q4 隐含 <code>[COMPUTED, MED]</code>：FY25 收入 $675 亿 × 1.04 = $702 亿，减 9M CC ≈ $499 亿 → Q4 ≈ $203 亿 = <strong>+3% CC</strong>（5% 上沿 → +6.5%）；Q4&#x27;25 基数是 +9% CC / 软件 +14% / 基础设施 +21% 的高位。CFO 在 Q&amp;A 说对「街上约 $320 亿」的数「comfortable」并说 Q4 软件「接近双位数」<code>[KNOWN-2手, MED]</code>——$320 亿对得上 FY26 <strong>软件</strong>收入（9M $226 亿 + Q4 ≈ $94 亿），不是全公司 <code>[INFERRED, MED]</code>。</p>
+<h3 id="分部驱动有机-vs-并购-known-computed-med-high">分部驱动：有机 vs 并购 <code>[KNOWN + COMPUTED, MED-HIGH]</code></h3>
+<table><thead><tr><th>分部 / 子项</th><th>Q3 收入</th><th>YoY CC</th><th>分部利润率</th><th>读法</th></tr></thead><tbody><tr><td><strong>软件</strong></td><td>$78.0 亿</td><td><strong>+9%</strong></td><td>35.0%（<strong>+2.1 pt</strong>）</td><td>CFO 原话：「含<strong>四个点出头的有机增长</strong>」→ 并购贡献 ≈ 4.5 pt</td></tr><tr><td>├ Hybrid Cloud（Red Hat）</td><td>$21 亿</td><td>+11%</td><td></td><td>bookings 重回 high-teens；OpenShift ARR $24 亿、增速 &gt;30%；虚拟化累计签约 ~$8 亿</td></tr><tr><td>├ 自动化（含 HashiCorp、Apptio）</td><td>$19 亿</td><td><strong>−3%</strong></td><td></td><td>「基数高」；HashiCorp 2025-02 并表已满一年，<strong>已进有机口径</strong></td></tr><tr><td>├ Data（含 Confluent）</td><td>$17 亿</td><td><strong>+20%</strong></td><td></td><td>Confluent bookings +~20%；<strong>收入协同 2027 才有</strong></td></tr><tr><td>├ 交易处理（大型机软件）</td><td>$21 亿</td><td><strong>+10%</strong></td><td></td><td>Q2 是 −9%；管理层明说「不会持续双位数、Q4 回落」</td></tr><tr><td>软件 ARR</td><td>$249 亿</td><td>+8%</td><td></td><td></td></tr><tr><td><strong>咨询</strong></td><td>$53.4 亿</td><td>+2%</td><td>12.2%（−0.6 pt）</td><td>AI 占收入 ~30%、backlog 35%；签约 −2%</td></tr><tr><td><strong>基础设施</strong></td><td>$37.1 亿</td><td>+5%</td><td>19.3%（+1.2 pt）</td><td>分布式（Power/存储）+32%、有 backlog；<strong>IBM Z −19%</strong>（z17 第六季，周期回落；Q2 −42%）</td></tr></tbody></table>
+<p><strong>「增长里有机的占多少」——本档的算术</strong> <code>[COMPUTED, MED]</code>（Confluent 季收入按 ~$3.2 亿估，闭交 2026-03-17，EV $110 亿，2手）：</p>
+<ol>
+<li><strong>软件</strong>：9% CC ≈ $6.5 亿增量。并购（几乎全是 Confluent）≈ 4.5 pt ≈ $3.2 亿 = <strong>一半</strong>。有机 4.3 pt ≈ $3.1 亿——但 CFO 又说 Q2 滑掉的大单（~$4 亿缺口）<strong>约三分之二在 Q3 收回</strong>，占软件加速的 ~25%（2手，transcript 两处口径不一致：「$2.5 亿+」vs「9% 的 25% ≈ $1.6 亿」）。扣掉回补，<strong>Q3 底层有机增速 ≈ 1.5–2.5%</strong>。</li>
+<li><strong>用 9 个月看最干净</strong>（Q2/Q3 时间差互相抵消）：软件 9M CC +7.0% ≈ $14.7 亿；Confluent 9M ≈ $6.8 亿 ≈ 3.2 pt → <strong>软件 9M 有机 ≈ 3.8%</strong>。</li>
+<li><strong>全公司</strong>：Q3 6% CC ≈ $9.8 亿，并购 ≈ $3.2 亿 = <strong>1/3</strong>；有机 ≈ 4%；扣 Q2 回补 ≈ 2.5–3%。9M：&gt;4% CC ≈ $20 亿，并购 ≈ $7 亿 = <strong>35%</strong>，<strong>有机 ≈ 2.7%</strong>。</li>
+<li>费用桥印证（图表 p.18）：SG&amp;A 剔并购剔汇率 <strong>−8%</strong>、R&amp;D 剔并购 <strong>+8%</strong>，并购各贡献 4 / 8 pt 的费用。利润率扩张 70 bp 的来源是 SG&amp;A 砍、不是收入杠杆。</li>
+<li>结论：<strong>headline 6% = 有机 3–4% + 并购 2 pt + 滑单回补 ~1 pt</strong>。IBM 的有机增速仍是它一直以来的低-中个位数；memory「AVGO/IBM 陷阱」本季<strong>没被证伪，被量化了</strong>。好的一面：有机 4% 里 Red Hat +11%（纯有机，bookings 加速）是真的，HashiCorp 加速、OpenShift &gt;30% 也是真的；坏的一面：自动化 −3%、咨询签约 −2%、Z −19%。</li>
+</ol>
+<h3 id="现金流-vs-利润-computed-high">现金流 vs 利润 <code>[COMPUTED, HIGH]</code></h3>
+<table><thead><tr><th></th><th>Q3&#x27;26</th><th>9M&#x27;26</th><th>读法</th></tr></thead><tbody><tr><td>GAAP 净利</td><td>$21.9 亿</td><td>$55.7 亿</td><td>税率 11.9% / 12.3%</td></tr><tr><td>运营净利（非 GAAP）</td><td>$28.1 亿</td><td>$74.3 亿</td><td></td></tr><tr><td>其中并购相关加回（税后）</td><td><strong>$5.4 亿 = $0.57/股</strong></td><td><strong>$16.0 亿 = $1.68/股</strong></td><td>占运营 EPS <strong>19% / 22%</strong>——「运营 EPS」把买增长的成本剔了</td></tr><tr><td>OCF</td><td>$40.3 亿</td><td>$117.9 亿（+$26 亿）</td><td>9M 里营运资本 +$8 亿（去年 −$8 亿），$16 亿是时点</td></tr><tr><td>融资应收款变动（IBM 自己从 FCF 剔除）</td><td>$5.4 亿</td><td>$28.1 亿（去年 $9 亿）</td><td>OCF +$26 亿 vs FCF 只 +$6 亿的差在这</td></tr><tr><td><strong>FCF</strong></td><td><strong>$30.3 亿</strong></td><td><strong>$77.9 亿</strong></td><td>FCF/运营净利 = 1.05×；CFO 说的「130% 兑现」是对 GAAP 净利</td></tr><tr><td>并购现金支出</td><td>$8.8 亿</td><td><strong>$113.6 亿</strong></td><td>商誉 $677 → <strong>$749 亿</strong>（+$72 亿）、无形 +$22 亿</td></tr><tr><td>分红</td><td>$16.0 亿</td><td>$47.6 亿</td><td>年化 $64 亿 ≈ FY26 FCF 的 41%</td></tr><tr><td>现金</td><td>$111 亿</td><td>年初 $145 亿（<strong>−$34 亿</strong>）</td><td></td></tr><tr><td>总债 / 核心债</td><td>$638 亿 / <strong>$512 亿</strong></td><td>年初 $613 / $462 亿（核心 <strong>+$50 亿</strong>）</td><td>9M 发债 $94 亿、还 $73 亿</td></tr></tbody></table>
+<ul>
+<li>Confluent $110 亿 = 现金 −$34 亿 + 核心债 +$50 亿 + 9M 内部产生。商誉+无形 $885 亿 = 股东权益 $355 亿的 <strong>2.5×</strong>；总资产 $1,550 亿里 48% 是商誉。</li>
+<li>盈利质量本身干净：FCF ≈ 运营净利；运营毛利率 58.5% 微降（软件毛利 82.5% −0.6 pt，Confluent 毛利更低拉的）。</li>
+<li>回购：9M 为零（只有代扣税回购 $8 亿），股本 <strong>+0.5%</strong>。IBM 是大科技里唯一只派息不回购的，分红 + 并购 + 利息把 FCF 吃完。</li>
+</ul>
+<h3 id="口径有没有偷换-inferred-med-high">口径有没有偷换 <code>[INFERRED, MED-HIGH]</code></h3>
+<ol>
+<li><strong>GenAI「book of business」KPI 消失。</strong> 1 月 8-K：「&gt;$125 亿」（Q4&#x27;25）；7 月 8-K、10 月 8-K、图表、预备发言、Q&amp;A（2手）<strong>都没有这个数</strong>，EX-99.2 还保留定义、图表首页的前瞻声明清单里还列着它。累计型 KPI 不再报，通常是增量变难看。本档 5/7 写的「$125 亿（$20 亿软件 + $105 亿咨询）」是 Q4&#x27;25 的数，<strong>不是最新</strong>。5 月 Q1&#x27;26 有没有给，(待核实)。</li>
+<li><strong>「生成式 AI」改叫「Super Intelligence」</strong>——CEO 引语和预备发言全篇用新词。换词不换数，无财务意义，但和上一条放一起看。</li>
+<li>全年收入 base case 仍 4%：Q3 6% 已含 ~1 pt 回补、~2 pt 并购，管理层没上调是诚实的——<strong>不要把 6% 当新 run-rate</strong>。</li>
+<li>「运营 EPS +11%」：运营税前 +8.6%、运营税率 14.7% vs 17.0% 贡献 ~3 pt，股本 +0.5% 反向。<strong>税前有机口径的利润增速 ≈ 高个位。</strong></li>
+<li>交易处理 +10% 被管理层自己定性为「Q2 滑单 + 大型机时点」、Q4 回落、2027 常态化——全年上调到「持平」而不是「增长」，说明 Q4 TP 大概率负增长。</li>
+<li>「FCF 增 &gt;$10 亿」比「约 $10 亿」只多了一个字，9M 已 +$6 亿、Q4 去年 $76 亿——Q4 要 ≥$80 亿才兑现，Q4&#x27;25 +$14 亿是高基数。</li>
+</ol>
+<h3 id="股价归因-computed-known-2手-med">股价归因 <code>[COMPUTED + KNOWN-2手, MED]</code></h3>
+<ul>
+<li>价格路径（Yahoo 5 分钟线）：10/20 收 $241.92 → 10/21 <strong>常规收 $251.46（+3.9%，财报前抢跑）</strong> → 16:20 盘后冲 <strong>$269.1（+7.0%）</strong> → 17:00 电话会开始后一路下滑 → 18:10 <strong>$238.31（−5.2%）</strong> → 18:43 最后一笔 <strong>$243.2（−3.3%；对 10/20 收盘仅 +0.5%）</strong>。二手：Investing.com −5.1% $238.60 / −3.7% $242.25，CNBC「slipped」，GuruFocus 早段 +4.5%——<strong>三家不矛盾，是同一条曲线的不同时点</strong>。</li>
+<li>归因：新闻稿层面全 beat（收入/EPS/软件/FCF 指引上调）→ +7%；电话会把 beat 拆成「滑单回补 + Confluent + TP 不可持续 + Q4 隐含 3% + 收入指引不上调 + 毛利率 miss」→ 回吐。<strong>卖的是增长质量，不是增长本身</strong>——和本仓库「有机增长筛子」同一把尺。</li>
+<li>市值：收盘 $251.46 × 9.535 亿股 = <strong>$240B</strong>；盘后 $243 ≈ $232B。52 周 $199.19–$332.46：5/7 本档记 $225.74 之后又跌到 $199（7 月 Q2 miss），现在比 5/7 高 11%。</li>
+<li>估值锚刷新 <code>[COMPUTED]</code>：FY26 FCF &gt;$157 亿 / $240B = <strong>FCF yield 6.5%、15.3×</strong>；分红 $6.76 → <strong>2.7%</strong>。</li>
+</ul>
+<h3 id="论点变化">论点变化</h3>
+<ol>
+<li><strong>「买来的增长」从定性变成可算：headline 6% CC 里有机 3–4%、并购 2 pt、回补 1 pt；9M 全公司有机 ≈ 2.7%，软件有机 ≈ 3.8%。</strong> 这正是「有机增长筛子」要的答案——IBM 没有通过。但筛子的另一半「有机里 durable vs 周期」：Red Hat +11%（bookings high-teens）、OpenShift &gt;30%、HashiCorp 加速是 durable 的有机；Z 周期和 TP 是周期的。<strong>IBM 有一块真有机的核（Red Hat 系，约软件 1/4），外面包着并购和大型机周期。</strong> <code>[INFERRED, MED-HIGH]</code></li>
+<li>本档 5/7 的「看跌情景 PE 17–25× 的下沿」论点：当时 fwd PE 16.8；现在 FCF 15.3× / 6.5% yield——<strong>仍在「便宜」区，但便宜的理由是市场给的有机增速 ≈ 3%，和本次算出来的一致</strong>。不是错杀，是公允。<code>[INFERRED, MED]</code></li>
+<li>量子线更新：预备发言称 <strong>7 月有三项独立「量子优势」演示</strong>（芝加哥大学 / Algorithmiq / Qedma）在 IBM 硬件上完成——本档 5/7 写的「2026 末首次量子优势演示」这一里程碑，管理层口径已提前宣告；Nighthawk r2 7,500 门、DARPA QBI 进 Stage C、商务部 $10 亿 CHIPS 奖励（量子晶圆）、16 个企业客户、<strong>12/10 Quantum Day</strong>。财务上仍是零。<code>[KNOWN, MED——「优势」的定义权在 IBM 自己]</code></li>
+<li>退出条件「watsonx 季度收入连续两季低于指引」——IBM 从不单独披露 watsonx 收入，这条<strong>不可观测</strong>，改为：<strong>GenAI book of business 连续两季不披露 → 视作 KPI 退役，AI 论点降档</strong>（本季已是第二季不披露，待核 Q1&#x27;26）。</li>
+<li>对组合：IBM 不在持仓，与 SOXX 因子相关性低（beta 0.58），分红股属性。它的 AI 故事是咨询签约 + Red Hat 容器化，<strong>不吃 GPU capex 这口饭</strong>，和 capex 周期顶信号无关。</li>
+</ol>
+<h3 id="可选动作非持仓观察不给目标价">可选动作（非持仓，观察；不给目标价）</h3>
+<ul>
+<li><strong>不动。</strong> 便宜（6.5% FCF yield）但不是错杀，没有「稀缺四要素」里任何一条；memory「宁愿错过」适用。</li>
+<li>观察点改为三条：① <strong>1 月 Q4 财报给的 2027 软件长期目标 + 资本结构</strong>（Q&amp;A 里 CFO 明说放到 1 月）——若长期软件目标仍靠「并购协同」兑现，论点不变；② 2027-03 Confluent 满一年后<strong>第一个纯有机季（Q2&#x27;27）</strong>软件增速；③ Q4 是否恢复披露 book of business。</li>
+<li>卖 put：IBM 不在 <code>portfolios/2026-07-23-put-selling-plan.md</code> 候选表，本次不加。理由：6.5% FCF yield 配 2.7% 有机增长，期权金不会比 T-bill 多多少，且财报后 IV 回落。<code>[INFERRED, MED]</code></li>
+<li>待 10-Q（通常 10/28 前后）跑 <code>scripts/fetch_primary.py IBM</code> 核：Confluent 并表收入（若披露）、商誉按分部的分配、融资应收款出售规模。</li>
+</ul>
+<h3 id="三档12-个月guess-概率-computed-算术股本-95-亿">三档（12 个月，<code>[GUESS]</code> 概率 + <code>[COMPUTED]</code> 算术；股本 9.5 亿）</h3>
+<table><thead><tr><th>档</th><th>概率</th><th>情景</th><th>粗算</th></tr></thead><tbody><tr><td>悲观</td><td>30%</td><td>Q4 TP 转负、Z 继续 −20%，Confluent 2027-03 出并购口径后软件报告增速回落到 3–4%，FY27 FCF 指引 ≤ +$5 亿；市场按 13× FCF</td><td>$160 亿 × 13 / 9.5 亿 = <strong>$219，−13%</strong></td></tr><tr><td>基准</td><td>45%</td><td>FY26 落 4–4.5% CC、FCF $158–160 亿；FY27 指引 4–5%（有机 ~3% + 协同）；倍数不动 15×</td><td>$165 亿 × 15 / 9.5 亿 = <strong>$260，+3%</strong>，加分红 2.7% ≈ <strong>+6%</strong></td></tr><tr><td>乐观</td><td>25%</td><td>Red Hat bookings high-teens 转化、Lightwell $7 亿管线落地、Confluent 协同让软件有机到 6%+，FY27 FCF $170 亿+；倍数回 17×</td><td>$170 亿 × 17 / 9.5 亿 = <strong>$304，+21%</strong></td></tr></tbody></table>
+<p>期望值 ≈ 0.3×(−13%) + 0.45×(+6%) + 0.25×(+21%) ≈ <strong>+4%</strong>——和 T-bill 差不多，与「公允不便宜」一致。<code>[COMPUTED, MED]</code></p>
+<h3 id="待核实">待核实</h3>
+<ul>
+<li>一致预期（收入 $168.4 亿 / 软件 $76.6 亿 / EPS $2.86 / 毛利率 59.3%）全是 2手，未独立核。</li>
+<li>Q&amp;A 内容全部来自 Investing.com AI 生成的 transcript（自称编辑审过），「$320 亿」「25% vs $2.5 亿+」两处口径不一致，<strong>待 IBM 官网 replay 或 10-Q 核</strong>。</li>
+<li>Confluent 季收入 ~$3.2 亿是本档估算（Confluent 被收购前年收入 ~$11–12 亿，2手），有机/并购拆分的误差 ±1 pt。</li>
+<li>Q1&#x27;26（4 月）是否披露过 book of business；Q4&#x27;25 软件分部收入绝对值（算 Q4 隐含软件增速用）。</li>
+<li>「三项量子优势演示」的第三方评价——IBM 自己定义「优势」。</li>
+</ul>
+<h2 id="关键数据基准日-2026-05-07yfinance-实时股价市值-2026-10-21-刷新">关键数据（基准日 2026-05-07，yfinance 实时；股价/市值 2026-10-21 刷新）</h2>
+<table><thead><tr><th>指标</th><th>数据</th></tr></thead><tbody><tr><td>股价</td><td><strong>$251.46</strong>（2026-10-21 收；盘后 $243.2；5/7 记 $225.74）</td></tr><tr><td>市值</td><td><strong>$240B</strong>（收盘 × 摊薄股 9.535 亿；5/7 记 $212.2B）</td></tr><tr><td>TTM PE</td><td>19.96</td></tr><tr><td>Forward PE</td><td>16.78</td></tr><tr><td>Forward P/S</td><td>3.08</td></tr><tr><td>52 周区间</td><td>$220.72 → $324.90</td></tr><tr><td>50 日均线</td><td>$242.67</td></tr><tr><td>200 日均线</td><td>$271.95</td></tr><tr><td>股息率</td><td><strong>2.99%</strong></td></tr><tr><td>Beta</td><td><strong>0.581</strong>（防御性）</td></tr></tbody></table>
+<table><thead><tr><th>基本面（财报口径，与 yfinance 行情独立）</th><th></th></tr></thead><tbody><tr><td>2026 自由现金流指引</td><td>~$157 亿（1 月）→ <strong>&gt;$157 亿</strong>（10 月，「增 &gt;$10 亿」，FY25 $147 亿）</td></tr><tr><td>GenAI 订单</td><td>$125 亿（$20 亿软件 + $105 亿咨询）——<strong>Q4&#x27;25 的数；7 月、10 月都未再披露</strong></td></tr><tr><td>Q4 2025 营收增长</td><td>12%（超预期）</td></tr><tr><td><strong>Q3 2026</strong></td><td>收入 $171 亿 +6% CC；软件 +9% CC（有机 4 pt 出头）；Q3 FCF $30 亿、9M $78 亿；见上方 ⭐ 节</td></tr></tbody></table>
 <blockquote><strong>⚠️ 笔记勘误 + thesis 复核</strong>：v1 笔记写&quot;$280 / $250–260B&quot;——今日 <strong>$225.74 / $212B</strong>，自笔记编制后 <strong>回调 ~19%</strong>，几乎贴 52 周低点 $220.72。  50 日均线 ($242.67) &lt; 200 日均线 ($271.95) → <strong>死叉</strong> 已发生；股价跌破 200 日均线约 17%。技术面显著走弱。  但<strong>基本面（FCF 指引、GenAI 订单）和 thesis 仍成立</strong>——这正是笔记里&quot;看跌情境：温和增长，PE 压在 25x → 大概率不亏&quot;的入场窗口。当前 Forward PE 16.78 已明显<strong>低于</strong> 25x，进入&quot;看跌情境的安全边际&quot;区间。可视为加仓机会，但要等量子优势 Q4 演示等扳机。</blockquote>
 <h2 id="护城河类型">护城河类型</h2>
 <p><strong>整合 + 客户关系 + 量子先发</strong>：</p>
@@ -88,7 +153,7 @@
 </ul>
 <h2 id="退出条件">退出条件</h2>
 <ul>
-<li><strong>触发减仓</strong>：watsonx 季度收入连续两季低于指引</li>
+<li><strong>触发减仓</strong>：~~watsonx 季度收入连续两季低于指引~~（不可观测，IBM 不单独披露 watsonx）→ 2026-10-22 改为：<strong>GenAI book of business 连续两季不披露，或软件有机增速（剔并购）连续两季 &lt;3%</strong></li>
 <li><strong>触发卖出</strong>：量子优势演示失败 / 路线图重大滑期</li>
 <li><strong>持有</strong>：作为科技板块&quot;低 beta + 分红&quot;配置，组合稳定器</li>
 </ul>
@@ -96,19 +161,24 @@
 <ul>
 <li>IBM Quantum 路线图季度更新</li>
 <li>watsonx 季度订单 / ARR</li>
-<li>$157 亿 FCF 的实际兑现度</li>
-<li>Think 2026 / Think 2027 大会发布</li>
+<li>$157 亿 FCF 的实际兑现度（10 月口径 &gt;$157 亿；Q4 需 ≥$80 亿）</li>
+<li><strong>软件有机增速（CFO 每季给「organic」点数）vs 报告增速</strong>——Confluent 2027-03 出并购口径</li>
+<li>Think 2026 / Think 2027 大会发布；<strong>2026-12-10 Quantum Day</strong>；1 月 Q4 财报的 2027 软件长期目标</li>
 </ul>
 <h2 id="参考">参考</h2>
 <ul>
 <li>主题笔记：<a href="../notes/2026-05-ai-robotics-quantum-supply-chain-v1.html#6.6">2026-05 AI/机器人/量子产业链</a></li>
 <li>IBM 量子路线图：https://ibm.com/roadmaps/quantum</li>
+<li>Q3&#x27;26 8-K（2026-10-21）：https://www.sec.gov/Archives/edgar/data/51143/000005114326000093/0000051143-26-000093-index.htm</li>
+<li>Q2&#x27;26 8-K（2026-07-22）：https://www.sec.gov/Archives/edgar/data/51143/000005114326000077/ibm-20260722xex991.htm</li>
+<li>Q4&#x27;25 8-K（2026-01-28）：https://www.sec.gov/Archives/edgar/data/51143/000005114326000004/ibm-20260128xex991.htm</li>
+<li>IBM 投资者关系 Q3&#x27;26 材料（图表 / 预备发言）：https://www.ibm.com/investor/events/earnings-3q26</li>
 </ul>
       </article>
       <aside class="doc-sidebar">
         <section class="sidebar-card">
           <h3 class="sidebar-title">文档导航</h3>
-          <ul class="toc-list"><li><a href="#一句话定位">一句话定位</a></li><li><a href="#关键数据基准日-2026-05-07yfinance-实时">关键数据（基准日 2026-05-07，yfinance 实时）</a></li><li><a href="#护城河类型">护城河类型</a></li><li><a href="#短期增量35-年">短期增量（3–5 年）</a></li><li><a href="#长期增量1020-年">长期增量（10–20 年）</a></li><li><a href="#风险">风险</a></li><li><a href="#估值锚">估值锚</a></li><li><a href="#退出条件">退出条件</a></li><li><a href="#跟踪信号">跟踪信号</a></li><li><a href="#参考">参考</a></li></ul>
+          <ul class="toc-list"><li><a href="#一句话定位">一句话定位</a></li><li><a href="#2026-10-22q326-财报对账一手-8-k2026-10-21-盘后-收入-6-cc-是34-有机-confluent-并表-q2-滑单回补三块拼的fcf-指引上调genai-book-of-business-这个-kpi-消失了">⭐ 2026-10-22：Q3&#x27;26 财报对账（一手 8-K，2026-10-21 盘后）—— 收入 +6% CC 是「3–4% 有机 + Confluent 并表 + Q2 滑单回补」三块拼的；FCF 指引上调；GenAI book of business 这个 KPI 消失了</a></li><li style="padding-left:14px"><a href="#对账指引-一致预期-vs-实际-known-high">对账：指引 / 一致预期 vs 实际 `[KNOWN, HIGH]`</a></li><li style="padding-left:14px"><a href="#分部驱动有机-vs-并购-known-computed-med-high">分部驱动：有机 vs 并购 `[KNOWN + COMPUTED, MED-HIGH]`</a></li><li style="padding-left:14px"><a href="#现金流-vs-利润-computed-high">现金流 vs 利润 `[COMPUTED, HIGH]`</a></li><li style="padding-left:14px"><a href="#口径有没有偷换-inferred-med-high">口径有没有偷换 `[INFERRED, MED-HIGH]`</a></li><li style="padding-left:14px"><a href="#股价归因-computed-known-2手-med">股价归因 `[COMPUTED + KNOWN-2手, MED]`</a></li><li style="padding-left:14px"><a href="#论点变化">论点变化</a></li><li style="padding-left:14px"><a href="#可选动作非持仓观察不给目标价">可选动作（非持仓，观察；不给目标价）</a></li><li style="padding-left:14px"><a href="#三档12-个月guess-概率-computed-算术股本-95-亿">三档（12 个月，`[GUESS]` 概率 + `[COMPUTED]` 算术；股本 9.5 亿）</a></li><li style="padding-left:14px"><a href="#待核实">待核实</a></li><li><a href="#关键数据基准日-2026-05-07yfinance-实时股价市值-2026-10-21-刷新">关键数据（基准日 2026-05-07，yfinance 实时；股价/市值 2026-10-21 刷新）</a></li><li><a href="#护城河类型">护城河类型</a></li><li><a href="#短期增量35-年">短期增量（3–5 年）</a></li></ul>
         </section>
         <section class="sidebar-card">
           <h3 class="sidebar-title">阅读提示</h3>
