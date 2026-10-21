@@ -185,7 +185,7 @@ def upsert(row: dict) -> None:
             merged[k] = v
     rows[row["date"]] = merged
     with DAILY.open("w", newline="", encoding="utf-8") as f:
-        w = csv.DictWriter(f, fieldnames=cols)
+        w = csv.DictWriter(f, fieldnames=cols, lineterminator="\n")
         w.writeheader()
         for d in sorted(rows):
             w.writerow({c: rows[d].get(c, "") for c in cols})
