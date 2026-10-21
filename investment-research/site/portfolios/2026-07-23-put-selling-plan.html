@@ -28,8 +28,8 @@
           <p>组合、仓位和执行层面的判断。</p>
           <div class="meta-row">
             <span class="pill">portfolios/2026-07-23-put-selling-plan.md</span>
-            <span class="pill">897 words</span>
-            <span class="pill">14 sections</span>
+            <span class="pill">1331 words</span>
+            <span class="pill">17 sections</span>
           </div>
         </div>
         <div class="doc-stat-stack">
@@ -47,7 +47,7 @@
     <div class="doc-layout">
       <article class="doc doc-main">
 <hr />
-<p>date: 2026-07-23 type: 执行计划 + 短put义务台账 status: plan（未执行任何一笔） purpose: 卖 put 计划——候选/禁区/参数/记账;方法论见 notes/2026-07-23-ibkr-options-playbook.md prerequisite: 内存腿批 2/3 减仓先行(见 2026-06-24-actual-holdings-snapshot.md);卖 put 用的是减仓所得现金,不是新增风险预算</p>
+<p>date: 2026-07-23 type: 执行计划 + 短put义务台账 status: 执行中（SPCX 两笔，均计划外；2026-10-16 起「开仓前五问」生效） purpose: 卖 put 计划——候选/禁区/参数/记账;方法论见 notes/2026-07-23-ibkr-options-playbook.md prerequisite: 内存腿批 2/3 减仓先行(见 2026-06-24-actual-holdings-snapshot.md);卖 put 用的是减仓所得现金,不是新增风险预算</p>
 <hr />
 <h1 id="卖-put-计划2026-07-23-起">卖 put 计划（2026-07-23 起）</h1>
 <h2 id="执行顺序锁死">执行顺序（锁死）</h2>
@@ -80,7 +80,7 @@
 <li>别偷懒用 <strong>IBKR 自动现金利息</strong>（基准减 spread、低档不计息）冒充 T-bill——那是躺着不动的低收益默认，捕获不到完整短端收益率。</li>
 </ul>
 <h2 id="候选表按优先级">候选表（按优先级）</h2>
-<table><thead><tr><th>优先级</th><th>标的</th><th>现价(7/23)</th><th>行权价区</th><th>期限</th><th>单张义务</th><th>依据 / 前置条件</th></tr></thead><tbody><tr><td>1</td><td><strong>BRK.B</strong></td><td>$489</td><td><strong>$450-465</strong>(-5~8%)</td><td>30-60d</td><td>~$4.6万</td><td>6/24 计划&quot;加 BRK 锚&quot;;corr SOXX≈-0.03 真正交;被行权=完成计划。<strong>无前置条件,首笔从这开始</strong></td></tr><tr><td>2</td><td>正交锚 NOW/NFLX</td><td>⚠️ 待核</td><td>待定</td><td>30-60d</td><td>待定</td><td>GOOGL.md 结论&quot;加仓先轮正交锚&quot;。<strong>前置:7/23 抓到 NOW $95/NFLX $69,疑拆股或坏数据,先在 IBKR 核实价再定行权价</strong></td></tr><tr><td>3</td><td>GOOG（有条件）</td><td>$342</td><td>$310-315(段Q1成本带)</td><td>30-60d</td><td>~$3.1万</td><td><strong>前置:已持 15.9%,行权会推超权重;必须先在本文件写明&quot;有意识推翻「加仓先轮正交锚」的理由&quot;才可卖</strong>——不能以&quot;段永平还会加&quot;为理由</td></tr></tbody></table>
+<table><thead><tr><th>优先级</th><th>标的</th><th>现价(7/23)</th><th>行权价区</th><th>期限</th><th>单张义务</th><th>依据 / 前置条件</th></tr></thead><tbody><tr><td>1</td><td><strong>BRK.B</strong></td><td>$489</td><td><strong>$450-465</strong>(-5~8%)</td><td>30-60d</td><td>~$4.6万</td><td>6/24 计划&quot;加 BRK 锚&quot;;corr SOXX≈-0.03 真正交;被行权=完成计划。<strong>无前置条件,首笔从这开始</strong></td></tr><tr><td>2</td><td>正交锚 NOW/NFLX</td><td>⚠️ 待核</td><td>待定</td><td>30-60d</td><td>待定</td><td>GOOGL.md 结论&quot;加仓先轮正交锚&quot;。<strong>前置:7/23 抓到 NOW $95/NFLX $69,疑拆股或坏数据,先在 IBKR 核实价再定行权价</strong></td></tr><tr><td>3</td><td>GOOG（有条件）</td><td>$342</td><td>$310-315(段Q1成本带)</td><td>30-60d</td><td>~$3.1万</td><td><strong>前置:已持 15.9%,行权会推超权重;必须先在本文件写明&quot;有意识推翻「加仓先轮正交锚」的理由&quot;才可卖</strong>——不能以&quot;段永平还会加&quot;为理由</td></tr><tr><td>4</td><td><strong>SPCX（有条件，2026-10-16 加入）</strong></td><td>$148.62(10/15)</td><td><strong>≤ $130</strong>（现价 −12.5%；10/15 报价 2027-06 $130 put bid $13.70，30–60d 的要另查）</td><td><strong>30-60d</strong></td><td>~$1.3万</td><td>用户意向：「希望 130 左右加仓」。<strong>前置四条，缺一不卖</strong>：① 不在 $155 平仓当日；② 行权价 ≤ $130 且在红盘/恐慌日；③ 张数从 SPCX 加仓额度倒推——额度要先在 <code>portfolios/</code> 持仓快照里定（现股数量未录）；④ <code>tickers/SPCX.md</code> 方向判断是「不该加」，$130 对应五年 30% 复合增长才保本——<strong>必须先在 SPCX.md 写明「有意识推翻『不该加』的理由」</strong>（和 GOOG 同规则），不能以「跌了 12% 所以便宜」为理由（锚定 tape）</td></tr></tbody></table>
 <h2 id="禁区引-playbook此处只列名单">禁区（引 playbook，此处只列名单）</h2>
 <p><strong>MU / SKHY / NVDA / TSM 一张不卖</strong>——与批 2/3 方向打架 + 行权日=组合最痛日（betaSOXX 0.89）。半导体 IV 再肥不碰。</p>
 <h2 id="参数纪律">参数纪律</h2>
@@ -88,13 +88,36 @@
 <li>行权价 = 「今天现金买也乐意」的价;想 roll = 行权价定错,下次改行权价不改规则。</li>
 <li>总行权义务 ≤ 该标的既定加仓额度;张数从加仓额度倒推,不从&quot;现金够几张&quot;倒推。</li>
 <li>100% 现金担保（T-bill）;不用 margin 能力冒充现金。</li>
+</ul>
+<h2 id="开仓前五问2026-10-16-起锁死一问答否就不开">开仓前五问（2026-10-16 起，锁死；一问答「否」就不开）</h2>
+<blockquote>来源：2026-10-16 复盘 SPCX $155/2027-06 价内 put（见下方台账）。用户原话：「我想错了，立马改正。」此后每一笔卖 put 必须按这五问逐条写进台账「开仓前核对」列，缺一条不算完成记账。 一句话版：<strong>卖 put 是「带利息的限价单」，前提是你本来就在那个价挂了单。</strong> 先想收权利金再找理由 = 禁。</blockquote>
+<table><thead><tr><th>#</th><th>问</th><th>过线标准</th><th>2026-10-16 那笔</th></tr></thead><tbody><tr><td>1</td><td><strong>行权价在现价下方吗？</strong></td><td>行权价 &lt; 现价，且是「跌到这儿今天现金买也乐意」的价。价内 put ≡ 现价买股 + 卖 call，是加仓不是挂单</td><td>❌ $155 &gt; 现价 $148.62</td></tr><tr><td>2</td><td><strong>担保是真钱吗？</strong></td><td>行权价 × 100 × 张数 ≤ 现金 + T-bill 面值；不用保证金能力冒充</td><td>✅</td></tr><tr><td>3</td><td><strong>张数 = 本来就想买的股数吗？</strong></td><td>从该标的既定加仓额度倒推张数，不从「现金够几张」或「权利金好看」倒推。这是段永平的「限量」</td><td>⚠️ 未对照加仓额度</td></tr><tr><td>4</td><td><strong>没买到也无所谓吗？</strong></td><td>股价中途跌穿行权价又弹回、你只拿权利金没拿到股票——能接受才卖；接受不了就挂限价单</td><td>❌ 对 SPCX 不是无所谓</td></tr><tr><td>5</td><td><strong>到期前不管吗？</strong></td><td>跌穿多少都按行权价接，不止损、不 roll；想 roll = 行权价定错，下次改行权价不改规则</td><td>✅（剧本已定）</td></tr></tbody></table>
+<p><strong>附加两条（不是问，是默认）</strong></p>
+<ul>
+<li>期限 30–60 天滚着卖；超过 90 天要在台账写明理由。长期限多收的权利金，是用「被套在行权价上方空等更久」换的。</li>
+<li>卖出时机偏红盘/恐慌日（IV 肥、行权价能更低）；平静日不勉强。</li>
+</ul>
+<p><strong>与限价单的分工</strong>：put 只在<strong>到期日</strong>按行权价交割，中途碰到不算。要抓中途的坑用限价单；要「等得有利息」用 put。两者不是替代关系，按意图选。</p>
+<p><strong>第六条（2026-10-16 当日追加，用户确认）：事后核出不过五问的单子，下一个交易日内平掉。记「学费」，不算止损；平仓当日不开任何新单（含「段式」的低行权价 put）。</strong> 理由：「不止损、不 roll」防的是「行权价本来就是想买的价、跌了害怕砍掉」；一张开仓时就不该存在的单子，平掉是纠错不是止损，两者不能混。纠错后立刻再卖一张 = 把「想收权利金」换个壳，所以当日禁开。</p>
+<p><strong>对照 2026-10-16 那笔</strong>：五问中第 1、4 问答「否」，第 3 问未做——按本节规则不应开仓。~~已开的按剧本走到底（到期作废或 $133.10 接货），不平、不 roll~~ → <strong>按第六条，2026-10-16 平仓</strong>（原「不平」是把止损规则误用到纠错上，如实保留划掉的原文）。</p>
+<ul>
 <li>两个剧本:到期作废→继续卖 / 被行权→接货,该标的计划完成即停。不止损、不防御 roll。</li>
 <li>首笔 1 张（BRK.B），跑通被指派/资金占用全流程后再上量。</li>
 <li>时机偏好:红盘日/恐慌日卖(IV 肥+行权价可更低);平静日不勉强。</li>
 </ul>
 <h2 id="短-put-义务台账每笔当天记13f-式盲区不记低估真实敞口">短 put 义务台账（每笔当天记，13F 式盲区：不记=低估真实敞口）</h2>
-<table><thead><tr><th>开仓日</th><th>标的</th><th>行权价</th><th>到期</th><th>张数</th><th>名义义务</th><th>收到 premium</th><th>结局(作废/行权@日期)</th></tr></thead><tbody><tr><td>2026-07（补记）</td><td><strong>SPCX</strong></td><td>$115</td><td><strong>2026-12-18</strong></td><td>1</td><td><strong>$11,500</strong></td><td><strong>$2,300</strong>（$23.00）</td><td>未了结</td></tr></tbody></table>
-<p><strong>合计未了结名义义务：$11,500</strong></p>
+<table><thead><tr><th>开仓日</th><th>标的</th><th>行权价</th><th>到期</th><th>张数</th><th>名义义务</th><th>收到 premium</th><th>结局(作废/行权@日期)</th><th>开仓前五问（2026-10-16 起必填）</th></tr></thead><tbody><tr><td>2026-07（补记）</td><td><strong>SPCX</strong></td><td>$115</td><td><strong>2026-12-18</strong></td><td>1</td><td><strong>$11,500</strong></td><td><strong>$2,300</strong>（$23.00）</td><td><strong>已平仓 2026-10-15/16</strong>，买回价约 $2.1（10/15 市价 $2.04–2.21），实现约 <strong>+$2,090 ≈ 91%</strong>（用户口径「几乎 100%」；精确成交价待用户补）</td><td>（规则前开仓，不补核）</td></tr><tr><td><strong>2026-10-15/16</strong></td><td><strong>SPCX</strong></td><td><strong>$155</strong></td><td><strong>2027-06-17</strong></td><td>1</td><td><strong>$15,500</strong></td><td><strong>$2,190</strong>（$21.90，用户 10/16 确认）</td><td><strong>2026-10-16 按第六条平仓</strong>（买回价待用户补；10/15 收盘 ask $26.75，预计学费约 −$485 至 −$550）</td><td>1❌ 2✅ 3⚠️ 4❌ 5✅（事后补核，不达标 → 平）</td></tr></tbody></table>
+<p><strong>合计未了结名义义务：$0</strong>（$155 平仓后；成交确认前按 $15,500 计）</p>
+<h3 id="2026-10-16-第二笔-spcx155-put-2027-06-17仍是计划外且性质变了">⚠️ 2026-10-16 第二笔 SPCX（$155 put / 2027-06-17）：仍是计划外，且性质变了</h3>
+<table><thead><tr><th>#</th><th>本文件规定</th><th>实际</th></tr></thead><tbody><tr><td>1</td><td>候选表 = BRK.B / NOW-NFLX / GOOG；07-30 文件「冻结计划外卖 put」</td><td><strong>SPCX 第二次</strong>，候选表仍未开过一笔</td></tr><tr><td>2</td><td>期限 30–60d</td><td><strong>244 天</strong>（跨 3–4 次财报 + 12/08 末次解禁）</td></tr><tr><td>3</td><td>cash-secured put = 「愿接货价挂限价单收钱」</td><td>开仓时 <strong>价内</strong>（现价 $148.62 &lt; 行权 $155），<strong>不是</strong>等跌到想买的价，是<strong>现在就多</strong></td></tr><tr><td>4</td><td>100% 现金担保</td><td>用户称组合预留 25% 现金，担保在其内；T-bill 阶梯是否已建仍未确认</td></tr></tbody></table>
+<p><strong>第 3 条是新问题，前一笔没有。</strong> 价内短 put 按平价关系 ≡ 现价买 100 股 + 卖 $155 call（call ≈ $24）。等于<strong>今天加仓 SPCX 约 $14,862 名义、上行封顶在 $155</strong>。同日研究结论是「不加、不减」。这笔和结论相反，如实记。</p>
+<h4 id="参数1015-收盘-14862iv-475t244dr4权利金-2190computed">参数（10/15 收盘 $148.62，IV 47.5%，T=244d，r=4%，权利金 $21.90）<code>[COMPUTED]</code></h4>
+<blockquote>2026-10-16 更正：初记按市价 $26.50 估，用户确认成交 $21.90，下表已按实际值重算。原估值：平衡 $128.50 / 最大盈利 $2,650 / P(亏损) 40% / EV −$17。</blockquote>
+<table><thead><tr><th></th><th>值</th></tr></thead><tbody><tr><td>盈亏平衡</td><td><strong>$133.10</strong>（现价 −10.4%）</td></tr><tr><td>最大盈利</td><td>$2,190（需到期 ≥$155，+4.3%）</td></tr><tr><td>占用担保</td><td>$15,500 → 最大收益率 14.1%，年化 21.1%（这是 max 不是 E）</td></tr><tr><td>P(到期 &lt;$155，被接货)</td><td><strong>约 59%</strong></td></tr><tr><td>P(到期 &lt;$133.1，亏损)</td><td><strong>约 44%</strong></td></tr><tr><td>期望值（μ=0，对数正态）</td><td><strong>≈ −$477</strong>；同期 T-bill ≈ +$414 → 比无风险低约 $890</td></tr><tr><td>最大亏损</td><td>$13,310（归零）</td></tr></tbody></table>
+<p><strong>和 7 月那笔对照</strong>：7 月 IV 87%、行权价在现价下 29%，EV −$105。这笔 IV 降到 47.5%（权利金瘦了一半），行权价反而挪到现价之上，EV 仍为负——卖方收益率看起来高，是因为把 59% 的接货概率当成了「收租」。</p>
+<p><strong>两个剧本（本文件原则不变）</strong>：到期 ≥$155 → 收 $2,190 作废；&lt;$155 → 接 100 股，成本 $133.10，SPCX 计划完成即停。<strong>不止损、不防御 roll</strong>。接货后 SPCX 单票权重按「现股 + 100 股」合并算，对照 07-30 文件上限。</p>
+<p><strong>用户陈述的意图（10/16）</strong>：「我是想 $128.5 买进」——该数字是初记的估算，实际成本是 <strong>$133.10</strong>。</p>
+<p><strong>唯一能让它合理的论点</strong>：$133.1 的接货成本接近「只给 Starlink + 发射」的估值（Morningstar DCF $780B ≈ $59/股是底，$133.1 仍在其上 2 倍多）。所以这不是「按 Starlink 估值接货」，是「按打七折的现价接货」。写清楚，别将来美化。</p>
 <h3 id="spcx-这笔计划外四条参数不符如实记录不修饰">⚠️ SPCX 这笔：计划外，四条参数不符（如实记录，不修饰）</h3>
 <table><thead><tr><th>#</th><th>本文件规定</th><th>实际</th></tr></thead><tbody><tr><td>1</td><td>候选表 = BRK.B / NOW-NFLX / GOOG</td><td><strong>SPCX 不在候选表</strong></td></tr><tr><td>2</td><td>执行顺序：减仓 → T-bill 阶梯 → 卖 put，<strong>不可倒置</strong></td><td><strong>T-bill 阶梯未建立即先卖 put</strong></td></tr><tr><td>3</td><td>期限 <strong>30–60d</strong></td><td><strong>143 天</strong></td></tr><tr><td>4</td><td>首笔 <strong>1 张 BRK.B</strong>，跑通流程再上量</td><td>首笔为 SPCX</td></tr></tbody></table>
 <p><strong>触发本文件「检验点」第 2 条</strong>：<em>「若禁区名单外的候选出现在台账里但不在候选表里 → 说明纪律被绕过，停。」</em> → <strong>下一笔回到候选表优先级 1（BRK.B），不得再开计划外标的。</strong></p>
@@ -142,7 +165,7 @@
       <aside class="doc-sidebar">
         <section class="sidebar-card">
           <h3 class="sidebar-title">文档导航</h3>
-          <ul class="toc-list"><li><a href="#执行顺序锁死">执行顺序（锁死）</a></li><li><a href="#现金腿t-bill-阶梯-收息现金垫-卖-put-担保一物两用">现金腿（T-bill 阶梯 = 收息现金垫 + 卖 put 担保，一物两用）</a></li><li style="padding-left:14px"><a href="#买入操作清单照做金额按自己担保金替换下用-40000-示例">买入操作清单（照做，金额按自己担保金替换，下用 $40,000 示例）</a></li><li><a href="#候选表按优先级">候选表（按优先级）</a></li><li><a href="#禁区引-playbook此处只列名单">禁区（引 playbook，此处只列名单）</a></li><li><a href="#参数纪律">参数纪律</a></li><li><a href="#短-put-义务台账每笔当天记13f-式盲区不记低估真实敞口">短 put 义务台账（每笔当天记，13F 式盲区：不记=低估真实敞口）</a></li><li style="padding-left:14px"><a href="#spcx-这笔计划外四条参数不符如实记录不修饰">⚠️ SPCX 这笔：计划外，四条参数不符（如实记录，不修饰）</a></li><li style="padding-left:14px"><a href="#spcx-头寸参数115-put-12-18-到期">SPCX 头寸参数（$115 put / 12-18 到期）</a></li><li style="padding-left:14px"><a href="#完整解禁级联此前只知-86-一个点实际是一条曲线">⭐ 完整解禁级联（此前只知 8/6 一个点，实际是一条曲线）</a></li><li style="padding-left:14px"><a href="#iv-崩塌的出场窗口比原先设想窄得多">IV 崩塌的出场窗口（比原先设想窄得多）</a></li><li style="padding-left:14px"><a href="#提前行权门槛表美式期权任何交易日可被指派">提前行权门槛表（美式期权，任何交易日可被指派）</a></li><li style="padding-left:14px"><a href="#804-检验点6-天后可一次性定胜负">⭐ 8/04 检验点（6 天后，可一次性定胜负）</a></li><li><a href="#检验点">检验点</a></li></ul>
+          <ul class="toc-list"><li><a href="#执行顺序锁死">执行顺序（锁死）</a></li><li><a href="#现金腿t-bill-阶梯-收息现金垫-卖-put-担保一物两用">现金腿（T-bill 阶梯 = 收息现金垫 + 卖 put 担保，一物两用）</a></li><li style="padding-left:14px"><a href="#买入操作清单照做金额按自己担保金替换下用-40000-示例">买入操作清单（照做，金额按自己担保金替换，下用 $40,000 示例）</a></li><li><a href="#候选表按优先级">候选表（按优先级）</a></li><li><a href="#禁区引-playbook此处只列名单">禁区（引 playbook，此处只列名单）</a></li><li><a href="#参数纪律">参数纪律</a></li><li><a href="#开仓前五问2026-10-16-起锁死一问答否就不开">开仓前五问（2026-10-16 起，锁死；一问答「否」就不开）</a></li><li><a href="#短-put-义务台账每笔当天记13f-式盲区不记低估真实敞口">短 put 义务台账（每笔当天记，13F 式盲区：不记=低估真实敞口）</a></li><li style="padding-left:14px"><a href="#2026-10-16-第二笔-spcx155-put-2027-06-17仍是计划外且性质变了">⚠️ 2026-10-16 第二笔 SPCX（$155 put / 2027-06-17）：仍是计划外，且性质变了</a></li><li style="padding-left:28px"><a href="#参数1015-收盘-14862iv-475t244dr4权利金-2190computed">参数（10/15 收盘 $148.62，IV 47.5%，T=244d，r=4%，权利金 $21.90）`[COMPUTED]`</a></li><li style="padding-left:14px"><a href="#spcx-这笔计划外四条参数不符如实记录不修饰">⚠️ SPCX 这笔：计划外，四条参数不符（如实记录，不修饰）</a></li><li style="padding-left:14px"><a href="#spcx-头寸参数115-put-12-18-到期">SPCX 头寸参数（$115 put / 12-18 到期）</a></li><li style="padding-left:14px"><a href="#完整解禁级联此前只知-86-一个点实际是一条曲线">⭐ 完整解禁级联（此前只知 8/6 一个点，实际是一条曲线）</a></li><li style="padding-left:14px"><a href="#iv-崩塌的出场窗口比原先设想窄得多">IV 崩塌的出场窗口（比原先设想窄得多）</a></li></ul>
         </section>
         <section class="sidebar-card">
           <h3 class="sidebar-title">阅读提示</h3>

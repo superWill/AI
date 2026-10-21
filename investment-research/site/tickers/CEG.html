@@ -28,8 +28,8 @@
           <p>单只股票的研究卡、跟踪信号和估值框架。</p>
           <div class="meta-row">
             <span class="pill">tickers/CEG.md</span>
-            <span class="pill">366 words</span>
-            <span class="pill">8 sections</span>
+            <span class="pill">1010 words</span>
+            <span class="pill">15 sections</span>
           </div>
         </div>
         <div class="doc-stat-stack">
@@ -47,13 +47,16 @@
     <div class="doc-layout">
       <article class="doc doc-main">
 <hr />
-<p>ticker: CEG name: Constellation Energy sector: Nuclear Power layer: Layer 0 — 核电运营 position_type: context status: watching last_updated: 2026-06-29 data_source: 主题笔记 2026-05；2026-06-29 加 -36% 回调 A/B 归因 + Calpine merchant 修正 + thesis-break 信号(yfinance + WebSearch)</p>
+<p>ticker: CEG name: Constellation Energy sector: Nuclear Power layer: Layer 0 — 核电运营 position_type: context status: watching last_updated: 2026-10-10 data_source: 主题笔记 2026-05；2026-06-29 加 -36% 回调 A/B 归因 + Calpine merchant 修正 + thesis-break 信号(yfinance + WebSearch)；2026-10-10 加 Q2&#x27;26 财报 + Amazon/Google 两张 20 年 PPA + 模板缺章补齐（fetch_quotes 快照 + 公司公告 + WebSearch）</p>
 <hr />
 <h1 id="constellation-energy-ceg">Constellation Energy (CEG)</h1>
 <h2 id="一句话定位">一句话定位</h2>
 <p>核电运营 + AI DC 电力——美国最大的核电运营商。已与微软等签订专属电力 PPA。</p>
-<h2 id="关键数据2026-06-29-实测yfinance">关键数据（2026-06-29 实测,yfinance）</h2>
+<h2 id="关键数据基准-2026-10-09scriptsfetchquotespy-快照-一致预期-websearch629-旧值在备注列">关键数据（基准 2026-10-09，scripts/fetch_quotes.py 快照 + 一致预期 WebSearch；6/29 旧值在备注列）</h2>
+<table><thead><tr><th>指标</th><th>数据</th><th>备注</th></tr></thead><tbody><tr><td>股价</td><td><strong>$298.07</strong>（10/9 收盘）</td><td>6/29 $264 → <strong>+12.9%</strong>；10/6 单日 +12.2%（Google PPA）；10/7–8 利率杀 −4.8% 后 10/9 +4.6% 收复</td></tr><tr><td>市值</td><td><strong>~$105.6B</strong></td><td>6/29 ~$94B</td></tr><tr><td>trailing PE</td><td>29.1</td><td>快照；6/29 22.9</td></tr><tr><td><strong>forward PE（自算）</strong></td><td><strong>25.0x（FY26 共识 EPS $11.91）/ 22.3x（FY27 $13.34）</strong></td><td>快照 fwd 22.4 是 FY27 口径；6/29 自算 19.5 对应当时 $264 / 旧指引中点</td></tr><tr><td>2026 指引</td><td><strong>$11.50–12.50</strong>（8/6 上调，原 $11–12）</td><td>共识 $11.91 落在区间下半部</td></tr><tr><td>52 周区间</td><td>$228.6 – $412.7</td><td>距高 <strong>-27.8%</strong>（6/29 时 -36%）</td></tr><tr><td>vs 50/200DMA</td><td>50DMA $273.3 / 200DMA $286.4</td><td>已站回 200 线上方 +4%（6/29 时 -17%）</td></tr><tr><td>下次财报</td><td><strong>Q3&#x27;26：2026-11-06</strong>（unusualwhales；另有 11/09 估计，待核实）</td><td></td></tr></tbody></table>
+<p>&lt;details&gt;&lt;summary&gt;2026-06-29 旧表（保留判断轨迹）&lt;/summary&gt;</p>
 <table><thead><tr><th>指标</th><th>数据</th><th>备注</th></tr></thead><tbody><tr><td>股价</td><td><strong>$264</strong></td><td>—</td></tr><tr><td>市值</td><td><strong>~$94B</strong></td><td>(旧卡 $100-120B 已过时)</td></tr><tr><td>trailing PE</td><td>22.9</td><td>—</td></tr><tr><td><strong>forward PE</strong></td><td><strong>19.5</strong></td><td>三电力标的最便宜(GEV 42.6 / ETN 25.6)</td></tr><tr><td>52 周区间</td><td><strong>$240.5 – $412.7</strong></td><td><strong>距高 -36%</strong></td></tr><tr><td>vs 200DMA</td><td><strong>-17%</strong>($318)</td><td>已跌破长均线</td></tr></tbody></table>
+<p>&lt;/details&gt;</p>
 <h2 id="2026-06-29-36-回调归因-主要-a板块情绪不是-b基本面破known-2026">⭐ 2026-06-29:-36% 回调归因 = 主要 A(板块/情绪),不是 B(基本面破)<code>[KNOWN 2026]</code></h2>
 <blockquote>核心问题:从 10 月高 $412 → $264(-36%)是&quot;回调机会(A)&quot;还是&quot;价值陷阱(B)&quot;?<strong>拆完:A 占大头,thesis 在 beat。是回调不是接刀。</strong></blockquote>
 <p><strong>跌因逐条(标 A/B)</strong>:</p>
@@ -95,23 +98,79 @@
 <li><strong>VRT / ETN</strong> 是 DC 内部电力</li>
 <li>AI DC 电力供应链：发电（GEV/CEG）→ 输配电（ETN）→ DC 内部（VRT）</li>
 </ul>
+<h2 id="2026-10-10q226-beat-上调指引amazongoogle-两张-20-年-ppacrane-推到-2027-下半年-核实-2026-10-10公司公告-8-k-cnbcbloomberg-websearch">⭐ 2026-10-10：Q2&#x27;26 beat + 上调指引；Amazon/Google 两张 20 年 PPA；Crane 推到 2027 下半年 <code>[核实 2026-10-10，公司公告 + 8-K + CNBC/Bloomberg + WebSearch]</code></h2>
+<blockquote><strong>核心判断：6/29 列的 4 条 thesis-break 信号一条没触发，反方向证据连来两条（新签 PPA）。但 10/6 的 +12% 涨的是倍数不是 EPS——两张单的新增 MW 都在 2028–2032 才并网。</strong> <code>[INFERRED, MED-HIGH]</code></blockquote>
+<p><strong>Q2&#x27;26（8/6，8-K）</strong> <code>[KNOWN, HIGH]</code>：adj EPS <strong>$2.55 vs 共识 $2.29</strong>（去年同期 $1.91）；GAAP EPS $1.42（去年 $2.67，差额来自 Calpine 并购会计/非经常项）。驱动=Calpine 并表 + 商业业务客户 margin 走高 + 回购增厚，被核电非计划停机部分抵消。<strong>FY26 指引上调至 $11.50–12.50</strong>（原 $11–12）。电话会提 920 MW 新清洁电力交易。股价 8/6 后一个月基本持平——市场当时没给 beat 付钱。</p>
+<p><strong>两张 PPA（本档 6/29 原话「PPA 被取消」是 break 信号 #1，这是它的反面）</strong> <code>[KNOWN，公司公告，HIGH]</code>：</p>
+<table><thead><tr><th>日期</th><th>对手方</th><th>内容</th><th>CEG 出资</th><th>并网</th></tr></thead><tbody><tr><td>10/01</td><td>Amazon</td><td>Calvert Cliffs 20 年 PPA 690 MW + 190 MW 扩容；支撑延寿换证 20 年</td><td>~$30 亿</td><td>2030–32</td></tr><tr><td>10/06</td><td>Google</td><td>20 年 PPA，PJM 11 台机组 uprate +890 MW；<strong>另加 15 年 2,700 MW 供电协议覆盖现有机组</strong></td><td>~$43 亿</td><td>首台 2028</td></tr></tbody></table>
+<ul>
+<li>Google 单真正改估值模型的是那 <strong>2,700 MW / 15 年的存量机组协议</strong>，它把一大块 PJM merchant 敞口变成长协——正面打在 6/29 判定的「唯一真 B 类风险 = 电价正常化」上。<code>[INFERRED, MED-HIGH]</code></li>
+<li>四大超大厂（Meta/微软/Amazon/Google）凑齐，市场读成核电基荷是卖方市场。10/6 +12.2% 中含大盘普涨日 beta，不全是 PPA。</li>
+<li>冷水：$73 亿 capex 自己掏；新增 MW 2028 起才有 EPS；Calpine 的天然气资产不在这两张单的覆盖范围内，剩余 merchant 敞口的电价风险<strong>只是缩了，没消失</strong>。</li>
+</ul>
+<p><strong>Crane（TMI-1）重启</strong> <code>[KNOWN, MED-HIGH]</code>：NRC 环评结论「无显著影响」，FERC 已给豁免；公司口径「2027 下半年」发电，$16 亿、835 MW。比 6/29 时的「延迟」又往后了一点，但仍是<strong>延迟不是取消</strong>（break 信号 #2 未触发）。</p>
+<p><strong>10 月宏观反向</strong>：10/7–8 利率杀（10Y 盘中 5.36%）CEG 两天 -4.8%（10/9 又 +4.6% 收回），和 SOX 同向——它是高久期资产，不是防御。6/29 写的「核电年金 / 强地板」口径此前已修正，本次再确认。</p>
+<h2 id="短期增量35-年">短期增量（3–5 年）</h2>
+<ul>
+<li>已签长协容量：Meta 1,121 MW / 微软 Crane 835 MW / Amazon 690+190 MW / Google 890 MW uprate + 2,700 MW 存量 —— 合计 <strong>&gt;6 GW 长协</strong>，新增 MW 2028–2032 分批并网 <code>[COMPUTED，各公告加总，MED]</code>。</li>
+<li>Calpine 并表后的商业业务 margin（Q2 已体现）；回购增厚。</li>
+<li>2027 下半年 Crane 并网 → 835 MW 专供微软，首个完整年 2028。</li>
+</ul>
+<h2 id="长期增量1020-年">长期增量（10–20 年）</h2>
+<ul>
+<li>美国最大清洁基荷运营商（55 GW，~10% 全美清洁能源）在 AI 用电曲线上的定价权；20 年 PPA 的现金流久期本身就是资产。</li>
+<li>核电延寿换证（Calvert Cliffs 模式可复制到其他机组）+ uprate 是最便宜的「新核电」。</li>
+</ul>
+<h2 id="风险">风险</h2>
+<ul>
+<li><strong>电价正常化（真 B，缩小中）</strong>：Calpine 天然气 + 地热 merchant 敞口仍吃电价；两张 PPA 只覆盖核电部分。</li>
+<li><strong>执行</strong>：$73 亿 uprate/扩容 capex + $16 亿 Crane，并网时点 2027–2032，任何延迟都直接打久期估值。</li>
+<li><strong>利率</strong>：10 月实测高久期属性（10Y 升 → CEG 和 SOX 同跌）；长协现金流的折现率敏感。</li>
+<li><strong>杠杆</strong>：$266 亿 Calpine 债；评级压力是尾部。</li>
+<li><strong>政策</strong>：PJM 容量市场规则 / 联邦核电政策变动。</li>
+</ul>
+<h2 id="估值锚">估值锚</h2>
+<ul>
+<li>fwd PE 25.0x（FY26 共识）/ 22.3x（FY27）。6/29 自算 19.5x 时判「合理非陷阱」；现在贵了 5.5 个点，买的是「长协簿变厚」。<code>[COMPUTED]</code></li>
+<li>不给目标价。锚是：长协覆盖率（契约 MW / 总 MW）每升 10 个点，merchant 风险溢价该降多少——这题下次财报后用 <code>entry_price_irr.py</code> 跑三档。</li>
+</ul>
+<h2 id="退出条件">退出条件</h2>
+<p>沿用 6/29 的 4 条 break 信号，改成可执行阈值：</p>
+<ol>
+<li>任一超大厂 PPA <strong>被取消或重谈降价</strong>（非延迟）；</li>
+<li>Crane 重启<strong>取消</strong>（非再延期）；</li>
+<li>管理层<strong>下修</strong> FY 指引且归因于电价（非一次性停机）；</li>
+<li>Calpine 债务评级被下调至投资级以下边缘，或整合相关减值。</li>
+<p>触发任一 → 论点从 A 类回调改判 B 类，重新评估。</p>
+</ol>
+<h2 id="仓位与历史">仓位与历史</h2>
+<table><thead><tr><th>日期</th><th>操作</th><th>价格</th><th>仓位</th><th>备注</th></tr></thead><tbody><tr><td>2026-05</td><td>建档观察</td><td>—</td><td>无</td><td>主题笔记 §3.2 电力瓶颈</td></tr><tr><td>2026-06-29</td><td>回调归因</td><td>$264</td><td>无</td><td>-36% 判 A 类为主；起始区 $240–265</td></tr><tr><td>2026-10-10</td><td>更新观察</td><td>$298.07</td><td>无</td><td>Q2 beat + 指引上调；Amazon/Google 两张 PPA；break 信号 0/4；持仓真相源在 <code>portfolios/</code>（当前为 context 标的，无仓）</td></tr></tbody></table>
 <h2 id="跟踪信号">跟踪信号</h2>
 <ul>
-<li>与超大规模厂的新 PPA 公告</li>
-<li>反应堆重启 / 寿命延长进度</li>
-<li>美国核电政策（SMR、新堆建设）</li>
-<li>电价指数（ERCOT、PJM）</li>
+<li><strong>Q3&#x27;26 财报（11/06）</strong>：FY26 指引是否再动；核电停机率；Calpine 分部 margin；长协 vs merchant 收入占比（要公司给口径）。</li>
+<li><strong>Crane 里程碑</strong>：NRC 许可恢复 / 燃料装载 / 并网日期，任何一项后移 &gt;1 季度记一次。</li>
+<li><strong>新 PPA</strong>：每张公告记 MW、年限、对手方、CEG 出资；长协累计 MW 更新到「短期增量」。</li>
+<li><strong>PJM 容量拍卖价</strong>（每年 7 月）+ PJM 实时电价月均：merchant 腿的直接输入。</li>
+<li><strong>10Y 收益率</strong>：10 月实测 CEG 对利率敏感；10Y 每 +25bp 看 CEG 相对 XLU 的超额。</li>
 </ul>
 <h2 id="参考">参考</h2>
 <ul>
 <li>主题笔记：<a href="../notes/2026-05-ai-robotics-quantum-supply-chain-v1.html#3.2">2026-05 AI/机器人/量子产业链</a> (电力瓶颈)、§5.3</li>
 <li>同主题：<a href="GEV.html">GEV</a> / <a href="VRT.html">VRT</a></li>
+<li>Q2&#x27;26 8-K（2026-08-06）— https://www.sec.gov/Archives/edgar/data/0001868275/000186827526000097/ceg-20260806991.htm</li>
+<li>Q2&#x27;26 新闻稿 — https://www.constellationenergy.com/news/2026/08/constellation-reports-second-quarter-2026-results.html</li>
+<li>Google 890 MW + 2,700 MW 协议（2026-10-06）— https://www.constellationenergy.com/news/2026/10/google-and-constellation-announce-landmark-agreement-to-bring-890-mw-of-new-nuclear-capacity-to-pjm-grid.html</li>
+<li>CNBC：Google 3.6 GW 交易 — https://www.cnbc.com/amp/2026/10/06/google-enters-massive-3point6-gw-power-deal-with-constellation-energy-.html</li>
+<li>Amazon Calvert Cliffs 20 年协议（2026-10-01）— https://www.esgtoday.com/amazon-signs-20-year-deal-with-constellation-to-upgrade-extend-life-of-nuclear-plant/</li>
+<li>Crane 重启进度 / NRC 环评 — https://www.eenews.net/articles/three-mile-island-restart-closes-in-on-nrc-approval/</li>
+<li>一致预期 EPS（FY26 $11.91 / FY27 $13.34）— https://stockanalysis.com/stocks/ceg/forecast/</li>
+<li>Q3 财报日期 11/06 — https://unusualwhales.com/stock/CEG/earnings</li>
 </ul>
       </article>
       <aside class="doc-sidebar">
         <section class="sidebar-card">
           <h3 class="sidebar-title">文档导航</h3>
-          <ul class="toc-list"><li><a href="#一句话定位">一句话定位</a></li><li><a href="#关键数据2026-06-29-实测yfinance">关键数据（2026-06-29 实测,yfinance）</a></li><li><a href="#2026-06-29-36-回调归因-主要-a板块情绪不是-b基本面破known-2026">⭐ 2026-06-29:-36% 回调归因 = 主要 A(板块/情绪),不是 B(基本面破)`[KNOWN 2026]`</a></li><li><a href="#角色">角色</a></li><li><a href="#护城河">护城河</a></li><li><a href="#与组合中其他标的的关系">与组合中其他标的的关系</a></li><li><a href="#跟踪信号">跟踪信号</a></li><li><a href="#参考">参考</a></li></ul>
+          <ul class="toc-list"><li><a href="#一句话定位">一句话定位</a></li><li><a href="#关键数据基准-2026-10-09scriptsfetchquotespy-快照-一致预期-websearch629-旧值在备注列">关键数据（基准 2026-10-09，scripts/fetch_quotes.py 快照 + 一致预期 WebSearch；6/29 旧值在备注列）</a></li><li><a href="#2026-06-29-36-回调归因-主要-a板块情绪不是-b基本面破known-2026">⭐ 2026-06-29:-36% 回调归因 = 主要 A(板块/情绪),不是 B(基本面破)`[KNOWN 2026]`</a></li><li><a href="#角色">角色</a></li><li><a href="#护城河">护城河</a></li><li><a href="#与组合中其他标的的关系">与组合中其他标的的关系</a></li><li><a href="#2026-10-10q226-beat-上调指引amazongoogle-两张-20-年-ppacrane-推到-2027-下半年-核实-2026-10-10公司公告-8-k-cnbcbloomberg-websearch">⭐ 2026-10-10：Q2&#x27;26 beat + 上调指引；Amazon/Google 两张 20 年 PPA；Crane 推到 2027 下半年 `[核实 2026-10-10，公司公告 + 8-K + CNBC/Bloomberg + WebSearch]`</a></li><li><a href="#短期增量35-年">短期增量（3–5 年）</a></li><li><a href="#长期增量1020-年">长期增量（10–20 年）</a></li><li><a href="#风险">风险</a></li><li><a href="#估值锚">估值锚</a></li><li><a href="#退出条件">退出条件</a></li><li><a href="#仓位与历史">仓位与历史</a></li><li><a href="#跟踪信号">跟踪信号</a></li></ul>
         </section>
         <section class="sidebar-card">
           <h3 class="sidebar-title">阅读提示</h3>

@@ -28,8 +28,8 @@
           <p>研究文档。</p>
           <div class="meta-row">
             <span class="pill">.claude/skills/weekly-review/SKILL.md</span>
-            <span class="pill">130 words</span>
-            <span class="pill">11 sections</span>
+            <span class="pill">268 words</span>
+            <span class="pill">12 sections</span>
           </div>
         </div>
         <div class="doc-stat-stack">
@@ -65,6 +65,17 @@
 <li><strong>先看上一份周记</strong>：<code>ls -t notes/*weekly-review.md | head -1</code>，读它的&quot;待观察&quot;清单，逐条对账&quot;兑现了没&quot;。没有上一份就写&quot;首次周复盘&quot;。</li>
 <li><strong>刷价格快照</strong>（改了估值判断才需要）：<code>.venv/bin/python scripts/fetch_quotes.py</code>。</li>
 <li><strong>四大触发器读数</strong>：对照 memory <code>ai-capex-cycle-topsignal-watchlist</code> 的四大机械触发器 + ⑥融资结构信号，逐条给本周状态，算 X/4。</li>
+<p>3b. <strong>领先读数：算力价格 + 增速二阶导（2026-10-21 起，用户定）</strong>。四触发器全是滞后量（capex 指引、NVDA 指引要等财报），这两组先动，先看：</p>
+</ol>
+<ul>
+<li><strong>算力租金价格</strong>（周期里唯一不滞后的量）：SemiAnalysis H100 一年期合约指数（newsletter.semianalysis.com）· SF Compute H100 现货（sfcompute.com）· Blackwell 按需价（Lambda / RunPod 公开价目）。<strong>判据：现货见顶回落 = 黄；一年期合约连续两个月跌 &gt;20% = 红。</strong> 2026-10 基线：H100 1y $2.35（3 月，自 $1.70 +40%）、Blackwell 现货 $4.08（两月 +48%）。</li>
+<li><strong>增速二阶导</strong>：<strong>任何需求序列「增速连续两季下降」= 黄，不必等价格跌。</strong> 序列：SPCX SI 收入 QoQ 增速与每 GW 收入（Q1&#x27;27 指引隐含 $36–43B/GW，行业 $15–20B）· CRWV / ORCL OCI 收入增速与 RPO 环比增量 · GCP / Azure 增速 · MSFT / GOOGL RPO 增量 · NVDA 数据中心 QoQ（= 触发器③）· Starlink 消费净增（Q2 170 万 → Q3 160 万，已下降一次）· OpenRouter 周 token 量（openrouter.ai/rankings，公开、周级）· OpenAI / Anthropic ARR 增速（有一手报道时）。</li>
+<li><strong>规则</strong>：增速下降 + 供给（capex / GW）仍加速 = 黄 → <strong>当周把对应的动作梯级别写死</strong>；再加价格转跌 = 红 → 执行。黄灯本身不是动作。</li>
+<li><strong>信用</strong>：CRWV 无担保债收益率 / CDS、ORCL CDS（延续）。</li>
+<li><strong>其它待观察（10/20 待办合并进来）</strong>：GS prime 半导体净仓位、BofA FMS 现金水平、USDCNY、NVDA 担保簿 $105B 上限动用额、ACIE 增速、ASML 2027/2028 产能措辞。</li>
+<li>一手源优先：<code>.venv/bin/python scripts/fetch_primary.py &lt;TICKER&gt;</code>（见 memory <code>primary-sources-over-secondary</code>）。</li>
+</ul>
+<ol>
 <li><strong>持仓纪律</strong>：调 <code>position-discipline</code> agent（或按其规则手动过）——只看 <code>portfolios/</code>，不看研究记录（避免双源真相）。</li>
 <li><strong>行为自检</strong>：对照成功标准第 3 条那几个 memory，诚实点名本周的冲动/偏差。</li>
 <li><strong>落盘</strong>：写周记（模板见下），列出&quot;本周结论变化 / 下周待观察 / 待核实项&quot;。</li>
@@ -82,6 +93,12 @@
 - ③NVDA 二阶导: &lt;状态&gt;
 - ④capex 是否骤停: &lt;状态&gt;
 - ⑥融资结构（vendor financing/发股 fund capex）: &lt;状态&gt;
+
+## 领先读数（价格 + 二阶导）
+- 算力租金（H100 1y / 现货 / Blackwell）: &lt;本周值，环比，绿/黄/红&gt;
+- 增速二阶导: &lt;哪个需求序列增速连续下降、几季；供给端是否仍加速&gt;
+- 信用（CRWV / ORCL）: &lt;bp，环比&gt;
+- 黄灯对应的动作梯级别（若有）: &lt;写死，不执行&gt;
 
 ## 持仓纪律
 - 仓位/现金/期权禁区: &lt;有无被破 + 规定动作&gt;
@@ -102,12 +119,13 @@
 <p><strong>② &quot;这周没事&quot;要照跑照写。</strong> 慢性偏差（读数漂移、纪律松动）恰恰在平静周积累。空周记也是数据点。</p>
 <p><strong>③ 触发器状态别只写数字，要写&quot;哪条动了&quot;。</strong> 0/4 连续 N 周和&quot;这周③从绿转黄但仍 0/4&quot;是两条完全不同的信息。</p>
 <p><strong>④ 持仓只从 <code>portfolios/</code> 读。</strong> 研究记录 ≠ 持仓记录，混用会造成双源真相（<code>CLAUDE.md</code> 硬规定）。</p>
+<p><strong>⑥ 增速下降 ≠ 价格下降 ≠ 动作。</strong> 二阶导转负是黄灯，作用是提前把动作梯写死，不是减仓理由；价格（租金指数）转跌才是红灯。把黄灯当红灯，就是 <code>dip-buy-trigger-signals-not-daycount</code> 的镜像错误。</p>
 <p><strong>⑤ 落盘走投研提交纪律</strong>：<code>git branch --show-current</code> 确认在 main → <code>git add investment-research/</code> → <code>git diff --cached --name-only | grep -v &quot;^investment-research/&quot;</code> 验零跨目录 → commit。<strong>若 HEAD 不在 main（别的会话切了分支）或全局有跨目录脏改动，停下问用户，不擅自切分支。</strong></p>
       </article>
       <aside class="doc-sidebar">
         <section class="sidebar-card">
           <h3 class="sidebar-title">文档导航</h3>
-          <ul class="toc-list"><li><a href="#成功标准做完长什么样">成功标准（做完长什么样）</a></li><li><a href="#流程">流程</a></li><li><a href="#周记模板">周记模板</a></li><li><a href="#上周待观察对账">上周待观察对账</a></li><li><a href="#四大触发器x4">四大触发器（X/4）</a></li><li><a href="#持仓纪律">持仓纪律</a></li><li><a href="#行为自检">行为自检</a></li><li><a href="#本周结论变化">本周结论变化</a></li><li><a href="#下周待观察">下周待观察</a></li><li><a href="#待核实">待核实</a></li><li><a href="#已知的坑">已知的坑</a></li></ul>
+          <ul class="toc-list"><li><a href="#成功标准做完长什么样">成功标准（做完长什么样）</a></li><li><a href="#流程">流程</a></li><li><a href="#周记模板">周记模板</a></li><li><a href="#上周待观察对账">上周待观察对账</a></li><li><a href="#四大触发器x4">四大触发器（X/4）</a></li><li><a href="#领先读数价格-二阶导">领先读数（价格 + 二阶导）</a></li><li><a href="#持仓纪律">持仓纪律</a></li><li><a href="#行为自检">行为自检</a></li><li><a href="#本周结论变化">本周结论变化</a></li><li><a href="#下周待观察">下周待观察</a></li><li><a href="#待核实">待核实</a></li><li><a href="#已知的坑">已知的坑</a></li></ul>
         </section>
         <section class="sidebar-card">
           <h3 class="sidebar-title">阅读提示</h3>

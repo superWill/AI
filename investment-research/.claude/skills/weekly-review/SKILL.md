@@ -23,6 +23,13 @@ description: 投研周复盘的固定节拍流程——时间驱动（不是事�
 1. **先看上一份周记**：`ls -t notes/*weekly-review.md | head -1`，读它的"待观察"清单，逐条对账"兑现了没"。没有上一份就写"首次周复盘"。
 2. **刷价格快照**（改了估值判断才需要）：`.venv/bin/python scripts/fetch_quotes.py`。
 3. **四大触发器读数**：对照 memory `ai-capex-cycle-topsignal-watchlist` 的四大机械触发器 + ⑥融资结构信号，逐条给本周状态，算 X/4。
+3b. **领先读数：算力价格 + 增速二阶导（2026-10-21 起，用户定）**。四触发器全是滞后量（capex 指引、NVDA 指引要等财报），这两组先动，先看：
+   - **算力租金价格**（周期里唯一不滞后的量）：SemiAnalysis H100 一年期合约指数（newsletter.semianalysis.com）· SF Compute H100 现货（sfcompute.com）· Blackwell 按需价（Lambda / RunPod 公开价目）。**判据：现货见顶回落 = 黄；一年期合约连续两个月跌 >20% = 红。** 2026-10 基线：H100 1y $2.35（3 月，自 $1.70 +40%）、Blackwell 现货 $4.08（两月 +48%）。
+   - **增速二阶导**：**任何需求序列「增速连续两季下降」= 黄，不必等价格跌。** 序列：SPCX SI 收入 QoQ 增速与每 GW 收入（Q1'27 指引隐含 $36–43B/GW，行业 $15–20B）· CRWV / ORCL OCI 收入增速与 RPO 环比增量 · GCP / Azure 增速 · MSFT / GOOGL RPO 增量 · NVDA 数据中心 QoQ（= 触发器③）· Starlink 消费净增（Q2 170 万 → Q3 160 万，已下降一次）· OpenRouter 周 token 量（openrouter.ai/rankings，公开、周级）· OpenAI / Anthropic ARR 增速（有一手报道时）。
+   - **规则**：增速下降 + 供给（capex / GW）仍加速 = 黄 → **当周把对应的动作梯级别写死**；再加价格转跌 = 红 → 执行。黄灯本身不是动作。
+   - **信用**：CRWV 无担保债收益率 / CDS、ORCL CDS（延续）。
+   - **其它待观察（10/20 待办合并进来）**：GS prime 半导体净仓位、BofA FMS 现金水平、USDCNY、NVDA 担保簿 $105B 上限动用额、ACIE 增速、ASML 2027/2028 产能措辞。
+   - 一手源优先：`.venv/bin/python scripts/fetch_primary.py <TICKER>`（见 memory `primary-sources-over-secondary`）。
 4. **持仓纪律**：调 `position-discipline` agent（或按其规则手动过）——只看 `portfolios/`，不看研究记录（避免双源真相）。
 5. **行为自检**：对照成功标准第 3 条那几个 memory，诚实点名本周的冲动/偏差。
 6. **落盘**：写周记（模板见下），列出"本周结论变化 / 下周待观察 / 待核实项"。
@@ -42,6 +49,12 @@ description: 投研周复盘的固定节拍流程——时间驱动（不是事�
 - ③NVDA 二阶导: <状态>
 - ④capex 是否骤停: <状态>
 - ⑥融资结构（vendor financing/发股 fund capex）: <状态>
+
+## 领先读数（价格 + 二阶导）
+- 算力租金（H100 1y / 现货 / Blackwell）: <本周值，环比，绿/黄/红>
+- 增速二阶导: <哪个需求序列增速连续下降、几季；供给端是否仍加速>
+- 信用（CRWV / ORCL）: <bp，环比>
+- 黄灯对应的动作梯级别（若有）: <写死，不执行>
 
 ## 持仓纪律
 - 仓位/现金/期权禁区: <有无被破 + 规定动作>
@@ -68,5 +81,7 @@ description: 投研周复盘的固定节拍流程——时间驱动（不是事�
 **③ 触发器状态别只写数字，要写"哪条动了"。** 0/4 连续 N 周和"这周③从绿转黄但仍 0/4"是两条完全不同的信息。
 
 **④ 持仓只从 `portfolios/` 读。** 研究记录 ≠ 持仓记录，混用会造成双源真相（`CLAUDE.md` 硬规定）。
+
+**⑥ 增速下降 ≠ 价格下降 ≠ 动作。** 二阶导转负是黄灯，作用是提前把动作梯写死，不是减仓理由；价格（租金指数）转跌才是红灯。把黄灯当红灯，就是 `dip-buy-trigger-signals-not-daycount` 的镜像错误。
 
 **⑤ 落盘走投研提交纪律**：`git branch --show-current` 确认在 main → `git add investment-research/` → `git diff --cached --name-only | grep -v "^investment-research/"` 验零跨目录 → commit。**若 HEAD 不在 main（别的会话切了分支）或全局有跨目录脏改动，停下问用户，不擅自切分支。**
