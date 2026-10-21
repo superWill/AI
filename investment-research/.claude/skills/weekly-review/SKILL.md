@@ -30,6 +30,7 @@ description: 投研周复盘的固定节拍流程——时间驱动（不是事�
    - **信用**：CRWV 无担保债收益率 / CDS、ORCL CDS（延续）。
    - **其它待观察（10/20 待办合并进来）**：GS prime 半导体净仓位、BofA FMS 现金水平、USDCNY、NVDA 担保簿 $105B 上限动用额、ACIE 增速、ASML 2027/2028 产能措辞。
    - 一手源优先：`.venv/bin/python scripts/fetch_primary.py <TICKER>`（见 memory `primary-sources-over-secondary`）。
+   - **看板**：`site/dashboards/capex-cycle.html`（launchd 每天 07:30 跑 `scripts/fetch_dashboard.py` 日更）。周复盘时做两件事：① 看图填本节读数；② **把本周判定写回 `data/dashboard/status.json`**（四触发器 / 领先读数的 green·yellow·red + note + updated 日期），财报季把新季度数追加到 `data/dashboard/quarterly.csv`。不改 status.json = 看板上的颜色是上周的。
 4. **持仓纪律**：调 `position-discipline` agent（或按其规则手动过）——只看 `portfolios/`，不看研究记录（避免双源真相）。
 5. **行为自检**：对照成功标准第 3 条那几个 memory，诚实点名本周的冲动/偏差。
 6. **落盘**：写周记（模板见下），列出"本周结论变化 / 下周待观察 / 待核实项"。

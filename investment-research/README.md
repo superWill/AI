@@ -63,6 +63,12 @@ python3 -m venv .venv
 # → data/primary/<TICKER>.md（覆盖）；--json 另存原始数据；--only xbrl,edgar 只跑部分源
 # XBRL 表里 `△` = 「本期 YTD − 上期 YTD」拆出的单季；`(YTD)` = 没拆成（缺上一期），查原件
 
+# 2c. AI capex 周期看板（日更，launchd 每天 07:30 自动跑；手动跑也行）
+.venv/bin/python scripts/fetch_dashboard.py
+# → data/dashboard/daily.csv 追加一行（行日期 = 美股最近交易日）→ site/dashboards/capex-cycle.html
+# 状态（四触发器 / 领先读数颜色）在 data/dashboard/status.json 周复盘手改；季度序列在 data/dashboard/quarterly.csv 财报对账时追加
+# 定时任务：~/Library/LaunchAgents/com.songzijian.investment-dashboard.plist（launchctl bootout gui/$(id -u)/com.songzijian.investment-dashboard 可卸）
+
 # 3. 审计：对比 ticker 文档里的市值数据 vs 最新快照，标记偏差
 .venv/bin/python scripts/audit_notes.py
 # 阈值默认 ±20%，可加 --threshold 30 调整

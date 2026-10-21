@@ -1,0 +1,22 @@
+{
+  "updated": "2026-10-21",
+  "updated_by": "周复盘 / 财报对账时手改；颜色只允许 green / yellow / red",
+  "triggers_count": "0/4",
+  "triggers": [
+    {"id": "①", "name": "CoWoS 供需缺口", "state": "green", "note": "交期未缩、缺口未归零；TSM capex $60–64B 不变（10/16）"},
+    {"id": "②", "name": "超大厂卖过剩算力", "state": "green", "note": "反向：GCP 在买 SPCX 算力；Meta Compute 仍是单例"},
+    {"id": "③", "name": "NVDA 增速二阶导", "state": "green", "note": "Q3 FY27 指引 $108B 仍加速；11/18 检验"},
+    {"id": "④", "name": "capex 是否骤停", "state": "green", "note": "反向：SPCX Q4 指引 $35–40B、2027 +10 GW；四大 2026 $725B"},
+    {"id": "⑥", "name": "融资结构（⑥-a 发股 / ⑥-b 卖方担保 / ⑥-c 买方预付 / ⑥-d 交付断）", "state": "yellow", "note": "⑥-c 最大样本 = SPCX 递延收入 9M +$4.9B、关联方债 $12.9B；CRWV CDS 1,100bp+；NVDA 担保簿上限 $105B"}
+  ],
+  "leading": [
+    {"name": "算力租金价格", "state": "green", "note": "H100 1y $1.70→$2.35（10/25→3/26），Blackwell 现货两月 +48%；黄 = 现货回落，红 = 1y 合约两月 −20%"},
+    {"name": "需求增速二阶导", "state": "green", "note": "Starlink 净增 170→160 万（下降 1 季）；ORCL RPO 增量 85→26（下降 1 季）；都未到「连续两季」；SPCX SI 环比 +195% 加速"},
+    {"name": "信用（CRWV / ORCL）", "state": "yellow", "note": "CRWV 无担保债 15%+ / CDS 1,100–1,195bp；ORCL BBB−"}
+  ],
+  "ladder_if_yellow": "黄灯当周只写死动作梯级别，不执行；红灯按 portfolios/ 的四级动作梯执行（SOXX 腿只允许备兑 call，不卖 put）",
+  "notes": [
+    "SPCX Q3（10/20）：收入 $14.6B +161%、SI $7.56B、Connectivity 利润率 45%；Q1'27 指引 $33–37B 隐含每 GW 年收入 $36–43B（行业 $15–20B）= 供给追上时第一个掉的数",
+    "周复盘 SKILL 3b 定义见 .claude/skills/weekly-review/SKILL.md"
+  ]
+}
