@@ -28,7 +28,7 @@
           <p>研究文档。</p>
           <div class="meta-row">
             <span class="pill">.claude/skills/weekly-review/SKILL.md</span>
-            <span class="pill">268 words</span>
+            <span class="pill">290 words</span>
             <span class="pill">12 sections</span>
           </div>
         </div>
@@ -74,6 +74,7 @@
 <li><strong>信用</strong>：CRWV 无担保债收益率 / CDS、ORCL CDS（延续）。</li>
 <li><strong>其它待观察（10/20 待办合并进来）</strong>：GS prime 半导体净仓位、BofA FMS 现金水平、USDCNY、NVDA 担保簿 $105B 上限动用额、ACIE 增速、ASML 2027/2028 产能措辞。</li>
 <li>一手源优先：<code>.venv/bin/python scripts/fetch_primary.py &lt;TICKER&gt;</code>（见 memory <code>primary-sources-over-secondary</code>）。</li>
+<li><strong>看板</strong>：<code>site/dashboards/capex-cycle.html</code>（launchd 每天 07:30 跑 <code>scripts/fetch_dashboard.py</code> 日更）。周复盘时做两件事：① 看图填本节读数；② <strong>把本周判定写回 <code>data/dashboard/status.json</code></strong>（四触发器 / 领先读数的 green·yellow·red + note + updated 日期），财报季把新季度数追加到 <code>data/dashboard/quarterly.csv</code>。不改 status.json = 看板上的颜色是上周的。</li>
 </ul>
 <ol>
 <li><strong>持仓纪律</strong>：调 <code>position-discipline</code> agent（或按其规则手动过）——只看 <code>portfolios/</code>，不看研究记录（避免双源真相）。</li>
