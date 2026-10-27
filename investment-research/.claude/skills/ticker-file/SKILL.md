@@ -15,6 +15,7 @@ description: 建立或更新 investment-research/tickers/<TICKER>.md 个股档�
 4. **`退出条件` 和 `跟踪信号` 写得可执行**——是具体阈值和数据项，不是形容词。这两节是 `earnings-reader` 和 `position-discipline` 的输入，写虚了下游全废。
 5. **`audit_notes.py` 对这个 ticker 报 `aligned`，不是 `无快照数据`。**（退出码 0 不够，见坑 ⑦）
 6. 没有目标价、没有买卖建议（项目 `CLAUDE.md` 硬规定）。
+7. **⭐ 事件段的每条「论点变化」带一行「裂缝」**（这条论证解释不了的东西），**「退出条件」每条带「阈值 + 开奖日期」**（证伪条件）。「继续观察」不是证伪条件。（2026-10-27 起，来源 @bitfish「追本之箭」）
 
 ## 流程
 

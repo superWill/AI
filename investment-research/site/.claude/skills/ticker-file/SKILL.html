@@ -28,7 +28,7 @@
           <p>研究文档。</p>
           <div class="meta-row">
             <span class="pill">.claude/skills/ticker-file/SKILL.md</span>
-            <span class="pill">266 words</span>
+            <span class="pill">278 words</span>
             <span class="pill">6 sections</span>
           </div>
         </div>
@@ -59,6 +59,7 @@
 <li><strong><code>退出条件</code> 和 <code>跟踪信号</code> 写得可执行</strong>——是具体阈值和数据项，不是形容词。这两节是 <code>earnings-reader</code> 和 <code>position-discipline</code> 的输入，写虚了下游全废。</li>
 <li><strong><code>audit_notes.py</code> 对这个 ticker 报 <code>aligned</code>，不是 <code>无快照数据</code>。</strong>（退出码 0 不够，见坑 ⑦）</li>
 <li>没有目标价、没有买卖建议（项目 <code>CLAUDE.md</code> 硬规定）。</li>
+<li><strong>⭐ 事件段的每条「论点变化」带一行「裂缝」</strong>（这条论证解释不了的东西），<strong>「退出条件」每条带「阈值 + 开奖日期」</strong>（证伪条件）。「继续观察」不是证伪条件。（2026-10-27 起，来源 @bitfish「追本之箭」）</li>
 </ol>
 <h2 id="流程">流程</h2>
 <p><strong>新建</strong>：<code>cp tickers/_template.md tickers/&lt;T&gt;.md</code> → 抓数 → 填 frontmatter（<code>layer</code> 是 9 层产业链位置，<code>position_type</code> = core/thematic/payoff/hedge）→ 自上而下填 → 跑校验。</p>

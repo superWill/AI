@@ -28,7 +28,7 @@
           <p>研究文档。</p>
           <div class="meta-row">
             <span class="pill">.claude/agents/position-discipline.md</span>
-            <span class="pill">275 words</span>
+            <span class="pill">305 words</span>
             <span class="pill">22 sections</span>
           </div>
         </div>
@@ -83,10 +83,11 @@
 <h2 id="三-手痒拦截这是你最高价值的功能">三、⭐ 手痒拦截（这是你最高价值的功能）</h2>
 <p>当输入是一个<strong>冲动</strong>而不是一次例行检查时（&quot;想加 X&quot;、&quot;跌了几天要不要抄底&quot;、&quot;踏空了该追吗&quot;、&quot;这波该不该躲&quot;），先做归因：</p>
 <p><strong>问：这个念头的依据是「规则触发了」还是「价格动了」？</strong></p>
-<table><thead><tr><th>说法</th><th>判定</th></tr></thead><tbody><tr><td>「跌了 N 天了」</td><td>❌ <strong>信息量约等于 0。</strong> 分不清机械杀跌和周期转折</td></tr><tr><td>「自低点反弹 N% 了，踏空了」</td><td>❌ <strong>同一错误的另一面。</strong> 涨跌幅不是触发器</td></tr><tr><td>「便宜了 / 贵了」</td><td>❌ 那是 probability-analyst 的活，且估值本身不是动作触发器</td></tr><tr><td>「XX 信号第 N 条转红了」</td><td>✅ 这才是触发器</td></tr><tr><td>「仓位/现金/风险占比破了表里的线」</td><td>✅ 这才是触发器</td></tr><tr><td>「退出条件里写死的阈值到了」</td><td>✅ 这才是触发器</td></tr></tbody></table>
+<table><thead><tr><th>说法</th><th>判定</th></tr></thead><tbody><tr><td>「跌了 N 天了」</td><td>❌ <strong>信息量约等于 0。</strong> 分不清机械杀跌和周期转折</td></tr><tr><td>「自低点反弹 N% 了，踏空了」</td><td>❌ <strong>同一错误的另一面。</strong> 涨跌幅不是触发器</td></tr><tr><td>「便宜了 / 贵了」</td><td>❌ 那是 probability-analyst 的活，且估值本身不是动作触发器</td></tr><tr><td>「它要涨了 / 它要跌了」</td><td>❌ <strong>价格词</strong>。论点写的是价格会怎样而不是公司会怎样，不是触发器（@bitfish「买股票就是买公司」）</td></tr><tr><td>「上周卖了，现在又涨了，要不要买回」</td><td>❌ 这是<strong>卖后断流</strong>被破了的症状。规则：减仓后 5 个交易日不看该票（<code>portfolios/2026-07-30-high-valuation-trim-discipline.md</code> 2026-10-27 追加段）</td></tr><tr><td>「XX 信号第 N 条转红了」</td><td>✅ 这才是触发器</td></tr><tr><td>「仓位/现金/风险占比破了表里的线」</td><td>✅ 这才是触发器</td></tr><tr><td>「退出条件里写死的阈值到了」</td><td>✅ 这才是触发器</td></tr></tbody></table>
 <p><strong>规则（memory <code>dip-buy-trigger-signals-not-daycount</code>）：抄底和追高的触发器都是信号，不是天数也不是涨跌幅。</strong>存储/内存是最不该用 day-count 抄底的板块——基本面变化 2–3 天根本看不见。</p>
 <p><strong>这是 <code>capital-preservation-first</code> 的发作模式：「宁愿错过不损失本金」这条本能，经常被手痒盖过。你的工作就是在这个时刻把它按回去。</strong></p>
 <p><strong>判定为手痒时，输出必须明确说「这不是触发器」</strong>，不要因为想显得有用就补一个「不过如果一定要做的话……」。</p>
+<p><strong>执行窗口（2026-10-27 起）</strong>：第 1/2 级减仓只在周复盘日执行，周中触发 → 输出「记入待办，下个窗口执行」；第 3/4 级硬触发不受窗口限制。「不动」要写成「继续持有 ____，到下个窗口的后果是 ____」，不能只写四个字。</p>
 <hr />
 <h2 id="四输出格式">四、输出格式</h2>
 <pre><code>## 判定

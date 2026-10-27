@@ -17,6 +17,7 @@ description: 投研周复盘的固定节拍流程——时间驱动（不是事�
 3. **行为盲区自检**：本周有没有出现 memory 里记过的发作模式——手痒（`capital-preservation-first`）、按天数/深度抄底（`dip-buy-trigger-signals-not-daycount`）、踏空焦虑、单来源印证既有结论（`single-source-confirming-thesis-low-confidence`）。有就点名，没有就写"本周未发作"。
 4. **一段周记落 `notes/YYYY-MM-DD-weekly-review.md`**（当周周日或复盘当日日期）。**不落盘 = 没做**（这正是断点①："信息不过系统等于没进过脑子"）。
 5. **不产出目标价/买卖建议**（项目 `CLAUDE.md` 硬规定）——产出的是论点变化 + 可选动作 + 三档情景。
+6. **「不动」被当成一个分支写出来，并标上它的默认后果**（2026-10-27 起，来源 @bitfish「决策与随机」：弃权不在树外，默认分支由别人设）。「本周不动」合格的写法是「不动 = 继续持有 X% 的 AI 敞口 + 30% 现金，到下周的后果是……」，不是一个「无需动作」四个字。
 
 ## 流程
 
@@ -32,6 +33,7 @@ description: 投研周复盘的固定节拍流程——时间驱动（不是事�
    - 一手源优先：`.venv/bin/python scripts/fetch_primary.py <TICKER>`（见 memory `primary-sources-over-secondary`）。
    - **看板**：`site/dashboards/capex-cycle.html`（launchd 每天 07:30 跑 `scripts/fetch_dashboard.py` 日更）。周复盘时做两件事：① 看图填本节读数；② **把本周判定写回 `data/dashboard/status.json`**（四触发器 / 领先读数的 green·yellow·red + note + updated 日期），财报季把新季度数追加到 `data/dashboard/quarterly.csv`。不改 status.json = 看板上的颜色是上周的。
 4. **持仓纪律**：调 `position-discipline` agent（或按其规则手动过）——只看 `portfolios/`，不看研究记录（避免双源真相）。
+4b. **卖出是日历问题（2026-10-27 起）**：减仓/卖出的执行窗口只有周复盘这一天（百慕大窗口），动作梯第 3/4 级的硬触发除外；周中冒出的「该卖了」只记进本周记的待办，下个窗口再执行。执行后 **5 个交易日不看该票行情**（卖后断流），本周记要写上周减仓的票有没有回头看。规则本体在 `portfolios/2026-07-30-high-valuation-trim-discipline.md`「六、执行纪律」2026-10-27 追加段。
 5. **行为自检**：对照成功标准第 3 条那几个 memory，诚实点名本周的冲动/偏差。
 6. **落盘**：写周记（模板见下），列出"本周结论变化 / 下周待观察 / 待核实项"。
 7. **更新 memory**（可选）：若本周发现一个新的稳定偏差或反应模式，追加/更新对应 memory，并在 `MEMORY.md` 加一行指针。
@@ -62,9 +64,16 @@ description: 投研周复盘的固定节拍流程——时间驱动（不是事�
 
 ## 行为自检
 - 手痒/抄底冲动/踏空焦虑/单来源印证: <本周是否发作，点名>
+- 价格词检查: <本周的论点或冲动里有没有「会涨/会跌/便宜/贵」；有就改写成公司词>
+- 卖后断流: <上周减仓的票，本周有没有回头看行情 / 想买回>
 
 ## 本周结论变化
 - <哪个论点被数据改了>
+- <该论点现在的裂缝：解释不了的东西>
+
+## 可选动作
+- 不动 = <默认分支的内容和到下周的后果>
+- <其它分支，只在周复盘窗口执行>
 
 ## 下周待观察
 - <可证伪的判据 + 开奖时间>
@@ -84,5 +93,7 @@ description: 投研周复盘的固定节拍流程——时间驱动（不是事�
 **④ 持仓只从 `portfolios/` 读。** 研究记录 ≠ 持仓记录，混用会造成双源真相（`CLAUDE.md` 硬规定）。
 
 **⑥ 增速下降 ≠ 价格下降 ≠ 动作。** 二阶导转负是黄灯，作用是提前把动作梯写死，不是减仓理由；价格（租金指数）转跌才是红灯。把黄灯当红灯，就是 `dip-buy-trigger-signals-not-daycount` 的镜像错误。
+
+**⑦ 卖是日历问题，不是勇气问题。** 周中的卖出冲动一律记待办、下个窗口执行；真正该立刻动的只有第 3/4 级硬触发。卖完五天不看行情，不是为了心情，是切断「反事实自带行情推送」这条后悔回路（@bitfish「卖出纪律」）。
 
 **⑤ 落盘走投研提交纪律**：`git branch --show-current` 确认在 main → `git add investment-research/` → `git diff --cached --name-only | grep -v "^investment-research/"` 验零跨目录 → commit。**若 HEAD 不在 main（别的会话切了分支）或全局有跨目录脏改动，停下问用户，不擅自切分支。**

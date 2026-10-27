@@ -28,8 +28,8 @@
           <p>研究文档。</p>
           <div class="meta-row">
             <span class="pill">.claude/skills/weekly-review/SKILL.md</span>
-            <span class="pill">290 words</span>
-            <span class="pill">12 sections</span>
+            <span class="pill">321 words</span>
+            <span class="pill">13 sections</span>
           </div>
         </div>
         <div class="doc-stat-stack">
@@ -59,6 +59,7 @@
 <li><strong>行为盲区自检</strong>：本周有没有出现 memory 里记过的发作模式——手痒（<code>capital-preservation-first</code>）、按天数/深度抄底（<code>dip-buy-trigger-signals-not-daycount</code>）、踏空焦虑、单来源印证既有结论（<code>single-source-confirming-thesis-low-confidence</code>）。有就点名，没有就写&quot;本周未发作&quot;。</li>
 <li><strong>一段周记落 <code>notes/YYYY-MM-DD-weekly-review.md</code></strong>（当周周日或复盘当日日期）。<strong>不落盘 = 没做</strong>（这正是断点①：&quot;信息不过系统等于没进过脑子&quot;）。</li>
 <li><strong>不产出目标价/买卖建议</strong>（项目 <code>CLAUDE.md</code> 硬规定）——产出的是论点变化 + 可选动作 + 三档情景。</li>
+<li><strong>「不动」被当成一个分支写出来，并标上它的默认后果</strong>（2026-10-27 起，来源 @bitfish「决策与随机」：弃权不在树外，默认分支由别人设）。「本周不动」合格的写法是「不动 = 继续持有 X% 的 AI 敞口 + 30% 现金，到下周的后果是……」，不是一个「无需动作」四个字。</li>
 </ol>
 <h2 id="流程">流程</h2>
 <ol>
@@ -78,6 +79,7 @@
 </ul>
 <ol>
 <li><strong>持仓纪律</strong>：调 <code>position-discipline</code> agent（或按其规则手动过）——只看 <code>portfolios/</code>，不看研究记录（避免双源真相）。</li>
+<p>4b. <strong>卖出是日历问题（2026-10-27 起）</strong>：减仓/卖出的执行窗口只有周复盘这一天（百慕大窗口），动作梯第 3/4 级的硬触发除外；周中冒出的「该卖了」只记进本周记的待办，下个窗口再执行。执行后 <strong>5 个交易日不看该票行情</strong>（卖后断流），本周记要写上周减仓的票有没有回头看。规则本体在 <code>portfolios/2026-07-30-high-valuation-trim-discipline.md</code>「六、执行纪律」2026-10-27 追加段。</p>
 <li><strong>行为自检</strong>：对照成功标准第 3 条那几个 memory，诚实点名本周的冲动/偏差。</li>
 <li><strong>落盘</strong>：写周记（模板见下），列出&quot;本周结论变化 / 下周待观察 / 待核实项&quot;。</li>
 <li><strong>更新 memory</strong>（可选）：若本周发现一个新的稳定偏差或反应模式，追加/更新对应 memory，并在 <code>MEMORY.md</code> 加一行指针。</li>
@@ -106,9 +108,16 @@
 
 ## 行为自检
 - 手痒/抄底冲动/踏空焦虑/单来源印证: &lt;本周是否发作，点名&gt;
+- 价格词检查: &lt;本周的论点或冲动里有没有「会涨/会跌/便宜/贵」；有就改写成公司词&gt;
+- 卖后断流: &lt;上周减仓的票，本周有没有回头看行情 / 想买回&gt;
 
 ## 本周结论变化
 - &lt;哪个论点被数据改了&gt;
+- &lt;该论点现在的裂缝：解释不了的东西&gt;
+
+## 可选动作
+- 不动 = &lt;默认分支的内容和到下周的后果&gt;
+- &lt;其它分支，只在周复盘窗口执行&gt;
 
 ## 下周待观察
 - &lt;可证伪的判据 + 开奖时间&gt;
@@ -121,12 +130,13 @@
 <p><strong>③ 触发器状态别只写数字，要写&quot;哪条动了&quot;。</strong> 0/4 连续 N 周和&quot;这周③从绿转黄但仍 0/4&quot;是两条完全不同的信息。</p>
 <p><strong>④ 持仓只从 <code>portfolios/</code> 读。</strong> 研究记录 ≠ 持仓记录，混用会造成双源真相（<code>CLAUDE.md</code> 硬规定）。</p>
 <p><strong>⑥ 增速下降 ≠ 价格下降 ≠ 动作。</strong> 二阶导转负是黄灯，作用是提前把动作梯写死，不是减仓理由；价格（租金指数）转跌才是红灯。把黄灯当红灯，就是 <code>dip-buy-trigger-signals-not-daycount</code> 的镜像错误。</p>
+<p><strong>⑦ 卖是日历问题，不是勇气问题。</strong> 周中的卖出冲动一律记待办、下个窗口执行；真正该立刻动的只有第 3/4 级硬触发。卖完五天不看行情，不是为了心情，是切断「反事实自带行情推送」这条后悔回路（@bitfish「卖出纪律」）。</p>
 <p><strong>⑤ 落盘走投研提交纪律</strong>：<code>git branch --show-current</code> 确认在 main → <code>git add investment-research/</code> → <code>git diff --cached --name-only | grep -v &quot;^investment-research/&quot;</code> 验零跨目录 → commit。<strong>若 HEAD 不在 main（别的会话切了分支）或全局有跨目录脏改动，停下问用户，不擅自切分支。</strong></p>
       </article>
       <aside class="doc-sidebar">
         <section class="sidebar-card">
           <h3 class="sidebar-title">文档导航</h3>
-          <ul class="toc-list"><li><a href="#成功标准做完长什么样">成功标准（做完长什么样）</a></li><li><a href="#流程">流程</a></li><li><a href="#周记模板">周记模板</a></li><li><a href="#上周待观察对账">上周待观察对账</a></li><li><a href="#四大触发器x4">四大触发器（X/4）</a></li><li><a href="#领先读数价格-二阶导">领先读数（价格 + 二阶导）</a></li><li><a href="#持仓纪律">持仓纪律</a></li><li><a href="#行为自检">行为自检</a></li><li><a href="#本周结论变化">本周结论变化</a></li><li><a href="#下周待观察">下周待观察</a></li><li><a href="#待核实">待核实</a></li><li><a href="#已知的坑">已知的坑</a></li></ul>
+          <ul class="toc-list"><li><a href="#成功标准做完长什么样">成功标准（做完长什么样）</a></li><li><a href="#流程">流程</a></li><li><a href="#周记模板">周记模板</a></li><li><a href="#上周待观察对账">上周待观察对账</a></li><li><a href="#四大触发器x4">四大触发器（X/4）</a></li><li><a href="#领先读数价格-二阶导">领先读数（价格 + 二阶导）</a></li><li><a href="#持仓纪律">持仓纪律</a></li><li><a href="#行为自检">行为自检</a></li><li><a href="#本周结论变化">本周结论变化</a></li><li><a href="#可选动作">可选动作</a></li><li><a href="#下周待观察">下周待观察</a></li><li><a href="#待核实">待核实</a></li><li><a href="#已知的坑">已知的坑</a></li></ul>
         </section>
         <section class="sidebar-card">
           <h3 class="sidebar-title">阅读提示</h3>
