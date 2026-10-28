@@ -83,6 +83,18 @@ def us_trading_date() -> str:
     return datetime.fromtimestamp(ts, timezone(timedelta(seconds=off))).date().isoformat()
 
 
+def et_fallback_date() -> str:
+    """Yahoo 拿不到时的退路：按美东时钟推最近一个已收盘的交易日（周末/16:00 前回退），绝不用本机北京日期——
+    2026-10-26~28 三天曾因此把前一晚的收盘记到北京日期上，整列错位一天。"""
+    from datetime import datetime, timedelta
+    from zoneinfo import ZoneInfo
+    now = datetime.now(ZoneInfo("America/New_York"))
+    d = now.date() if now.hour >= 16 else now.date() - timedelta(days=1)
+    while d.weekday() >= 5:
+        d -= timedelta(days=1)
+    return d.isoformat()
+
+
 def runpod_prices() -> dict[str, float | None]:
     body = json.dumps({"query": "{ gpuTypes { displayName lowestPrice(input:{gpuCount:1}) { uninterruptablePrice } } }"}).encode()
     d = json.loads(_get("https://api.runpod.io/graphql", data=body, headers={"Content-Type": "application/json"}))
@@ -200,7 +212,8 @@ def main() -> int:
         try:
             a.date = us_trading_date()
         except Exception as e:  # noqa: BLE001
-            print(f"  us_trading_date 失败，退回本机日期: {e!r}"[:120]); a.date = date.today().isoformat()
+            a.date = et_fallback_date()
+            print(f"  us_trading_date 失败，按美东时钟推算: {e!r}"[:100], "->", a.date)
     print(f"== fetch_dashboard {a.date}")
     row = fetch_row(a.date)
     upsert(row)
