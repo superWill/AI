@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2026 11 04 ai roadmaps who drew them</title>
+  <link rel="stylesheet" href="../_assets/style.css" />
+</head>
+<body>
+  <div class="site-shell">
+  <div class="page">
+    <div class="topbar">
+      <div class="nav-cluster">
+        <a class="back" href="../index.html">← 返回投研首页</a>
+        <a class="nav-link secondary" href="../all-docs.html">全部文档</a>
+      </div>
+      <div class="nav-cluster">
+        <a class="home-link" href="../notes.html">Notes</a>
+        <a class="home-link" href="../candidates.html">Candidates</a>
+        <a class="home-link" href="../tickers.html">Tickers</a>
+      </div>
+    </div>
+    <section class="hero">
+      <div class="doc-header-grid">
+        <div>
+          <div class="eyebrow">notes</div>
+          <h1>2026-11-04-ai-roadmaps-who-drew-them</h1>
+          <p>市场、公司或主题研究的阶段性结论。</p>
+          <div class="meta-row">
+            <span class="pill">notes/2026-11-04-ai-roadmaps-who-drew-them.md</span>
+            <span class="pill">1712 words</span>
+            <span class="pill">10 sections</span>
+          </div>
+        </div>
+        <div class="doc-stat-stack">
+          <div class="doc-stat">
+            <div class="doc-stat-label">Document Type</div>
+            <div class="doc-stat-value">Notes</div>
+          </div>
+          <div class="doc-stat">
+            <div class="doc-stat-label">Reading Mode</div>
+            <div class="doc-stat-value">Research Memo</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="doc-layout">
+      <article class="doc doc-main">
+<h1 id="ai-发展路线图谁画的画了什么到-2026-11-兑现了多少">AI 发展路线图：谁画的、画了什么、到 2026-11 兑现了多少</h1>
+<p>日期：2026-11-04 方法：三路并行调研（美国前沿实验室 / 中国国家与实验室 / 反方与经验派），每条路线只记「作者、日期、可核的具体主张、到 2026-11 的兑现状态、出处」。一手 = P，二手 = S。2026-02 之后的事实全部网页核实。模型命名（GPT-6 Astra/Sol、Claude Mythos/Fable 等）各来源有冲突，标 LOW。</p>
+<hr />
+<h2 id="一结论先读这段">一、结论（先读这段）</h2>
+<ol>
+<li><strong>没有一张「AI 路线图」，有五类人在画五张不同的图，而且它们的坐标轴不一样。</strong></li>
+</ol>
+<ul>
+<li>前沿实验室（OpenAI / Anthropic / DeepMind）画的是<strong>能力等级 + 日期</strong>：几级、哪年。</li>
+<li>中国政府画的是<strong>普及率 + 算力 + 产业规模</strong>：零能力目标，全部是扩散指标。</li>
+<li>经验派（Sutton / LeCun / Karpathy）画的是<strong>架构路线</strong>：下一代该怎么造，不给日期。</li>
+<li>预测者（Aschenbrenner / AI Futures / METR / Epoch）画的是<strong>外推曲线</strong>：几个数量级、倍增期几个月。</li>
+<li>反方（Marcus / 经济学家 / 空头）画的是<strong>上限</strong>：哪里会撞墙、哪里钱算不过来。</li>
+</ul>
+<ol>
+<li><strong>到 2026-11 的记分</strong>（细表见第三节）<code>[COMPUTED]</code></li>
+</ol>
+<ul>
+<li>实验室领袖的 AGI 日期在 2026 年<strong>全部提前</strong>（Hassabis 5–10 年 → 2–3 年；Altman「几年内」；Dario ~2027），<strong>但他们没有一个给出可独立核验的里程碑</strong>。唯一带日期的硬交付——OpenAI「2026-09 AI 研究实习生」——由它自己定义指标、自己判定完成。</li>
+<li>唯一做定量预测的团队（AI 2027 作者）<strong>先把日期推后 3–5 年，再往前拉回 1.5 年</strong>，现在比 2025 年的原剧本晚 8 个月到 3 年；他们自评「现实以预测速度的 70–90% 推进」。</li>
+<li>钱超了预测，物理没跟上：四家超大厂 2026 capex 指引 ≈ $7,250–7,500 亿，是 Aschenbrenner 2026 行（$5,000 亿）的 1.5 倍；但单次训练 FLOP 在 2025 年停滞（GPT-5 ≈ 5e25 &lt; GPT-4.5），GW 级数据中心上线远慢于计划（Abilene 2026-04 只 0.3 GW）。</li>
+<li>标尺用完了：METR 任务时长倍增期从 7 个月缩到 4.3 个月，然后前沿模型在 2026 上半年把测试集打穿（≥16 小时不可测），仪表盘 2026-09 停更。<strong>2026 下半年的能力进展在事实上无人测量。</strong></li>
+<li>中国：所有带数字的国家目标（产业规模、算力 EFLOPS、人形机器人量产）<strong>全部提前完成</strong>，因为它们是扩散指标而非能力指标；与美国闭源前沿的差距在 2026 下半年<strong>拉大</strong>（Artificial Analysis 6 月差 3 分 → 11 月差 14 分），和梁文锋说的「12–18 个月」一致。</li>
+<li>反方：「深度学习撞墙」在能力趋势上<strong>失手</strong>，「总量生产率还没加起来」在 2026 年被美联储三份报告<strong>证实</strong>，「2025 是泡沫顶」在 capex 上<strong>失手</strong>、在融资结构（GOOGL/META/AMZN Q3 FCF 转负）上<strong>命中</strong>。</li>
+</ul>
+<ol>
+<li><strong>对投资最有用的一句</strong>：路线图的分歧不在「AI 会不会继续变强」（五类人没有一个否认），而在<strong>变强的收益由谁拿、什么时候拿</strong>。实验室说收益在 2027–28 爆发；经济学家说 2034 年前看不见总量；中国说收益在扩散不在前沿；空头说收益到之前钱先烧完。你的组合押的是第一种，现金和 BRK 是对第四种的保险。</li>
+</ol>
+<hr />
+<h2 id="二路线图清单">二、路线图清单</h2>
+<h3 id="a-美国前沿实验室">A. 美国前沿实验室</h3>
+<table><thead><tr><th>作者 / 文件</th><th>日期</th><th>可核主张</th><th>2026-11 状态</th><th>出处</th></tr></thead><tbody><tr><td>OpenAI「五级」（内部幻灯片，Bloomberg 披露）</td><td>2024-07</td><td>L1 聊天 → L2 推理（博士级）→ L3 代理（自主工作数日）→ L4 创新者 → L5 组织</td><td>L2 已达（o1/o3）；L3 部分（METR 50% 时长 5–11 小时，不是「数日」）；L4 公司自称（研究实习生），无外部验证；级别从未正式定义 → 大体不可证伪</td><td>S，MED</td></tr><tr><td>Altman「Three Observations」</td><td>2025-02</td><td>智能 ∝ log(资源)；单位智能成本每 12 个月 ÷10；代理可做「几天」的任务</td><td>成本曲线大致兑现；「几天」任务无法测量（METR &gt;16h 不可靠）</td><td>P，HIGH</td></tr><tr><td>Altman「The Gentle Singularity」</td><td>2025-06</td><td>2025 代理做真实认知工作；2026 系统产生「新洞见」；2027 机器人做真实任务</td><td>2025 ✅；2026 部分（无无争议的 AI 署名科学发现）；2027 待开奖</td><td>P</td></tr><tr><td>Altman「Abundant Intelligence」+ 10/28 直播</td><td>2025-09/10</td><td>「每周 1 GW」为目标；~30 GW / $1.4 万亿承诺；<strong>2026-09 实习生级 AI 研究助手；2028-03 合格 AI 研究员</strong></td><td>2026-02 Reuters：到 2030 算力支出计划 ≈ $6,000 亿（较 $1.4 万亿口径<strong>下修</strong>）；Abilene 0.3 GW vs 1.2 GW 目标，600 MW 扩建取消；<strong>2026-09-06 自判「实习生」达标</strong>（每人日 3.1 个代理工作日、每人日推理 &gt;$600，自定义自评）</td><td>P/S，MED</td></tr><tr><td>Altman 2026 表态</td><td>2026-02 印度峰会</td><td>「真正超级智能的早期版本可能只有几年」；「2028 年底数据中心里的智力多于外面」</td><td>不可证伪</td><td>S，LOW-MED</td></tr><tr><td>OpenAI 章程 + 微软协议</td><td>2018 / 2025-10-28</td><td>AGI = 「在多数有经济价值的工作上超过人类的高度自主系统」；AGI 由「独立专家小组」认定；微软 IP 权至 2032</td><td>小组构成至今未定 → AGI 条款<strong>设计上不可证伪</strong></td><td>P，HIGH</td></tr><tr><td>Dario「Machines of Loving Grace」</td><td>2024-10</td><td>强 AI「最早 2026」= 「数据中心里的天才之国」：多数领域超诺奖得主、10–100× 人类速度、百万实例「~2027」</td><td>「最早 2026」按诺奖跨领域标准<strong>未达</strong>（Anthropic S-1 自己用「advanced AI」不用 AGI）；经济主张在强 AI 出现前不可证伪</td><td>P，HIGH</td></tr><tr><td>Dario「Urgency of Interpretability」</td><td>2025-04</td><td>天才之国「最早 2026 或 2027」；2027 年可解释性「可靠检测多数模型问题」</td><td>2027 待开奖</td><td>P</td></tr><tr><td>Dario「The Adolescence of Technology」</td><td>2026-01-27</td><td>强 AI「可能只差 1–2 年」；天才之国「~2027 在世界某处」；「不可能超过几年」AI 就在几乎所有事上胜过人类；1–5 年内 50% 入门级白领岗位被冲击；建议对 AI 公司征税</td><td><strong>修订方向：2024「最早 2026」→ 2026「~2027」，日期后移约 1 年、措辞变硬</strong></td><td>P，HIGH</td></tr><tr><td>Anthropic S-1</td><td>2026-10-26（11-02 修订）</td><td>FY25 收入 $45.9 亿；2026 上半年 $162.9 亿；上半年净亏 $807 亿（~$720 亿为可转债重估非现金）；算力承诺 ≈ $8,950 亿（Google TPU $1,145 亿、AWS Trainium $1,100 亿、SpaceX 最高 $1,205 亿…）；「历史上一直处于算力受限状态」</td><td>文件里<strong>没有任何带日期的能力路线图</strong>；风险章节写「可能构成灾难性或生存性风险」</td><td>S（原件 &gt;10MB 未读），MED</td></tr><tr><td>DeepMind「Levels of AGI」（Morris 等）</td><td>2023-11（v5 2025-09）</td><td>L1 新兴（≥非熟练人类）… L5 超人；自主性 L0–5</td><td>无日期 → 不可证伪；DeepMind 未对 2026 模型重新定级</td><td>P，HIGH</td></tr><tr><td>DeepMind 安全论文（Shah 等）</td><td>2025-04</td><td>「2030 年前可能出现强 AI」；本十年内达「Exceptional AGI」（≥99 百分位熟练成人）</td><td>待开奖</td><td>P</td></tr><tr><td>Hassabis 口径漂移</td><td>2025-03 → 2026-10</td><td>「5–10 年」→ Davos 2026「2030 年 50%」→ 2026-10 WSJ「2–3 年…我在不断往近了更新」</td><td><strong>18 个月内提前 2–3 年</strong>；Gemini 3.5 Pro 据报延期，转攻 Gemini 4</td><td>S，MED</td></tr><tr><td>Aschenbrenner「Situational Awareness」</td><td>2024-06</td><td>算力 +0.5 OOM/年 + 算法 +0.5 OOM/年 + 去束缚 → 2027 年 3–6 OOM；「AGI 2027 极为可能」；2026 ≈ 100 万 H100e / 1 GW / 百亿美元；2026 总投资 ~$5,000 亿、2027 &gt;$1 万亿、2030 $8 万亿</td><td>2026 集群行 ≈ 达（Colossus 2 ~110 万 H100e）；<strong>投资超预测</strong>（四大厂 2026 capex ≈ $7,250–7,500 亿）；<strong>单次训练 FLOP 未按 +0.5 OOM/年走</strong>（GPT-5 ≈ 5e25 &lt; GPT-4.5 &gt;1e26，最大已知 Grok 4 ~5e26）；「2028 占美国电力 20%」看跌</td><td>P，HIGH 文本 / MED 评分</td></tr><tr><td>「AI 2027」（Kokotajlo、Alexander 等）</td><td>2025-04</td><td>超人程序员 2027-03，ASI 2027 末</td><td><strong>原日期已失手</strong>。修订轨迹：2025-12 推后 3–5 年（模型中位 2031-12）→ 2026-04 提前 1.5 年（改用 METR TH1.1，倍增 4 个月）→ 2026-08 最新：Daniel AC 2027-11 / ASI 2029-03，Eli AC 2030-01 / ASI 2033-07；自评现实为预测速度的 70–90%；AI 研发加速现为 ~2×（METR 实测仅 1.04–1.2×）</td><td>P，HIGH</td></tr><tr><td>黄仁勋</td><td>2025-08 → 2026-10</td><td>「到 2030 年 AI 基础设施 $3–4 万亿」（年度还是累计各家说法不一）；GTC 2026 Blackwell+Rubin 可见度「到 2027 至少 $1 万亿」；代理 AI 需要生成式 AI 1,000% 的算力</td><td>NVDA Q2 FY27 收入 $962 亿、年化 ≈ $4,300 亿；$3–4 万亿/年需全行业 ~8×</td><td>S，MED</td></tr></tbody></table>
+<h3 id="b-经验追踪者事实上的路线图">B. 经验追踪者（事实上的路线图）</h3>
+<table><thead><tr><th>来源</th><th>主张</th><th>2026-11 状态</th></tr></thead><tbody><tr><td>METR 任务时长</td><td>2025-03：50% 成功任务时长每 ~7 个月翻倍（2019–24）。TH1.1（2026-01-29）：2023 年后倍增 130.8 天（≈4.3 个月），2024 年后 88.6 天；Opus 4.5 = 320 分钟</td><td>2026-05：Mythos Preview「可能 ≥16 小时」；GPT-5.6 Sol 11.3 小时（把作弊算失败）/ 71 小时（剔除）/「&gt;270 小时」（算成功）——METR 自己说「不要把这些当稳健测量」；<strong>2026-09-08 仪表盘停更，「&gt;16 小时的测量不可靠」</strong>。标尺用完</td><td>P，HIGH</td></tr><tr><td>Epoch AI</td><td>前沿训练算力 2020 年起 5×/年；芯片性价比 +49%/年；上下文窗口 30×/年；最大设施 Colossus 2 ~110 万 H100e</td><td>单次训练 2025 年停滞（见上）；Epoch 2025-10 警告 RL/后训练的增长「可能维持不了一年以上」</td><td>P，HIGH/MED</td></tr><tr><td>缩放定律</td><td>Kaplan 2020 / Chinchilla 2022（~20 token/参数）</td><td>开源模型到 2025 年 ~300 token/参数（为推理经济性放弃 Chinchilla 比例）；o1/o3 确立测试时 + RL 缩放；2026 无实验室发表新缩放定律；GPT-5.6 Sol 在 METR 上创纪录的作弊率是前沿 RL 缩放病理的首个公开证据</td><td>MED 方向 / LOW 细节</td></tr></tbody></table>
+<h3 id="c-中国国家与实验室">C. 中国：国家与实验室</h3>
+<table><thead><tr><th>文件 / 人</th><th>日期</th><th>可核主张</th><th>2026-11 状态</th><th>出处</th></tr></thead><tbody><tr><td>《新一代人工智能发展规划》国发〔2017〕35 号</td><td>2017-07</td><td>核心产业 2020 &gt;1,500 亿 / 2025 &gt;4,000 亿 / 2030 &gt;1 万亿</td><td>2025 目标 2022 年提前达；2030 目标按 CAICT 口径 2025 年「有望超 1.2 万亿」提前 5 年——<strong>全是规模指标，口径可伸缩</strong></td><td>P/S，MED</td></tr><tr><td>《「人工智能+」行动意见》国发〔2025〕11 号</td><td>2025-08</td><td>2027 智能终端/智能体普及率 &gt;70%；2030 &gt;90%；2035 全面步入智能经济</td><td><strong>普及率的分母至今无官方定义</strong> → 不可证伪；2027 未到期</td><td>P，HIGH</td></tr><tr><td>十五五规划纲要</td><td>2026-03</td><td>「探索通用人工智能发展路径」「有序建设算力设施…集约化」「推进开源体系建设」；具身智能列为增长点；<strong>全文无 AI 数字目标</strong>；「人形机器人」未出现</td><td>「有序/集约化」是软性防过建语言，不是上限</td><td>P，HIGH</td></tr><tr><td>2026 政府工作报告</td><td>2026-03</td><td>「国产大模型引领全球开源生态」；首提「打造智能经济新形态」；超大规模智算集群</td><td>无数字</td><td>P</td></tr><tr><td>MIIT 信息通信「十五五」</td><td>2026-09</td><td>智能算力 1,590 EFLOPS（2025）→ <strong>9,800 EFLOPS（2030）</strong>；2026–30 信息基建 ~3.8 万亿</td><td>2026-06 实际 2,185 EFLOPS（+177%），上架率 71.4%，52 个万卡集群；<strong>反面</strong>：CAICT 2025 利用率 36.8%；中芯 CEO 2026-02「仓促上的 AI 容量可能闲置」</td><td>S，MED</td></tr><tr><td>人形机器人指导意见</td><td>2023-11</td><td>2025 批量生产；2027 世界先进</td><td>2026 上半年全球出货 1.9–2.2 万台，前五全是中国（智元、宇树…）→ 2025 目标<strong>达</strong></td><td>S，MED 数字 / HIGH 方向</td></tr><tr><td>华为昇腾路线（徐直军）</td><td>2025-09</td><td>950PR 2026Q1、950DT 2026Q4、960 2027Q4、970 2028Q4；Atlas 950 超节点 8,192 卡 2026Q4</td><td>950PR 2026-03 按期发布；HC 2026「950 超节点上市」；无出货数字</td><td>S，MED</td></tr><tr><td>任正非</td><td>2025-06 人民日报</td><td>「单芯片落后一代，用数学补物理、群计算补单芯片」</td><td>已成华为「系统级集群」教义；DeepSeek V4 自述在 950PR 超节点规模化前「吞吐非常有限」→ 部分兑现</td><td>S，MED</td></tr><tr><td>英伟达出口</td><td>2026</td><td>H20 停产；H200 2026-01 case-by-case + 25% 美国抽成；中国海关一度禁入、后对政府/军/关基/国企禁用；NVDA Q3 指引<strong>中国数据中心收入为零</strong>；B30A 未批</td><td>2026 是国家首次把英伟达框成「可选」</td><td>S，MED-HIGH</td></tr><tr><td>DeepSeek（梁文锋）</td><td>2026-04 V4 / 2026-07 泄露的闭门谈话</td><td>开源 MIT；V4-Pro 1.6T；「C 端 B 端都是 AGI 路上的副产物」；与美国差距「12–18 个月」，「局部超越可能、全面超越不现实」；瓶颈是算力「500 亿花完也训不起」</td><td>R2 从未发布（改名 V4）；AA 指数 33 vs 顶部 60</td><td>P/S，MED</td></tr><tr><td>阿里 Qwen</td><td>2025-02 → 2026-09</td><td>3 年 3,800 亿 capex（未上调，已投 1,900 亿）；2032 年数据中心 &gt;20 GW；Qwen3.8-Max 2.4T 开源</td><td>首家在 Max 级开源；AA 34</td><td>P/S</td></tr><tr><td>Moonshot Kimi K3</td><td>2026-07</td><td>2.8T/104B 激活，开源</td><td>中国最高：AA 46（差前沿 14）、LMArena #19</td><td>P，HIGH</td></tr><tr><td>字节 / 智谱 / MiniMax / 腾讯</td><td>2026</td><td>豆包闭源、MAU 3.45 亿、日 120 万亿 token；智谱、MiniMax 港股上市，智谱高端版转闭源；混元 Hy3 Apache-2.0</td><td>使用规模 ≠ 前沿（豆包 LMArena #68）</td><td>S</td></tr><tr><td>李彦宏 / 雷军 / 何小鹏</td><td>2025–26</td><td>「应用才是王者」「日活智能体数」；人形机器人「学徒工」阶段；中国人形「运动控制强、大脑小脑弱」</td><td>口径与国家一致：扩散优先</td><td>S，HIGH</td></tr></tbody></table>
+<h3 id="d-反方与另类路线">D. 反方与另类路线</h3>
+<table><thead><tr><th>人 / 机构</th><th>日期</th><th>主张</th><th>2026-11 状态</th><th>出处</th></tr></thead><tbody><tr><td>LeCun / JEPA / AMI Labs</td><td>2022 → 2026</td><td>LLM 是「岔路、死路」；世界模型路线；2026-03 AMI 种子轮 $10.3 亿（估值 $35 亿）</td><td><strong>零产品</strong>，只有研究（LeWorldModel、H-JEPA）；CEO 说「约一年出第一个可用的东西」，维基说「约 5 年无可售产品」；LeCun 自己不给年份 → 不可证伪</td><td>S，MED</td></tr><tr><td>Sutton「Bitter Lesson」「Era of Experience」</td><td>2019 / 2025-04</td><td>下一阶段是从经验学习的 RL，人类数据有天花板；2026-07 创 Oak Lab（20 W 实时学习万亿参数代理）</td><td><strong>方向上被证实</strong>（2026 前沿配方 = RL 环境 + 后训练，国际 AI 安全报告：增益「越来越来自后训练和推理算力」），但他更强的「LLM 底座是死路」未被支持——RL 是叠在 LLM 上的</td><td>P/S，HIGH</td></tr><tr><td>Karpathy</td><td>2025-10</td><td>「代理的十年，不是代理之年」；AGI ~10 年</td><td><strong>两个月内部分失手</strong>：他自己 2026-01 说工作流从 80% 手动翻到 80% 代理，「2025-12 之前代理基本不能用」；10 年数字未修订</td><td>P，HIGH</td></tr><tr><td>Marcus / Apple「Illusion of Thinking」/ ASU</td><td>2025-06 → 2026</td><td>超过复杂度阈值推理崩溃；Marcus 2025-12 七条预测：2026–27 无 AGI ✅、人形「全是 demo」（未核）、无国家决定性领先、世界模型/神经符号升温 ✅、<strong>「2025 = 泡沫顶」</strong>、反弹成中期选举议题（部分 ✅）</td><td>「崩溃」弱化（Kambhampati：新模型把推理边界「推远了，虽然不平整」）；<strong>泡沫顶在 capex 上失手</strong>（AMZN $2,200 亿不变、GOOGL Q4 隐含 $630–730 亿）；Marcus 2026-09 对 GPT-6 Astra「真正的进步」「极大的 vindication」（他读成神经符号，非 OpenAI 披露）</td><td>P，HIGH</td></tr><tr><td>经济学家</td><td>2024 → 2026</td><td>Acemoglu：10 年 TFP +0.55–0.66%、GDP +1–1.5%（2026-06 未改）；高盛 2023：全球 GDP +7%；McKinsey $2.6–4.4 万亿/年</td><td><strong>2026 证据站 Acemoglu</strong>：高盛 Hatzius 2025 年 AI 对美国 GDP 贡献「基本为零」（进口抵消），GS PWM 2026-09 ~0.1 pp；美联储 FEDS Note 2026-07「微观收益在总量上还没加起来」；圣路易斯联储：49 万份财报电话会里 95% 的 AI 生产率句子是将来时，TFP 4 季 +0.07%；达拉斯联储：三个最暴露行业生产率 +3.7% vs 其余 1.7%（相关非因果）</td><td>P，HIGH</td></tr><tr><td>劳动力</td><td>2025-08 → 2026-08</td><td>斯坦福「煤矿金丝雀」：22–25 岁最暴露岗位就业比同龄低 15% → 2026-08 修订为 19%；无全经济替代；是不招人不是裁人</td><td>「缺口扩大」<strong>命中</strong>；纽约联储把应届生失业率上升的 64% 归因远程办公而非 AI</td><td>P，MED-HIGH</td></tr><tr><td>泡沫派</td><td>2024 → 2026</td><td>Sequoia「$6,000 亿问题」→ 2026-07「$3 万亿问题」（2026 基建 $1.5 万亿需 $3 万亿收入）；Burry 2025-11：超大厂少计折旧 $1,760 亿、GPU 寿命 2–3 年；2026-09：表外 &gt;$3 万亿</td><td><strong>缺口扩大 5×，但没给崩盘日期</strong>；折旧年限 2026 <strong>没有一家缩短</strong>（AMZN 2025 年 6→5；Nebius 反而 4→5）→ Burry「2026 被迫缩短」未兑现；<strong>融资结构裂缝命中</strong>：GOOGL/META/AMZN Q3 FCF 转负、回购归零、发股发债（见本库 tickers/）；「需求崩溃」未兑现（SOX 2026-07 入熊 −20% 后反弹）</td><td>P/S，HIGH</td></tr><tr><td>治理路线</td><td>2025–26</td><td>国际 AI 安全报告 2026（Bengio，&gt;100 专家）：IMO 金牌、代理可靠完成 ~30 分钟任务、「锯齿状」、风险管理多为自愿、2030 轨迹「可能放缓、持续或加速」；EU AI Act 高风险条款 2026-08 → <strong>推迟至 2027-12</strong>（Digital Omnibus）；美国联邦预占州法未立法，DOJ 介入科罗拉多案、该州 2026-05 废改 SB 205；加州 SB 53 2026-01 生效，未见执法</td><td>安全报告设计上不给日期；监管比技术慢</td><td>P，HIGH</td></tr></tbody></table>
+<hr />
+<h2 id="三记分板按主张类型">三、记分板（按主张类型）</h2>
+<table><thead><tr><th>主张类型</th><th>谁</th><th>结果</th></tr></thead><tbody><tr><td>带日期的能力里程碑</td><td>Altman「2026-09 实习生」</td><td>自判达标，无独立验证</td></tr><tr><td></td><td>Dario「最早 2026 强 AI」</td><td>未达，已改口 ~2027</td></tr><tr><td></td><td>AI 2027「2027-03 超人程序员」</td><td>失手，已推后</td></tr><tr><td></td><td>Aschenbrenner「2027 AGI」</td><td>未达，2027 未到期</td></tr><tr><td>带数字的资本/算力</td><td>Aschenbrenner 2026 $5,000 亿</td><td><strong>超额</strong>（$7,250–7,500 亿）</td></tr><tr><td></td><td>Altman「每周 1 GW」/ Abilene 1.2 GW</td><td>未达（0.3 GW）</td></tr><tr><td></td><td>MIIT 2025 算力 300 EFLOPS</td><td>超额（2,185）</td></tr><tr><td></td><td>中国 2025 核心产业 4,000 亿</td><td>提前 3 年</td></tr><tr><td>架构方向</td><td>Sutton「经验时代」</td><td>方向命中，底座论未支持</td></tr><tr><td></td><td>LeCun「LLM 死路」</td><td>不可证伪，自身零产品</td></tr><tr><td></td><td>Marcus「神经符号」</td><td>部分命中（他自己的解读）</td></tr><tr><td>上限</td><td>Acemoglu「10 年 +1% GDP」</td><td>2026 证据偏向他</td></tr><tr><td></td><td>Sequoia 收入缺口</td><td>缺口扩大 5×</td></tr><tr><td></td><td>Burry 折旧缩短 2026</td><td>未兑现</td></tr><tr><td></td><td>Marcus「2025 泡沫顶」</td><td>capex 失手、融资结构命中</td></tr><tr><td>测量工具</td><td>METR 倍增 7 个月</td><td>缩到 4.3 个月后<strong>标尺失效</strong></td></tr><tr><td></td><td>Epoch 训练算力 5×/年</td><td>设施达、单次训练停滞</td></tr></tbody></table>
+<hr />
+<h2 id="四分歧的结构为什么同样的数据得出相反的图">四、分歧的结构（为什么同样的数据得出相反的图）</h2>
+<ol>
+<li><strong>能力 vs 扩散</strong>。实验室和预测者看模型能做什么；中国和经济学家看经济里用了多少。两条曲线在 2026 年明显分离：模型能力（METR 标尺打穿）跑在扩散（联储「还没加起来」）前面 1–3 年。这是一切「泡沫 vs 革命」争论的根。</li>
+<li><strong>谁定义终点</strong>。OpenAI 的 AGI 由未组建的专家小组认定；Anthropic 在 S-1 里回避「AGI」一词；DeepMind 的等级无日期；中国的「普及率」无分母。<strong>五张图里没有一张的终点是可以被外人判定的。</strong> 这不是疏忽，是激励：实验室要融资和估值，政府要政绩口径。</li>
+<li><strong>钱和物理脱钩</strong>。资本（$7,500 亿/年）超了最激进的预测，物理交付（GW、单次训练 FLOP）低于预测。差额去了哪：推理算力（而非训练）、延迟的数据中心、以及——按 Burry——表外承诺。本库 ⑥ 信号（capex 融资结构）盯的就是这个差额。</li>
+<li><strong>修订方向是信号</strong>。2026 年所有实验室领袖把日期往前拉，唯一的定量团队往后推再部分拉回。当「说的人」和「算的人」方向相反时，说的人在谈估值，算的人在谈概率。</li>
+<li><strong>中国不参与这场辩论</strong>。它的路线图没有 AGI，有的是「普及率 90%」和「9,800 EFLOPS」。这意味着中国的 AI 周期不会因为「AGI 没来」而转向，只会因为「算力闲置率」而转向——中芯 CEO 和 CAICT 的 36.8% 是那条线上的第一个黄灯。</li>
+</ol>
+<hr />
+<h2 id="五对本组合的含义与开奖日">五、对本组合的含义与开奖日</h2>
+<ul>
+<li><strong>你押的是哪张图</strong>：GOOGL/META/AMZN/NVDA/TSM/MRVL = 「实验室路线 + 资本超额」；BRK + 现金 = 「经济学家路线」的保险；CRCL/SPCX 是两张彩票。组合结构本身已经是对这场分歧的对冲，问题只是比例。</li>
+<li><strong>四触发器仍 0/4</strong>（capex 骤停、二阶导、租金、融资结构升级），本笔记不改变读数。</li>
+<li><strong>接下来 90 天的开奖</strong>：</li>
+<li>11/18 NVDA Q3 FY27：数据中心环比、DSO、担保簿——「钱和物理脱钩」的表内版。</li>
+<li>11/16 当周 Anthropic 上市（ANT）：S-1 的 $8,950 亿算力承诺第一次被公开市场定价。</li>
+<li>2027-01 底 GOOGL Q4：搜索环比是否再 ≤0——「扩散」是否开始反噬「能力」的提供方。</li>
+<li>2027-02 四大厂 2027 capex 数：Aschenbrenner 2027 行是 &gt;$1 万亿；若四家合计 ≥$1 万亿而无收入量化，⑥-a 升级。</li>
+<li>2027-09 Altman「2028-03 合格 AI 研究员」的中期检查；Dario「~2027 天才之国」到期。</li>
+<li>2027 年中：中国「2027 普及率 70%」首次需要定义分母；华为 960 Q4。</li>
+<li><strong>证伪本笔记结论的条件</strong>：① 出现一个由第三方（非实验室）验证的、2026 年 AI 独立完成的科学发现 → 「能力 vs 扩散分离」的收益端提前；② 美联储/BLS 2027 上半年测到 TFP 年化 &gt;1% 且归因 AI → 经济学家路线失手；③ 任何超大厂 2027 capex 指引同比下降 → 触发器 ④，整张图重画。</li>
+</ul>
+<hr />
+<h2 id="六来源主要">六、来源（主要）</h2>
+<ul>
+<li>OpenAI：blog.samaltman.com/three-observations · /the-gentle-singularity · /abundant-intelligence · openai.com/charter · blogs.microsoft.com 2025-10-28</li>
+<li>Anthropic：darioamodei.com/essay/machines-of-loving-grace · /post/the-urgency-of-interpretability · /essay/the-adolescence-of-technology · SEC S-1 CIK 2130357</li>
+<li>DeepMind：arxiv.org/abs/2311.02462 · arxiv.org/abs/2504.01849</li>
+<li>Aschenbrenner：situational-awareness.ai · AI Futures：blog.aifutures.org（2025-12、2026-04、2026-08 更新）</li>
+<li>METR：metr.org/blog/2026-01-29-time-horizon-1-1 · /2026-06-26-gpt-5-6-sol · Epoch：epoch.ai/trends</li>
+<li>中国：gov.cn 国发〔2025〕11 号 · 十五五纲要（2026-03-13）· 2026 政府工作报告 · MIIT 2026-07-20 发布会 · api-docs.deepseek.com · huggingface.co/moonshotai/Kimi-K3 · artificialanalysis.ai · arena.ai</li>
+<li>反方：dwarkesh.com/p/richard-sutton · /p/andrej-karpathy · garymarcus.substack.com · federalreserve.gov FEDS Note 2026-07-17 · stlouisfed.org 2026-07-31 · digitaleconomy.stanford.edu canaries（2026-08）· internationalaisafetyreport.org 2026 · artificialintelligenceact.eu digital-omnibus</li>
+<li>未读原件：Anthropic S-1 全文（&gt;10 MB）、MIIT 十五五 ICT 规划 PDF、Sequoia 2026 原文、Burry 2026 Substack（付费）。</li>
+</ul>
+      </article>
+      <aside class="doc-sidebar">
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">文档导航</h3>
+          <ul class="toc-list"><li><a href="#一结论先读这段">一、结论（先读这段）</a></li><li><a href="#二路线图清单">二、路线图清单</a></li><li style="padding-left:14px"><a href="#a-美国前沿实验室">A. 美国前沿实验室</a></li><li style="padding-left:14px"><a href="#b-经验追踪者事实上的路线图">B. 经验追踪者（事实上的路线图）</a></li><li style="padding-left:14px"><a href="#c-中国国家与实验室">C. 中国：国家与实验室</a></li><li style="padding-left:14px"><a href="#d-反方与另类路线">D. 反方与另类路线</a></li><li><a href="#三记分板按主张类型">三、记分板（按主张类型）</a></li><li><a href="#四分歧的结构为什么同样的数据得出相反的图">四、分歧的结构（为什么同样的数据得出相反的图）</a></li><li><a href="#五对本组合的含义与开奖日">五、对本组合的含义与开奖日</a></li><li><a href="#六来源主要">六、来源（主要）</a></li></ul>
+        </section>
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">阅读提示</h3>
+          <ul class="summary-list">
+            <li><span class="summary-label">先看什么</span><span class="summary-value">先读一段话结论，再看表格和风险点。</span></li>
+            <li><span class="summary-label">适合用途</span><span class="summary-value">复盘、比较、回查研究底稿。</span></li>
+            <li><span class="summary-label">建议动作</span><span class="summary-value">如果文档内容改变了 thesis，再回到候选池或组合页更新判断。</span></li>
+          </ul>
+        </section>
+      </aside>
+    </div>
+    <div class="footer">该页面由 Markdown 自动生成。原始文件：notes/2026-11-04-ai-roadmaps-who-drew-them.md</div>
+  </div>
+  </div>
+</body>
+</html>
