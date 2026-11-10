@@ -105,3 +105,10 @@ data_source: 本机 yfinance 收盘价（11/5）· data/dashboard/daily.csv（Ru
 - Calpine 在得州 ERCOT 的装机占比（凭记忆写的，11/9 财报核一手材料）。
 - MSFT 本季 capex 指引（status.json 里写了未核）。
 - NET Q3 写入 `tickers/NET.md`。
+
+## 2026-11-11 补记（财报对账后的更正与结案，原文不改）
+
+- **更正**：上面「AAPL = 内存需求破坏第二份证词」归类过头。一手 10-K + 电话会（Fool 二手转录）给的是**成本传导 + 下游锁量**（12 月季毛利指引同口径 −100bp、零部件库存 4.9×、制造采购义务 $562 亿 → $897 亿），CFO 原话「it's early to really read price elasticity」。需求破坏证词仍只有 INTC 一家；AAPL 的升级条件写在 `tickers/AAPL.md` 证伪表。`[KNOWN 一手数字, HIGH；INFERRED, MED-HIGH]`
+- **CEG 门控结案**：指引过（$12.50–12.80）、新 PPA 单价无法判定（公司不披露单价，门槛本身不可观测）、得州无法判定（10-Q 对审批暂停只字未提；ERCOT 2027 火花价差远期 −21%）⇒ 不满足「三过二」，**分支 B 前提不成立，11/14–15 窗口不开 CEG**。替代门控在 `tickers/CEG.md`，开奖 ~2027-02。
+- **CRWV 黄灯**：Q3 财报后维持黄（10-Q 未出，暂定）。本文把「NVDA 兜底被触发」标作 ⑥-d，而 9/25 的定义里 ⑥-d = 实体交付断、NVDA 扛信用 = ⑥-b——**编号待统一**。
+- **待办结案**：NET Q3（连同 Q2 补录）、BRK、AAPL、PLTR、CRWV 均已写入各自 ticker 档。Calpine 得州装机占比：公司不按地区拆 Calpine 分部，**仍未核到**。
