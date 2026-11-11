@@ -1,0 +1,13 @@
+{
+  "_note": "摄像头连接示例。**不要把真实密码写进这里或提交 Git**;密码用环境变量 CAM_RTSP / CAM_PASSWORD 注入。",
+  "camera_id": "driver-cam-1",
+  "host": "192.168.1.110",
+  "rtsp_port": 554,
+  "main_stream_path": "/0",
+  "sub_stream_path": "/1",
+  "username": "admin",
+  "password_env": "CAM_PASSWORD",
+  "rtsp_transport": "tcp",
+  "prefer_stream": "sub",
+  "_url_hint": "rtsp://<user>:<CAM_PASSWORD>@<host>:<rtsp_port><main_stream_path> —— 实际 path 以 ONVIF 返回为准"
+}
