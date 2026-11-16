@@ -83,6 +83,24 @@ def build_queries() -> dict[str, yf.EquityQuery]:
                 equity_query("lt", ["totaldebtequity.lasttwelvemonths", 100]),
             ],
         ),
+        # 2026-11-16：质量口径（巴菲特后期 / 芒格式）——不是「便宜」，是
+        # 「高资本回报 + 低负债 + 有现金流 + 还在增长 + 价格不离谱」。
+        "quality_compounder": equity_query(
+            "and",
+            common
+            + [
+                equity_query(
+                    "btwn", ["intradaymarketcap", 300_000_000, 10_000_000_000]
+                ),
+                equity_query("gt", ["returnontotalcapital.lasttwelvemonths", 15]),
+                equity_query("gt", ["returnonequity.lasttwelvemonths", 15]),
+                equity_query("lt", ["netdebtebitda.lasttwelvemonths", 1.5]),
+                equity_query("gt", ["leveredfreecashflow.lasttwelvemonths", 0]),
+                equity_query("btwn", ["peratio.lasttwelvemonths", 0, 22]),
+                equity_query("gt", ["totalrevenues1yrgrowth.lasttwelvemonths", 0]),
+                equity_query("gt", ["grossprofitmargin.lasttwelvemonths", 25]),
+            ],
+        ),
     }
 
 
