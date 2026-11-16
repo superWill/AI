@@ -15,6 +15,13 @@
 - **期权：可用但只走两条正道**（2026-07-23 确认有权限、可卖 put）：cash-secured put（愿接货价=收钱的限价单）+ 备兑 call。禁区：买短期虚值博方向、裸卖 call、对正在减仓的内存/SOXX 腿（MU/SKHY/NVDA/TSM）卖 put、用期权放大 SOXX 敞口。短 put 义务必须记入 `portfolios/`（见 `ibkr-options-playbook`）。
 - 组合真实风险对象是**半导体周期不是大盘**：betaSOXX 0.89 / betaSPY 2.31。风险讨论锚定 SOXX（见 `portfolio-soxx-factor-risk`）。
 
+## 新名字先过 `value-investor`（2026-11-16 起）
+
+- 组合里没有的标的，用户问「能不能买 / 值不值得买 / 买一点」时，**先派 `value-investor` 子 agent 出判决，再回答**，不要自己直接给分析。判决落到 `tickers/<T>.md`。
+- 判决「不懂，过」→ 如实转述并停在那里；不要接着用 EV/IRR 把它绕过去（那是 `probability-analyst` 的活，两者分歧要并排摆出来）。
+- 起因：2026-11-15 用户连问三次 ANT，三次都没调用它。
+- 语料：股东信 1977–1997 在 `data/brk-annual-reports/letters/`，年报全文 1998–2025 在 `data/brk-annual-reports/txt/`（本机，不进仓库；缺了跑 `scripts/fetch_buffett_letters.py`）。
+
 ## 表达纪律
 
 - 不给「目标价」「建议买入/卖出」——给的是**论点变化 + 可选动作 + 三档情景（悲观/基准/乐观）IRR**。

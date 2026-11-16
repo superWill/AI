@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2026 11 16 value investor agent eval</title>
+  <link rel="stylesheet" href="../_assets/style.css" />
+</head>
+<body>
+  <div class="site-shell">
+  <div class="page">
+    <div class="topbar">
+      <div class="nav-cluster">
+        <a class="back" href="../index.html">← 返回投研首页</a>
+        <a class="nav-link secondary" href="../all-docs.html">全部文档</a>
+      </div>
+      <div class="nav-cluster">
+        <a class="home-link" href="../notes.html">Notes</a>
+        <a class="home-link" href="../candidates.html">Candidates</a>
+        <a class="home-link" href="../tickers.html">Tickers</a>
+      </div>
+    </div>
+    <section class="hero">
+      <div class="doc-header-grid">
+        <div>
+          <div class="eyebrow">notes</div>
+          <h1>2026-11-16-value-investor-agent-eval</h1>
+          <p>市场、公司或主题研究的阶段性结论。</p>
+          <div class="meta-row">
+            <span class="pill">notes/2026-11-16-value-investor-agent-eval.md</span>
+            <span class="pill">290 words</span>
+            <span class="pill">6 sections</span>
+          </div>
+        </div>
+        <div class="doc-stat-stack">
+          <div class="doc-stat">
+            <div class="doc-stat-label">Document Type</div>
+            <div class="doc-stat-value">Notes</div>
+          </div>
+          <div class="doc-stat">
+            <div class="doc-stat-label">Reading Mode</div>
+            <div class="doc-stat-value">Research Memo</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="doc-layout">
+      <article class="doc doc-main">
+<hr />
+<p>title: value-investor agent 校验——ANT 现成检验 + 六案例回测 + 前向记录 date: 2026-11-16 type: 方法 / 工具校验</p>
+<hr />
+<h1 id="value-investor-agent-校验2026-11-16">value-investor agent 校验（2026-11-16）</h1>
+<blockquote>起因：用户问「能不能训练一个巴菲特 agent 专门研究股票」。仓库里已经有 <code>.claude/agents/value-investor.md</code>，问题是没被用、没被检验过、不引原文。本篇记录当天做的三件事和一个结论。</blockquote>
+<h2 id="一结论先说">一、结论（先说）</h2>
+<ol>
+<li><strong>回测 6/6 全对，但这个结果不能当证据。</strong> 六个案例它全部认出或猜出了公司（它自己如实报告的），匿名化和缩放没挡住。它知道这些公司后来怎样。<code>[KNOWN，本次实测，HIGH]</code></li>
+<li><strong>回测能说明的只有两件小事：</strong> 它不是一律拒绝（6 个里放行 2 个），也不是在同一关机械地停（停在第 1 关 1 次、第 2 关 3 次、四关全过 2 次）。<code>[COMPUTED，HIGH]</code></li>
+<li><strong>唯一干净的检验是前向记录。</strong> 从今天起每份判决记一行，到复核日对照。见第四节。</li>
+<li><strong>ANT：停在第 1 关，「不懂，过」。</strong> 理由是讲不清十年后为什么还赚钱：单位经济没稳定、说不出客户不换的机制、领先按季度算。</li>
+</ol>
+<h2 id="二当天改了什么">二、当天改了什么</h2>
+<table><thead><tr><th>项</th><th>改动</th></tr></thead><tbody><tr><td>语料</td><td>新增 <code>scripts/fetch_buffett_letters.py</code>，下载 1977–1997 年 21 封股东信到 <code>data/brk-annual-reports/letters/</code>（本机，不进仓库）。1998–2025 年报全文原本就在 <code>data/brk-annual-reports/txt/</code>。合计 1977–2025 连续。</td></tr><tr><td>agent 定义</td><td><code>value-investor.md</code> 新增「五·五、语料」：每份判决至少引一处原文并用 Grep 核对；优先找他认错的同类生意；找不到就说找不到，不硬套名言。</td></tr><tr><td>流程</td><td><code>CLAUDE.md</code> 与 <code>portfolios/2026-11-04-forward-direction-plan.md</code>：新名字开仓前先跑 <code>value-investor</code>，判「不懂，过」或「生意本身不行」就不开，除非先书面推翻。</td></tr></tbody></table>
+<p>语料核对过：航空（1989–1998、2007）、Dexter、IBM（2011–2016）、Kraft Heinz、Precision Castparts 在文件里都能搜到。</p>
+<h2 id="三六案例回测">三、六案例回测</h2>
+<p><strong>方法：</strong> 六家公司在某个历史时点的状况，财务数字取自 SEC XBRL（10-K 年度值），整体乘一个固定系数，业务用不带名字的话描述。每个案例单独派一个 <code>value-investor</code>，要求只用材料、不上网、不猜公司，最后自报是否认出。用的是加语料规则<strong>之前</strong>的定义。</p>
+<table><thead><tr><th>案例</th><th>真实公司 / 时点</th><th>巴菲特当时</th><th>agent 判决</th><th>停在</th><th>之后的结果</th><th>自报是否认出</th></tr></thead><tbody><tr><td>A</td><td>IBM，2011 年底</td><td>买入</td><td>生意本身不行</td><td>第 2 关</td><td>差（巴菲特后来认错并清仓）</td><td>是</td></tr><tr><td>B</td><td>苹果，2016-03</td><td>买入</td><td>生意可以价格也可以</td><td>全过</td><td>好</td><td>是</td></tr><tr><td>C</td><td>达美航空，2016-09</td><td>买入</td><td>生意本身不行</td><td>第 2 关</td><td>差（2020 年亏损清仓）</td><td>有猜测（对）</td></tr><tr><td>D</td><td>派拉蒙，2022-03</td><td>买入</td><td>生意本身不行</td><td>第 2 关</td><td>差（亏损清仓）</td><td>有猜测（对）</td></tr><tr><td>E</td><td>谷歌，2011-03</td><td>没买（后来称是失误）</td><td>生意可以价格也可以</td><td>全过</td><td>好</td><td>是</td></tr><tr><td>F</td><td>英特尔，2021-03</td><td>没买</td><td>不懂，过</td><td>第 1 关</td><td>差</td><td>是</td></tr></tbody></table>
+<p>「之后的结果」和「巴菲特当时」两列是凭记忆填的 <code>[KNOWN，未逐条核实，MED]</code>。</p>
+<p><strong>为什么 6/6 不算数：</strong></p>
+<ul>
+<li>六个全被认出。它在 A 上还自己指出：定义里本来就点名「AVGO/IBM 型」是收购陷阱，这题等于提前给了答案。</li>
+<li>六个案例是我挑的，挑的时候我也知道结果。三好三坏的配比是人为的。</li>
+<li>n=6。</li>
+<li>判决和结果对上得太整齐，这本身就是该怀疑的信号。</li>
+</ul>
+<p><strong>它给出的理由本身是站得住的</strong>（不依赖后见之明也能从材料里读出来）：A 的回购加分红超过自由现金流、商誉超过股东权益；C 的利润率四年不动、Y0 的跳升来自燃油；D 的自由现金流只有净利润的 13%。但「理由站得住」和「当时就会这样判」是两回事，后者这次测不出来。</p>
+<p><strong>一个副产品：</strong> 它在 A、C、D 三笔上和巴菲特当时的实际操作相反。这说明这个 agent 不是在模仿巴菲特的买卖，而是在执行一套比他本人更保守的筛子。用的时候要清楚这一点。</p>
+<h2 id="四前向记录今后唯一算数的检验">四、前向记录（今后唯一算数的检验）</h2>
+<p>规则：每跑一次 <code>value-investor</code> 记一行；判决当天写明「什么情况说明它判错了」；到复核日回来填最后一列。满 10 行之前不对它的命中率下结论。</p>
+<table><thead><tr><th>判决日</th><th>标的</th><th>判决</th><th>停在</th><th>什么情况说明它判错了</th><th>复核日</th><th>复核结果</th></tr></thead><tbody><tr><td>2026-11-16</td><td>ANT（Anthropic，未上市，区间 $70–78）</td><td>不懂，过</td><td>第 1 关</td><td>首份 10-Q 披露了 Claude Code 或企业合同的留存 / 迁移数据，且算力成本占收入连续两季稳定在 50% 以下——即当时讲不清的单位经济其实是可以讲清的</td><td>首份 10-Q 后（约 2027-02，待核实）；2027-11-16</td><td>—</td></tr></tbody></table>
+<p>ANT 没有 <code>tickers/ANT.md</code>，判决暂记在这里；建档时搬过去。</p>
+<p><strong>ANT 判决里它列的「不知道」：</strong> 客户迁移成本的真实大小；Claude Code 单独的收入和粘性；经 AWS / Google Cloud / Azure 转售的收入占比；前沿领先能维持几年。</p>
+<h2 id="五和前一天分析的关系">五、和前一天分析的关系</h2>
+<p>11/15 我用三档情景给出过 ANT 的门槛价（$60–65）和仓位上限。那是 <code>probability-analyst</code> 式的算法。<code>value-investor</code> 的结论是根本不该走到算价格那一步。两者并排摆着：</p>
+<table><thead><tr><th></th><th>情景 / IRR（11/15）</th><th>value-investor（11/16）</th></tr></thead><tbody><tr><td>结论</td><td>$74 加权 IRR 约 +9%，$60–65 才够</td><td>不懂，过</td></tr><tr><td>分歧点</td><td>假设 2030 年收入和利润率可以给出区间</td><td>认为那个区间没有依据，因为单位经济和客户粘性讲不清</td></tr></tbody></table>
+<p>按 11/04 的规则（首份 10-Q 之后再评估），两种方法在动作上不冲突：现在都是不动。</p>
+<h2 id="六我不知道的">六、我不知道的</h2>
+<ul>
+<li>这个 agent 在没被污染的案例上表现如何。要等前向记录。</li>
+<li>加了语料规则之后，它会不会为了凑引文而拉长输出、或引不贴切的话。还没跑过一次。</li>
+<li>「之后的结果」列我没有逐条查股价和清仓时间。</li>
+<li>六个案例里有没有哪个的 XBRL 口径有问题。派拉蒙合并前两年只是 CBS 一家的数字（材料里注明了），达美 Y-2 的净利润含一次性税项（也注明了），IBM 不单列营业利润。</li>
+</ul>
+      </article>
+      <aside class="doc-sidebar">
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">文档导航</h3>
+          <ul class="toc-list"><li><a href="#一结论先说">一、结论（先说）</a></li><li><a href="#二当天改了什么">二、当天改了什么</a></li><li><a href="#三六案例回测">三、六案例回测</a></li><li><a href="#四前向记录今后唯一算数的检验">四、前向记录（今后唯一算数的检验）</a></li><li><a href="#五和前一天分析的关系">五、和前一天分析的关系</a></li><li><a href="#六我不知道的">六、我不知道的</a></li></ul>
+        </section>
+        <section class="sidebar-card">
+          <h3 class="sidebar-title">阅读提示</h3>
+          <ul class="summary-list">
+            <li><span class="summary-label">先看什么</span><span class="summary-value">先读一段话结论，再看表格和风险点。</span></li>
+            <li><span class="summary-label">适合用途</span><span class="summary-value">复盘、比较、回查研究底稿。</span></li>
+            <li><span class="summary-label">建议动作</span><span class="summary-value">如果文档内容改变了 thesis，再回到候选池或组合页更新判断。</span></li>
+          </ul>
+        </section>
+      </aside>
+    </div>
+    <div class="footer">该页面由 Markdown 自动生成。原始文件：notes/2026-11-16-value-investor-agent-eval.md</div>
+  </div>
+  </div>
+</body>
+</html>

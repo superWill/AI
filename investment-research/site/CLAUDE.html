@@ -28,8 +28,8 @@
           <p>仓库入口与使用说明。</p>
           <div class="meta-row">
             <span class="pill">CLAUDE.md</span>
-            <span class="pill">120 words</span>
-            <span class="pill">6 sections</span>
+            <span class="pill">154 words</span>
+            <span class="pill">7 sections</span>
           </div>
         </div>
         <div class="doc-stat-stack">
@@ -59,6 +59,13 @@
 <li><strong>期权：可用但只走两条正道</strong>（2026-07-23 确认有权限、可卖 put）：cash-secured put（愿接货价=收钱的限价单）+ 备兑 call。禁区：买短期虚值博方向、裸卖 call、对正在减仓的内存/SOXX 腿（MU/SKHY/NVDA/TSM）卖 put、用期权放大 SOXX 敞口。短 put 义务必须记入 <code>portfolios/</code>（见 <code>ibkr-options-playbook</code>）。</li>
 <li>组合真实风险对象是<strong>半导体周期不是大盘</strong>：betaSOXX 0.89 / betaSPY 2.31。风险讨论锚定 SOXX（见 <code>portfolio-soxx-factor-risk</code>）。</li>
 </ul>
+<h2 id="新名字先过-value-investor2026-11-16-起">新名字先过 <code>value-investor</code>（2026-11-16 起）</h2>
+<ul>
+<li>组合里没有的标的，用户问「能不能买 / 值不值得买 / 买一点」时，<strong>先派 <code>value-investor</code> 子 agent 出判决，再回答</strong>，不要自己直接给分析。判决落到 <code>tickers/&lt;T&gt;.md</code>。</li>
+<li>判决「不懂，过」→ 如实转述并停在那里；不要接着用 EV/IRR 把它绕过去（那是 <code>probability-analyst</code> 的活，两者分歧要并排摆出来）。</li>
+<li>起因：2026-11-15 用户连问三次 ANT，三次都没调用它。</li>
+<li>语料：股东信 1977–1997 在 <code>data/brk-annual-reports/letters/</code>，年报全文 1998–2025 在 <code>data/brk-annual-reports/txt/</code>（本机，不进仓库；缺了跑 <code>scripts/fetch_buffett_letters.py</code>）。</li>
+</ul>
 <h2 id="表达纪律">表达纪律</h2>
 <ul>
 <li>不给「目标价」「建议买入/卖出」——给的是<strong>论点变化 + 可选动作 + 三档情景（悲观/基准/乐观）IRR</strong>。</li>
@@ -84,7 +91,7 @@
       <aside class="doc-sidebar">
         <section class="sidebar-card">
           <h3 class="sidebar-title">文档导航</h3>
-          <ul class="toc-list"><li><a href="#数据不臆造知识截止-2026-01">数据：不臆造，知识截止 2026-01</a></li><li><a href="#账户硬约束来自-memory">账户硬约束（来自 memory）</a></li><li><a href="#表达纪律">表达纪律</a></li><li><a href="#环境">环境</a></li><li><a href="#提交流程2026-08-17-起本项目覆盖-claudemdclaudemd-的分支纪律">提交流程（2026-08-17 起，本项目覆盖 [`../CLAUDE.md`](../CLAUDE.md) 的分支纪律）</a></li><li style="padding-left:14px"><a href="#但这三条是硬约束每次都要做">⚠️ 但这三条是硬约束，每次都要做</a></li></ul>
+          <ul class="toc-list"><li><a href="#数据不臆造知识截止-2026-01">数据：不臆造，知识截止 2026-01</a></li><li><a href="#账户硬约束来自-memory">账户硬约束（来自 memory）</a></li><li><a href="#新名字先过-value-investor2026-11-16-起">新名字先过 `value-investor`（2026-11-16 起）</a></li><li><a href="#表达纪律">表达纪律</a></li><li><a href="#环境">环境</a></li><li><a href="#提交流程2026-08-17-起本项目覆盖-claudemdclaudemd-的分支纪律">提交流程（2026-08-17 起，本项目覆盖 [`../CLAUDE.md`](../CLAUDE.md) 的分支纪律）</a></li><li style="padding-left:14px"><a href="#但这三条是硬约束每次都要做">⚠️ 但这三条是硬约束，每次都要做</a></li></ul>
         </section>
         <section class="sidebar-card">
           <h3 class="sidebar-title">阅读提示</h3>
