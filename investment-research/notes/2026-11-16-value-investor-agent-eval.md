@@ -85,6 +85,8 @@ type: 方法 / 工具校验
 
 ANT 没有 `tickers/ANT.md`，判决暂记在这里；建档时搬过去。
 
+**时间戳（2026-11-16 起）：** 本表每次新增或改动判决行并提交后，跑 `scripts/stamp_forward_log.sh` 给那一版文件打 OpenTimestamps 戳（只发文件哈希，内容不出本机；证明在 `data/timestamps/`，索引在 `INDEX.tsv`）。几小时后跑 `upgrade` 补上比特币区块证明，`verify` 核对。它证明的是「这一版文件在那个时间已存在」，不证明判决对不对；填「复核结果」之前的那一版必须有戳。首戳对应提交 `ccd0e28`。
+
 **ANT 判决里它列的「不知道」：** 客户迁移成本的真实大小；Claude Code 单独的收入和粘性；经 AWS / Google Cloud / Azure 转售的收入占比；前沿领先能维持几年。
 
 ## 五、和前一天分析的关系
