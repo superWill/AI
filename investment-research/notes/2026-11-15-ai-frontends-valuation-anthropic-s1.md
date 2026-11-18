@@ -188,3 +188,11 @@ H1 2026 的对照（Anthropic P，OpenAI S）：Anthropic 收入 $163 亿、经�
 - [The Decoder — OpenAI 寻求 $300 亿新资本](https://the-decoder.com/openai-revenue-keeps-surging-as-company-seeks-30-billion-in-fresh-capital/)（S）
 - [Safeguard — OpenAI 收入、亏损与烧钱的已报道数字](https://safeguard.sh/resources/blog/openai-revenue-losses-and-cash-burn-what-has-been-reported)（S，转述 WSJ / The Information）
 - 本仓库：`tickers/SPCX.md`、`tickers/GOOGL.md`、`tickers/META.md`、`notes/2026-08-20-ai-ipo-wave-and-agent-layer.md`
+
+## 2026-11-19 补记：ANT 定价 $83（据报，未见公司公告）
+
+- 多家媒体引知情人士：11/18 定价 **$83**，高于 $70–78 区间上沿 6.4%；发行规模上调，最终股数未公布；11/19 在纳斯达克以 ANT 开始交易。另有 $260 亿定向增发，NVDA、AMD 参与。`[KNOWN, 二手多源, MED；424B4 未读]`
+- 按第三节全摊薄 180.11 亿股：$83 对应 **$1.495 万亿**，与报道的「约 $1.5 万亿」吻合。`[COMPUTED]`
+- EV 粗算约 $1.27 万亿（净现金按 $2,127 亿加提价多募的约 $74 亿，发行股数用原始口径）→ Q3 年化收入的 18.8 倍、10 月底 run-rate 的 15.7 倍（中点 $74 时是 16.5 / 13.8 倍）。`[COMPUTED, MED-LOW，最终股数未定]`
+- 第五节三档情景按 $83 重算三年年化：悲观 −28% / 基准 +4% / 乐观 +29%，概率加权 **+5%**（$74 时 +9%，$100 时 −1%）。输入和概率仍是原来拍的那套。`[COMPUTED on GUESS, LOW]`
+- 两个判决都没变：`value-investor` 是「不懂，过」（停第 1 关）；11/15 的门槛价是 $60–65，$83 在其上方。首日开盘价未出。
