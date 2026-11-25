@@ -97,3 +97,6 @@ AAPL    # Apple
 META    # Meta
 AMZN    # Amazon
 V       # Visa
+
+# 观察（无仓位；value-investor 判「不懂，过」，2026-11-25 起跟踪价格）
+ANT
